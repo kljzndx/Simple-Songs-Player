@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleSongsPlayer.ViewModels;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -22,9 +23,12 @@ namespace SimpleSongsPlayer
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private MainViewModel vm;
+
         public MainPage()
         {
             this.InitializeComponent();
+            vm = this.DataContext as MainViewModel;
         }
     }
 }
