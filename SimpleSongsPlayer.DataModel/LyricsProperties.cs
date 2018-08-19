@@ -18,7 +18,7 @@ namespace SimpleSongsPlayer.DataModel
             EditorVersion = String.Empty;
         }
 
-        public LyricsProperties(string from) : this()
+        internal LyricsProperties(string from) : this()
         {
             var typeInfo = GetType().GetTypeInfo();
             foreach (var propertyInfo in typeInfo.DeclaredProperties)

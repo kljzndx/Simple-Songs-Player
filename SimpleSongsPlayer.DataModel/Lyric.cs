@@ -4,7 +4,7 @@ namespace SimpleSongsPlayer.DataModel
 {
     public class Lyric : ObservableObject, IComparable<Lyric>
     {
-        public Lyric(TimeSpan time, string content)
+        internal Lyric(TimeSpan time, string content)
         {
             Time = time;
             Content = content;
