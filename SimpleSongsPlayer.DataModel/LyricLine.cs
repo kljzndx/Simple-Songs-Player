@@ -22,7 +22,7 @@ namespace SimpleSongsPlayer.DataModel
             set => Set(ref isSelected, value);
         }
         public TimeSpan Time { get; }
-        public string Content { get; }
+        public string Content { get; internal set; }
 
         public int CompareTo(LyricLine other)
         {
