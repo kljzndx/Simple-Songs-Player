@@ -2,9 +2,9 @@
 
 namespace SimpleSongsPlayer.DataModel
 {
-    public class Lyric : ObservableObject, IComparable<Lyric>
+    public class LyricLine : ObservableObject, IComparable<LyricLine>
     {
-        internal Lyric(TimeSpan time, string content)
+        internal LyricLine(TimeSpan time, string content)
         {
             Time = time;
             Content = content;
@@ -20,7 +20,7 @@ namespace SimpleSongsPlayer.DataModel
         public TimeSpan Time { get; }
         public string Content { get; }
 
-        public int CompareTo(Lyric other)
+        public int CompareTo(LyricLine other)
         {
             if (ReferenceEquals(this, other)) return 0;
             if (ReferenceEquals(null, other)) return 1;
