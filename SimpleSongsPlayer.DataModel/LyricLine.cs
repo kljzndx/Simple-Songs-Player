@@ -4,9 +4,13 @@ namespace SimpleSongsPlayer.DataModel
 {
     public class LyricLine : ObservableObject, IComparable<LyricLine>
     {
-        internal LyricLine(TimeSpan time, string content)
+        internal LyricLine(TimeSpan time)
         {
             Time = time;
+        }
+
+        internal LyricLine(TimeSpan time, string content) : this(time)
+        {
             Content = content;
         }
 
