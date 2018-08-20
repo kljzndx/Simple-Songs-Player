@@ -107,6 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Attributes\LyricsTagAttribute.cs" />
+    <Compile Include="LyricBlock.cs" />
     <Compile Include="LyricLine.cs" />
     <Compile Include="LyricsProperties.cs" />
     <Compile Include="ObservableObject.cs" />
