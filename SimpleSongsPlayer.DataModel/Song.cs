@@ -8,9 +8,10 @@ namespace SimpleSongsPlayer.DataModel
 {
     public class Song
     {
-        private Song(string name, string singer, string album, BitmapSource albumCover, TimeSpan duration, StorageFile file)
+        private Song(string title, string singer, string album, BitmapSource albumCover, TimeSpan duration, StorageFile file)
         {
-            Name = name;
+            FileName = file.DisplayName;
+            Title = title;
             Singer = singer;
             Album = album;
             AlbumCover = albumCover;
@@ -18,12 +19,13 @@ namespace SimpleSongsPlayer.DataModel
             File = file;
         }
 
-        public string Name { get; set; }
-        public string Singer { get; set; }
-        public string Album { get; set; }
-        public BitmapSource AlbumCover { get; set; }
-        public TimeSpan Duration { get; set; }
-        public StorageFile File { get; set; }
+        public string FileName { get; }
+        public string Title { get; }
+        public string Singer { get; }
+        public string Album { get; }
+        public BitmapSource AlbumCover { get; }
+        public TimeSpan Duration { get; }
+        public StorageFile File { get; }
 
         public static async Task<Song> CreateFromStorageFile(StorageFile file)
         {

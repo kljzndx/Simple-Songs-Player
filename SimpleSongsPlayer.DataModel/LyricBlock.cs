@@ -8,14 +8,16 @@ namespace SimpleSongsPlayer.DataModel
 {
     public class LyricBlock
     {
-        private static Regex lyricLineRegex = new Regex(@"\[(?<min>\d{2})\:(?<ss>\d{2}).(?<ms>\d{1,3})\](?<content>.*)");
+        private static readonly Regex LyricLineRegex = new Regex(@"\[(?<min>\d{2})\:(?<ss>\d{2}).(?<ms>\d{1,3})\](?<content>.*)");
 
         /// <summary>
         /// 通过文本创建歌词
         /// </summary>
-        /// <param name="content">文本内容</param>
-        public LyricBlock(string content)
+        /// <param name="fileName">文件名</param>
+        /// <param name="content">文件内容</param>
+        public LyricBlock(string fileName, string content)
         {
+            FileName = fileName;
             Properties = new LyricsProperties(content);
             Lines = new List<LyricLine>();
 
@@ -30,7 +32,7 @@ namespace SimpleSongsPlayer.DataModel
                     continue;
                 string str = item.Trim();
 
-                var match = lyricLineRegex.Match(item);
+                var match = LyricLineRegex.Match(item);
                 if (match.Success)
                 {
                     int min = Int32.Parse(match.Groups["min"].Value);
@@ -60,6 +62,7 @@ namespace SimpleSongsPlayer.DataModel
             Lines.Sort();
         }
 
+        public string FileName { get; }
         public LyricsProperties Properties { get; }
         public List<LyricLine> Lines { get; }
     }
