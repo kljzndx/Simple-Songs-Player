@@ -107,10 +107,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="FileReader.cs" />
+    <Compile Include="FileScanners\LyricsFileScanner.cs" />
+    <Compile Include="FileScanners\MusicFileScanner.cs" />
     <Compile Include="Pickers\FileOpenPickerBase.cs" />
     <Compile Include="Pickers\LyricsFileOpenPicker.cs" />
     <Compile Include="Pickers\MusicFileOpenPicker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FileScanners\FileScannerBase.cs" />
     <EmbeddedResource Include="Properties\SimpleSongsPlayer.Operator.rd.xml" />
   </ItemGroup>
   <ItemGroup>
