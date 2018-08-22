@@ -139,6 +139,16 @@
   <ItemGroup>
     <Folder Include="Models\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleSongsPlayer.DataModel\SimpleSongsPlayer.DataModel.csproj">
+      <Project>{b77ca852-6989-4e32-966e-e959d9d5d132}</Project>
+      <Name>SimpleSongsPlayer.DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleSongsPlayer.Operator\SimpleSongsPlayer.Operator.csproj">
+      <Project>{eb18171f-d618-4ae8-92f6-985e533ef066}</Project>
+      <Name>SimpleSongsPlayer.Operator</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
