@@ -49,10 +49,11 @@ namespace SimpleSongsPlayer.DataModel
                     }
 
                     currentLine = new LyricLine(new TimeSpan(0, 0, min, ss, ms));
+                    builder.AppendLine(match.Groups["content"].Value.Trim());
                 }
                 else
                 {
-                    builder.AppendLine(str);
+                    builder.AppendLine(str.Trim());
                 }
             }
 
