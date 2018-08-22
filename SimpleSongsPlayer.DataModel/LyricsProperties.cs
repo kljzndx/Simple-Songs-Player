@@ -8,37 +8,44 @@ namespace SimpleSongsPlayer.DataModel
 {
     public class LyricsProperties
     {
+        [LyricsTag("ti")] private string title;
+        [LyricsTag("ar")] private string artist;
+        [LyricsTag("al")] private string album;
+        [LyricsTag("by")] private string madeBy;
+        [LyricsTag("re")] private string editorName;
+        [LyricsTag("ve")] private string editorVersion;
+
         private LyricsProperties()
         {
-            Title = String.Empty;
-            Aretist = String.Empty;
-            Album = String.Empty;
-            MadeBy = String.Empty;
-            EditorName = String.Empty;
-            EditorVersion = String.Empty;
+            title = String.Empty;
+            artist = String.Empty;
+            album = String.Empty;
+            madeBy = String.Empty;
+            editorName = String.Empty;
+            editorVersion = String.Empty;
         }
 
         internal LyricsProperties(string from) : this()
         {
             var typeInfo = GetType().GetTypeInfo();
-            foreach (var propertyInfo in typeInfo.DeclaredProperties)
+            foreach (var fieldInfo in typeInfo.DeclaredFields)
             {
-                var attribute = propertyInfo.GetCustomAttribute<LyricsTagAttribute>();
+                var attribute = fieldInfo.GetCustomAttribute<LyricsTagAttribute>();
                 if (attribute is null)
                     continue;
 
                 Regex regex = new Regex($@"\[{attribute.Name}\:(?<value>.*)\]");
                 var match = regex.Match(from);
                 if (match.Success)
-                    propertyInfo.SetValue(this, match.Groups["value"].Value);
+                    fieldInfo.SetValue(this, match.Groups["value"].Value);
             }
         }
 
-        [LyricsTag("ti")] public string Title { get; }
-        [LyricsTag("ar")] public string Aretist { get; }
-        [LyricsTag("al")] public string Album { get; }
-        [LyricsTag("by")] public string MadeBy { get; }
-        [LyricsTag("re")] public string EditorName { get; }
-        [LyricsTag("ve")] public string EditorVersion { get; }
+        public string Title => title;
+        public string Artist => artist;
+        public string Album => album;
+        public string MadeBy => madeBy;
+        public string EditorName => editorName;
+        public string EditorVersion => editorVersion;
     }
 }
