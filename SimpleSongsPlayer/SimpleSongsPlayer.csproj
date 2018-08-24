@@ -95,6 +95,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Factories\AllSongAlbumsGroupsFactory.cs" />
+    <Compile Include="Models\Factories\AllSongArtistGroupsFactory.cs" />
+    <Compile Include="Models\Factories\AllSongsGroupsFactory.cs" />
+    <Compile Include="Models\Factories\SongsGroupsFactoryBase.cs" />
+    <Compile Include="Models\SongsGroup.cs" />
+    <Compile Include="ViewModels\SongViewModels\AllSongAlbumsViewModel.cs" />
+    <Compile Include="ViewModels\SongViewModels\AllSongArtistsViewModel.cs" />
+    <Compile Include="ViewModels\SongViewModels\AllSongsViewModel.cs" />
+    <Compile Include="ViewModels\SongViewModels\SongViewModelBase.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -136,9 +145,7 @@
       <Version>5.4.1</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\SimpleSongsPlayer.DataModel\SimpleSongsPlayer.DataModel.csproj">
       <Project>{b77ca852-6989-4e32-966e-e959d9d5d132}</Project>
