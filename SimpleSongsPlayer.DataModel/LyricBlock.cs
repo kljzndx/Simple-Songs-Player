@@ -37,9 +37,12 @@ namespace SimpleSongsPlayer.DataModel
                 {
                     int min = Int32.Parse(match.Groups["min"].Value);
                     int ss = Int32.Parse(match.Groups["ss"].Value);
-                    string msbit = "000";
                     string msStr = match.Groups["ms"].Value;
-                    int ms = Int32.Parse(msStr + msbit.Remove(2 - msStr.Length));
+
+                    for (int i = msStr.Length; i < 3; i++)
+                        msStr += "0";
+
+                    int ms = Int32.Parse(msStr);
 
                     if (currentLine != null)
                     {
