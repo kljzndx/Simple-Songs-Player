@@ -24,7 +24,7 @@ namespace SimpleSongsPlayer.Operator
             {
                 result = await FileIO.ReadTextAsync(file);
             }
-            catch (Exception)
+            catch (ArgumentOutOfRangeException)
             {
                 var buffer = await FileIO.ReadBufferAsync(file);
                 result = gbkEncoding.GetString(buffer.ToArray());
