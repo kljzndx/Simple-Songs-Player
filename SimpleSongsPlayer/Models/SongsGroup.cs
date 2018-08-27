@@ -23,6 +23,7 @@ namespace SimpleSongsPlayer.Models
                 AlbumCover = song.AlbumCover;
         }
 
+        public bool IsAny => Items.Any();
         public string Name { get; }
         public BitmapSource AlbumCover { get; set; }
         public List<Song> Items { get; }
