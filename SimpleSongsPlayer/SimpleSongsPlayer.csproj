@@ -102,9 +102,9 @@
     <Compile Include="Models\Factories\SongsGroupsFactoryBase.cs" />
     <Compile Include="Models\SongsGroup.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\SongViewModels\AllSongAlbumsViewModel.cs" />
-    <Compile Include="ViewModels\SongViewModels\AllSongArtistsViewModel.cs" />
-    <Compile Include="ViewModels\SongViewModels\AllSongsViewModel.cs" />
+    <Compile Include="ViewModels\SongViewModels\SongAlbumsViewModel.cs" />
+    <Compile Include="ViewModels\SongViewModels\SongArtistsViewModel.cs" />
+    <Compile Include="ViewModels\SongViewModels\SongsViewModel.cs" />
     <Compile Include="ViewModels\SongViewModels\SongViewModelBase.cs" />
     <Compile Include="Views\ItemTemplates\SongItemTemplate.xaml.cs">
       <DependentUpon>SongItemTemplate.xaml</DependentUpon>

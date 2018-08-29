@@ -6,9 +6,9 @@ using SimpleSongsPlayer.Models.Factories;
 
 namespace SimpleSongsPlayer.ViewModels.SongViewModels
 {
-    public class AllSongsViewModel : SongViewModelBase
+    public class SongsViewModel : SongViewModelBase
     {
-        public AllSongsViewModel() : base(new AllSongsGroupsFactory())
+        public SongsViewModel() : base(new AllSongsGroupsFactory())
         {
         }
     }

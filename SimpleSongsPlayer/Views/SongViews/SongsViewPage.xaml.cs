@@ -24,12 +24,12 @@ namespace SimpleSongsPlayer.Views.SongViews
     /// </summary>
     public sealed partial class SongsViewPage : Page
     {
-        private readonly AllSongsViewModel vm;
+        private readonly SongsViewModel vm;
 
         public SongsViewPage()
         {
             this.InitializeComponent();
-            vm = this.DataContext as AllSongsViewModel;
+            vm = this.DataContext as SongsViewModel;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
