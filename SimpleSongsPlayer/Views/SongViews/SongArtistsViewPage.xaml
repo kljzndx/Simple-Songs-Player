@@ -1,0 +1,48 @@
+﻿<Page
+    x:Class="SimpleSongsPlayer.Views.SongViews.SongArtistsViewPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="using:SimpleSongsPlayer.Models"
+    xmlns:temp="using:SimpleSongsPlayer.Views.ItemTemplates"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{Binding Source={StaticResource Locator}, Path=SongArtists}">
+
+    <SemanticZoom>
+        <SemanticZoom.ZoomedInView>
+            <ListView ItemsSource="{Binding SongGroups.View, Mode=OneWay}">
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <temp:SongItemTemplate Source="{Binding}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </SemanticZoom.ZoomedInView>
+
+        <SemanticZoom.ZoomedOutView>
+            <GridView ItemsSource="{Binding SongGroups.View.CollectionGroups, Mode=OneWay}" VerticalAlignment="Center">
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Group.Name, Mode=OneWay}"/>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </SemanticZoom.ZoomedOutView>
+    </SemanticZoom>
+</Page>

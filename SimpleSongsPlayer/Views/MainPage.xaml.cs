@@ -47,6 +47,8 @@ namespace SimpleSongsPlayer.Views
                         AllSongs_Frame.Navigate(typeof(SongsViewPage), vm.AllSongs);
                     break;
                 case 1:
+                    if (AllSongArtists_Frame.SourcePageType != typeof(SongArtistsViewPage))
+                        AllSongArtists_Frame.Navigate(typeof(SongArtistsViewPage), vm.AllSongs);
                     break;
                 case 2:
                     break;
