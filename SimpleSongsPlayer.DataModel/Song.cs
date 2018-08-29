@@ -12,11 +12,16 @@ namespace SimpleSongsPlayer.DataModel
         {
             FileName = file.DisplayName;
             Title = title;
-            Singer = singer;
-            Album = album;
+            Singer = "未知歌手";
+            Album = "未知专辑";
             AlbumCover = albumCover;
             Duration = duration;
             File = file;
+
+            if (!String.IsNullOrWhiteSpace(singer))
+                Singer = singer;
+            if (!String.IsNullOrWhiteSpace(album))
+                Album = album;
         }
 
         public string FileName { get; }
