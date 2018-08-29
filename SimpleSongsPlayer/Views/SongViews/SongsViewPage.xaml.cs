@@ -22,11 +22,11 @@ namespace SimpleSongsPlayer.Views.SongViews
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class AllSongsViewPage : Page
+    public sealed partial class SongsViewPage : Page
     {
         private readonly AllSongsViewModel vm;
 
-        public AllSongsViewPage()
+        public SongsViewPage()
         {
             this.InitializeComponent();
             vm = this.DataContext as AllSongsViewModel;

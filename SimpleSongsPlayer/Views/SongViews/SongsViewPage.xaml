@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="SimpleSongsPlayer.Views.SongViews.AllSongsViewPage"
+    x:Class="SimpleSongsPlayer.Views.SongViews.SongsViewPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:model="using:SimpleSongsPlayer.Models"

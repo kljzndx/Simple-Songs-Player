@@ -43,8 +43,8 @@ namespace SimpleSongsPlayer.Views
             switch (Main_Pivot.SelectedIndex)
             {
                 case 0:
-                    if (AllSongs_Frame.SourcePageType != typeof(AllSongsViewPage))
-                        AllSongs_Frame.Navigate(typeof(AllSongsViewPage), vm.AllSongs);
+                    if (AllSongs_Frame.SourcePageType != typeof(SongsViewPage))
+                        AllSongs_Frame.Navigate(typeof(SongsViewPage), vm.AllSongs);
                     break;
                 case 1:
                     break;
