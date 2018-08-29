@@ -1,0 +1,67 @@
+﻿<UserControl
+    x:Class="SimpleSongsPlayer.Views.ItemTemplates.SongItemTemplate"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleSongsPlayer.Views.ItemTemplates"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="Smallest">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ArtistAndAlbum_TextBlock.(UIElement.Visibility)" Value="Visible"/>
+                        <Setter Target="Name_TextBlock.(Grid.ColumnSpan)" Value="3"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Middle">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="700"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Name_TextBlock.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="Artist_TextBlock.(UIElement.Visibility)" Value="Visible"/>
+                        <Setter Target="Artist_TextBlock.(Grid.Column)" Value="2"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Big">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1000"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Artist_TextBlock.(UIElement.Visibility)" Value="Visible"/>
+                        <Setter Target="Album_TextBlock.(UIElement.Visibility)" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="Name_TextBlock" Text="{x:Bind Mode=OneWay, Path=Source.Title}"/>
+        <TextBlock x:Name="Artist_TextBlock" Grid.Column="1" Text="{x:Bind Mode=OneWay, Path=Source.Singer}" Visibility="Collapsed"/>
+        <TextBlock x:Name="Album_TextBlock" Grid.Column="2" Text="{x:Bind Mode=OneWay, Path=Source.Album}" Visibility="Collapsed"/>
+        <TextBlock x:Name="Duration_TextBlock" Grid.Column="3" Grid.RowSpan="2" Text="{x:Bind Mode=OneWay, Path=Source.Duration, Converter={StaticResource TimeSpanToSongTimeString}}" VerticalAlignment="Center"/>
+
+        <TextBlock x:Name="ArtistAndAlbum_TextBlock" Grid.Row="1" Grid.ColumnSpan="3" Visibility="Collapsed" Style="{ThemeResource CaptionTextBlockStyle}">
+            <Run Text="{x:Bind Mode=OneWay, Path=Source.Singer}"/>
+            <Run Text=" • "/>
+            <Run Text="{x:Bind Mode=OneWay, Path=Source.Album}"/>
+        </TextBlock>
+    </Grid>
+</UserControl>

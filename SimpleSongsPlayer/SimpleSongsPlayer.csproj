@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Converters\TimeSpanToSongTimeString.cs" />
     <Compile Include="Models\Factories\AllSongAlbumsGroupsFactory.cs" />
     <Compile Include="Models\Factories\AllSongArtistGroupsFactory.cs" />
     <Compile Include="Models\Factories\AllSongsGroupsFactory.cs" />
@@ -105,6 +106,9 @@
     <Compile Include="ViewModels\SongViewModels\AllSongArtistsViewModel.cs" />
     <Compile Include="ViewModels\SongViewModels\AllSongsViewModel.cs" />
     <Compile Include="ViewModels\SongViewModels\SongViewModelBase.cs" />
+    <Compile Include="Views\ItemTemplates\SongItemTemplate.xaml.cs">
+      <DependentUpon>SongItemTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoadingPage.xaml.cs">
       <DependentUpon>LoadingPage.xaml</DependentUpon>
     </Compile>
@@ -136,6 +140,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\Converters\GlobalValueConverters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ItemTemplates\SongItemTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoadingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
