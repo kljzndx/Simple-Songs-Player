@@ -7,18 +7,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-    Loaded="MainPage_OnLoaded">
+    DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
 
     <Grid x:Name="Root_Grid">
-        <Pivot x:Name="Main_Pivot">
-            <PivotItem Header="歌曲">
+        <Pivot x:Name="Main_Pivot" SelectionChanged="Main_Pivot_SelectionChanged">
+            <PivotItem x:Name="Songs_PivotItem" Header="歌曲">
                 <Frame x:Name="AllSongs_Frame"/>
             </PivotItem>
-            <PivotItem Header="歌手">
+            <PivotItem x:Name="SongArtists_PivotItem" Header="歌手">
                 <Frame x:Name="AllSongArtists_Frame"/>
             </PivotItem>
-            <PivotItem Header="专辑">
+            <PivotItem x:Name="SongAlbums_PivotItem" Header="专辑">
                 <Frame x:Name="AllSongAlbums_Frame"/>
             </PivotItem>
         </Pivot>

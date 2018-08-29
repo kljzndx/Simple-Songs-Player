@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.Views.SongViews;
+
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
 namespace SimpleSongsPlayer.Views
@@ -35,8 +38,21 @@ namespace SimpleSongsPlayer.Views
             vm.AllLyricBlocks = tuple.Item2;
         }
         
-        private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
+        private void Main_Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            switch (Main_Pivot.SelectedIndex)
+            {
+                case 0:
+                    if (AllSongs_Frame.SourcePageType != typeof(AllSongsViewPage))
+                        AllSongs_Frame.Navigate(typeof(AllSongsViewPage), vm.AllSongs);
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                default:
+                    throw new Exception("未找到对应处理器");
+            }
         }
     }
 }
