@@ -12,7 +12,7 @@
                 <ResourceDictionary Source="ms-appx:///Views/Converters/GlobalValueConverters.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <vm:ViewModelLocator x:Name="Locator"/>
+            <vm:ViewModelLocator x:Name="Locator" x:FieldModifier="public"/>
         </ResourceDictionary>
     </Application.Resources>
 

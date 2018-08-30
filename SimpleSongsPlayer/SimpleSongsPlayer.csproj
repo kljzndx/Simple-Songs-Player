@@ -124,6 +124,7 @@
     <Compile Include="Views\SongViews\SongsViewPage.xaml.cs">
       <DependentUpon>SongsViewPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SongViews\SongViewsPageBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
