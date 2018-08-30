@@ -1,0 +1,54 @@
+﻿<local:SongViewsPageBase
+    x:Class="SimpleSongsPlayer.Views.SongViews.SongAlbumsViewPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleSongsPlayer.Views.SongViews"
+    xmlns:temp="using:SimpleSongsPlayer.Views.ItemTemplates"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{x:Bind vm}">
+
+    <SemanticZoom>
+        <SemanticZoom.ZoomedInView>
+            <ListView ItemsSource="{Binding SongGroups.View, Mode=OneWay}">
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding AlbumCover}"/>
+                                    <TextBlock Text="{Binding Name}" Margin="5,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <temp:SongItemTemplate Source="{Binding}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </SemanticZoom.ZoomedInView>
+
+        <SemanticZoom.ZoomedOutView>
+            <GridView ItemsSource="{Binding SongGroups.View.CollectionGroups}">
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Image Width="100" Height="100" Source="{Binding Group.AlbumCover}"/>
+                            <TextBlock Text="{Binding Group.Name}" TextWrapping="Wrap" Style="{ThemeResource BodyTextBlockStyle}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </SemanticZoom.ZoomedOutView>
+    </SemanticZoom>
+</local:SongViewsPageBase>

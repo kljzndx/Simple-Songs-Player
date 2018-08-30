@@ -118,6 +118,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LoadingViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\SongViews\SongAlbumsViewPage.xaml.cs">
+      <DependentUpon>SongAlbumsViewPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SongViews\SongArtistsViewPage.xaml.cs">
       <DependentUpon>SongArtistsViewPage.xaml</DependentUpon>
     </Compile>
@@ -162,6 +165,10 @@
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SongViews\SongAlbumsViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SongViews\SongArtistsViewPage.xaml">
       <SubType>Designer</SubType>
