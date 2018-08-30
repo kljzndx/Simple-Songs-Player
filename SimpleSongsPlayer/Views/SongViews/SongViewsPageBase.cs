@@ -19,7 +19,7 @@ namespace SimpleSongsPlayer.Views.SongViews
         protected T GetViewModel<T>() where T : SongViewModelBase
         {
             if (vmb.GetType() != typeof(T))
-                throw new Exception("类型错误");
+                throw new Exception("提供的vm类型 与 在构造函数里提供的vm的类型 不一致");
 
             return (T) vmb;
         }
