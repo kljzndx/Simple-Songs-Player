@@ -7,11 +7,11 @@ using SimpleSongsPlayer.ViewModels.SongViewModels;
 
 namespace SimpleSongsPlayer.Views.SongViews
 {
-    public class SongViewsPageBase : Page
+    public abstract class SongViewsPageBase : Page
     {
         private readonly SongViewModelBase vmb;
 
-        public SongViewsPageBase(SongViewModelBase vm)
+        protected SongViewsPageBase(SongViewModelBase vm)
         {
             vmb = vm;
         }
