@@ -31,6 +31,7 @@ namespace SimpleSongsPlayer.Views
         {
             this.InitializeComponent();
             vm = this.DataContext as AllSongListsViewModel;
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -39,8 +40,6 @@ namespace SimpleSongsPlayer.Views
 
             if (e.Parameter is List<Song> allSongs)
                 vm.AllSongs = allSongs;
-            else
-                throw new Exception("未传入资源");
         }
 
         private void Main_Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
