@@ -4,9 +4,8 @@ using SimpleSongsPlayer.DataModel;
 
 namespace SimpleSongsPlayer.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class FrameworkViewModel : ViewModelBase
     {
-        public List<Song> AllSongs { get; set; }
         public List<LyricBlock> AllLyricBlocks { get; set; }
     }
 }

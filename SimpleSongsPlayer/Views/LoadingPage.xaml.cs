@@ -49,7 +49,7 @@ namespace SimpleSongsPlayer.Views
         private void FadeOut_Storyboard_OnCompleted(object sender, object e)
         {
             (List<Song> allSongs, List<LyricBlock> allLyricBlocks) tuple = (vm.AllSongs, vm.AllLyricBlocks);
-            Frame.Navigate(typeof(MainPage), tuple);
+            Frame.Navigate(typeof(FrameworkPage), tuple);
         }
     }
 }

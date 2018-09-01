@@ -95,13 +95,17 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\FrameworkViewModel.cs" />
+    <Compile Include="Views\AllSongListsPage.xaml.cs">
+      <DependentUpon>AllSongListsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Converters\TimeSpanToSongTimeString.cs" />
     <Compile Include="Models\Factories\AllSongAlbumsGroupsFactory.cs" />
     <Compile Include="Models\Factories\AllSongArtistGroupsFactory.cs" />
     <Compile Include="Models\Factories\AllSongsGroupsFactory.cs" />
     <Compile Include="Models\Factories\SongsGroupsFactoryBase.cs" />
     <Compile Include="Models\SongsGroup.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\AllSongListsViewModel.cs" />
     <Compile Include="ViewModels\SongViewModels\SongAlbumsViewModel.cs" />
     <Compile Include="ViewModels\SongViewModels\SongArtistsViewModel.cs" />
     <Compile Include="ViewModels\SongViewModels\SongsViewModel.cs" />
@@ -112,8 +116,8 @@
     <Compile Include="Views\LoadingPage.xaml.cs">
       <DependentUpon>LoadingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="Views\FrameworkPage.xaml.cs">
+      <DependentUpon>FrameworkPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LoadingViewModel.cs" />
@@ -150,6 +154,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\AllSongListsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Converters\GlobalValueConverters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -162,7 +170,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainPage.xaml">
+    <Page Include="Views\FrameworkPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

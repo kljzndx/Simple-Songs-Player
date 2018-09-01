@@ -1,43 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Windows.Storage;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.Views.SongViews;
 
-// https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
+// https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
 namespace SimpleSongsPlayer.Views
 {
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class AllSongListsPage : Page
     {
-        private readonly MainViewModel vm;
+        private readonly AllSongListsViewModel vm;
 
-        public MainPage()
+        public AllSongListsPage()
         {
             this.InitializeComponent();
-            vm = this.DataContext as MainViewModel;
+            vm = this.DataContext as AllSongListsViewModel;
         }
-        
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            if (!(e.Parameter is ValueTuple<List<Song>, List<LyricBlock>>))
+            if (e.Parameter is List<Song> allSongs)
+                vm.AllSongs = allSongs;
+            else
                 throw new Exception("未传入资源");
-            
-            ValueTuple<List<Song>, List<LyricBlock>> tuple = (ValueTuple<List<Song>, List<LyricBlock>>) e.Parameter;
-            vm.AllSongs = tuple.Item1;
-            vm.AllLyricBlocks = tuple.Item2;
         }
-        
+
         private void Main_Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch (Main_Pivot.SelectedIndex)

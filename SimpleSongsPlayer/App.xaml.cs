@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,6 +24,8 @@ namespace SimpleSongsPlayer
     /// </summary>
     sealed partial class App : Application
     {
+        public static MediaPlayer Player;
+
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
         /// 已执行，逻辑上等同于 main() 或 WinMain()。
@@ -72,6 +75,9 @@ namespace SimpleSongsPlayer
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
             }
+
+            if (Player is null)
+                Player = new MediaPlayer();
         }
 
         /// <summary>
