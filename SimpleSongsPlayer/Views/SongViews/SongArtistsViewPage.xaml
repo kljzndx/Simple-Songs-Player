@@ -12,7 +12,7 @@
 
     <SemanticZoom>
         <SemanticZoom.ZoomedInView>
-            <ListView ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}">
+            <ListView x:Name="Main_ListView" ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" DoubleTapped="Main_ListView_DoubleTapped">
                 <ListView.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.HeaderTemplate>

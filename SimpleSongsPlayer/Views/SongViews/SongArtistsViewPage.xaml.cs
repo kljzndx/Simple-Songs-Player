@@ -32,5 +32,12 @@ namespace SimpleSongsPlayer.Views.SongViews
             this.InitializeComponent();
             vm = base.GetViewModel<SongArtistsViewModel>();
         }
+
+        private void Main_ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            FrameworkElement args = e.OriginalSource as FrameworkElement;
+            if(args.DataContext is Song theSong)
+                vm.SetPlayerSource(theSong, vm.GetSongs(theSong.Singer));
+        }
     }
 }

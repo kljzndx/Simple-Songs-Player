@@ -12,13 +12,13 @@
 
     <SemanticZoom>
         <SemanticZoom.ZoomedInView>
-            <ListView ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}">
+            <ListView x:Name="Main_ListView" ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" DoubleTapped="Main_ListView_DoubleTapped">
                 <ListView.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.HeaderTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding AlbumCover}"/>
+                                    <Image Width="48" Height="48" Stretch="Uniform" Source="{Binding AlbumCover}"/>
                                     <TextBlock Text="{Binding Name}" Margin="5,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </DataTemplate>
@@ -43,8 +43,12 @@
                 <GridView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <Image Width="100" Height="100" Source="{Binding Group.AlbumCover}"/>
-                            <TextBlock Text="{Binding Group.Name}" TextWrapping="Wrap" Style="{ThemeResource BodyTextBlockStyle}"/>
+                            <Image Width="96" Height="96" Source="{Binding Group.AlbumCover}"/>
+                            <TextBlock Text="{Binding Group.Name}" TextWrapping="Wrap" Margin="0,4,0,0" Style="{ThemeResource BodyTextBlockStyle}"/>
+                            <TextBlock HorizontalAlignment="Right" Margin="0,2,0,0" Style="{ThemeResource CaptionTextBlockStyle}">
+                                <Run Text="{Binding Group.Items.Count}"/>
+                                <Run Text=" 首"/>
+                            </TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>

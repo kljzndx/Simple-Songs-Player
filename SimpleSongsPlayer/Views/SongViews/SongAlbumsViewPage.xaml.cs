@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.SongViewModels;
 
@@ -30,6 +31,13 @@ namespace SimpleSongsPlayer.Views.SongViews
         {
             this.InitializeComponent();
             vm = base.GetViewModel<SongAlbumsViewModel>();
+        }
+
+        private void Main_ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            FrameworkElement args = e.OriginalSource as FrameworkElement;
+            if (args.DataContext is Song theSong)
+                vm.SetPlayerSource(theSong, vm.GetSongs(theSong.Album));
         }
     }
 }
