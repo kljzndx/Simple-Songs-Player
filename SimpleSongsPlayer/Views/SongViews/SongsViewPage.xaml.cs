@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -13,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
+using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.SongViewModels;
 
@@ -31,6 +34,13 @@ namespace SimpleSongsPlayer.Views.SongViews
         {
             this.InitializeComponent();
             vm = base.GetViewModel<SongsViewModel>();
+        }
+
+        private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            FrameworkElement args = e.OriginalSource as FrameworkElement;
+            if (args?.DataContext is Song theSong)
+                vm.SetPlayerSource(theSong, vm.GetSongs("$all$"));
         }
     }
 }

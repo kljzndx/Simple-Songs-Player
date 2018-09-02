@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media.Imaging;
@@ -16,7 +18,7 @@ namespace SimpleSongsPlayer.DataModel
             Album = "未知专辑";
             AlbumCover = albumCover;
             Duration = duration;
-            File = file;
+            PlaybackItem = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(file));
 
             if (!String.IsNullOrWhiteSpace(singer))
                 Singer = singer;
@@ -30,7 +32,7 @@ namespace SimpleSongsPlayer.DataModel
         public string Album { get; }
         public BitmapSource AlbumCover { get; }
         public TimeSpan Duration { get; }
-        public StorageFile File { get; }
+        public MediaPlaybackItem PlaybackItem { get; }
 
         public static async Task<Song> CreateFromStorageFile(StorageFile file)
         {

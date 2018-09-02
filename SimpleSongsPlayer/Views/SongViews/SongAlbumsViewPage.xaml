@@ -12,7 +12,7 @@
 
     <SemanticZoom>
         <SemanticZoom.ZoomedInView>
-            <ListView ItemsSource="{Binding SongGroups.View, Mode=OneWay}">
+            <ListView ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}">
                 <ListView.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.HeaderTemplate>
@@ -39,7 +39,7 @@
         </SemanticZoom.ZoomedInView>
 
         <SemanticZoom.ZoomedOutView>
-            <GridView ItemsSource="{Binding SongGroups.View.CollectionGroups}">
+            <GridView ItemsSource="{Binding GroupsDataSource.View.CollectionGroups}">
                 <GridView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
