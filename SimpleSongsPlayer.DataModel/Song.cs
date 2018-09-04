@@ -1,24 +1,26 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace SimpleSongsPlayer.DataModel
 {
     public class Song
     {
-        private Song(string title, string singer, string album, BitmapSource albumCover, TimeSpan duration, StorageFile file)
+        private Song(string fileName, string title, string singer, string album, BitmapSource albumCover, TimeSpan duration, MediaPlaybackItem playbackItem)
         {
-            FileName = file.DisplayName;
+            FileName = fileName;
             Title = title;
             Singer = "未知歌手";
             Album = "未知专辑";
             AlbumCover = albumCover;
             Duration = duration;
-            PlaybackItem = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(file));
+            PlaybackItem = playbackItem;
 
             if (!String.IsNullOrWhiteSpace(singer))
                 Singer = singer;
@@ -37,11 +39,26 @@ namespace SimpleSongsPlayer.DataModel
         public static async Task<Song> CreateFromStorageFile(StorageFile file)
         {
             var property = await file.Properties.GetMusicPropertiesAsync();
-            BitmapImage cover = new BitmapImage();
-            cover.SetSource(await file.GetThumbnailAsync(ThumbnailMode.MusicView));
 
-            return new Song(String.IsNullOrWhiteSpace(property.Title) ? file.DisplayName : property.Title,
-                property.Artist, property.Album, cover, property.Duration, file);
+            var coverSource = await file.GetThumbnailAsync(ThumbnailMode.MusicView);
+            BitmapImage cover = new BitmapImage();
+            cover.SetSource(coverSource);
+
+            MediaPlaybackItem playbackItem = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(file));
+            var mediaProperties = playbackItem.GetDisplayProperties();
+            mediaProperties.Thumbnail = RandomAccessStreamReference.CreateFromStream(coverSource);
+
+            // 无法保存数据 --2018/09/04
+            //var musicProperties = mediaProperties.MusicProperties;
+            //musicProperties.Title = property.Title;
+            //musicProperties.Artist = property.Artist;
+            //musicProperties.AlbumTitle = property.Album;
+            //musicProperties.AlbumArtist = property.AlbumArtist;
+
+            playbackItem.ApplyDisplayProperties(mediaProperties);
+            
+            return new Song(file.DisplayName, String.IsNullOrWhiteSpace(property.Title) ? file.DisplayName : property.Title,
+                property.Artist, property.Album, cover, property.Duration, playbackItem);
         }
     }
 }

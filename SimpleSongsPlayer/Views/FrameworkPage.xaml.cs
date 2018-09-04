@@ -34,6 +34,7 @@ namespace SimpleSongsPlayer.Views
             {
                 vm.AllLyricBlocks = tuple.Item2;
                 Main_Frame.Navigate(typeof(AllSongListsPage), tuple.Item1);
+                PlayerController.AllSongs = tuple.Item1;
             }
             else
                 throw new Exception("未传入资源");

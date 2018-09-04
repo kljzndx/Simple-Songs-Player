@@ -99,6 +99,12 @@
     <Compile Include="Views\AllSongListsPage.xaml.cs">
       <DependentUpon>AllSongListsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controllers\PlayerController.xaml.cs">
+      <DependentUpon>PlayerController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controllers\SongInfoShowed.xaml.cs">
+      <DependentUpon>SongInfoShowed.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Converters\TimeSpanToSongTimeString.cs" />
     <Compile Include="Models\Factories\AllSongAlbumsGroupsFactory.cs" />
     <Compile Include="Models\Factories\AllSongArtistGroupsFactory.cs" />
@@ -155,6 +161,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Views\AllSongListsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controllers\PlayerController.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controllers\SongInfoShowed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
