@@ -95,6 +95,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\TimeSpanExtension.cs" />
+    <Compile Include="ViewModels\Controllers\PlayerControllerViewModel.cs" />
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
     <Compile Include="Views\AllSongListsPage.xaml.cs">
       <DependentUpon>AllSongListsPage.xaml</DependentUpon>
@@ -105,6 +107,7 @@
     <Compile Include="Views\Controllers\SongInfoShowed.xaml.cs">
       <DependentUpon>SongInfoShowed.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Converters\DoubleToSongTimeString.cs" />
     <Compile Include="Views\Converters\TimeSpanToSongTimeString.cs" />
     <Compile Include="Models\Factories\AllSongAlbumsGroupsFactory.cs" />
     <Compile Include="Models\Factories\AllSongArtistGroupsFactory.cs" />

@@ -1,5 +1,6 @@
 ﻿using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
+using SimpleSongsPlayer.ViewModels.Controllers;
 using SimpleSongsPlayer.ViewModels.SongViewModels;
 
 namespace SimpleSongsPlayer.ViewModels
@@ -15,6 +16,7 @@ namespace SimpleSongsPlayer.ViewModels
             SimpleIoc.Default.Register<SongsViewModel>();
             SimpleIoc.Default.Register<SongArtistsViewModel>();
             SimpleIoc.Default.Register<SongAlbumsViewModel>();
+            SimpleIoc.Default.Register<PlayerControllerViewModel>();
         }
 
         public FrameworkViewModel Framework => SimpleIoc.Default.GetInstance<FrameworkViewModel>();
@@ -23,5 +25,6 @@ namespace SimpleSongsPlayer.ViewModels
         public SongsViewModel Songs => SimpleIoc.Default.GetInstance<SongsViewModel>();
         public SongArtistsViewModel SongArtists => SimpleIoc.Default.GetInstance<SongArtistsViewModel>();
         public SongAlbumsViewModel SongAlbums => SimpleIoc.Default.GetInstance<SongAlbumsViewModel>();
+        public PlayerControllerViewModel PlayerController => SimpleIoc.Default.GetInstance<PlayerControllerViewModel>();
     }
 }

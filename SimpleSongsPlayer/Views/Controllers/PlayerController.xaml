@@ -2,7 +2,7 @@
     x:Class="SimpleSongsPlayer.Views.Controllers.PlayerController"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:SimpleSongsPlayer.Views.Controllers"
+    xmlns:cvt="using:SimpleSongsPlayer.Views.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -10,6 +10,14 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
+        <Style x:Key="ControllerButton_Style" TargetType="ButtonBase">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+            <Setter Property="FontSize" Value="{ThemeResource TextStyleLargeFontSize}"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="4"/>
+        </Style>
+        <cvt:DoubleToSongTimeString x:Key="DoubleToSongTimeString"/>
 
         <!-- Style for Position slider used in Media Transport Controls -->
         <Style x:Key="MediaSliderStyle" TargetType="Slider">
@@ -334,6 +342,42 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <local:SongInfoShowed x:Name="SongInfoShowed"/>
+        <Button Grid.Row="1" Padding="0">
+            <Image Width="48" Height="48" Stretch="Uniform" Source="{x:Bind vm.CurrentSong.AlbumCover, Mode=OneWay}"/>
+        </Button>
+
+        <RelativePanel Grid.Row="1" Grid.Column="1">
+            <RelativePanel.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource ControllerButton_Style}"/>
+                <Style TargetType="ToggleButton" BasedOn="{StaticResource ControllerButton_Style}"/>
+            </RelativePanel.Resources>
+
+            <!-- Pause symbol: E103 -->
+            <ToggleButton x:Name="PlayOrPause_ToggleButton" Content="&#xE102;" RelativePanel.AlignHorizontalCenterWithPanel="True" Checked="PlayOrPause_ToggleButton_Checked" Unchecked="PlayOrPause_ToggleButton_Unchecked"/>
+            <Button x:Name="Rewind_Button" Content="&#xE100;" RelativePanel.LeftOf="PlayOrPause_ToggleButton"/>
+            <Button x:Name="FastForward_Button" Content="&#xE101;" RelativePanel.RightOf="PlayOrPause_ToggleButton"/>
+        </RelativePanel>
+
+        <Grid x:Name="PositionArea_Grid" Grid.Row="1" Grid.Column="2">
+            <Grid.Resources>
+                <Style x:Key="Default_Style" TargetType="FrameworkElement">
+                    <Setter Property="Margin" Value="4,0"/>
+                </Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource Default_Style}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="Slider" BasedOn="{StaticResource Default_Style}"/>
+            </Grid.Resources>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="{x:Bind Position_Slider.Value, Mode=OneWay, Converter={StaticResource DoubleToSongTimeString}}"/>
+            <Slider x:Name="Position_Slider" Grid.Column="1" SmallChange="0.001" StepFrequency="0.001" Maximum="0" IsThumbToolTipEnabled="False" Style="{StaticResource MediaSliderStyle}"/>
+            <TextBlock Grid.Column="2" Text="{x:Bind Position_Slider.Maximum, Mode=OneWay, Converter={StaticResource DoubleToSongTimeString}}"/>
+        </Grid>
     </Grid>
 </UserControl>
