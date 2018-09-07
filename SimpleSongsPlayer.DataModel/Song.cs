@@ -10,8 +10,11 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace SimpleSongsPlayer.DataModel
 {
-    public class Song
+    public class Song : ObservableObject
     {
+        private bool isPlaying;
+        private bool isSelected;
+
         private Song(string fileName, string title, string singer, string album, BitmapSource albumCover, TimeSpan duration, MediaPlaybackItem playbackItem)
         {
             FileName = fileName;
@@ -26,6 +29,18 @@ namespace SimpleSongsPlayer.DataModel
                 Singer = singer;
             if (!String.IsNullOrWhiteSpace(album))
                 Album = album;
+        }
+
+        public bool IsPlaying
+        {
+            get => isPlaying;
+            set => Set(ref isPlaying, value);
+        }
+
+        public bool IsSelected
+        {
+            get => isSelected;
+            set => Set(ref isSelected, value);
         }
 
         public string FileName { get; }

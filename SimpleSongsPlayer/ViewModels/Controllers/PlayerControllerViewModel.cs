@@ -6,9 +6,14 @@ namespace SimpleSongsPlayer.ViewModels.Controllers
 {
     public class PlayerControllerViewModel : ViewModelBase
     {
+        private MediaPlaybackList playerSource;
         private Song currentSong;
 
-        public MediaPlaybackList PlayerSource { get; set; }
+        public MediaPlaybackList PlayerSource
+        {
+            get => playerSource;
+            set => Set(ref playerSource, value);
+        }
 
         public Song CurrentSong
         {

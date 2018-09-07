@@ -15,7 +15,7 @@
             <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
             <Setter Property="FontSize" Value="{ThemeResource TextStyleLargeFontSize}"/>
             <Setter Property="Padding" Value="8"/>
-            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Margin" Value="4,0"/>
         </Style>
         <cvt:DoubleToSongTimeString x:Key="DoubleToSongTimeString"/>
 
@@ -331,6 +331,15 @@
     </UserControl.Resources>
 
     <Grid>
+        <Grid.Resources>
+            <Style x:Key="PanelDefault_Style" TargetType="Panel">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="RelativePanel" BasedOn="{StaticResource PanelDefault_Style}"/>
+            <Style TargetType="Grid" BasedOn="{StaticResource PanelDefault_Style}"/>
+            <Style TargetType="StackPanel" BasedOn="{StaticResource PanelDefault_Style}"/>
+        </Grid.Resources>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
@@ -341,6 +350,31 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Mobile">
+                    <VisualState.Setters>
+                        <Setter Target="PositionArea_Grid.(Grid.Row)" Value="0"/>
+                        <Setter Target="PositionArea_Grid.(Grid.Column)" Value="0"/>
+                        <Setter Target="PositionArea_Grid.(Grid.ColumnSpan)" Value="4"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Other">
+                    <VisualState.Setters>
+                        <Setter Target="PositionArea_Grid.(Grid.Row)" Value="1"/>
+                        <Setter Target="PositionArea_Grid.(Grid.Column)" Value="2"/>
+                        <Setter Target="PositionArea_Grid.(Grid.ColumnSpan)" Value="1"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="521"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
         <Button Grid.Row="1" Padding="0">
             <Image Width="48" Height="48" Stretch="Uniform" Source="{x:Bind vm.CurrentSong.AlbumCover, Mode=OneWay}"/>
@@ -358,15 +392,15 @@
             <Button x:Name="FastForward_Button" Content="&#xE101;" RelativePanel.RightOf="PlayOrPause_ToggleButton"/>
         </RelativePanel>
 
-        <Grid x:Name="PositionArea_Grid" Grid.Row="1" Grid.Column="2">
+        <Grid x:Name="PositionArea_Grid">
             <Grid.Resources>
-                <Style x:Key="Default_Style" TargetType="FrameworkElement">
+                <Style x:Key="PositionAreaDefault_Style" TargetType="FrameworkElement">
                     <Setter Property="Margin" Value="4,0"/>
                 </Style>
-                <Style TargetType="TextBlock" BasedOn="{StaticResource Default_Style}">
+                <Style TargetType="TextBlock" BasedOn="{StaticResource PositionAreaDefault_Style}">
                     <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
-                <Style TargetType="Slider" BasedOn="{StaticResource Default_Style}"/>
+                <Style TargetType="Slider" BasedOn="{StaticResource PositionAreaDefault_Style}"/>
             </Grid.Resources>
 
             <Grid.ColumnDefinitions>
@@ -379,5 +413,26 @@
             <Slider x:Name="Position_Slider" Grid.Column="1" SmallChange="0.001" StepFrequency="0.001" Maximum="0" IsThumbToolTipEnabled="False" Style="{StaticResource MediaSliderStyle}"/>
             <TextBlock Grid.Column="2" Text="{x:Bind Position_Slider.Maximum, Mode=OneWay, Converter={StaticResource DoubleToSongTimeString}}"/>
         </Grid>
+
+        <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource ControllerButton_Style}"/>
+            </StackPanel.Resources>
+
+            <Button Content="&#xE15D;">
+                <Button.Flyout>
+                    <Flyout>
+                        <Slider Width="200" Value="{x:Bind settingProperties.Volume, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}"/>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+            <Button Content="&#xE805;">
+                <Button.Flyout>
+                    <Flyout>
+                        <Slider Width="200" Minimum="10" Value="{x:Bind settingProperties.PlaybackSpeed, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}" Maximum="300" StepFrequency="10" SmallChange="10"/>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

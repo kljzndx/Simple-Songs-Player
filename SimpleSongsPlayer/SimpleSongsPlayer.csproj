@@ -98,6 +98,7 @@
     <Compile Include="Models\TimeSpanExtension.cs" />
     <Compile Include="ViewModels\Controllers\PlayerControllerViewModel.cs" />
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
+    <Compile Include="ViewModels\SettingProperties.cs" />
     <Compile Include="Views\AllSongListsPage.xaml.cs">
       <DependentUpon>AllSongListsPage.xaml</DependentUpon>
     </Compile>
@@ -107,6 +108,7 @@
     <Compile Include="Views\Controllers\SongInfoShowed.xaml.cs">
       <DependentUpon>SongInfoShowed.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Converters\DoubleToPercentage.cs" />
     <Compile Include="Views\Converters\DoubleToSongTimeString.cs" />
     <Compile Include="Views\Converters\TimeSpanToSongTimeString.cs" />
     <Compile Include="Models\Factories\AllSongAlbumsGroupsFactory.cs" />

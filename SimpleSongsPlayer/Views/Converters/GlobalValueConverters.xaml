@@ -4,5 +4,6 @@
     xmlns:local="using:SimpleSongsPlayer.Views.Converters">
 
     <local:TimeSpanToSongTimeString x:Key="TimeSpanToSongTimeString"/>
+    <local:DoubleToPercentage x:Key="DoubleToPercentage"/>
     
 </ResourceDictionary>

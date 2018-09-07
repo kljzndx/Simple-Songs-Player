@@ -34,16 +34,20 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private readonly PlayerControllerViewModel vm;
         private readonly MediaPlayer player;
+        private readonly SettingProperties settingProperties;
 
         public PlayerController()
         {
             this.InitializeComponent();
             vm = ((ViewModelLocator) Application.Current.Resources["Locator"]).PlayerController;
             player = App.Player;
+            settingProperties = SettingProperties.Current;
 
             player.SourceChanged += Player_SourceChanged;
             player.PlaybackSession.PositionChanged += Player_PositionChanged;
             player.PlaybackSession.PlaybackStateChanged += Player_PlaybackStateChanged;
+
+            settingProperties.PropertyChanged += SettingProperties_PropertyChanged;
 
             Rewind_Button.AddHandler(PointerPressedEvent, new PointerEventHandler(async (s, e) => await PressPositionButton(false)), true);
             Rewind_Button.AddHandler(PointerReleasedEvent, new PointerEventHandler((s, e) => ReleasePositionButton(false)), true);
@@ -67,9 +71,11 @@ namespace SimpleSongsPlayer.Views.Controllers
             set => SetValue(AllSongsProperty, value);
         }
 
-        private void ShowSongInfo(MediaPlaybackItem media)
+        private void UpdateInfo(MediaPlaybackItem media)
         {
             vm.CurrentSong = AllSongs.Find(s => s.PlaybackItem == media);
+            player.Volume = settingProperties.Volume;
+            player.PlaybackSession.PlaybackRate = settingProperties.PlaybackSpeed;
         }
 
         private void Play()
@@ -128,6 +134,19 @@ namespace SimpleSongsPlayer.Views.Controllers
                 Play();
         }
 
+        private void SettingProperties_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(settingProperties.Volume):
+                    player.Volume = settingProperties.Volume;
+                    break;
+                case nameof(settingProperties.PlaybackSpeed):
+                    player.PlaybackSession.PlaybackRate = settingProperties.PlaybackSpeed;
+                    break;
+            }
+        }
+
         private void Player_SourceChanged(MediaPlayer sender, object args)
         {
             if (vm.PlayerSource != null)
@@ -141,7 +160,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                ShowSongInfo(args.NewItem);
+                UpdateInfo(args.NewItem);
                 Position_Slider.Maximum = args.NewItem.Source.Duration.GetValueOrDefault(TimeSpan.Zero).TotalMinutes;
             });
         }
