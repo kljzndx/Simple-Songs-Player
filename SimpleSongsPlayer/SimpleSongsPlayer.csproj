@@ -107,9 +107,6 @@
     <Compile Include="Views\Controllers\PlayerController.xaml.cs">
       <DependentUpon>PlayerController.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Controllers\SongInfoShowed.xaml.cs">
-      <DependentUpon>SongInfoShowed.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Converters\DoubleToPercentage.cs" />
     <Compile Include="Views\Converters\DoubleToSongTimeString.cs" />
     <Compile Include="Views\Converters\TimeSpanToSongTimeString.cs" />
@@ -172,10 +169,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controllers\PlayerController.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Controllers\SongInfoShowed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
