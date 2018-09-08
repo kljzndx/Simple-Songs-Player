@@ -164,6 +164,7 @@ namespace SimpleSongsPlayer.Views.Controllers
             {
                 UpdateInfo(args.NewItem);
                 Position_Slider.Maximum = args.NewItem.Source.Duration.GetValueOrDefault(TimeSpan.Zero).TotalMinutes;
+                PositionChangeNotifier.SendChangeNotification(true, TimeSpan.Zero);
             });
         }
 
