@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Controllers;
+using SimpleSongsPlayer.ViewModels.Events;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -93,6 +94,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         private void SetPosition(TimeSpan newTime)
         {
             player.PlaybackSession.Position = newTime;
+            PositionChangeNotifier.SendChangeNotification(true, newTime);
         }
 
         private async Task PressPositionButton(bool isAdd)
@@ -193,7 +195,10 @@ namespace SimpleSongsPlayer.Views.Controllers
                 () =>
                 {
                     if (!isPressPositionSlider)
+                    {
                         Position_Slider.Value = sender.Position.TotalMinutes;
+                        PositionChangeNotifier.SendChangeNotification(false, sender.Position);
+                    }
                 });
         }
 
