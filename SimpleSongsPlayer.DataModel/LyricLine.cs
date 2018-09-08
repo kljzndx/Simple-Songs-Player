@@ -4,17 +4,20 @@ namespace SimpleSongsPlayer.DataModel
 {
     public class LyricLine : ObservableObject, IComparable<LyricLine>
     {
+        public static LyricLine Empty = new LyricLine(TimeSpan.Zero);
+
+        private bool isSelected;
+
         internal LyricLine(TimeSpan time)
         {
             Time = time;
+            Content = String.Empty;
         }
 
         internal LyricLine(TimeSpan time, string content) : this(time)
         {
             Content = content;
         }
-
-        private bool isSelected;
 
         public bool IsSelected
         {
