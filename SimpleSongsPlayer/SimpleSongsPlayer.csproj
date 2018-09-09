@@ -98,6 +98,8 @@
     <Compile Include="Models\TimeSpanExtension.cs" />
     <Compile Include="ViewModels\Controllers\PlayerControllerViewModel.cs" />
     <Compile Include="ViewModels\Events\LyricsPreviewRefreshEventArgs.cs" />
+    <Compile Include="ViewModels\Events\PlayItemChangeEventArgs.cs" />
+    <Compile Include="ViewModels\Events\PlayItemChangeNotifier.cs" />
     <Compile Include="ViewModels\Events\PositionChangeEventArgs.cs" />
     <Compile Include="ViewModels\Events\PositionChangeNotifier.cs" />
     <Compile Include="ViewModels\FrameworkViewModel.cs" />

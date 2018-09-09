@@ -80,6 +80,7 @@ namespace SimpleSongsPlayer.Views.Controllers
             vm.CurrentSong = AllSongs.Find(s => s.PlaybackItem == media);
             player.Volume = settingProperties.Volume;
             player.PlaybackSession.PlaybackRate = settingProperties.PlaybackSpeed;
+            PlayItemChangeNotifier.SendChangeNotification(vm.CurrentSong);
         }
 
         private void Play()
@@ -167,7 +168,6 @@ namespace SimpleSongsPlayer.Views.Controllers
             {
                 UpdateInfo(args.NewItem);
                 Position_Slider.Maximum = args.NewItem.Source.Duration.GetValueOrDefault(TimeSpan.Zero).TotalMinutes;
-                PositionChangeNotifier.SendChangeNotification(true, TimeSpan.Zero);
             });
         }
 
