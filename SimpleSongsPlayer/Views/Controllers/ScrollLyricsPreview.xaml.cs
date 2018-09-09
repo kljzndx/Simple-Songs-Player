@@ -27,6 +27,8 @@ namespace SimpleSongsPlayer.Views.Controllers
             base.Refreshed += ScrollLyricsPreview_Refreshed;
         }
 
+        public event ItemClickEventHandler ItemClick;
+
         private double GetItemPosition(LyricLine line)
         {
             ListViewItem container = Main_ListView.ContainerFromItem(line) as ListViewItem;
@@ -56,6 +58,11 @@ namespace SimpleSongsPlayer.Views.Controllers
             Main_ListView.SelectedItem = args.CurrentLyric;
             args.CurrentLyric.IsSelected = true;
             Root_ScrollViewer.ChangeView(null, GetItemPosition(args.CurrentLyric), null);
+        }
+
+        private void Main_ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            ItemClick?.Invoke(sender, e);
         }
     }
 }
