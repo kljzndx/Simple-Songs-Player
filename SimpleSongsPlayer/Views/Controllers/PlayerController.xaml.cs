@@ -37,6 +37,8 @@ namespace SimpleSongsPlayer.Views.Controllers
         private readonly MediaPlayer player;
         private readonly SettingProperties settingProperties;
 
+        public event RoutedEventHandler CoverClick;
+
         public PlayerController()
         {
             this.InitializeComponent();
@@ -49,6 +51,7 @@ namespace SimpleSongsPlayer.Views.Controllers
             player.PlaybackSession.PlaybackStateChanged += Player_PlaybackStateChanged;
 
             settingProperties.PropertyChanged += SettingProperties_PropertyChanged;
+            AlbumCover_Button.Click += (s, e) => CoverClick?.Invoke(s, e);
 
             Rewind_Button.AddHandler(PointerPressedEvent, new PointerEventHandler(async (s, e) => await PressPositionButton(false)), true);
             Rewind_Button.AddHandler(PointerReleasedEvent, new PointerEventHandler((s, e) => ReleasePositionButton(false)), true);

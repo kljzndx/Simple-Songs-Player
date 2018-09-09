@@ -376,7 +376,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Button Grid.Row="1" Padding="0">
+        <Button x:Name="AlbumCover_Button" Grid.Row="1" Padding="0">
             <Image Width="48" Height="48" Stretch="Uniform" Source="{x:Bind vm.CurrentSong.AlbumCover, Mode=OneWay}"/>
         </Button>
 
