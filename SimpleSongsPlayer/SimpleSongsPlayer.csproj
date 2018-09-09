@@ -109,6 +109,9 @@
     <Compile Include="Views\Controllers\PlayerController.xaml.cs">
       <DependentUpon>PlayerController.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controllers\ScrollLyricsPreview.xaml.cs">
+      <DependentUpon>ScrollLyricsPreview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Converters\DoubleToPercentage.cs" />
     <Compile Include="Views\Converters\DoubleToSongTimeString.cs" />
     <Compile Include="Views\Converters\TimeSpanToSongTimeString.cs" />
@@ -122,6 +125,9 @@
     <Compile Include="ViewModels\SongViewModels\SongArtistsViewModel.cs" />
     <Compile Include="ViewModels\SongViewModels\SongsViewModel.cs" />
     <Compile Include="ViewModels\SongViewModels\SongViewModelBase.cs" />
+    <Compile Include="Views\ItemTemplates\ScrollLyricsPreviewItemTemplate.xaml.cs">
+      <DependentUpon>ScrollLyricsPreviewItemTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ItemTemplates\SongItemTemplate.xaml.cs">
       <DependentUpon>SongItemTemplate.xaml</DependentUpon>
     </Compile>
@@ -174,7 +180,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Controllers\ScrollLyricsPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Converters\GlobalValueConverters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ItemTemplates\ScrollLyricsPreviewItemTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
