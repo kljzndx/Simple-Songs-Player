@@ -17,6 +17,7 @@ namespace SimpleSongsPlayer.ViewModels
             SimpleIoc.Default.Register<SongArtistsViewModel>();
             SimpleIoc.Default.Register<SongAlbumsViewModel>();
             SimpleIoc.Default.Register<PlayerControllerViewModel>();
+            SimpleIoc.Default.Register<PlayingViewModel>();
         }
 
         public FrameworkViewModel Framework => SimpleIoc.Default.GetInstance<FrameworkViewModel>();
@@ -26,5 +27,6 @@ namespace SimpleSongsPlayer.ViewModels
         public SongArtistsViewModel SongArtists => SimpleIoc.Default.GetInstance<SongArtistsViewModel>();
         public SongAlbumsViewModel SongAlbums => SimpleIoc.Default.GetInstance<SongAlbumsViewModel>();
         public PlayerControllerViewModel PlayerController => SimpleIoc.Default.GetInstance<PlayerControllerViewModel>();
+        public PlayingViewModel Playing => SimpleIoc.Default.GetInstance<PlayingViewModel>();
     }
 }

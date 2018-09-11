@@ -103,6 +103,7 @@
     <Compile Include="ViewModels\Events\PositionChangeEventArgs.cs" />
     <Compile Include="ViewModels\Events\PositionChangeNotifier.cs" />
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
+    <Compile Include="ViewModels\PlayingViewModel.cs" />
     <Compile Include="ViewModels\SettingProperties.cs" />
     <Compile Include="Views\AllSongListsPage.xaml.cs">
       <DependentUpon>AllSongListsPage.xaml</DependentUpon>
@@ -142,6 +143,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LoadingViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\PlayingPage.xaml.cs">
+      <DependentUpon>PlayingPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SongViews\SongAlbumsViewPage.xaml.cs">
       <DependentUpon>SongAlbumsViewPage.xaml</DependentUpon>
     </Compile>
@@ -205,6 +209,10 @@
     <Page Include="Views\FrameworkPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PlayingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SongViews\SongAlbumsViewPage.xaml">
       <SubType>Designer</SubType>

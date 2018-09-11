@@ -1,0 +1,83 @@
+﻿<Page
+    x:Class="SimpleSongsPlayer.Views.PlayingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctol="using:SimpleSongsPlayer.Views.Controllers"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    DataContext="{Binding Source={StaticResource Locator}, Path=Playing}">
+
+    <Grid Margin="5,0">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Mobile">
+                    <VisualState.Setters>
+                        <Setter Target="Cover_Border.Visibility" Value="Collapsed"/>
+                        <Setter Target="Info_Grid.(Grid.Column)" Value="0"/>
+                        <Setter Target="Info_Grid.(Grid.ColumnSpan)" Value="2"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Other">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border x:Name="Cover_Border" Padding="50">
+            <Image Source="{x:Bind vm.CurrentSong.AlbumCover, Mode=OneWay}"/>
+        </Border>
+
+        <Grid x:Name="Info_Grid" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="5,5,40,5">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Margin" Value="0,5"/>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock x:Name="Title_TextBlock" Text="{x:Bind vm.CurrentSong.Title, Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                <TextBlock x:Name="Other_TextBlock" Style="{ThemeResource BodyTextBlockStyle}">
+                    <Run Text="歌手： "/>
+                    <Run Text="{x:Bind vm.CurrentSong.Singer, Mode=OneWay}"/>
+                    <Run Text=" "/>
+                    <Run Text="专辑： "/>
+                    <Run Text="{x:Bind vm.CurrentSong.Album, Mode=OneWay}"/>
+                </TextBlock>
+            </StackPanel>
+
+            <ctol:ScrollLyricsPreview x:Name="PreviewArea_ScrollLyricsPreview" Grid.Row="1"/>
+
+            <StackPanel x:Name="Error_StackPanel" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                <TextBlock Text="未找到与歌曲匹配的歌词文件"/>
+                <Button x:Name="PickLyric_Button" Content="手动选择歌词" HorizontalAlignment="Center" Visibility="Collapsed">
+                    <Button.Flyout>
+                        <Flyout>
+                            <ListView x:Name="LyricsFiles_ListView" ItemsSource="{Binding AllLyricBlocks, Mode=OneWay}" SelectionChanged="LyricsFiles_ListView_SelectionChanged">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding FileName}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

@@ -9,7 +9,7 @@ namespace SimpleSongsPlayer.ViewModels.Events
 
         public static void SendChangeNotification(Song song)
         {
-            ItemChanged?.Invoke(null, new PlayItemChangeEventArgs(song.FileName, song.Title, song.Singer, song.Album, song.AlbumCover));
+            ItemChanged?.Invoke(null, new PlayItemChangeEventArgs(song));
         }
     }
 }
