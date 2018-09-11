@@ -16,7 +16,7 @@ namespace SimpleSongsPlayer.Operator.FileScanners
 
         public List<StorageFile> ScanFiles(IEnumerable<StorageFile> files)
         {
-            return files.Where(f => _targetTypes.Contains(f.FileType.Replace(".", String.Empty))).ToList();
+            return files.Where(f => _targetTypes.Contains(f.FileType.Replace(".", String.Empty).ToLower())).ToList();
         }
     }
 }
