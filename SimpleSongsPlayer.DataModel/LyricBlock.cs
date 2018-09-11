@@ -30,6 +30,7 @@ namespace SimpleSongsPlayer.DataModel
             {
                 if (String.IsNullOrWhiteSpace(item))
                     continue;
+
                 string str = item.Trim();
 
                 var match = LyricLineRegex.Match(item);
@@ -54,7 +55,7 @@ namespace SimpleSongsPlayer.DataModel
                     currentLine = new LyricLine(new TimeSpan(0, 0, min, ss, ms));
                     builder.AppendLine(match.Groups["content"].Value.Trim());
                 }
-                else
+                else if (currentLine != null)
                 {
                     builder.AppendLine(str.Trim());
                 }
