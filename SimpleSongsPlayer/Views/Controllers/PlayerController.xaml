@@ -426,10 +426,56 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
+
             <Button Content="&#xE805;">
                 <Button.Flyout>
                     <Flyout>
                         <Slider Width="200" Minimum="10" Value="{x:Bind settingProperties.PlaybackSpeed, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}" Maximum="300" StepFrequency="10" SmallChange="10"/>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+
+            <Button Content="&#xE142;">
+                <Button.Flyout>
+                    <Flyout x:Name="PlayList_Flyout" Opened="PlayList_Flyout_Opened">
+                        <Grid Width="430" Height="300">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Margin="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="播放列表" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                                <Button x:Name="PlayList_Close_Button" Grid.Column="1" Content="&#xE10A;" Padding="8" FontFamily="Segoe MDL2 Assets" Click="PlayList_Close_Button_Click"/>
+                            </Grid>
+                            <ListView x:Name="PlayList_ListView" Grid.Row="1" IsItemClickEnabled="True" ItemClick="PlayList_ListView_ItemClick">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Text="▶" Margin="5,0" Visibility="{Binding IsPlaying, Mode=OneWay}"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Title}"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding Singer}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+                        </Grid>
                     </Flyout>
                 </Button.Flyout>
             </Button>

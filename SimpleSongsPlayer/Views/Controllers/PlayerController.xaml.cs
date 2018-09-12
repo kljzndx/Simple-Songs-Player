@@ -78,6 +78,9 @@ namespace SimpleSongsPlayer.Views.Controllers
         private void UpdateInfo(MediaPlaybackItem media)
         {
             vm.CurrentSong = AllSongs.Find(s => s.PlaybackItem == media);
+            AllSongs.ForEach(s => s.IsPlaying = false);
+            vm.CurrentSong.IsPlaying = true;
+
             player.Volume = settingProperties.Volume;
             player.PlaybackSession.PlaybackRate = settingProperties.PlaybackSpeed;
             PlayItemChangeNotifier.SendChangeNotification(vm.CurrentSong);
@@ -166,6 +169,9 @@ namespace SimpleSongsPlayer.Views.Controllers
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                if (args.NewItem == null)
+                    return;
+
                 UpdateInfo(args.NewItem);
                 Position_Slider.Maximum = args.NewItem.Source.Duration.GetValueOrDefault(TimeSpan.Zero).TotalMinutes;
             });
@@ -233,6 +239,32 @@ namespace SimpleSongsPlayer.Views.Controllers
         {
             SetPosition(TimeSpan.FromMinutes(Position_Slider.Value));
             isPressPositionSlider = false;
+        }
+
+        private void PlayList_Flyout_Opened(object sender, object e)
+        {
+            if (vm.PlayerSource == null)
+                return;
+
+            List<Song> playList = vm.PlayerSource.Items.Select(item => AllSongs.Find(s => s.PlaybackItem == item)).ToList();
+            PlayList_ListView.ItemsSource = playList;
+            PlayList_ListView.ScrollIntoView(vm.CurrentSong, ScrollIntoViewAlignment.Leading);
+        }
+
+        private void PlayList_ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Song song = e.ClickedItem as Song;
+            if (song == null || vm.CurrentSong.Equals(song))
+                return;
+
+            int id = vm.PlayerSource.Items.IndexOf(song.PlaybackItem);
+            vm.PlayerSource.MoveTo((uint) id);
+            Play();
+        }
+
+        private void PlayList_Close_Button_Click(object sender, RoutedEventArgs e)
+        {
+            PlayList_Flyout.Hide();
         }
     }
 }
