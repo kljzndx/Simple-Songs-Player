@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Streaming.Adaptive;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -93,6 +94,16 @@ namespace SimpleSongsPlayer.Views
                 return;
 
             SetLyricSource(lyricBlock);
+        }
+
+        private void PreviewArea_ScrollLyricsPreview_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            LyricLine line = e.ClickedItem as LyricLine;
+            if (line == null)
+                return;
+
+            PreviewArea_ScrollLyricsPreview.Reposition(line.Time);
+            App.Player.PlaybackSession.Position = line.Time;
         }
     }
 }

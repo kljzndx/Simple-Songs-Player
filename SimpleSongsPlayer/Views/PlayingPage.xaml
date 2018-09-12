@@ -60,7 +60,7 @@
                 </TextBlock>
             </StackPanel>
 
-            <ctol:ScrollLyricsPreview x:Name="PreviewArea_ScrollLyricsPreview" Grid.Row="1"/>
+            <ctol:ScrollLyricsPreview x:Name="PreviewArea_ScrollLyricsPreview" Grid.Row="1" ItemClick="PreviewArea_ScrollLyricsPreview_ItemClick"/>
 
             <StackPanel x:Name="Error_StackPanel" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
                 <TextBlock Text="未找到与歌曲匹配的歌词文件"/>
