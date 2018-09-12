@@ -54,7 +54,10 @@ namespace SimpleSongsPlayer.Views
         private void PlayerController_CoverClick(object sender, RoutedEventArgs e)
         {
             if (Main_Frame.SourcePageType.Name == typeof(PlayingPage).Name)
+            {
+                Main_Frame.Navigate(typeof(AllSongListsPage), vm.AllSongs);
                 return;
+            }
 
             ValueTuple<Song, List<LyricBlock>> tuple = ValueTuple.Create(vm.CurrentSong, vm.AllLyricBlocks);
             Main_Frame.Navigate(typeof(PlayingPage), tuple);
