@@ -1,22 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Search;
 
 namespace SimpleSongsPlayer.Operator.FileScanners
 {
     public abstract class FileScannerBase
     {
-        private readonly string[] _targetTypes;
+        private readonly List<string> _targetTypes;
 
         protected FileScannerBase(params string[] targetTypes)
         {
-            _targetTypes = targetTypes;
+            _targetTypes = new List<string>();
+
+            foreach (string targetType in targetTypes)
+            {
+                if (targetType[0] == '.')
+                    _targetTypes.Add(targetType);
+                else
+                    _targetTypes.Add("." + targetType);
+            }
         }
 
-        public List<StorageFile> ScanFiles(IEnumerable<StorageFile> files)
+        public async Task<List<StorageFile>> ScanFiles(StorageFolder folder)
         {
-            return files.Where(f => _targetTypes.Contains(f.FileType.Replace(".", String.Empty).ToLower())).ToList();
+            var query = folder.CreateFileQuery(CommonFileQuery.OrderByName);
+            query.ApplyNewQueryOptions(new QueryOptions(CommonFileQuery.OrderByName, _targetTypes));
+            return (await query.GetFilesAsync()).ToList();
         }
     }
 }

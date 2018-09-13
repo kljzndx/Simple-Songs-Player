@@ -24,21 +24,17 @@ namespace SimpleSongsPlayer.ViewModels
             AllSongs = new List<Song>();
             AllLyricBlocks = new List<LyricBlock>();
 
-            List<StorageFile> allFiles = new List<StorageFile>();
             foreach (var folder in folders.ToList())
             {
-                var files = await folder.GetFilesAsync(CommonFileQuery.OrderByName);
-                allFiles.AddRange(files);
+                var songFiles = await MusicFileScanner.ScanFiles(folder);
+                var lyricsFiles = await LyricsFileScanner.ScanFiles(folder);
+
+                foreach (var songFile in songFiles)
+                    AllSongs.Add(await Song.CreateFromStorageFile(songFile));
+
+                foreach (var lyricsFile in lyricsFiles)
+                    AllLyricBlocks.Add(new LyricBlock(lyricsFile.DisplayName, await FileReader.ReadFileAsync(lyricsFile)));
             }
-
-            var songFiles = MusicFileScanner.ScanFiles(allFiles);
-            var lyricsFiles = LyricsFileScanner.ScanFiles(allFiles);
-
-            foreach (var songFile in songFiles)
-                AllSongs.Add(await Song.CreateFromStorageFile(songFile));
-
-            foreach (var lyricsFile in lyricsFiles)
-                AllLyricBlocks.Add(new LyricBlock(lyricsFile.DisplayName, await FileReader.ReadFileAsync(lyricsFile)));
         }
     }
 }
