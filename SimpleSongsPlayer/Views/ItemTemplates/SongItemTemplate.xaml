@@ -28,7 +28,7 @@
                     <VisualState.Setters>
                         <Setter Target="Name_TextBlock.(Grid.ColumnSpan)" Value="2"/>
                         <Setter Target="Artist_TextBlock.(UIElement.Visibility)" Value="Visible"/>
-                        <Setter Target="Artist_TextBlock.(Grid.Column)" Value="2"/>
+                        <Setter Target="Artist_TextBlock.(Grid.Column)" Value="3"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Big">
@@ -43,6 +43,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -53,12 +54,13 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="Name_TextBlock" Text="{x:Bind Mode=OneWay, Path=Source.Title}"/>
-        <TextBlock x:Name="Artist_TextBlock" Grid.Column="1" Text="{x:Bind Mode=OneWay, Path=Source.Singer}" Visibility="Collapsed"/>
-        <TextBlock x:Name="Album_TextBlock" Grid.Column="2" Text="{x:Bind Mode=OneWay, Path=Source.Album}" Visibility="Collapsed"/>
-        <TextBlock x:Name="Duration_TextBlock" Grid.Column="3" Grid.RowSpan="2" Text="{x:Bind Mode=OneWay, Path=Source.Duration, Converter={StaticResource TimeSpanToSongTimeString}}" VerticalAlignment="Center"/>
+        <Polygon Grid.RowSpan="2" Margin="0,0,8,0" Points="0,0, 18,9, 0,18" Fill="{ThemeResource SystemControlForegroundAccentBrush}" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" StrokeThickness="2" VerticalAlignment="Center" Visibility="{x:Bind Source.IsPlaying, Mode=OneWay}"/>
+        <TextBlock x:Name="Name_TextBlock" Grid.Column="1" Text="{x:Bind Mode=OneWay, Path=Source.Title}"/>
+        <TextBlock x:Name="Artist_TextBlock" Grid.Column="2" Text="{x:Bind Mode=OneWay, Path=Source.Singer}" Visibility="Collapsed"/>
+        <TextBlock x:Name="Album_TextBlock" Grid.Column="3" Text="{x:Bind Mode=OneWay, Path=Source.Album}" Visibility="Collapsed"/>
+        <TextBlock x:Name="Duration_TextBlock" Grid.Column="4" Grid.RowSpan="2" Text="{x:Bind Mode=OneWay, Path=Source.Duration, Converter={StaticResource TimeSpanToSongTimeString}}" VerticalAlignment="Center"/>
 
-        <TextBlock x:Name="ArtistAndAlbum_TextBlock" Grid.Row="1" Grid.ColumnSpan="3" Visibility="Collapsed" Style="{ThemeResource CaptionTextBlockStyle}">
+        <TextBlock x:Name="ArtistAndAlbum_TextBlock" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Visibility="Collapsed" Style="{ThemeResource CaptionTextBlockStyle}">
             <Run Text="{x:Bind Mode=OneWay, Path=Source.Singer}"/>
             <Run Text=" • "/>
             <Run Text="{x:Bind Mode=OneWay, Path=Source.Album}"/>
