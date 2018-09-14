@@ -53,6 +53,9 @@ namespace SimpleSongsPlayer.Views
 
         private void PlayerController_CoverClick(object sender, RoutedEventArgs e)
         {
+            if (vm.CurrentSong is null)
+                return;
+
             if (Main_Frame.SourcePageType.Name == typeof(PlayingPage).Name)
             {
                 Main_Frame.Navigate(typeof(AllSongListsPage), vm.AllSongs);
