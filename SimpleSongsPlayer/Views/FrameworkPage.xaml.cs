@@ -27,6 +27,7 @@ namespace SimpleSongsPlayer.Views
             vm = this.DataContext as FrameworkViewModel;
             Close_Button.Visibility = Visibility.Collapsed;
 
+            Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             PlayItemChangeNotifier.ItemChanged += PlayItemChangeNotifier_ItemChanged;
         }
 
@@ -44,6 +45,15 @@ namespace SimpleSongsPlayer.Views
 
             Main_Frame.Navigate(typeof(AllSongListsPage), vm.AllSongs);
             PlayerController.AllSongs = vm.AllSongs;
+        }
+
+        private void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
+        {
+            if (Main_Frame.SourcePageType != typeof(AllSongListsPage))
+            {
+                e.Handled = true;
+                Main_Frame.Navigate(typeof(AllSongListsPage), vm.AllSongs);
+            }
         }
 
         private void PlayItemChangeNotifier_ItemChanged(object sender, PlayItemChangeEventArgs e)
