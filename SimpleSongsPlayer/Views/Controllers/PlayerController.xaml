@@ -376,7 +376,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Button x:Name="AlbumCover_Button" Grid.Row="1" Padding="0">
+        <Button x:Name="AlbumCover_Button" x:Uid="/PlayerController/AlbumCover_Button" Grid.Row="1" Padding="0">
             <Image Width="48" Height="48" Stretch="Uniform" Source="{x:Bind vm.CurrentSong.AlbumCover, Mode=OneWay}"/>
         </Button>
 
@@ -387,9 +387,9 @@
             </RelativePanel.Resources>
 
             <!-- Pause symbol: E103 -->
-            <ToggleButton x:Name="PlayOrPause_ToggleButton" Content="&#xE102;" RelativePanel.AlignHorizontalCenterWithPanel="True" Checked="PlayOrPause_ToggleButton_Checked" Unchecked="PlayOrPause_ToggleButton_Unchecked"/>
-            <Button x:Name="Rewind_Button" Content="&#xE100;" RelativePanel.LeftOf="PlayOrPause_ToggleButton"/>
-            <Button x:Name="FastForward_Button" Content="&#xE101;" RelativePanel.RightOf="PlayOrPause_ToggleButton"/>
+            <ToggleButton x:Name="PlayOrPause_ToggleButton" x:Uid="/PlayerController/PlayOrPause_ToggleButton" Content="&#xE102;" RelativePanel.AlignHorizontalCenterWithPanel="True" Checked="PlayOrPause_ToggleButton_Checked" Unchecked="PlayOrPause_ToggleButton_Unchecked"/>
+            <Button x:Name="Rewind_Button" x:Uid="/PlayerController/Rewind_Button" Content="&#xE100;" RelativePanel.LeftOf="PlayOrPause_ToggleButton"/>
+            <Button x:Name="FastForward_Button" x:Uid="/PlayerController/FastForward_Button" Content="&#xE101;" RelativePanel.RightOf="PlayOrPause_ToggleButton"/>
         </RelativePanel>
 
         <Grid x:Name="PositionArea_Grid">
@@ -419,23 +419,23 @@
                 <Style TargetType="Button" BasedOn="{StaticResource ControllerButton_Style}"/>
             </StackPanel.Resources>
 
-            <Button Content="&#xE15D;">
+            <Button x:Name="Volume_Button" x:Uid="/PlayerController/Volume_Button" Content="&#xE15D;">
                 <Button.Flyout>
                     <Flyout>
-                        <Slider Width="200" Value="{x:Bind settingProperties.Volume, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}"/>
+                        <Slider x:Name="Volume_Slider" x:Uid="/PlayerController/Volume_Slider" Width="200" Value="{x:Bind settingProperties.Volume, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}"/>
                     </Flyout>
                 </Button.Flyout>
             </Button>
 
-            <Button Content="&#xE805;">
+            <Button x:Name="PlaybackSpeed_Button" x:Uid="/PlayerController/PlaybackSpeed_Button" Content="&#xE805;">
                 <Button.Flyout>
                     <Flyout>
-                        <Slider Width="200" Minimum="10" Value="{x:Bind settingProperties.PlaybackSpeed, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}" Maximum="300" StepFrequency="10" SmallChange="10"/>
+                        <Slider x:Name="PlaybackSpeed_Slider" x:Uid="/PlayerController/PlaybackSpeed_Slider" Width="200" Minimum="10" Value="{x:Bind settingProperties.PlaybackSpeed, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}" Maximum="300" StepFrequency="10" SmallChange="10"/>
                     </Flyout>
                 </Button.Flyout>
             </Button>
 
-            <Button Content="&#xE142;">
+            <Button x:Name="PlayList_Button" x:Uid="/PlayerController/PlayList_Button" Content="&#xE142;">
                 <Button.Flyout>
                     <Flyout x:Name="PlayList_Flyout" Opened="PlayList_Flyout_Opened">
                         <Grid Width="430" Height="300">
@@ -453,7 +453,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="播放列表" VerticalAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                                <TextBlock x:Name="PlayList_TextBlock" x:Uid="/PlayerController/PlayList_TextBlock" Text="播放列表" VerticalAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}"/>
                                 <Button x:Name="PlayList_Close_Button" Grid.Column="1" Content="&#xE10A;" Click="PlayList_Close_Button_Click"/>
                             </Grid>
                             <ListView x:Name="PlayList_ListView" Grid.Row="1" IsItemClickEnabled="True" ItemClick="PlayList_ListView_ItemClick">

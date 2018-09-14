@@ -3,7 +3,7 @@
   <Identity Name="8b02abbe-a361-473b-8bc9-d46ee9335359" Publisher="CN=kljzn" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="8b02abbe-a361-473b-8bc9-d46ee9335359" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>SimpleSongsPlayer</DisplayName>
+    <DisplayName>ms-resource:///App/Name</DisplayName>
     <PublisherDisplayName>kljzn</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -15,8 +15,8 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="SimpleSongsPlayer.App">
-      <uap:VisualElements DisplayName="SimpleSongsPlayer" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="SimpleSongsPlayer" BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
+      <uap:VisualElements DisplayName="ms-resource:///App/Name" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="SimpleSongsPlayer" BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="ms-resource:///App/ShortName">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>

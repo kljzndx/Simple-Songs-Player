@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -28,11 +29,13 @@ namespace SimpleSongsPlayer.Views
     public sealed partial class LoadingPage : Page
     {
         private readonly LoadingViewModel vm;
+        private readonly ResourceLoader strs;
 
         public LoadingPage()
         {
             InitializeComponent();
             vm = this.DataContext as LoadingViewModel;
+            strs = ResourceLoader.GetForCurrentView("Loading");
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -40,9 +43,9 @@ namespace SimpleSongsPlayer.Views
             base.OnNavigatedTo(e);
 
             FadeIn_Storyboard.Begin();
-            Information_TextBlock.Text = "正在扫描文件夹";
+            Information_TextBlock.Text = strs.GetString("Scanning");
             await vm.ScanFolders(new List<StorageFolder> {KnownFolders.MusicLibrary});
-            Information_TextBlock.Text = "扫描完成";
+            Information_TextBlock.Text = strs.GetString("Scanned");
             FadeOut_Storyboard.Begin();
         }
 

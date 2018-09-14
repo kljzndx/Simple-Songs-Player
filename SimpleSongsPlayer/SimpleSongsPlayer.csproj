@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SimpleSongsPlayer</RootNamespace>
     <AssemblyName>SimpleSongsPlayer</AssemblyName>
-    <DefaultLanguage>zh-CN</DefaultLanguage>
+    <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17134.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
@@ -162,6 +162,11 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="Strings\zh-CN\App.resw" />
+    <PRIResource Include="Strings\zh-CN\PlayerController.resw" />
+    <PRIResource Include="Strings\zh-CN\Loading.resw" />
+    <PRIResource Include="Strings\zh-CN\Playing.resw" />
+    <PRIResource Include="Strings\zh-CN\AllSongLists.resw" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />

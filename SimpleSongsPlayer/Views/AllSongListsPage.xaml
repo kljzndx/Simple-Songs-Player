@@ -9,13 +9,13 @@
     DataContext="{Binding Source={StaticResource Locator}, Path=AllSongLists}">
 
     <Pivot x:Name="Main_Pivot" SelectionChanged="Main_Pivot_SelectionChanged">
-        <PivotItem x:Name="Songs_PivotItem" Header="歌曲">
+        <PivotItem x:Name="Songs_PivotItem" x:Uid="/AllSongLists/Songs_PivotItem">
             <Frame x:Name="AllSongs_Frame"/>
         </PivotItem>
-        <PivotItem x:Name="SongArtists_PivotItem" Header="歌手">
+        <PivotItem x:Name="SongArtists_PivotItem" x:Uid="/AllSongLists/SongArtists_PivotItem">
             <Frame x:Name="AllSongArtists_Frame"/>
         </PivotItem>
-        <PivotItem x:Name="SongAlbums_PivotItem" Header="专辑">
+        <PivotItem x:Name="SongAlbums_PivotItem" x:Uid="/AllSongLists/SongAlbums_PivotItem">
             <Frame x:Name="AllSongAlbums_Frame"/>
         </PivotItem>
     </Pivot>

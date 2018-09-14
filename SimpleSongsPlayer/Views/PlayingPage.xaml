@@ -47,15 +47,17 @@
             <StackPanel Margin="5,5,40,5">
                 <StackPanel.Resources>
                     <Style TargetType="TextBlock">
-                        <Setter Property="Margin" Value="0,5"/>
+                        <Setter Property="Margin" Value="0,10"/>
                     </Style>
                 </StackPanel.Resources>
                 <TextBlock x:Name="Title_TextBlock" Text="{x:Bind vm.CurrentSong.Title, Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
-                <TextBlock x:Name="Other_TextBlock" Style="{ThemeResource BodyTextBlockStyle}">
-                    <Run Text="歌手： "/>
-                    <Run Text="{x:Bind vm.CurrentSong.Singer, Mode=OneWay}"/>
+                <TextBlock x:Name="Other_TextBlock" Style="{ThemeResource CaptionTextBlockStyle}">
+                    <Run x:Name="SingerText_Run" x:Uid="/Playing/SingerText_Run"/>
                     <Run Text=" "/>
-                    <Run Text="专辑： "/>
+                    <Run Text="{x:Bind vm.CurrentSong.Singer, Mode=OneWay}"/>
+                    <LineBreak/>
+                    <Run x:Name="AlbumText_Run" x:Uid="/Playing/AlbumText_Run"/>
+                    <Run Text=" "/>
                     <Run Text="{x:Bind vm.CurrentSong.Album, Mode=OneWay}"/>
                 </TextBlock>
             </StackPanel>
@@ -63,8 +65,8 @@
             <ctol:ScrollLyricsPreview x:Name="PreviewArea_ScrollLyricsPreview" Grid.Row="1" ItemClick="PreviewArea_ScrollLyricsPreview_ItemClick"/>
 
             <StackPanel x:Name="Error_StackPanel" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
-                <TextBlock Text="未找到与歌曲匹配的歌词文件"/>
-                <Button x:Name="PickLyric_Button" Content="手动选择歌词" HorizontalAlignment="Center" Visibility="Collapsed">
+                <TextBlock x:Name="ErrorInfo_TextBlock" x:Uid="/Playing/ErrorInfo_TextBlock"/>
+                <Button x:Name="PickLyric_Button" x:Uid="/Playing/PickLyric_Button" HorizontalAlignment="Center" Visibility="Collapsed">
                     <Button.Flyout>
                         <Flyout>
                             <ListView x:Name="LyricsFiles_ListView" ItemsSource="{Binding AllLyricBlocks, Mode=OneWay}" SelectionChanged="LyricsFiles_ListView_SelectionChanged">
