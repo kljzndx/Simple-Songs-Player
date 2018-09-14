@@ -162,6 +162,11 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="Strings\en-US\Playing.resw" />
+    <PRIResource Include="Strings\en-US\PlayerController.resw" />
+    <PRIResource Include="Strings\en-US\Loading.resw" />
+    <PRIResource Include="Strings\en-US\App.resw" />
+    <PRIResource Include="Strings\en-US\AllSongLists.resw" />
     <PRIResource Include="Strings\zh-CN\App.resw" />
     <PRIResource Include="Strings\zh-CN\PlayerController.resw" />
     <PRIResource Include="Strings\zh-CN\Loading.resw" />
