@@ -10,13 +10,6 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
-        <Style x:Key="ControllerButton_Style" TargetType="ButtonBase">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
-            <Setter Property="FontSize" Value="{ThemeResource TextStyleLargeFontSize}"/>
-            <Setter Property="Padding" Value="8"/>
-            <Setter Property="Margin" Value="4,0"/>
-        </Style>
         <cvt:DoubleToSongTimeString x:Key="DoubleToSongTimeString"/>
 
         <!-- Style for Position slider used in Media Transport Controls -->
