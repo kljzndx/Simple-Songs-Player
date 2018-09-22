@@ -9,6 +9,7 @@ namespace SimpleSongsPlayer.ViewModels
 
         [SettingFieldByNormal(nameof(Volume), 1D)] private double volume;
         [SettingFieldByNormal(nameof(PlaybackSpeed), 1D)] private double playbackSpeed;
+        [SettingFieldByNormal(nameof(ScrollLyrics_FontSize), 15D)] private double scrollLyrics_FontSize;
 
         private SettingProperties()
         {
@@ -25,6 +26,12 @@ namespace SimpleSongsPlayer.ViewModels
         {
             get => playbackSpeed;
             set => SetSetting(ref playbackSpeed, value);
+        }
+
+        public double ScrollLyrics_FontSize
+        {
+            get => scrollLyrics_FontSize;
+            set => SetSetting(ref scrollLyrics_FontSize, value);
         }
     }
 }
