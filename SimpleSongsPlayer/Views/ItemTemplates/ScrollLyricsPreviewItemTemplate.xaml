@@ -7,5 +7,5 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <TextBlock x:Name="Root_TextBlock" Text="{x:Bind LyricText, Mode=OneWay}" HorizontalAlignment="Center"/>
+    <TextBlock x:Name="Root_TextBlock" Text="{x:Bind LyricText, Mode=OneWay}" HorizontalAlignment="Center" TextWrapping="Wrap"/>
 </UserControl>
