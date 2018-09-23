@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
+    <Grid MinHeight="44" Background="Transparent">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="VisualStateGroup">
                 <VisualState x:Name="Smallest">
@@ -18,7 +18,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ArtistAndAlbum_TextBlock.(UIElement.Visibility)" Value="Visible"/>
-                        <Setter Target="Name_TextBlock.(Grid.ColumnSpan)" Value="3"/>
+                        <Setter Target="TitleArea_Grid.(Grid.ColumnSpan)" Value="3"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Middle">
@@ -26,7 +26,7 @@
                         <AdaptiveTrigger MinWindowWidth="700"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="Name_TextBlock.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="TitleArea_Grid.(Grid.ColumnSpan)" Value="2"/>
                         <Setter Target="Artist_TextBlock.(UIElement.Visibility)" Value="Visible"/>
                         <Setter Target="Artist_TextBlock.(Grid.Column)" Value="3"/>
                     </VisualState.Setters>
@@ -42,6 +42,12 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+        <Grid.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
@@ -49,21 +55,36 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
 
         <Polygon Grid.RowSpan="2" Margin="0,0,8,0" Points="0,0, 18,9, 0,18" Fill="{ThemeResource SystemControlForegroundAccentBrush}" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" StrokeThickness="2" VerticalAlignment="Center" Visibility="{x:Bind Source.IsPlaying, Mode=OneWay}"/>
-        <TextBlock x:Name="Name_TextBlock" Grid.Column="1" Text="{x:Bind Mode=OneWay, Path=Source.Title}"/>
+
+        <Grid x:Name="TitleArea_Grid" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="{x:Bind Mode=OneWay, Path=Source.Title}"/>
+                <TextBlock x:Name="ArtistAndAlbum_TextBlock" Visibility="Collapsed" Style="{ThemeResource CaptionTextBlockStyle}">
+                    <Run Text="{x:Bind Mode=OneWay, Path=Source.Singer}"/>
+                    <Run Text=" • "/>
+                    <Run Text="{x:Bind Mode=OneWay, Path=Source.Album}"/>
+                </TextBlock>
+            </StackPanel>
+
+            <StackPanel x:Name="ControllerButtons_StackPanel" Grid.Column="1" Orientation="Horizontal" Margin="8,0" Visibility="{x:Bind Source.IsSelected, Mode=OneWay}">
+                <StackPanel.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource ControllerButton_Style}"/>
+                </StackPanel.Resources>
+
+                <Button x:Name="Play_Button" Content="&#xE102;" Click="Play_Button_Click"/>
+                <Button x:Name="AddItem_Button" Content="&#xE109;" Click="AddItem_Button_Click"/>
+            </StackPanel>
+        </Grid>
+
         <TextBlock x:Name="Artist_TextBlock" Grid.Column="2" Text="{x:Bind Mode=OneWay, Path=Source.Singer}" Visibility="Collapsed"/>
         <TextBlock x:Name="Album_TextBlock" Grid.Column="3" Text="{x:Bind Mode=OneWay, Path=Source.Album}" Visibility="Collapsed"/>
-        <TextBlock x:Name="Duration_TextBlock" Grid.Column="4" Grid.RowSpan="2" Text="{x:Bind Mode=OneWay, Path=Source.Duration, Converter={StaticResource TimeSpanToSongTimeString}}" VerticalAlignment="Center"/>
-
-        <TextBlock x:Name="ArtistAndAlbum_TextBlock" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Visibility="Collapsed" Style="{ThemeResource CaptionTextBlockStyle}">
-            <Run Text="{x:Bind Mode=OneWay, Path=Source.Singer}"/>
-            <Run Text=" • "/>
-            <Run Text="{x:Bind Mode=OneWay, Path=Source.Album}"/>
-        </TextBlock>
+        <TextBlock x:Name="Duration_TextBlock" Grid.Column="4" Text="{x:Bind Mode=OneWay, Path=Source.Duration, Converter={StaticResource TimeSpanToSongTimeString}}"/>
     </Grid>
 </UserControl>

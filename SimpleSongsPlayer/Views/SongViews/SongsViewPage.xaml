@@ -11,9 +11,9 @@
     DataContext="{x:Bind vm}">
 
     <Grid>
-        <ListView ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" DoubleTapped="ListView_DoubleTapped">
+        <ListView ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" SelectionChanged="Songs_ListView_SelectionChanged" DoubleTapped="ListView_DoubleTapped">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="model:SongsGroup">
+                <DataTemplate>
                     <temp:SongItemTemplate Source="{Binding}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>

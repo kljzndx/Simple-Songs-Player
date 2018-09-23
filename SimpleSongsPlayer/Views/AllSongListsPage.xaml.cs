@@ -44,19 +44,20 @@ namespace SimpleSongsPlayer.Views
 
         private void Main_Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            AllSongs_Frame.Navigate(typeof(Page));
+            AllSongArtists_Frame.Navigate(typeof(Page));
+            AllSongAlbums_Frame.Navigate(typeof(Page));
+
             switch (Main_Pivot.SelectedIndex)
             {
                 case 0:
-                    if (AllSongs_Frame.SourcePageType != typeof(SongsViewPage))
-                        AllSongs_Frame.Navigate(typeof(SongsViewPage), vm.AllSongs);
+                    AllSongs_Frame.Navigate(typeof(SongsViewPage), vm.AllSongs);
                     break;
                 case 1:
-                    if (AllSongArtists_Frame.SourcePageType != typeof(SongArtistsViewPage))
-                        AllSongArtists_Frame.Navigate(typeof(SongArtistsViewPage), vm.AllSongs);
+                    AllSongArtists_Frame.Navigate(typeof(SongArtistsViewPage), vm.AllSongs);
                     break;
                 case 2:
-                    if (AllSongAlbums_Frame.SourcePageType != typeof(SongAlbumsViewPage))
-                        AllSongAlbums_Frame.Navigate(typeof(SongAlbumsViewPage), vm.AllSongs);
+                    AllSongAlbums_Frame.Navigate(typeof(SongAlbumsViewPage), vm.AllSongs);
                     break;
                 default:
                     throw new Exception("未找到对应处理器");

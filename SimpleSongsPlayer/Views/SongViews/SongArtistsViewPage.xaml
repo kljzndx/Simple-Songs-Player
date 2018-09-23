@@ -11,7 +11,7 @@
 
     <SemanticZoom>
         <SemanticZoom.ZoomedInView>
-            <ListView x:Name="Main_ListView" ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" DoubleTapped="Main_ListView_DoubleTapped">
+            <ListView x:Name="Main_ListView" ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" SelectionChanged="Songs_ListView_SelectionChanged" DoubleTapped="Main_ListView_DoubleTapped">
                 <ListView.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.HeaderTemplate>

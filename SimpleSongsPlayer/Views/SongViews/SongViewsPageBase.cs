@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
@@ -32,6 +33,16 @@ namespace SimpleSongsPlayer.Views.SongViews
                 vmb.RefreshData(allSongs);
             else
                 throw new Exception("未收到歌曲数据");
+        }
+
+        protected void Songs_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (var sg in vmb.SongGroups)
+                foreach (var item in sg.Items)
+                    item.IsSelected = false;
+
+            var song = e.AddedItems.First() as Song;
+            song.IsSelected = true;
         }
     }
 }
