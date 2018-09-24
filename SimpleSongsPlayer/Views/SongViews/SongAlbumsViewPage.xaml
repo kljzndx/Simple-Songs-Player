@@ -11,15 +11,21 @@
 
     <SemanticZoom>
         <SemanticZoom.ZoomedInView>
-            <ListView x:Name="Main_ListView" ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" SelectionChanged="Songs_ListView_SelectionChanged" DoubleTapped="Main_ListView_DoubleTapped">
+            <ListView x:Name="Main_ListView" ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" ItemContainerStyle="{StaticResource ExtensionListViewItem_Style}" SelectionChanged="Songs_ListView_SelectionChanged" DoubleTapped="Main_ListView_DoubleTapped">
                 <ListView.GroupStyle>
-                    <GroupStyle>
+                    <GroupStyle HeaderContainerStyle="{StaticResource ExtensionListViewHeaderItem_Style}">
                         <GroupStyle.HeaderTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
                                     <Image Width="48" Height="48" Stretch="Uniform" Source="{Binding AlbumCover}"/>
-                                    <TextBlock Text="{Binding Name}" Margin="5,0" VerticalAlignment="Center"/>
-                                </StackPanel>
+                                    <TextBlock Grid.Column="1" Text="{Binding Name}" Margin="5,0" VerticalAlignment="Center"/>
+                                    <Button x:Name="AddGroup_Button" Grid.Column="2" Content="&#xE109;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="AddGroup_Button_Tapped"/>
+                                </Grid>
                             </DataTemplate>
                         </GroupStyle.HeaderTemplate>
                     </GroupStyle>
@@ -29,11 +35,6 @@
                         <temp:SongItemTemplate Source="{Binding}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
             </ListView>
         </SemanticZoom.ZoomedInView>
 

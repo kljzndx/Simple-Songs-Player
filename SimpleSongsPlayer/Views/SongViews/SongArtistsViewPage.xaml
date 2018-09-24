@@ -11,12 +11,20 @@
 
     <SemanticZoom>
         <SemanticZoom.ZoomedInView>
-            <ListView x:Name="Main_ListView" ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" SelectionChanged="Songs_ListView_SelectionChanged" DoubleTapped="Main_ListView_DoubleTapped">
+            <ListView x:Name="Main_ListView" ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" ItemContainerStyle="{StaticResource ExtensionListViewItem_Style}" SelectionChanged="Songs_ListView_SelectionChanged" DoubleTapped="Main_ListView_DoubleTapped">
                 <ListView.GroupStyle>
-                    <GroupStyle>
+                    <GroupStyle HeaderContainerStyle="{StaticResource ExtensionListViewHeaderItem_Style}">
                         <GroupStyle.HeaderTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name, Mode=OneWay}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{Binding Name, Mode=OneWay}"/>
+                                    <Button x:Name="AddGroup_Button" Grid.Column="1" Content="&#xE109;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="AddGroup_Button_Tapped"/>
+                                </Grid>
                             </DataTemplate>
                         </GroupStyle.HeaderTemplate>
                     </GroupStyle>
@@ -26,11 +34,6 @@
                         <temp:SongItemTemplate Source="{Binding}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
             </ListView>
         </SemanticZoom.ZoomedInView>
 

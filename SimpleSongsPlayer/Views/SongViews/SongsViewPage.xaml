@@ -11,17 +11,12 @@
     DataContext="{x:Bind vm}">
 
     <Grid>
-        <ListView ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" SelectionChanged="Songs_ListView_SelectionChanged" DoubleTapped="ListView_DoubleTapped">
+        <ListView ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" ItemContainerStyle="{StaticResource ExtensionListViewItem_Style}" SelectionChanged="Songs_ListView_SelectionChanged" DoubleTapped="ListView_DoubleTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <temp:SongItemTemplate Source="{Binding}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                </Style>
-            </ListView.ItemContainerStyle>
         </ListView>
     </Grid>
 </local:SongViewsPageBase>

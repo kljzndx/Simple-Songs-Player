@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Media.Playback;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
+using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.ViewModels.SongViewModels;
 
 namespace SimpleSongsPlayer.Views.SongViews
@@ -43,6 +47,22 @@ namespace SimpleSongsPlayer.Views.SongViews
 
             var song = e.AddedItems.First() as Song;
             song.IsSelected = true;
+        }
+
+        protected void AddGroup_Button_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            e.Handled = true;
+            var btn = sender as FrameworkElement;
+            if (btn is null)
+                return;
+
+            var group = btn.DataContext as SongsGroup;
+
+            if (App.Player.Source is MediaPlaybackList mpl)
+                foreach (var item in group.Items)
+                    mpl.Items.Add(item.PlaybackItem);
+            else
+                vmb.SetPlayerSource(group.Items.First(), group.Items);
         }
     }
 }
