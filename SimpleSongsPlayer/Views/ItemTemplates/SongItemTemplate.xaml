@@ -78,8 +78,8 @@
                     <Style TargetType="Button" BasedOn="{StaticResource ControllerButton_Style}"/>
                 </StackPanel.Resources>
 
-                <Button x:Name="Play_Button" Content="&#xE102;" Click="Play_Button_Click"/>
-                <Button x:Name="AddItem_Button" Content="&#xE109;" Click="AddItem_Button_Click"/>
+                <Button x:Name="Play_Button" x:Uid="/SongList/PlayItem_Button" Content="&#xE102;" Click="Play_Button_Click"/>
+                <Button x:Name="AddItem_Button" x:Uid="/SongList/AddItem_Button" Content="&#xE109;" Click="AddItem_Button_Click"/>
             </StackPanel>
         </Grid>
 
