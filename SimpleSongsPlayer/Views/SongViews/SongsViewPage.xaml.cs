@@ -40,7 +40,12 @@ namespace SimpleSongsPlayer.Views.SongViews
         {
             FrameworkElement args = e.OriginalSource as FrameworkElement;
             if (args?.DataContext is Song theSong)
-                vm.SetPlayerSource(theSong, vm.GetSongs("$all$"));
+                vm.Push(theSong);
+        }
+
+        private void PlayAll_Button_Click(object sender, RoutedEventArgs e)
+        {
+            vm.Push(vm.GetSongs("$all$"));
         }
     }
 }

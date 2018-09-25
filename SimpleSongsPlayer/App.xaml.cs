@@ -77,7 +77,7 @@ namespace SimpleSongsPlayer
             }
 
             if (Player is null)
-                Player = new MediaPlayer();
+                Player = new MediaPlayer {AutoPlay = true};
         }
 
         /// <summary>

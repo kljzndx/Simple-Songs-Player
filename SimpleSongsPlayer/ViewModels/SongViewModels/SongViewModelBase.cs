@@ -62,33 +62,64 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
             }).ToList();
         }
 
-        public void SetPlayerSource(Song theSong, IEnumerable<Song> source)
+        public void AddItem(MediaPlaybackList target, Song song)
         {
-            List<Song> songs = source.ToList();
-            MediaPlaybackList mpl = new MediaPlaybackList();
-            foreach (var song in songs)
-                mpl.Items.Add(song.PlaybackItem);
+            if (!target.Items.Contains(song.PlaybackItem))
+                target.Items.Add(song.PlaybackItem);
+        }
 
-            bool isEqual = false;
-            MediaPlaybackList currentMpl = App.Player.Source as MediaPlaybackList;
-            if (currentMpl != null && currentMpl.Items.Count == mpl.Items.Count)
+        public void Push(Song song)
+        {
+            if (App.Player.Source is MediaPlaybackList mpl)
             {
-                for (int i = 0; i < mpl.Items.Count; i++)
+                if (!mpl.Items.Contains(song.PlaybackItem))
                 {
-                    isEqual = mpl.Items[i].Equals(currentMpl.Items[i]);
-                    if (!isEqual)
-                        break;
+                    mpl.Items.Insert(0, song.PlaybackItem);
+                    mpl.MoveTo(0);
                 }
-            }
-
-            if (!isEqual)
-            {
-                App.Player.Source = mpl;
-                App.Player.Play();
-                mpl.MoveTo((uint) songs.IndexOf(theSong));
+                else
+                    mpl.MoveTo((uint) mpl.Items.IndexOf(song.PlaybackItem));
             }
             else
-                currentMpl.MoveTo((uint) songs.IndexOf(theSong));
+            {
+                MediaPlaybackList newMpl = new MediaPlaybackList();
+                AddItem(newMpl, song);
+                App.Player.Source = newMpl;
+            }
+        }
+
+        public void Push(IEnumerable<Song> songs)
+        {
+            MediaPlaybackList mpl = new MediaPlaybackList();
+            foreach (var song in songs)
+                AddItem(mpl, song);
+            App.Player.Source = mpl;
+        }
+
+        public void Append(Song song)
+        {
+            if (App.Player.Source is MediaPlaybackList mpl)
+                AddItem(mpl, song);
+            else
+            {
+                MediaPlaybackList newMpl = new MediaPlaybackList();
+                AddItem(newMpl, song);
+                App.Player.Source = newMpl;
+            }
+        }
+
+        public void Append(IEnumerable<Song> songs)
+        {
+            if (App.Player.Source is MediaPlaybackList mpl)
+                foreach (var song in songs)
+                    AddItem(mpl, song);
+            else
+            {
+                MediaPlaybackList newMpl = new MediaPlaybackList();
+                foreach (var song in songs)
+                    AddItem(newMpl, song);
+                App.Player.Source = newMpl;
+            }
         }
     }
 }

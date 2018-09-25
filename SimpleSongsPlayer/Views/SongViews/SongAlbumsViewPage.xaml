@@ -24,7 +24,11 @@
                                     </Grid.ColumnDefinitions>
                                     <Image Width="48" Height="48" Stretch="Uniform" Source="{Binding AlbumCover}"/>
                                     <TextBlock Grid.Column="1" Text="{Binding Name}" Margin="5,0" VerticalAlignment="Center"/>
-                                    <Button x:Name="AddGroup_Button" Grid.Column="2" Content="&#xE109;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="AddGroup_Button_Tapped"/>
+
+                                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                        <Button x:Name="PlayGroup_Button" Content="&#xE102;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="PlayGroup_Button_Tapped"/>
+                                        <Button x:Name="AddGroup_Button" Content="&#xE109;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="AddGroup_Button_Tapped"/>
+                                    </StackPanel>
                                 </Grid>
                             </DataTemplate>
                         </GroupStyle.HeaderTemplate>
@@ -32,7 +36,7 @@
                 </ListView.GroupStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <temp:SongItemTemplate Source="{Binding}"/>
+                        <temp:SongItemTemplate Source="{Binding}" PlayRequested="PlayItem_Button_Tapped" AddItemRequested="AddItem_Button_Tapped"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
