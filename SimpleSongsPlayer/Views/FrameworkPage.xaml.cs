@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -27,7 +28,7 @@ namespace SimpleSongsPlayer.Views
             vm = this.DataContext as FrameworkViewModel;
             Close_Button.Visibility = Visibility.Collapsed;
 
-            Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            SystemNavigationManager.GetForCurrentView().BackRequested += System_BackRequested;
             PlayItemChangeNotifier.ItemChanged += PlayItemChangeNotifier_ItemChanged;
         }
 
@@ -47,7 +48,7 @@ namespace SimpleSongsPlayer.Views
             PlayerController.AllSongs = vm.AllSongs;
         }
 
-        private void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
+        private void System_BackRequested(object sender, BackRequestedEventArgs e)
         {
             if (Main_Frame.SourcePageType != typeof(AllSongListsPage))
             {

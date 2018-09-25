@@ -331,11 +331,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsMobile, Version=10.0.14393.0">
-      <Name>Windows Mobile Extensions for the UWP</Name>
-    </SDKReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\SimpleSongsPlayer.DataModel\SimpleSongsPlayer.DataModel.csproj">
       <Project>{b77ca852-6989-4e32-966e-e959d9d5d132}</Project>
       <Name>SimpleSongsPlayer.DataModel</Name>
