@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Playback;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -15,7 +19,11 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using HappyStudio.UwpToolsLibrary.Auxiliarys;
+using HappyStudio.UwpToolsLibrary.Information;
+using NCEWalkman.Models;
 using SimpleSongsPlayer.Views;
+using WinRTExceptions;
 
 namespace SimpleSongsPlayer
 {
@@ -24,6 +32,11 @@ namespace SimpleSongsPlayer
     /// </summary>
     sealed partial class App : Application
     {
+        public const string Email = "kljzndx@outlook.com";
+
+        private static ExceptionHandlingSynchronizationContext exceptionHandlingSynchronizationContext;
+        private static readonly ResourceLoader MessageBoxResourceLoader = ResourceLoader.GetForCurrentView("MessageBox");
+
         public static MediaPlayer Player;
 
         /// <summary>
@@ -34,7 +47,48 @@ namespace SimpleSongsPlayer
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += App_UnhandledException;
         }
+
+        private void EnsureSyncContext()
+        {
+            if (exceptionHandlingSynchronizationContext != null)
+                return;
+
+            exceptionHandlingSynchronizationContext = ExceptionHandlingSynchronizationContext.Register();
+            exceptionHandlingSynchronizationContext.UnhandledException += ExceptionHandlingSynchronizationContext_UnhandledException;
+        }
+
+        private async Task ShowErrorDialog(Exception ex)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine(ExceptionExtension.ErrorTable.GetString("OperationProcess"));
+            builder.AppendLine();
+            builder.AppendLine();
+            builder.AppendLine();
+            builder.AppendLine($"{ExceptionExtension.ErrorTable.GetString("SystemVersion")} {SystemInfo.BuildVersion}");
+            builder.AppendLine(ex.ToLongString());
+
+            string errorReportEmillTitle =
+                $"{HappyStudio.UwpToolsLibrary.Information.AppInfo.Name} {HappyStudio.UwpToolsLibrary.Information.AppInfo.Version} {MessageBoxResourceLoader.GetString("ErrorReportEmillTitle")}";
+
+            var buttons = new Dictionary<string, UICommandInvokedHandler>
+            {
+                {
+                    MessageBoxResourceLoader.GetString("SendErrorReport"),
+                    async c =>
+                    {
+                        await EmailEx.SendAsync(Email, errorReportEmillTitle, builder.ToString());
+                        Application.Current.Exit();
+                    }
+                },
+                {MessageBoxResourceLoader.GetString("Close"), c => Application.Current.Exit()}
+            };
+
+            await MessageBox.ShowAsync(MessageBoxResourceLoader.GetString("ErrorReportDialogTitle"),
+                ex.ToShortString(), buttons);
+        }
+
 
         /// <summary>
         /// 在应用程序由最终用户正常启动时进行调用。
@@ -78,6 +132,8 @@ namespace SimpleSongsPlayer
 
             if (Player is null)
                 Player = new MediaPlayer {AutoPlay = true};
+
+            EnsureSyncContext();
         }
 
         /// <summary>
@@ -102,6 +158,18 @@ namespace SimpleSongsPlayer
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
             deferral.Complete();
+        }
+
+        private async void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            await ShowErrorDialog(e.Exception);
+        }
+
+        private async void ExceptionHandlingSynchronizationContext_UnhandledException(object sender, WinRTExceptions.UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            await ShowErrorDialog(e.Exception);
         }
     }
 }

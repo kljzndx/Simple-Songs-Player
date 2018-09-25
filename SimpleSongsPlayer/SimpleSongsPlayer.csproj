@@ -102,6 +102,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\ExceptionExtension.cs" />
+    <Compile Include="Models\ExceptionHandlingSynchronizationContext.cs" />
     <Compile Include="Models\TimeSpanExtension.cs" />
     <Compile Include="ViewModels\Controllers\PlayerControllerViewModel.cs" />
     <Compile Include="ViewModels\Events\LyricsPreviewRefreshEventArgs.cs" />
@@ -170,6 +172,10 @@
     </AppxManifest>
     <None Include="SimpleSongsPlayer_StoreKey.pfx" />
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="Strings\zh-CN\MessageBox.resw" />
+    <PRIResource Include="Strings\zh-CN\ErrorTable.resw" />
+    <PRIResource Include="Strings\en-US\ErrorTable.resw" />
+    <PRIResource Include="Strings\en-US\MessageBox.resw" />
     <PRIResource Include="Strings\en-US\SongList.resw" />
     <PRIResource Include="Strings\zh-CN\SongList.resw" />
     <PRIResource Include="Strings\en-US\Playing.resw" />
@@ -305,8 +311,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AsyncStackTraceEx">
+      <Version>1.0.1.1</Version>
+    </PackageReference>
     <PackageReference Include="HappyStudio.UwpToolsLibrary.Auxiliarys">
       <Version>1.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="HappyStudio.UwpToolsLibrary.Information">
+      <Version>1.0.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.7</Version>
