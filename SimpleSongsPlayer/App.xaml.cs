@@ -35,7 +35,7 @@ namespace SimpleSongsPlayer
         public const string Email = "kljzndx@outlook.com";
 
         private static ExceptionHandlingSynchronizationContext exceptionHandlingSynchronizationContext;
-        private static readonly ResourceLoader MessageBoxResourceLoader = ResourceLoader.GetForCurrentView("MessageBox");
+        public static readonly ResourceLoader MessageBoxResourceLoader = ResourceLoader.GetForCurrentView("MessageBox");
 
         public static MediaPlayer Player;
 

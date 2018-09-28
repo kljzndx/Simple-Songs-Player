@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
 using GalaSoft.MvvmLight;
+using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using SimpleSongsPlayer.DataModel;
+using SimpleSongsPlayer.DataModel.Exceptions;
 using SimpleSongsPlayer.Operator;
 using SimpleSongsPlayer.Operator.FileScanners;
 
@@ -33,7 +35,18 @@ namespace SimpleSongsPlayer.ViewModels
                     AllSongs.Add(await Song.CreateFromStorageFile(songFile));
 
                 foreach (var lyricsFile in lyricsFiles)
-                    AllLyricBlocks.Add(new LyricBlock(lyricsFile.DisplayName, await FileReader.ReadFileAsync(lyricsFile)));
+                {
+                    try
+                    {
+                        var block = new LyricBlock(lyricsFile.DisplayName, await FileReader.ReadFileAsync(lyricsFile));
+                        AllLyricBlocks.Add(block);
+                    }
+                    catch (LyricsParsingFailedException e)
+                    {
+                        MessageBox.ShowAsync(e.Message, App.MessageBoxResourceLoader.GetString("Close"));
+                        continue;
+                    }
+                }
             }
         }
     }

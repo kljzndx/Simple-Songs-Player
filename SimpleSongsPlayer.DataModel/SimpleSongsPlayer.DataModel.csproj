@@ -107,6 +107,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Attributes\LyricsTagAttribute.cs" />
+    <Compile Include="Exceptions\ExceptionResource.cs" />
+    <Compile Include="Exceptions\LyricsParsingFailedException.cs" />
     <Compile Include="LyricBlock.cs" />
     <Compile Include="LyricLine.cs" />
     <Compile Include="LyricsProperties.cs" />
@@ -120,6 +122,7 @@
       <Version>6.1.7</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

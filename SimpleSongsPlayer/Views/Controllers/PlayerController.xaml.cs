@@ -16,7 +16,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using SimpleSongsPlayer.DataModel;
+using SimpleSongsPlayer.DataModel.Exceptions;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Controllers;
 using SimpleSongsPlayer.ViewModels.Events;
@@ -159,10 +161,22 @@ namespace SimpleSongsPlayer.Views.Controllers
         private void Player_SourceChanged(MediaPlayer sender, object args)
         {
             if (vm.PlayerSource != null)
+            {
                 vm.PlayerSource.CurrentItemChanged -= PlayerSource_CurrentItemChanged;
+            }
 
             vm.PlayerSource = (MediaPlaybackList) sender.Source;
             vm.PlayerSource.CurrentItemChanged += PlayerSource_CurrentItemChanged;
+            vm.PlayerSource.ItemFailed += PlayerSource_ItemFailed;
+        }
+
+        private async void PlayerSource_ItemFailed(MediaPlaybackList sender, MediaPlaybackItemFailedEventArgs args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                MessageBox.ShowAsync(ExceptionResource.ErrorInfoStrings.GetString("SongLoadFail"),
+                    App.MessageBoxResourceLoader.GetString("Close"));
+            });
         }
 
         private async void PlayerSource_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)

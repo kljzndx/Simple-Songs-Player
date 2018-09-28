@@ -19,7 +19,7 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>SimpleSongsPlayer_StoreKey.pfx</PackageCertificateKeyFile>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>1F70F404DB2A4224950A3D383E71ED6ECC216E1B</PackageCertificateThumbprint>
@@ -172,6 +172,8 @@
     </AppxManifest>
     <None Include="SimpleSongsPlayer_StoreKey.pfx" />
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="Strings\zh-CN\ErrorInfo.resw" />
+    <PRIResource Include="Strings\en-US\ErrorInfo.resw" />
     <PRIResource Include="Strings\zh-CN\MessageBox.resw" />
     <PRIResource Include="Strings\zh-CN\ErrorTable.resw" />
     <PRIResource Include="Strings\en-US\ErrorTable.resw" />
