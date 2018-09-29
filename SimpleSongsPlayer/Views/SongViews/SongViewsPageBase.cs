@@ -64,22 +64,18 @@ namespace SimpleSongsPlayer.Views.SongViews
         {
             e.Handled = true;
             var btn = sender as FrameworkElement;
-            if (btn is null)
-                return;
-            var group = btn.DataContext as SongsGroup;
-
-            vmb.Push(group.Items);
+            var group = btn?.DataContext as SongsGroup;
+            if (group != null)
+                vmb.Push(group.Items);
         }
 
         protected void AddGroup_Button_Tapped(object sender, TappedRoutedEventArgs e)
         {
             e.Handled = true;
             var btn = sender as FrameworkElement;
-            if (btn is null)
-                return;
-            var group = btn.DataContext as SongsGroup;
-
-            vmb.Append(group.Items);
+            var group = btn?.DataContext as SongsGroup;
+            if (group != null)
+                vmb.Append(group.Items);
         }
     }
 }
