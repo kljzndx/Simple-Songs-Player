@@ -260,7 +260,14 @@ namespace SimpleSongsPlayer.Views.Controllers
             if (vm.PlayerSource == null)
                 return;
 
-            List<Song> playList = vm.PlayerSource.Items.Select(item => AllSongs.Find(s => s.PlaybackItem == item)).ToList();
+            List<Song> playList = new List<Song>();
+            foreach (var item in vm.PlayerSource.Items)
+            {
+                var fundSong = AllSongs.FirstOrDefault(s => s.PlaybackItem == item);
+                if (fundSong != null)
+                    playList.Add(fundSong);
+            }
+
             PlayList_ListView.ItemsSource = playList;
             PlayList_ListView.ScrollIntoView(vm.CurrentSong, ScrollIntoViewAlignment.Leading);
         }
