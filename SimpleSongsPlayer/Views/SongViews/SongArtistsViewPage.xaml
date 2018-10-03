@@ -43,6 +43,11 @@
 
         <SemanticZoom.ZoomedOutView>
             <GridView ItemsSource="{Binding GroupsDataSource.View.CollectionGroups, Mode=OneWay}" VerticalAlignment="Center">
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="MinWidth" Value="100"/>
+                    </Style>
+                </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Group.Name, Mode=OneWay}"/>
