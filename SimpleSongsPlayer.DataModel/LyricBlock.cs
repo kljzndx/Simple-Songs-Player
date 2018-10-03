@@ -9,7 +9,7 @@ namespace SimpleSongsPlayer.DataModel
 {
     public class LyricBlock
     {
-        private static readonly Regex LyricLineRegex = new Regex(@"\[(?<min>\d+)\:(?<ss>\d{2}).(?<ms>\d{1,3})\](?<content>.*)");
+        private static readonly Regex LyricLineRegex = new Regex(@"^\[(?<min>\d+)\:(?<ss>\d{2}).(?<ms>\d{1,3})\](?<content>.*)");
 
         /// <summary>
         /// 通过文本创建歌词
@@ -34,7 +34,7 @@ namespace SimpleSongsPlayer.DataModel
 
                 string str = item.Trim();
 
-                var match = LyricLineRegex.Match(item);
+                var match = LyricLineRegex.Match(str);
                 if (match.Success)
                 {
                     try
@@ -65,7 +65,7 @@ namespace SimpleSongsPlayer.DataModel
                 }
                 else if (currentLine != null)
                 {
-                    builder.AppendLine(str.Trim());
+                    builder.AppendLine(str);
                 }
             }
 

@@ -34,7 +34,7 @@ namespace SimpleSongsPlayer.DataModel
                 if (attribute is null)
                     continue;
 
-                Regex regex = new Regex($@"\[{attribute.Name}\:(?<value>.*)\]");
+                Regex regex = new Regex($@"^\[{attribute.Name}\:(?<value>.*)\]");
                 var match = regex.Match(from);
                 if (match.Success)
                     fieldInfo.SetValue(this, match.Groups["value"].Value);
