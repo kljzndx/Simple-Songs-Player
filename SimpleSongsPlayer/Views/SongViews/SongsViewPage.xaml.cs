@@ -30,7 +30,7 @@ namespace SimpleSongsPlayer.Views.SongViews
     {
         private readonly SongsViewModel vm;
 
-        public SongsViewPage() : base(((ViewModelLocator)Application.Current.Resources["Locator"]).Songs)
+        public SongsViewPage() : base(((ViewModelLocator)Application.Current.Resources["Locator"]).SongsLocator.Songs)
         {
             this.InitializeComponent();
             vm = base.GetViewModel<SongsViewModel>();

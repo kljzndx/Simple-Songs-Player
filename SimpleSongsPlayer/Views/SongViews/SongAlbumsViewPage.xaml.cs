@@ -28,7 +28,7 @@ namespace SimpleSongsPlayer.Views.SongViews
     {
         private readonly SongAlbumsViewModel vm;
 
-        public SongAlbumsViewPage() : base(((ViewModelLocator)Application.Current.Resources["Locator"]).SongAlbums)
+        public SongAlbumsViewPage() : base(((ViewModelLocator)Application.Current.Resources["Locator"]).SongsLocator.SongAlbums)
         {
             this.InitializeComponent();
             vm = base.GetViewModel<SongAlbumsViewModel>();
