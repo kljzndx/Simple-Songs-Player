@@ -46,6 +46,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </SemanticZoom.ZoomedInView>
+
             <SemanticZoom.ZoomedOutView>
                 <GridView Width="200" ItemContainerStyleSelector="{StaticResource SymbolIndexItemStyleSelector}" ItemsSource="{Binding GroupsDataSource.View.CollectionGroups}">
                     <GridView.ItemTemplate>
@@ -56,6 +57,7 @@
                 </GridView>
             </SemanticZoom.ZoomedOutView>
         </SemanticZoom>
+
         <Button x:Name="PlayAll_Button" x:Uid="/SongList/PlayAll_Button" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,56,36" Click="PlayAll_Button_Click">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
