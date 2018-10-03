@@ -10,15 +10,52 @@
     mc:Ignorable="d"
     DataContext="{x:Bind vm}">
 
-    <Grid>
-        <ListView ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" ItemContainerStyle="{StaticResource ExtensionListViewItem_Style}" SelectionChanged="Songs_ListView_SelectionChanged" DoubleTapped="ListView_DoubleTapped">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <temp:SongItemTemplate Source="{Binding}" PlayRequested="PlayItem_Button_Tapped" AddItemRequested="AddItem_Button_Tapped"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+    <Page.Resources>
+        <model:SymbolIndexItemStyleSelector x:Key="SymbolIndexItemStyleSelector"/>
+    </Page.Resources>
 
+    <Grid>
+        <SemanticZoom>
+            <SemanticZoom.ZoomedInView>
+                <ListView ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" ItemContainerStyle="{StaticResource ExtensionListViewItem_Style}" SelectionChanged="Songs_ListView_SelectionChanged" DoubleTapped="ListView_DoubleTapped">
+                    <ListView.GroupStyle>
+                        <GroupStyle HidesIfEmpty="True" HeaderContainerStyle="{StaticResource ExtensionListViewHeaderItem_Style}">
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="{Binding Name, Mode=OneWay}"/>
+
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                            <Button x:Name="PlayGroup_Button" x:Uid="/SongList/PlayGroup_Button" Content="&#xE102;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="PlayGroup_Button_Tapped"/>
+                                            <Button x:Name="AddGroup_Button" x:Uid="/SongList/AddGroup_Button" Content="&#xE109;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="AddGroup_Button_Tapped"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ListView.GroupStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <temp:SongItemTemplate Source="{Binding}" PlayRequested="PlayItem_Button_Tapped" AddItemRequested="AddItem_Button_Tapped"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </SemanticZoom.ZoomedInView>
+            <SemanticZoom.ZoomedOutView>
+                <GridView Width="200" ItemContainerStyleSelector="{StaticResource SymbolIndexItemStyleSelector}" ItemsSource="{Binding GroupsDataSource.View.CollectionGroups}">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Group.Name}" FontSize="{ThemeResource TextStyleLargeFontSize}"/>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </SemanticZoom.ZoomedOutView>
+        </SemanticZoom>
         <Button x:Name="PlayAll_Button" x:Uid="/SongList/PlayAll_Button" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,56,36" Click="PlayAll_Button_Click">
             <Button.Template>
                 <ControlTemplate TargetType="Button">

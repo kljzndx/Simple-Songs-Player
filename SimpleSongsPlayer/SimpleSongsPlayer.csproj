@@ -104,6 +104,7 @@
     </Compile>
     <Compile Include="Models\ExceptionExtension.cs" />
     <Compile Include="Models\ExceptionHandlingSynchronizationContext.cs" />
+    <Compile Include="Models\SymbolIndexItemStyleSelector.cs" />
     <Compile Include="Models\TimeSpanExtension.cs" />
     <Compile Include="ViewModels\Controllers\PlayerControllerViewModel.cs" />
     <Compile Include="ViewModels\Events\LyricsPreviewRefreshEventArgs.cs" />
