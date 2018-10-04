@@ -351,6 +351,7 @@
                         <Setter Target="PositionArea_Grid.(Grid.Row)" Value="0"/>
                         <Setter Target="PositionArea_Grid.(Grid.Column)" Value="0"/>
                         <Setter Target="PositionArea_Grid.(Grid.ColumnSpan)" Value="4"/>
+                        <Setter Target="PlayList_Grid.(Grid.Width)" Value="250"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
@@ -431,7 +432,7 @@
             <Button x:Name="PlayList_Button" x:Uid="/PlayerController/PlayList_Button" Content="&#xE142;">
                 <Button.Flyout>
                     <Flyout x:Name="PlayList_Flyout" Opened="PlayList_Flyout_Opened">
-                        <Grid Width="430" Height="300">
+                        <Grid x:Name="PlayList_Grid" Width="430" Height="300">
                             <Grid.Resources>
                                 <Style TargetType="Button" BasedOn="{StaticResource ControllerButton_Style}"/>
                             </Grid.Resources>
@@ -452,17 +453,20 @@
                             <ListView x:Name="PlayList_ListView" Grid.Row="1" IsItemClickEnabled="True" ItemClick="PlayList_ListView_ItemClick">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid>
+                                        <Grid Margin="0,8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition/>
-                                                <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
 
-                                            <Polygon Margin="0,0,8,0" Points="0,0, 18,9, 0,18" Fill="{ThemeResource SystemControlForegroundAccentBrush}" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" StrokeThickness="2" Visibility="{Binding IsPlaying, Mode=OneWay}"/>
+                                            <Polygon Grid.RowSpan="2" VerticalAlignment="Center" Margin="0,0,8,0" Points="0,0, 18,9, 0,18" Fill="{ThemeResource SystemControlForegroundAccentBrush}" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" StrokeThickness="2" Visibility="{Binding IsPlaying, Mode=OneWay}"/>
 
-                                            <TextBlock Grid.Column="1" Text="{Binding Title}"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding Singer}"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Title}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                                            <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Singer}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
