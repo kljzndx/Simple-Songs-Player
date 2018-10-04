@@ -45,7 +45,7 @@
             <GridView ItemsSource="{Binding GroupsDataSource.View.CollectionGroups, Mode=OneWay}" VerticalAlignment="Center">
                 <GridView.ItemContainerStyle>
                     <Style TargetType="GridViewItem">
-                        <Setter Property="MinWidth" Value="100"/>
+                        <Setter Property="MinWidth" Value="120"/>
                     </Style>
                 </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
