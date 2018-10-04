@@ -47,6 +47,7 @@ namespace SimpleSongsPlayer.Views
             AllSongs_Frame.Navigate(typeof(Page));
             AllSongArtists_Frame.Navigate(typeof(Page));
             AllSongAlbums_Frame.Navigate(typeof(Page));
+            AllSongFolders_Frame.Navigate(typeof(Page));
 
             switch (Main_Pivot.SelectedIndex)
             {
