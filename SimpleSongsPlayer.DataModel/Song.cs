@@ -15,9 +15,14 @@ namespace SimpleSongsPlayer.DataModel
         private bool isPlaying;
         private bool isSelected;
 
-        private Song(string fileName, string title, string singer, string album, BitmapSource albumCover, TimeSpan duration, MediaPlaybackItem playbackItem)
+        public Song(string folderName, string fileName)
         {
+            FolderName = folderName;
             FileName = fileName;
+        }
+
+        private Song(string folderName, string fileName, string title, string singer, string album, BitmapSource albumCover, TimeSpan duration, MediaPlaybackItem playbackItem) : this(folderName, fileName)
+        {
             Title = title;
             Singer = "未知歌手";
             Album = "未知专辑";
@@ -43,6 +48,7 @@ namespace SimpleSongsPlayer.DataModel
             set => Set(ref isSelected, value);
         }
 
+        public string FolderName { get; }
         public string FileName { get; }
         public string Title { get; }
         public string Singer { get; }
@@ -53,6 +59,7 @@ namespace SimpleSongsPlayer.DataModel
 
         public static async Task<Song> CreateFromStorageFile(StorageFile file)
         {
+            var baseFolder = await file.GetParentAsync();
             var property = await file.Properties.GetMusicPropertiesAsync();
 
             var coverSource = await file.GetThumbnailAsync(ThumbnailMode.MusicView);
@@ -72,7 +79,7 @@ namespace SimpleSongsPlayer.DataModel
 
             playbackItem.ApplyDisplayProperties(mediaProperties);
             
-            return new Song(file.DisplayName, String.IsNullOrWhiteSpace(property.Title) ? file.DisplayName : property.Title,
+            return new Song(baseFolder.Name, file.DisplayName, String.IsNullOrWhiteSpace(property.Title) ? file.DisplayName : property.Title,
                 property.Artist, property.Album, cover, property.Duration, playbackItem);
         }
     }
