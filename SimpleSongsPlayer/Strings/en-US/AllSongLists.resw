@@ -123,6 +123,9 @@
   <data name="SongArtists_PivotItem.Header" xml:space="preserve">
     <value>Singer</value>
   </data>
+  <data name="SongFolders_PivotItem.Header" xml:space="preserve">
+    <value>Folder</value>
+  </data>
   <data name="Songs_PivotItem.Header" xml:space="preserve">
     <value>Song</value>
   </data>

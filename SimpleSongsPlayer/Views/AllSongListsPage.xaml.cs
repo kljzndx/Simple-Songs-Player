@@ -59,6 +59,9 @@ namespace SimpleSongsPlayer.Views
                 case 2:
                     AllSongAlbums_Frame.Navigate(typeof(SongAlbumsViewPage), vm.AllSongs);
                     break;
+                case 3:
+                    AllSongFolders_Frame.Navigate(typeof(SongsFoldersViewPage), vm.AllSongs);
+                    break;
                 default:
                     throw new Exception("未找到对应处理器");
             }

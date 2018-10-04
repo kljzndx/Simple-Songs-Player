@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -13,7 +12,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.SongViewModels;
 
@@ -24,14 +22,14 @@ namespace SimpleSongsPlayer.Views.SongViews
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class SongArtistsViewPage : SongViewsPageBase
+    public sealed partial class SongsFoldersViewPage : SongViewsPageBase
     {
-        private readonly SongArtistsViewModel vm;
+        private readonly SongsFoldersViewModel vm;
 
-        public SongArtistsViewPage() : base(((ViewModelLocator)Application.Current.Resources["Locator"]).SongsLocator.SongArtists)
+        public SongsFoldersViewPage() : base(((ViewModelLocator)Application.Current.Resources["Locator"]).SongsLocator.SongFolders)
         {
             this.InitializeComponent();
-            vm = base.GetViewModel<SongArtistsViewModel>();
+            vm = base.GetViewModel<SongsFoldersViewModel>();
         }
     }
 }

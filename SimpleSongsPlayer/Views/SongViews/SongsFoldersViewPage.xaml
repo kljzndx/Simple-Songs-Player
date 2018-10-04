@@ -1,5 +1,5 @@
 ﻿<local:SongViewsPageBase
-    x:Class="SimpleSongsPlayer.Views.SongViews.SongAlbumsViewPage"
+    x:Class="SimpleSongsPlayer.Views.SongViews.SongsFoldersViewPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SimpleSongsPlayer.Views.SongViews"
@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    DataContext="{x:Bind vm}">
+    DataContext="{x:Bind vm, Mode=OneWay}">
 
     <SemanticZoom>
         <SemanticZoom.ZoomedInView>
@@ -18,14 +18,13 @@
                             <DataTemplate>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image Width="48" Height="48" Stretch="Uniform" Source="{Binding AlbumCover}"/>
-                                    <TextBlock Grid.Column="1" Text="{Binding Name}" Margin="5,0" VerticalAlignment="Center"/>
 
-                                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name, Mode=OneWay}"/>
+
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
                                         <Button x:Name="PlayGroup_Button" x:Uid="/SongList/PlayGroup_Button" Content="&#xE102;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="PlayGroup_Button_Tapped"/>
                                         <Button x:Name="AddGroup_Button" x:Uid="/SongList/AddGroup_Button" Content="&#xE109;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="AddGroup_Button_Tapped"/>
                                     </StackPanel>
@@ -34,6 +33,7 @@
                         </GroupStyle.HeaderTemplate>
                     </GroupStyle>
                 </ListView.GroupStyle>
+
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <temp:SongItemTemplate Source="{Binding}" PlayRequested="PlayItem_Button_Tapped" AddItemRequested="AddItem_Button_Tapped"/>
@@ -43,17 +43,15 @@
         </SemanticZoom.ZoomedInView>
 
         <SemanticZoom.ZoomedOutView>
-            <GridView ItemsSource="{Binding GroupsDataSource.View.CollectionGroups}">
+            <GridView ItemsSource="{Binding GroupsDataSource.View.CollectionGroups, Mode=OneWay}" VerticalAlignment="Center">
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="MinWidth" Value="100"/>
+                    </Style>
+                </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
-                            <Image Width="96" Height="96" Source="{Binding Group.AlbumCover}"/>
-                            <TextBlock Text="{Binding Group.Name}" TextWrapping="Wrap" Margin="0,4,0,0" Style="{ThemeResource BodyTextBlockStyle}"/>
-                            <TextBlock HorizontalAlignment="Right" Margin="0,2,0,0" Style="{ThemeResource CaptionTextBlockStyle}">
-                                <Run Text="{Binding Group.Items.Count}"/>
-                                <Run Text=" 首"/>
-                            </TextBlock>
-                        </StackPanel>
+                        <TextBlock Text="{Binding Group.Name, Mode=OneWay}"/>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>

@@ -18,5 +18,8 @@
         <PivotItem x:Name="SongAlbums_PivotItem" x:Uid="/AllSongLists/SongAlbums_PivotItem">
             <Frame x:Name="AllSongAlbums_Frame"/>
         </PivotItem>
+        <PivotItem x:Name="SongFolders_PivotItem" x:Uid="/AllSongLists/SongFolders_PivotItem">
+            <Frame x:Name="AllSongFolders_Frame"/>
+        </PivotItem>
     </Pivot>
 </Page>

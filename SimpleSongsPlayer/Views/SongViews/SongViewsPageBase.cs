@@ -50,6 +50,13 @@ namespace SimpleSongsPlayer.Views.SongViews
             song.IsSelected = true;
         }
 
+        public void Songs_ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            FrameworkElement args = e.OriginalSource as FrameworkElement;
+            if (args.DataContext is Song theSong)
+                vmb.Push(theSong);
+        }
+
         protected void PlayItem_Button_Tapped(SongItemTemplate sender, EventArgs args)
         {
             vmb.Push(sender.Source);

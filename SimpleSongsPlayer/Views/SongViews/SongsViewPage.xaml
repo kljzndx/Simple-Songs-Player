@@ -17,7 +17,7 @@
     <Grid>
         <SemanticZoom>
             <SemanticZoom.ZoomedInView>
-                <ListView ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" ItemContainerStyle="{StaticResource ExtensionListViewItem_Style}" SelectionChanged="Songs_ListView_SelectionChanged" DoubleTapped="ListView_DoubleTapped">
+                <ListView ItemsSource="{Binding GroupsDataSource.View, Mode=OneWay}" ItemContainerStyle="{StaticResource ExtensionListViewItem_Style}" SelectionChanged="Songs_ListView_SelectionChanged" DoubleTapped="Songs_ListView_DoubleTapped">
                     <ListView.GroupStyle>
                         <GroupStyle HidesIfEmpty="True" HeaderContainerStyle="{StaticResource ExtensionListViewHeaderItem_Style}">
                             <GroupStyle.HeaderTemplate>

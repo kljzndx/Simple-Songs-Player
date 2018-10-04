@@ -36,13 +36,6 @@ namespace SimpleSongsPlayer.Views.SongViews
             vm = base.GetViewModel<SongsViewModel>();
         }
 
-        private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            FrameworkElement args = e.OriginalSource as FrameworkElement;
-            if (args?.DataContext is Song theSong)
-                vm.Push(theSong);
-        }
-
         private void PlayAll_Button_Click(object sender, RoutedEventArgs e)
         {
             vm.Push(vm.GetSongs("$all$"));

@@ -104,6 +104,7 @@
     </Compile>
     <Compile Include="Models\ExceptionExtension.cs" />
     <Compile Include="Models\ExceptionHandlingSynchronizationContext.cs" />
+    <Compile Include="Models\Factories\AllSongsFoldersFactory.cs" />
     <Compile Include="Models\SymbolIndexItemStyleSelector.cs" />
     <Compile Include="Models\TimeSpanExtension.cs" />
     <Compile Include="ViewModels\Controllers\PlayerControllerViewModel.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
     <Compile Include="ViewModels\PlayingViewModel.cs" />
     <Compile Include="ViewModels\SettingProperties.cs" />
+    <Compile Include="ViewModels\SongViewModels\SongsFoldersViewModel.cs" />
     <Compile Include="ViewModels\SongViewModels\SongsViewModelLocator.cs" />
     <Compile Include="Views\AllSongListsPage.xaml.cs">
       <DependentUpon>AllSongListsPage.xaml</DependentUpon>
@@ -162,6 +164,9 @@
     </Compile>
     <Compile Include="Views\SongViews\SongArtistsViewPage.xaml.cs">
       <DependentUpon>SongArtistsViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SongViews\SongsFoldersViewPage.xaml.cs">
+      <DependentUpon>SongsFoldersViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SongViews\SongsViewPage.xaml.cs">
       <DependentUpon>SongsViewPage.xaml</DependentUpon>
@@ -306,6 +311,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SongViews\SongArtistsViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SongViews\SongsFoldersViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
