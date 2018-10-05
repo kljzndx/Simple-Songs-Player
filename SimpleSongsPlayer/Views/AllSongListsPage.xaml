@@ -8,18 +8,40 @@
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource Locator}, Path=AllSongLists}">
 
-    <Pivot x:Name="Main_Pivot" SelectionChanged="Main_Pivot_SelectionChanged">
-        <PivotItem x:Name="Songs_PivotItem" x:Uid="/AllSongLists/Songs_PivotItem">
-            <Frame x:Name="AllSongs_Frame"/>
-        </PivotItem>
-        <PivotItem x:Name="SongArtists_PivotItem" x:Uid="/AllSongLists/SongArtists_PivotItem">
-            <Frame x:Name="AllSongArtists_Frame"/>
-        </PivotItem>
-        <PivotItem x:Name="SongAlbums_PivotItem" x:Uid="/AllSongLists/SongAlbums_PivotItem">
-            <Frame x:Name="AllSongAlbums_Frame"/>
-        </PivotItem>
-        <PivotItem x:Name="SongFolders_PivotItem" x:Uid="/AllSongLists/SongFolders_PivotItem">
-            <Frame x:Name="AllSongFolders_Frame"/>
-        </PivotItem>
-    </Pivot>
+    <Page.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource ControllerButton_Style}"/>
+    </Page.Resources>
+
+    <SplitView x:Name="Root_SplitView" PanePlacement="Right">
+        <SplitView.Pane>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="设置" Style="{ThemeResource TitleTextBlockStyle}" Margin="8"/>
+
+                <Frame Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" SourcePageType="local:SettingsPage"/>
+            </Grid>
+        </SplitView.Pane>
+
+        <Pivot x:Name="Main_Pivot" SelectionChanged="Main_Pivot_SelectionChanged">
+            <Pivot.RightHeader>
+                <Button x:Name="Settings_Button" Content="&#xE115;" Click="Settings_Button_OnClick"/>
+            </Pivot.RightHeader>
+            <PivotItem x:Name="Songs_PivotItem" x:Uid="/AllSongLists/Songs_PivotItem">
+                <Frame x:Name="AllSongs_Frame"/>
+            </PivotItem>
+            <PivotItem x:Name="SongArtists_PivotItem" x:Uid="/AllSongLists/SongArtists_PivotItem">
+                <Frame x:Name="AllSongArtists_Frame"/>
+            </PivotItem>
+            <PivotItem x:Name="SongAlbums_PivotItem" x:Uid="/AllSongLists/SongAlbums_PivotItem">
+                <Frame x:Name="AllSongAlbums_Frame"/>
+            </PivotItem>
+            <PivotItem x:Name="SongFolders_PivotItem" x:Uid="/AllSongLists/SongFolders_PivotItem">
+                <Frame x:Name="AllSongFolders_Frame"/>
+            </PivotItem>
+        </Pivot>
+    </SplitView>
 </Page>

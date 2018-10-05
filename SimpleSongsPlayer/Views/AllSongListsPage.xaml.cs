@@ -67,5 +67,10 @@ namespace SimpleSongsPlayer.Views
                     throw new Exception("未找到对应处理器");
             }
         }
+
+        private void Settings_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            Root_SplitView.IsPaneOpen = !Root_SplitView.IsPaneOpen;
+        }
     }
 }
