@@ -46,7 +46,10 @@ namespace SimpleSongsPlayer.Views.SongViews
                 foreach (var item in sg.Items)
                     item.IsSelected = false;
 
-            var song = e.AddedItems.First() as Song;
+            var song = e.AddedItems.FirstOrDefault() as Song;
+            if (song is null)
+                return;
+
             song.IsSelected = true;
         }
 
