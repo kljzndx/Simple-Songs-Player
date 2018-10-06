@@ -24,14 +24,26 @@ namespace SimpleSongsPlayer.Views
     /// </summary>
     public sealed partial class SettingsPage : Page
     {
+        private StorageLibrary musicLibrary;
+
         public SettingsPage()
         {
             this.InitializeComponent();
+
+            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
-        private void OpenMusicsPathsManager_Button_OnClick(object sender, RoutedEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            MusicPathsManager_ContentDialog.ShowAsync();
+            base.OnNavigatedTo(e);
+
+            musicLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
+            MusicPaths_ListView.ItemsSource = musicLibrary.Folders;
+        }
+
+        private async void OpenMusicsPathsManager_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            await MusicPathsManager_ContentDialog.ShowAsync();
         }
 
         private void ReScan_Button_OnClick(object sender, RoutedEventArgs e)
@@ -39,6 +51,16 @@ namespace SimpleSongsPlayer.Views
             Frame rootFrame = Window.Current.Content as Frame;
 
             rootFrame?.Navigate(typeof(LoadingPage));
+        }
+
+        private async void AddFolder_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            await musicLibrary.RequestAddFolderAsync();
+        }
+
+        private async void MusicPaths_ListView_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            await musicLibrary.RequestRemoveFolderAsync((StorageFolder) e.ClickedItem);
         }
     }
 }

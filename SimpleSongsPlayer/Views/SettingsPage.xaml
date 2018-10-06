@@ -44,8 +44,23 @@
                 <Button x:Name="ReScan_Button" Content="重新扫描音乐" Click="ReScan_Button_OnClick"/>
             </StackPanel>
 
-            <ContentDialog x:Name="MusicPathsManager_ContentDialog" Title="扫描位置管理" SecondaryButtonText="关闭" >
-                
+            <ContentDialog x:Name="MusicPathsManager_ContentDialog" Title="扫描位置管理" SecondaryButtonText="关闭">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Button x:Name="AddFolder_Button" BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}" Content="添加文件夹" FontFamily="Segoe UI" HorizontalAlignment="Stretch" Margin="0,8" Click="AddFolder_Button_OnClick"/>
+
+                    <ListView x:Name="MusicPaths_ListView" Grid.Row="1" MaxHeight="300" SelectionMode="None" IsItemClickEnabled="True" ItemClick="MusicPaths_ListView_OnItemClick">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Path}" TextWrapping="Wrap"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
             </ContentDialog>
         </Grid>
     </Grid>
