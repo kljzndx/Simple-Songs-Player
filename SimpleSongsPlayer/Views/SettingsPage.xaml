@@ -51,7 +51,7 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <Button x:Name="AddFolder_Button" BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}" Content="添加文件夹" FontFamily="Segoe UI" HorizontalAlignment="Stretch" Margin="0,8" Click="AddFolder_Button_OnClick"/>
+                    <Button x:Name="AddFolder_Button" BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}" Content="添加文件夹" HorizontalAlignment="Stretch" Margin="0,8" Click="AddFolder_Button_OnClick"/>
 
                     <ListView x:Name="MusicPaths_ListView" Grid.Row="1" MaxHeight="300" SelectionMode="None" IsItemClickEnabled="True" ItemClick="MusicPaths_ListView_OnItemClick">
                         <ListView.ItemTemplate>

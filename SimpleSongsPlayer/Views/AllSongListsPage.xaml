@@ -9,7 +9,7 @@
     DataContext="{Binding Source={StaticResource Locator}, Path=AllSongLists}">
 
     <Page.Resources>
-        <Style TargetType="Button" BasedOn="{StaticResource ControllerButton_Style}"/>
+        <Style x:Key="TopButton_Style" TargetType="Button" BasedOn="{StaticResource ControllerButton_Style}"/>
     </Page.Resources>
 
     <SplitView x:Name="Root_SplitView" PanePlacement="Right">
@@ -28,7 +28,7 @@
 
         <Pivot x:Name="Main_Pivot" SelectionChanged="Main_Pivot_SelectionChanged">
             <Pivot.RightHeader>
-                <Button x:Name="Settings_Button" Content="&#xE115;" Click="Settings_Button_OnClick"/>
+                <Button x:Name="Settings_Button" Content="&#xE115;" Style="{StaticResource TopButton_Style}" Click="Settings_Button_OnClick"/>
             </Pivot.RightHeader>
             <PivotItem x:Name="Songs_PivotItem" x:Uid="/AllSongLists/Songs_PivotItem">
                 <Frame x:Name="AllSongs_Frame"/>
