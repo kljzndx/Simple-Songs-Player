@@ -32,6 +32,7 @@ namespace SimpleSongsPlayer.Views
         {
             this.InitializeComponent();
             vm = DataContext as PlayingViewModel;
+            NavigationCacheMode = NavigationCacheMode.Enabled;
 
             PlayItemChangeNotifier.ItemChanged += PlayItemChangeNotifier_ItemChanged;
             PositionChangeNotifier.PositionChanged += PositionChangeNotifier_PositionChanged;

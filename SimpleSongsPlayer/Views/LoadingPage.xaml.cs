@@ -44,6 +44,8 @@ namespace SimpleSongsPlayer.Views
 
             FadeIn_Storyboard.Begin();
             Information_TextBlock.Text = strs.GetString("Scanning");
+            if (App.Player != null)
+                App.Player.Source = null;
             await vm.ScanFolders(new List<StorageFolder> {KnownFolders.MusicLibrary});
             Information_TextBlock.Text = strs.GetString("Scanned");
             FadeOut_Storyboard.Begin();

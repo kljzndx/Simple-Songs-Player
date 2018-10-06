@@ -27,6 +27,7 @@ namespace SimpleSongsPlayer.Views
             this.InitializeComponent();
             vm = this.DataContext as FrameworkViewModel;
             Close_Button.Visibility = Visibility.Collapsed;
+            NavigationCacheMode = NavigationCacheMode.Enabled;
 
             SystemNavigationManager.GetForCurrentView().BackRequested += System_BackRequested;
             PlayItemChangeNotifier.ItemChanged += PlayItemChangeNotifier_ItemChanged;
@@ -34,8 +35,6 @@ namespace SimpleSongsPlayer.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
-
             if (e.Parameter is ValueTuple<List<Song>, List<LyricBlock>> tuple)
             {
                 vm.AllSongs = tuple.Item1;
@@ -47,6 +46,13 @@ namespace SimpleSongsPlayer.Views
             Main_Frame.Navigate(typeof(AllSongListsPage), vm.AllSongs);
             PlayerController.AllSongs = vm.AllSongs;
         }
+
+        //protected override void OnNavigatedFrom(NavigationEventArgs e)
+        //{
+        //    base.OnNavigatedFrom(e);
+        //    Main_Frame.Navigate(typeof(Page));
+        //    Main_Frame.BackStack.Clear();
+        //}
 
         private void System_BackRequested(object sender, BackRequestedEventArgs e)
         {

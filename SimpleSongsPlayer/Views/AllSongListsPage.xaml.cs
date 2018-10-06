@@ -40,6 +40,8 @@ namespace SimpleSongsPlayer.Views
 
             if (e.Parameter is List<Song> allSongs)
                 vm.AllSongs = allSongs;
+
+            Main_Pivot_SelectionChanged(null, null);
         }
 
         private void Main_Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)

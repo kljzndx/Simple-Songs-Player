@@ -163,7 +163,12 @@ namespace SimpleSongsPlayer.Views.Controllers
             if (vm.PlayerSource != null)
             {
                 vm.PlayerSource.CurrentItemChanged -= PlayerSource_CurrentItemChanged;
+                vm.PlayerSource.ItemFailed -= PlayerSource_ItemFailed;
+                vm.PlayerSource = null;
             }
+
+            if (sender.Source == null)
+                return;
 
             vm.PlayerSource = (MediaPlaybackList) sender.Source;
             vm.PlayerSource.CurrentItemChanged += PlayerSource_CurrentItemChanged;

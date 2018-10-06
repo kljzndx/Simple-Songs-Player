@@ -20,6 +20,7 @@ namespace SimpleSongsPlayer.Views.SongViews
         protected SongViewsPageBase(SongViewModelBase vm)
         {
             vmb = vm;
+            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         protected T GetViewModel<T>() where T : SongViewModelBase
