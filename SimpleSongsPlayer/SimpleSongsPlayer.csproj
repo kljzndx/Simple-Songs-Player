@@ -182,6 +182,8 @@
     </AppxManifest>
     <None Include="SimpleSongsPlayer_StoreKey.pfx" />
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="Strings\zh-CN\SettingsPage.resw" />
+    <PRIResource Include="Strings\en-US\SettingsPage.resw" />
     <PRIResource Include="Strings\zh-CN\ErrorInfo.resw" />
     <PRIResource Include="Strings\en-US\ErrorInfo.resw" />
     <PRIResource Include="Strings\zh-CN\MessageBox.resw" />

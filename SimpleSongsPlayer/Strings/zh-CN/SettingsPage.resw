@@ -117,19 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Settings_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Settings</value>
+  <data name="AddFolder_Button.Content" xml:space="preserve">
+    <value>添加文件夹</value>
   </data>
-  <data name="SongAlbums_PivotItem.Header" xml:space="preserve">
-    <value>Album</value>
+  <data name="ManageScanLocations_Button.Content" xml:space="preserve">
+    <value>管理扫描位置</value>
   </data>
-  <data name="SongArtists_PivotItem.Header" xml:space="preserve">
-    <value>Singer</value>
+  <data name="MusicPathsManager_ContentDialog.SecondaryButtonText" xml:space="preserve">
+    <value>关闭</value>
   </data>
-  <data name="SongFolders_PivotItem.Header" xml:space="preserve">
-    <value>Folder</value>
+  <data name="MusicPathsManager_ContentDialog.Title" xml:space="preserve">
+    <value>扫描位置管理</value>
   </data>
-  <data name="Songs_PivotItem.Header" xml:space="preserve">
-    <value>Song</value>
+  <data name="MusicScan_TextBlock.Text" xml:space="preserve">
+    <value>音乐扫描</value>
+  </data>
+  <data name="RescanMusic_Button.Content" xml:space="preserve">
+    <value>重新扫描音乐</value>
+  </data>
+  <data name="Title_TextBlock.Text" xml:space="preserve">
+    <value>设置</value>
   </data>
 </root>
