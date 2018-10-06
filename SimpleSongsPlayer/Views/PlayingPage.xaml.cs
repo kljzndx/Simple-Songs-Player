@@ -28,6 +28,8 @@ namespace SimpleSongsPlayer.Views
     {
         private PlayingViewModel vm;
 
+        private bool isNeedReposition;
+
         public PlayingPage()
         {
             this.InitializeComponent();
@@ -50,8 +52,8 @@ namespace SimpleSongsPlayer.Views
             {
                 PreviewArea_ScrollLyricsPreview.Lyrics = lyric.Lines;
                 Error_StackPanel.Visibility = Visibility.Collapsed;
+                isNeedReposition = true;
             }
-            PreviewArea_ScrollLyricsPreview.Reposition(TimeSpan.Zero);
         }
 
         private void SetLyricSource()
@@ -82,8 +84,11 @@ namespace SimpleSongsPlayer.Views
 
         private void PositionChangeNotifier_PositionChanged(object sender, PositionChangeEventArgs e)
         {
-            if (e.DidUserChange)
+            if (e.DidUserChange || isNeedReposition)
+            {
                 PreviewArea_ScrollLyricsPreview.Reposition(e.Position);
+                isNeedReposition = false;
+            }
             else
                 PreviewArea_ScrollLyricsPreview.RefreshLyric(e.Position);
         }
