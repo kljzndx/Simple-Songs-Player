@@ -6,7 +6,9 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media;
 using Windows.Media.Playback;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -86,6 +88,15 @@ namespace SimpleSongsPlayer.Views.Controllers
             player.Volume = settingProperties.Volume;
             player.PlaybackSession.PlaybackRate = settingProperties.PlaybackSpeed;
             PlayItemChangeNotifier.SendChangeNotification(vm.CurrentSong);
+            
+            // 更新锁屏信息
+            var mediaProperties = player.SystemMediaTransportControls.DisplayUpdater;
+            mediaProperties.Type = MediaPlaybackType.Music;
+            mediaProperties.MusicProperties.Title = vm.CurrentSong.Title;
+            mediaProperties.MusicProperties.Artist = vm.CurrentSong.Singer;
+            mediaProperties.MusicProperties.AlbumTitle = vm.CurrentSong.Album;
+            mediaProperties.Thumbnail = RandomAccessStreamReference.CreateFromStream(vm.CurrentSong.CoverStream);
+            mediaProperties.Update();
         }
 
         private void Play()
