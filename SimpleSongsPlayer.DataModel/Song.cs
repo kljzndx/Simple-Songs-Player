@@ -15,25 +15,26 @@ namespace SimpleSongsPlayer.DataModel
         private bool isPlaying;
         private bool isSelected;
 
-        public Song(string folderName, string fileName)
-        {
-            FolderName = folderName;
-            FileName = fileName;
-        }
 
-        private Song(string folderName, string fileName, string title, string singer, string album, BitmapSource albumCover, TimeSpan duration, MediaPlaybackItem playbackItem) : this(folderName, fileName)
+        private Song(StorageFolder baseFolder, StorageFile file, MusicProperties musicProperties, StorageItemThumbnail coverStream)
         {
-            Title = title;
+            FolderName = baseFolder.DisplayName;
+            FileName = file.DisplayName;
+            Title = musicProperties.Title;
             Singer = "未知歌手";
             Album = "未知专辑";
-            AlbumCover = albumCover;
-            Duration = duration;
-            PlaybackItem = playbackItem;
+            CoverStream = coverStream;
 
-            if (!String.IsNullOrWhiteSpace(singer))
-                Singer = singer;
-            if (!String.IsNullOrWhiteSpace(album))
-                Album = album;
+            AlbumCover = new BitmapImage();
+            AlbumCover.SetSource(coverStream);
+
+            Duration = musicProperties.Duration;
+            PlaybackItem = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(file));
+
+            if (!String.IsNullOrWhiteSpace(musicProperties.Artist))
+                Singer = musicProperties.Artist;
+            if (!String.IsNullOrWhiteSpace(musicProperties.Album))
+                Album = musicProperties.Album;
         }
 
         public bool IsPlaying
@@ -53,6 +54,7 @@ namespace SimpleSongsPlayer.DataModel
         public string Title { get; }
         public string Singer { get; }
         public string Album { get; }
+        public StorageItemThumbnail CoverStream { get; }
         public BitmapSource AlbumCover { get; }
         public TimeSpan Duration { get; }
         public MediaPlaybackItem PlaybackItem { get; }
@@ -61,26 +63,9 @@ namespace SimpleSongsPlayer.DataModel
         {
             var baseFolder = await file.GetParentAsync();
             var property = await file.Properties.GetMusicPropertiesAsync();
-
             var coverSource = await file.GetThumbnailAsync(ThumbnailMode.MusicView);
-            BitmapImage cover = new BitmapImage();
-            cover.SetSource(coverSource);
 
-            MediaPlaybackItem playbackItem = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(file));
-            var mediaProperties = playbackItem.GetDisplayProperties();
-            mediaProperties.Thumbnail = RandomAccessStreamReference.CreateFromStream(coverSource);
-
-            // 无法保存数据 --2018/09/04
-            //var musicProperties = mediaProperties.MusicProperties;
-            //musicProperties.Title = property.Title;
-            //musicProperties.Artist = property.Artist;
-            //musicProperties.AlbumTitle = property.Album;
-            //musicProperties.AlbumArtist = property.AlbumArtist;
-
-            playbackItem.ApplyDisplayProperties(mediaProperties);
-            
-            return new Song(baseFolder.Name, file.DisplayName, String.IsNullOrWhiteSpace(property.Title) ? file.DisplayName : property.Title,
-                property.Artist, property.Album, cover, property.Duration, playbackItem);
+            return new Song(baseFolder, file, property, coverSource);
         }
     }
 }
