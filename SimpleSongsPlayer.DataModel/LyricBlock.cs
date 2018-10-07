@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Text.RegularExpressions;
 using SimpleSongsPlayer.DataModel.Exceptions;
+using SimpleSongsPlayer.DataModel.Extensions;
 
 namespace SimpleSongsPlayer.DataModel
 {
@@ -21,7 +22,6 @@ namespace SimpleSongsPlayer.DataModel
             FileName = fileName;
             Properties = new LyricsProperties(content);
             Lines = new List<LyricLine>();
-
             string[] strLines = content.Contains("\n") ? content.Split('\n') : content.Split('\r');
 
             StringBuilder builder = new StringBuilder();
@@ -39,9 +39,9 @@ namespace SimpleSongsPlayer.DataModel
                 {
                     try
                     {
-                        int min = Int32.Parse(match.Groups["min"].Value);
-                        int ss = Int32.Parse(match.Groups["ss"].Value);
-                        string msStr = match.Groups["ms"].Value;
+                        int min = Int32.Parse(match.Groups["min"].Value.ToDBC());
+                        int ss = Int32.Parse(match.Groups["ss"].Value.ToDBC());
+                        string msStr = match.Groups["ms"].Value.ToDBC();
 
                         for (int i = msStr.Length; i < 3; i++)
                             msStr += "0";
