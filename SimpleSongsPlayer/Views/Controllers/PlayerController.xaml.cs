@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using HappyStudio.UwpToolsLibrary.Auxiliarys;
+using NCEWalkman.Models;
 using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.DataModel.Exceptions;
 using SimpleSongsPlayer.ViewModels;
@@ -46,7 +47,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         public PlayerController()
         {
             this.InitializeComponent();
-            vm = ((ViewModelLocator) Application.Current.Resources["Locator"]).PlayerController;
+            vm = ((ViewModelLocator)Application.Current.Resources["Locator"]).PlayerController;
             player = App.Player;
             settingProperties = SettingProperties.Current;
 
@@ -75,7 +76,7 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         public List<Song> AllSongs
         {
-            get => (List<Song>) GetValue(AllSongsProperty);
+            get => (List<Song>)GetValue(AllSongsProperty);
             set => SetValue(AllSongsProperty, value);
         }
 
@@ -88,7 +89,7 @@ namespace SimpleSongsPlayer.Views.Controllers
             player.Volume = settingProperties.Volume;
             player.PlaybackSession.PlaybackRate = settingProperties.PlaybackSpeed;
             PlayItemChangeNotifier.SendChangeNotification(vm.CurrentSong);
-            
+
             // 更新锁屏信息
             var mediaProperties = player.SystemMediaTransportControls.DisplayUpdater;
             mediaProperties.Type = MediaPlaybackType.Music;
@@ -181,18 +182,19 @@ namespace SimpleSongsPlayer.Views.Controllers
             if (sender.Source == null)
                 return;
 
-            vm.PlayerSource = (MediaPlaybackList) sender.Source;
+            vm.PlayerSource = (MediaPlaybackList)sender.Source;
             vm.PlayerSource.CurrentItemChanged += PlayerSource_CurrentItemChanged;
             vm.PlayerSource.ItemFailed += PlayerSource_ItemFailed;
         }
 
         private async void PlayerSource_ItemFailed(MediaPlaybackList sender, MediaPlaybackItemFailedEventArgs args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                MessageBox.ShowAsync(ExceptionResource.ErrorInfoStrings.GetString("SongLoadFail"),
-                    App.MessageBoxResourceLoader.GetString("Close"));
-            });
+            if (!App.isInBackground)
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    MessageBox.ShowAsync(ExceptionResource.ErrorInfoStrings.GetString("SongLoadFail"), args.Error.ExtendedError.ToShortString(),
+                        App.MessageBoxResourceLoader.GetString("Close"));
+                });
         }
 
         private async void PlayerSource_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
@@ -264,7 +266,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         {
             isPressPositionSlider = true;
         }
-        
+
         private void Position_Slider_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             SetPosition(TimeSpan.FromMinutes(Position_Slider.Value));
@@ -295,7 +297,7 @@ namespace SimpleSongsPlayer.Views.Controllers
                 return;
 
             int id = vm.PlayerSource.Items.IndexOf(song.PlaybackItem);
-            vm.PlayerSource.MoveTo((uint) id);
+            vm.PlayerSource.MoveTo((uint)id);
             Play();
         }
 
