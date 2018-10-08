@@ -141,6 +141,15 @@
   <data name="RescanMusic_Button.Content" xml:space="preserve">
     <value>Re-scan Music</value>
   </data>
+  <data name="TimerPauseInfo1_Run.Text" xml:space="preserve">
+    <value>The player will pause in </value>
+  </data>
+  <data name="TimerPauseInfo2_Run.Text" xml:space="preserve">
+    <value> minutes'</value>
+  </data>
+  <data name="TimerPause_ToggleSwitch.Header" xml:space="preserve">
+    <value>Timer pause</value>
+  </data>
   <data name="Title_TextBlock.Text" xml:space="preserve">
     <value>Settings</value>
   </data>

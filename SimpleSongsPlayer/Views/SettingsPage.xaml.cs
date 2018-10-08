@@ -5,8 +5,11 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.System.Threading;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -63,6 +66,35 @@ namespace SimpleSongsPlayer.Views
         private async void MusicPaths_ListView_OnItemClick(object sender, ItemClickEventArgs e)
         {
             await musicLibrary.RequestRemoveFolderAsync((StorageFolder) e.ClickedItem);
+        }
+
+        private void TimerPause_ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+        {
+            if (TimerPause_ToggleSwitch.IsOn)
+            {
+                FrameworkPage.Current.PauseTimer?.Cancel();
+                FrameworkPage.Current.PauseTimer=ThreadPoolTimer.CreatePeriodicTimer(async t =>
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        if (settings.PauseTimeMinutes > 0)
+                            settings.PauseTimeMinutes -= 1;
+                        else if (App.Player.PlaybackSession.PlaybackState != MediaPlaybackState.Paused &&
+                                 App.Player.PlaybackSession.PlaybackState != MediaPlaybackState.None)
+                        {
+                            App.Player.Pause();
+                            settings.IsTimerPauseEnable = false;
+                            settings.PauseTimeMinutes = 10;
+                            t.Cancel();
+                        }
+                    });
+                }, TimeSpan.FromMinutes(1));
+            }
+            else
+            {
+                FrameworkPage.Current.PauseTimer?.Cancel();
+                settings.PauseTimeMinutes = 10;
+            }
         }
     }
 }

@@ -33,5 +33,21 @@ namespace SimpleSongsPlayer.ViewModels
             get => scrollLyrics_FontSize;
             set => SetSetting(ref scrollLyrics_FontSize, value);
         }
+
+        [SettingFieldByNormal(nameof(IsTimerPauseEnable), false)] private bool isTimerPauseEnable;
+
+        public bool IsTimerPauseEnable
+        {
+            get => isTimerPauseEnable;
+            set => SetSetting(ref isTimerPauseEnable, value);
+        }
+
+        [SettingFieldByNormal(nameof(PauseTimeMinutes), 10D)] private double pauseTimeMinutes;
+
+        public double PauseTimeMinutes
+        {
+            get => pauseTimeMinutes;
+            set => SetSetting(ref pauseTimeMinutes, value);
+        }
     }
 }

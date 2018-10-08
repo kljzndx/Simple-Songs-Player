@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage;
+using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -20,11 +21,17 @@ namespace SimpleSongsPlayer.Views
     /// </summary>
     public sealed partial class FrameworkPage : Page
     {
+        public static FrameworkPage Current;
+
         private readonly FrameworkViewModel vm;
+
+        public ThreadPoolTimer PauseTimer;
 
         public FrameworkPage()
         {
             this.InitializeComponent();
+            Current = this;
+
             vm = this.DataContext as FrameworkViewModel;
             Close_Button.Visibility = Visibility.Collapsed;
             NavigationCacheMode = NavigationCacheMode.Enabled;
