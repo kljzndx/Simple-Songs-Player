@@ -123,12 +123,6 @@
   <data name="FastForward_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>快进</value>
   </data>
-  <data name="PlaybackSpeed_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>播放速度</value>
-  </data>
-  <data name="PlaybackSpeed_Slider.Header" xml:space="preserve">
-    <value>播放速度</value>
-  </data>
   <data name="PlayList_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>播放列表</value>
   </data>

@@ -25,7 +25,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid>
+    <StackPanel>
         <Grid Style="{StaticResource Frame_Grid_Style}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -63,5 +63,18 @@
                 </Grid>
             </ContentDialog>
         </Grid>
-    </Grid>
+
+        <Grid Style="{StaticResource Frame_Grid_Style}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock x:Uid="/SettingsPage/Playing_TextBlock" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+
+            <StackPanel Grid.Row="1" Margin="0,8,0,0">
+                <Slider x:Name="PlaybackSpeed_Slider" x:Uid="/SettingsPage/PlaybackSpeed_Slider" Minimum="10" Value="{x:Bind settings.PlaybackSpeed, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}" Maximum="300" StepFrequency="10" SmallChange="10"/>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
 </Page>

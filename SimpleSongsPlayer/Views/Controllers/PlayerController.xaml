@@ -421,14 +421,6 @@
                 </Button.Flyout>
             </Button>
 
-            <Button x:Name="PlaybackSpeed_Button" x:Uid="/PlayerController/PlaybackSpeed_Button" Content="&#xE805;">
-                <Button.Flyout>
-                    <Flyout>
-                        <Slider x:Name="PlaybackSpeed_Slider" x:Uid="/PlayerController/PlaybackSpeed_Slider" Width="200" Minimum="10" Value="{x:Bind settingProperties.PlaybackSpeed, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}" Maximum="300" StepFrequency="10" SmallChange="10"/>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
-
             <Button x:Name="PlayList_Button" x:Uid="/PlayerController/PlayList_Button" Content="&#xE142;">
                 <Button.Flyout>
                     <Flyout x:Name="PlayList_Flyout" Opened="PlayList_Flyout_Opened">

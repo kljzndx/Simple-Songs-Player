@@ -132,6 +132,12 @@
   <data name="MusicScan_TextBlock.Text" xml:space="preserve">
     <value>音乐扫描</value>
   </data>
+  <data name="PlaybackSpeed_Slider.Header" xml:space="preserve">
+    <value>播放速度</value>
+  </data>
+  <data name="Playing_TextBlock.Text" xml:space="preserve">
+    <value>播放</value>
+  </data>
   <data name="RescanMusic_Button.Content" xml:space="preserve">
     <value>重新扫描音乐</value>
   </data>

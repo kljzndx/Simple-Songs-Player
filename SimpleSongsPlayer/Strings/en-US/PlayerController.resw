@@ -123,12 +123,6 @@
   <data name="FastForward_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>FastForward</value>
   </data>
-  <data name="PlaybackSpeed_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Playback speed</value>
-  </data>
-  <data name="PlaybackSpeed_Slider.Header" xml:space="preserve">
-    <value>Playback speed</value>
-  </data>
   <data name="PlayList_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Playback list</value>
   </data>

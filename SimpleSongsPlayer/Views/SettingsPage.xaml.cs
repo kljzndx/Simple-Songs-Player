@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleSongsPlayer.ViewModels;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -25,6 +26,7 @@ namespace SimpleSongsPlayer.Views
     public sealed partial class SettingsPage : Page
     {
         private StorageLibrary musicLibrary;
+        private SettingProperties settings = SettingProperties.Current;
 
         public SettingsPage()
         {
