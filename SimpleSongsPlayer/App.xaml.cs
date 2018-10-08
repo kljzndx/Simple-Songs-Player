@@ -38,6 +38,7 @@ namespace SimpleSongsPlayer
         public static readonly ResourceLoader MessageBoxResourceLoader = ResourceLoader.GetForCurrentView("MessageBox");
 
         public static MediaPlayer Player;
+        public static bool isInBackground;
 
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
@@ -48,6 +49,8 @@ namespace SimpleSongsPlayer
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             this.UnhandledException += App_UnhandledException;
+            this.EnteredBackground += App_EnteredBackground;
+            this.LeavingBackground += App_LeavingBackground;
         }
 
         private void EnsureSyncContext()
@@ -158,6 +161,20 @@ namespace SimpleSongsPlayer
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
             deferral.Complete();
+        }
+
+        private void App_EnteredBackground(object sender, EnteredBackgroundEventArgs e)
+        {
+            var d = e.GetDeferral();
+            isInBackground = true;
+            d.Complete();
+        }
+
+        private void App_LeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        {
+            var d = e.GetDeferral();
+            isInBackground = false;
+            d.Complete();
         }
 
         private async void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
