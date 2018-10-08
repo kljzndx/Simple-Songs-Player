@@ -79,10 +79,13 @@ namespace SimpleSongsPlayer.Views
                     {
                         if (settings.PauseTimeMinutes > 0)
                             settings.PauseTimeMinutes -= 1;
-                        else if (App.Player.PlaybackSession.PlaybackState != MediaPlaybackState.Paused &&
-                                 App.Player.PlaybackSession.PlaybackState != MediaPlaybackState.None)
+                        else 
                         {
-                            App.Player.Pause();
+                            if (App.Player.PlaybackSession.PlaybackState != MediaPlaybackState.Paused &&
+                                App.Player.PlaybackSession.PlaybackState != MediaPlaybackState.None)
+                            {
+                                App.Player.Pause();
+                            }
                             settings.IsTimerPauseEnable = false;
                             settings.PauseTimeMinutes = 10;
                             t.Cancel();
