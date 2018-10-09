@@ -48,7 +48,7 @@
                     <DataTemplate>
                         <StackPanel>
                             <Image Width="96" Height="96" Source="{Binding Group.AlbumCover}"/>
-                            <TextBlock Text="{Binding Group.Name}" TextWrapping="Wrap" Margin="0,4,0,0" Style="{ThemeResource BodyTextBlockStyle}"/>
+                            <TextBlock Text="{Binding Group.Name}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Margin="0,4,0,0" Height="40" Style="{ThemeResource BodyTextBlockStyle}"/>
                             <TextBlock HorizontalAlignment="Right" Margin="0,2,0,0" Style="{ThemeResource CaptionTextBlockStyle}">
                                 <Run Text="{Binding Group.Items.Count}"/>
                                 <Run Text=" 首"/>
