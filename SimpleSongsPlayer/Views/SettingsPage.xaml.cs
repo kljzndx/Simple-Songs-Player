@@ -72,6 +72,9 @@ namespace SimpleSongsPlayer.Views
         {
             if (TimerPause_ToggleSwitch.IsOn)
             {
+                if (settings.PauseTimeMinutes < 10)
+                    settings.PauseTimeMinutes = 10;
+
                 FrameworkPage.Current.PauseTimer?.Cancel();
                 FrameworkPage.Current.PauseTimer=ThreadPoolTimer.CreatePeriodicTimer(async t =>
                 {
@@ -94,10 +97,7 @@ namespace SimpleSongsPlayer.Views
                 }, TimeSpan.FromMinutes(1));
             }
             else
-            {
                 FrameworkPage.Current.PauseTimer?.Cancel();
-                settings.PauseTimeMinutes = 10;
-            }
         }
     }
 }
