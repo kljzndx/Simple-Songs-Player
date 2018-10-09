@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
@@ -12,17 +13,18 @@ namespace SimpleSongsPlayer.DataModel
 {
     public class Song : ObservableObject
     {
+        private static readonly ResourceLoader SongListStrings = ResourceLoader.GetForCurrentView("SongList");
+
         private bool isPlaying;
         private bool isSelected;
-
-
+        
         private Song(StorageFolder baseFolder, StorageFile file, MusicProperties musicProperties, StorageItemThumbnail coverStream)
         {
             FolderName = baseFolder.DisplayName;
             FileName = file.DisplayName;
             Title = musicProperties.Title;
-            Singer = "未知歌手";
-            Album = "未知专辑";
+            Singer = SongListStrings.GetString("UnknownSinger");
+            Album = SongListStrings.GetString("UnknownAlbum");
             CoverStream = coverStream;
 
             AlbumCover = new BitmapImage();

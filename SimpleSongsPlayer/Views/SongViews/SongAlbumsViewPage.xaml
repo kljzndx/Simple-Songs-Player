@@ -51,7 +51,7 @@
                             <TextBlock Text="{Binding Group.Name}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Margin="0,4,0,0" Height="40" Style="{ThemeResource BodyTextBlockStyle}"/>
                             <TextBlock HorizontalAlignment="Right" Margin="0,2,0,0" Style="{ThemeResource CaptionTextBlockStyle}">
                                 <Run Text="{Binding Group.Items.Count}"/>
-                                <Run Text=" 首"/>
+                                <Run x:Uid="/SongList/SongCount_Run"/>
                             </TextBlock>
                         </StackPanel>
                     </DataTemplate>
