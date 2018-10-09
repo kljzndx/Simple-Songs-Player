@@ -76,7 +76,7 @@ namespace SimpleSongsPlayer.Views
                     settings.PauseTimeMinutes = 10;
 
                 FrameworkPage.Current.PauseTimer?.Cancel();
-                FrameworkPage.Current.PauseTimer=ThreadPoolTimer.CreatePeriodicTimer(async t =>
+                FrameworkPage.Current.PauseTimer = ThreadPoolTimer.CreatePeriodicTimer(async t =>
                 {
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
@@ -90,7 +90,6 @@ namespace SimpleSongsPlayer.Views
                                 App.Player.Pause();
                             }
                             settings.IsTimerPauseEnable = false;
-                            settings.PauseTimeMinutes = 10;
                             t.Cancel();
                         }
                     });
