@@ -123,6 +123,21 @@
   <data name="FastForward_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>FastForward</value>
   </data>
+  <data name="LoopingMode_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Looping mode</value>
+  </data>
+  <data name="LoopingMode_ComboBox.Header" xml:space="preserve">
+    <value>Looping mode</value>
+  </data>
+  <data name="LoopingMode_ListCycle_TextBlock.Text" xml:space="preserve">
+    <value>List cycle</value>
+  </data>
+  <data name="LoopingMode_RandomPlaying_TextBlock.Text" xml:space="preserve">
+    <value>Random playing</value>
+  </data>
+  <data name="LoopingMode_SingleCycle_TextBlock.Text" xml:space="preserve">
+    <value>Single cycle</value>
+  </data>
   <data name="PlayList_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Playback list</value>
   </data>

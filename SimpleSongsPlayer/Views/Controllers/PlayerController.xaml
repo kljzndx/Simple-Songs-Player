@@ -421,13 +421,13 @@
                 </Button.Flyout>
             </Button>
 
-            <Button x:Name="Looping_Button" x:Uid="/PlayerController/Looping_Button" Content="&#xE1CD;">
+            <Button x:Name="LoopingMode_Button" x:Uid="/PlayerController/LoopingMode_Button" Content="&#xE1CD;">
                 <Button.Flyout>
                     <Flyout>
-                        <ComboBox x:Name="LoopingMode_ComboBox" SelectionChanged="LoopingMode_ComboBox_OnSelectionChanged">
-                            <TextBlock Text="单曲循环"/>
-                            <TextBlock Text="列表循环"/>
-                            <TextBlock Text="随机播放"/>
+                        <ComboBox x:Name="LoopingMode_ComboBox" x:Uid="/PlayerController/LoopingMode_ComboBox" SelectionChanged="LoopingMode_ComboBox_OnSelectionChanged">
+                            <TextBlock x:Uid="/PlayerController/LoopingMode_SingleCycle_TextBlock"/>
+                            <TextBlock x:Uid="/PlayerController/LoopingMode_ListCycle_TextBlock"/>
+                            <TextBlock x:Uid="/PlayerController/LoopingMode_RandomPlaying_TextBlock"/>
                         </ComboBox>
                     </Flyout>
                 </Button.Flyout>
