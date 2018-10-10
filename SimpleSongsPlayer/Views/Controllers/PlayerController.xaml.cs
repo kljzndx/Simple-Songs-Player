@@ -51,7 +51,7 @@ namespace SimpleSongsPlayer.Views.Controllers
             vm = ((ViewModelLocator)Application.Current.Resources["Locator"]).PlayerController;
             player = App.Player;
             settingProperties = SettingProperties.Current;
-            LoopingMode_ComboBox.SelectedIndex = (int) settingProperties.LoopingMode;
+            LoopingMode_ListBox.SelectedIndex = (int) settingProperties.LoopingMode;
 
             player.SourceChanged += Player_SourceChanged;
             player.PlaybackSession.PositionChanged += Player_PositionChanged;
@@ -332,9 +332,9 @@ namespace SimpleSongsPlayer.Views.Controllers
             PlayList_Flyout.Hide();
         }
 
-        private void LoopingMode_ComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LoopingMode_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            settingProperties.LoopingMode = (LoopingModeEnum) LoopingMode_ComboBox.SelectedIndex;
+            settingProperties.LoopingMode = (LoopingModeEnum) LoopingMode_ListBox.SelectedIndex;
         }
     }
 }

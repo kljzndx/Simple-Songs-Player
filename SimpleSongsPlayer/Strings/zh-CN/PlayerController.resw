@@ -126,9 +126,6 @@
   <data name="LoopingMode_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>循环模式</value>
   </data>
-  <data name="LoopingMode_ComboBox.Header" xml:space="preserve">
-    <value>循环模式</value>
-  </data>
   <data name="LoopingMode_ListCycle_TextBlock.Text" xml:space="preserve">
     <value>列表循环</value>
   </data>
@@ -137,6 +134,9 @@
   </data>
   <data name="LoopingMode_SingleCycle_TextBlock.Text" xml:space="preserve">
     <value>单曲循环</value>
+  </data>
+  <data name="LoopingMode_TextBlock.Text" xml:space="preserve">
+    <value>循环模式</value>
   </data>
   <data name="PlayList_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>播放列表</value>
