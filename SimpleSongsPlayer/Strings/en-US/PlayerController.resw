@@ -135,9 +135,6 @@
   <data name="LoopingMode_SingleCycle_TextBlock.Text" xml:space="preserve">
     <value>Single cycle</value>
   </data>
-  <data name="LoopingMode_TextBlock.Text" xml:space="preserve">
-    <value>Looping mode</value>
-  </data>
   <data name="PlayList_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Playback list</value>
   </data>

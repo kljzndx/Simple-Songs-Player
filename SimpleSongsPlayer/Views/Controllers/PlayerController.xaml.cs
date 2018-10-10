@@ -335,6 +335,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         private void LoopingMode_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             settingProperties.LoopingMode = (LoopingModeEnum) LoopingMode_ListBox.SelectedIndex;
+            LoopingMode_Flyout.Hide();
         }
     }
 }

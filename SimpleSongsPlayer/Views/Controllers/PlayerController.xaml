@@ -423,21 +423,12 @@
 
             <Button x:Name="LoopingMode_Button" x:Uid="/PlayerController/LoopingMode_Button" Content="&#xE1CD;">
                 <Button.Flyout>
-                    <Flyout>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-
-                            <TextBlock x:Uid="/PlayerController/LoopingMode_TextBlock" Margin="0,4"/>
-
-                            <ListBox x:Name="LoopingMode_ListBox" Grid.Row="1" SelectionChanged="LoopingMode_ListBox_OnSelectionChanged">
-                                <TextBlock x:Uid="/PlayerController/LoopingMode_SingleCycle_TextBlock"/>
-                                <TextBlock x:Uid="/PlayerController/LoopingMode_ListCycle_TextBlock"/>
-                                <TextBlock x:Uid="/PlayerController/LoopingMode_RandomPlaying_TextBlock"/>
-                            </ListBox>
-                        </Grid>
+                    <Flyout x:Name="LoopingMode_Flyout">
+                        <ListBox x:Name="LoopingMode_ListBox" Grid.Row="1" SelectionChanged="LoopingMode_ListBox_OnSelectionChanged">
+                            <TextBlock x:Uid="/PlayerController/LoopingMode_SingleCycle_TextBlock"/>
+                            <TextBlock x:Uid="/PlayerController/LoopingMode_ListCycle_TextBlock"/>
+                            <TextBlock x:Uid="/PlayerController/LoopingMode_RandomPlaying_TextBlock"/>
+                        </ListBox>
                     </Flyout>
                 </Button.Flyout>
             </Button>
