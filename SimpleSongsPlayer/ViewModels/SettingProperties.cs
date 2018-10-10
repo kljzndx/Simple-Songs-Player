@@ -57,7 +57,7 @@ namespace SimpleSongsPlayer.ViewModels
         public LoopingModeEnum LoopingMode
         {
             get => loopingMode;
-            set => SetSetting(ref loopingMode, value);
+            set => SetSetting(ref loopingMode, value, settingValue: value.ToString());
         }
     }
 }
