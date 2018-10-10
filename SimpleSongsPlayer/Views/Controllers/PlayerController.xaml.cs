@@ -22,6 +22,7 @@ using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using NCEWalkman.Models;
 using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.DataModel.Exceptions;
+using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Controllers;
 using SimpleSongsPlayer.ViewModels.Events;
@@ -50,6 +51,7 @@ namespace SimpleSongsPlayer.Views.Controllers
             vm = ((ViewModelLocator)Application.Current.Resources["Locator"]).PlayerController;
             player = App.Player;
             settingProperties = SettingProperties.Current;
+            LoopingMode_ComboBox.SelectedIndex = (int) settingProperties.LoopingMode;
 
             player.SourceChanged += Player_SourceChanged;
             player.PlaybackSession.PositionChanged += Player_PositionChanged;
@@ -157,6 +159,24 @@ namespace SimpleSongsPlayer.Views.Controllers
                 Play();
         }
 
+        private void SwitchLoopingMode(LoopingModeEnum mode)
+        {
+            player.IsLoopingEnabled = false;
+            if (vm.PlayerSource != null)
+                vm.PlayerSource.ShuffleEnabled = false;
+
+            switch (mode)
+            {
+                case LoopingModeEnum.Single:
+                    player.IsLoopingEnabled = true;
+                    break;
+                case LoopingModeEnum.Random:
+                    if (vm.PlayerSource != null)
+                        vm.PlayerSource.ShuffleEnabled = true;
+                    break;
+            }
+        }
+
         private void SettingProperties_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -166,6 +186,9 @@ namespace SimpleSongsPlayer.Views.Controllers
                     break;
                 case nameof(settingProperties.PlaybackSpeed):
                     player.PlaybackSession.PlaybackRate = settingProperties.PlaybackSpeed;
+                    break;
+                case nameof(settingProperties.LoopingMode):
+                    SwitchLoopingMode(settingProperties.LoopingMode);
                     break;
             }
         }
@@ -185,6 +208,9 @@ namespace SimpleSongsPlayer.Views.Controllers
             vm.PlayerSource = (MediaPlaybackList)sender.Source;
             vm.PlayerSource.CurrentItemChanged += PlayerSource_CurrentItemChanged;
             vm.PlayerSource.ItemFailed += PlayerSource_ItemFailed;
+            vm.PlayerSource.AutoRepeatEnabled = true;
+
+            SwitchLoopingMode(settingProperties.LoopingMode);
         }
 
         private async void PlayerSource_ItemFailed(MediaPlaybackList sender, MediaPlaybackItemFailedEventArgs args)
@@ -304,6 +330,11 @@ namespace SimpleSongsPlayer.Views.Controllers
         private void PlayList_Close_Button_Click(object sender, RoutedEventArgs e)
         {
             PlayList_Flyout.Hide();
+        }
+
+        private void LoopingMode_ComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            settingProperties.LoopingMode = (LoopingModeEnum) LoopingMode_ComboBox.SelectedIndex;
         }
     }
 }

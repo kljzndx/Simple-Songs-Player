@@ -105,6 +105,7 @@
     <Compile Include="Models\ExceptionExtension.cs" />
     <Compile Include="Models\ExceptionHandlingSynchronizationContext.cs" />
     <Compile Include="Models\Factories\AllSongsFoldersFactory.cs" />
+    <Compile Include="Models\LoopingModeEnum.cs" />
     <Compile Include="Models\SymbolIndexItemStyleSelector.cs" />
     <Compile Include="Models\TimeSpanExtension.cs" />
     <Compile Include="ViewModels\Controllers\PlayerControllerViewModel.cs" />

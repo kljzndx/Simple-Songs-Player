@@ -1,5 +1,6 @@
 ﻿using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using HappyStudio.UwpToolsLibrary.Auxiliarys.Attributes;
+using SimpleSongsPlayer.Models;
 
 namespace SimpleSongsPlayer.ViewModels
 {
@@ -48,6 +49,15 @@ namespace SimpleSongsPlayer.ViewModels
         {
             get => pauseTimeMinutes;
             set => SetSetting(ref pauseTimeMinutes, value);
+        }
+
+        [SettingFieldByEnum(nameof(LoopingMode), typeof(LoopingModeEnum), nameof(LoopingModeEnum.List))]
+        private LoopingModeEnum loopingMode;
+
+        public LoopingModeEnum LoopingMode
+        {
+            get => loopingMode;
+            set => SetSetting(ref loopingMode, value);
         }
     }
 }
