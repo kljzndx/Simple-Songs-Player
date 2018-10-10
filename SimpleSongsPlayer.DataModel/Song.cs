@@ -65,7 +65,7 @@ namespace SimpleSongsPlayer.DataModel
         {
             var baseFolder = await file.GetParentAsync();
             var property = await file.Properties.GetMusicPropertiesAsync();
-            var coverSource = await file.GetThumbnailAsync(ThumbnailMode.MusicView);
+            var coverSource = await file.GetThumbnailAsync(ThumbnailMode.SingleItem);
 
             return new Song(baseFolder, file, property, coverSource);
         }
