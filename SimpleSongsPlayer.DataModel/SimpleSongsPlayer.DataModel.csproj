@@ -116,6 +116,7 @@
     <Compile Include="ObservableObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Song.cs" />
+    <Compile Include="PlayingListBlock.cs" />
     <EmbeddedResource Include="Properties\SimpleSongsPlayer.DataModel.rd.xml" />
   </ItemGroup>
   <ItemGroup>
