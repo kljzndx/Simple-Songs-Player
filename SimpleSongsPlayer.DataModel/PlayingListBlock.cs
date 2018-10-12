@@ -9,7 +9,11 @@ namespace SimpleSongsPlayer.DataModel
 {
     public class PlayingListBlock : ObservableObject
     {
-        private StorageFile _file;
+        private readonly StorageFile _file;
+        private List<string> _paths;
+
+        private string name;
+        private DateTime changeDate;
 
         private PlayingListBlock(StorageFile file, BasicProperties bp)
         {
@@ -18,15 +22,11 @@ namespace SimpleSongsPlayer.DataModel
             changeDate = bp.DateModified.DateTime;
         }
 
-        private string name;
-
         public string Name
         {
             get => name;
             private set => Set(ref name, value);
         }
-
-        private DateTime changeDate;
 
         public DateTime ChangeDate
         {
@@ -34,16 +34,17 @@ namespace SimpleSongsPlayer.DataModel
             set => Set(ref changeDate, value);
         }
 
-        private List<string> _paths;
-
         public async Task<List<string>> GetPaths()
         {
-            if(_paths is null)
+            if (_paths is null)
                 _paths = (await FileIO.ReadLinesAsync(_file)).ToList();
             return _paths;
         }
 
-        public async Task AddPath(string path) => await AddPaths(new List<string> {path});
+        public async Task AddPath(string path)
+        {
+            await AddPaths(new List<string> {path});
+        }
 
         public async Task AddPaths(IEnumerable<string> paths)
         {
@@ -57,7 +58,10 @@ namespace SimpleSongsPlayer.DataModel
             ChangeDate = DateTime.Now;
         }
 
-        public async Task RemovePath(string path) => await RemovePaths(new List<string> {path});
+        public async Task RemovePath(string path)
+        {
+            await RemovePaths(new List<string> {path});
+        }
 
         public async Task RemovePaths(IEnumerable<string> paths)
         {
