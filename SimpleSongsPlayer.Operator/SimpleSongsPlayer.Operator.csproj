@@ -112,6 +112,7 @@
     <Compile Include="Pickers\FileOpenPickerBase.cs" />
     <Compile Include="Pickers\LyricsFileOpenPicker.cs" />
     <Compile Include="Pickers\MusicFileOpenPicker.cs" />
+    <Compile Include="PlayingListManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileScanners\FileScannerBase.cs" />
     <EmbeddedResource Include="Properties\SimpleSongsPlayer.Operator.rd.xml" />
@@ -120,6 +121,12 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.7</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleSongsPlayer.DataModel\SimpleSongsPlayer.DataModel.csproj">
+      <Project>{b77ca852-6989-4e32-966e-e959d9d5d132}</Project>
+      <Name>SimpleSongsPlayer.DataModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
