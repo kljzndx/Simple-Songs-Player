@@ -22,7 +22,7 @@ namespace SimpleSongsPlayer.DataModel
         {
             FolderName = baseFolder.DisplayName;
             FileName = file.DisplayName;
-            Title = musicProperties.Title;
+            Title = String.IsNullOrWhiteSpace(musicProperties.Title) ? file.DisplayName : musicProperties.Title;
             Singer = SongListStrings.GetString("UnknownSinger");
             Album = SongListStrings.GetString("UnknownAlbum");
             CoverStream = coverStream;
