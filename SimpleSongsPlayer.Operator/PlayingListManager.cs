@@ -49,7 +49,7 @@ namespace SimpleSongsPlayer.Operator
             if (!_blocks.Contains(block))
                 return;
 
-            await block.File.DeleteAsync();
+            await block.DeleteFileAsync();
             _blocks.Remove(block);
         }
 

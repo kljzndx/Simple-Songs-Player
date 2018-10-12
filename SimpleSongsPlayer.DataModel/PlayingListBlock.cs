@@ -77,6 +77,8 @@ namespace SimpleSongsPlayer.DataModel
             ChangeDate = DateTime.Now;
         }
 
+        public async Task DeleteFileAsync() => await _file.DeleteAsync();
+
         public static async Task<PlayingListBlock> CreateFromFileAsync(StorageFile file)
         {
             return new PlayingListBlock(file, await file.GetBasicPropertiesAsync());
