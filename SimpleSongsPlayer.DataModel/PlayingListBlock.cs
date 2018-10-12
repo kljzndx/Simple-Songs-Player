@@ -77,6 +77,13 @@ namespace SimpleSongsPlayer.DataModel
             ChangeDate = DateTime.Now;
         }
 
+        public async Task RenameAsync(string newName)
+        {
+            await _file.RenameAsync(newName);
+            Name = newName;
+            ChangeDate = DateTime.Now;
+        }
+
         public async Task DeleteFileAsync() => await _file.DeleteAsync();
 
         public static async Task<PlayingListBlock> CreateFromFileAsync(StorageFile file)
