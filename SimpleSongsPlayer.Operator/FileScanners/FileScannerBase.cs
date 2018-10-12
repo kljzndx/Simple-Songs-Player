@@ -10,6 +10,7 @@ namespace SimpleSongsPlayer.Operator.FileScanners
     public abstract class FileScannerBase
     {
         private readonly List<string> _targetTypes;
+        protected readonly QueryOptions QueryOptions;
 
         protected FileScannerBase(params string[] targetTypes)
         {
@@ -22,12 +23,14 @@ namespace SimpleSongsPlayer.Operator.FileScanners
                 else
                     _targetTypes.Add("." + targetType);
             }
+
+            QueryOptions = new QueryOptions(CommonFileQuery.OrderByName, _targetTypes);
         }
 
-        public async Task<List<StorageFile>> ScanFiles(StorageFolder folder)
+        public virtual async Task<List<StorageFile>> ScanFiles(StorageFolder folder)
         {
             var query = folder.CreateFileQuery(CommonFileQuery.OrderByName);
-            query.ApplyNewQueryOptions(new QueryOptions(CommonFileQuery.OrderByName, _targetTypes));
+            query.ApplyNewQueryOptions(QueryOptions);
             return (await query.GetFilesAsync()).ToList();
         }
     }
