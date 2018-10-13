@@ -105,6 +105,7 @@
     <Compile Include="Models\ExceptionExtension.cs" />
     <Compile Include="Models\ExceptionHandlingSynchronizationContext.cs" />
     <Compile Include="Models\Factories\AllSongsFoldersFactory.cs" />
+    <Compile Include="Models\Factories\ISongGroupsAsyncFactory.cs" />
     <Compile Include="Models\LoopingModeEnum.cs" />
     <Compile Include="Models\SymbolIndexItemStyleSelector.cs" />
     <Compile Include="Models\TimeSpanExtension.cs" />
@@ -135,7 +136,7 @@
     <Compile Include="Models\Factories\AllSongAlbumsGroupsFactory.cs" />
     <Compile Include="Models\Factories\AllSongArtistGroupsFactory.cs" />
     <Compile Include="Models\Factories\AllSongsGroupsFactory.cs" />
-    <Compile Include="Models\Factories\SongsGroupsFactoryBase.cs" />
+    <Compile Include="Models\Factories\ISongsGroupsFactory.cs" />
     <Compile Include="Models\SongsGroup.cs" />
     <Compile Include="ViewModels\AllSongListsViewModel.cs" />
     <Compile Include="ViewModels\SongViewModels\SongAlbumsViewModel.cs" />

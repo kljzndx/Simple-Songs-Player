@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.Globalization.Collation;
 using Windows.UI.Xaml.Controls;
@@ -7,7 +8,7 @@ using SimpleSongsPlayer.DataModel;
 
 namespace SimpleSongsPlayer.Models.Factories
 {
-    public  class AllSongsGroupsFactory : SongsGroupsFactoryBase
+    public  class AllSongsGroupsFactory : ISongsGroupsFactory
     {
         private static List<SongsGroup> CreateDefaultGroup(CharacterGroupings cgs)
         {
@@ -17,7 +18,7 @@ namespace SimpleSongsPlayer.Models.Factories
             return result;
         }
 
-        public override List<SongsGroup> ClassifySongsGroups(IEnumerable<Song> allSongs)
+        public ObservableCollection<SongsGroup> ClassifySongGroups(IEnumerable<Song> allSongs)
         {
             var cgs = new CharacterGroupings();
             var defaultGroup = CreateDefaultGroup(cgs);
@@ -32,7 +33,7 @@ namespace SimpleSongsPlayer.Models.Factories
                     defaultGroup.Add(new SongsGroup(label, new List<Song> {song}));
             }
 
-            return defaultGroup;
+            return new ObservableCollection<SongsGroup>(defaultGroup);
         }
     }
 }

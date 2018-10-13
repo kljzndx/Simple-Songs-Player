@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;
@@ -13,15 +15,22 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
 {
     public abstract class SongViewModelBase : ViewModelBase
     {
-        private readonly SongsGroupsFactoryBase songsGroupsFactory;
+        private readonly ISongsGroupsFactory songsGroupsFactory;
+        private readonly ISongGroupsAsyncFactory songGroupsAsyncFactory;
+
         private CollectionViewSource groupsDataSource;
 
-        protected SongViewModelBase(SongsGroupsFactoryBase factory)
+        protected SongViewModelBase(ISongsGroupsFactory factory)
         {
             songsGroupsFactory = factory;
         }
 
-        public List<SongsGroup> SongGroups { get; private set; }
+        protected SongViewModelBase(ISongGroupsAsyncFactory factory)
+        {
+            songGroupsAsyncFactory = factory;
+        }
+
+        public ObservableCollection<SongsGroup> SongGroups { get; private set; }
 
         public CollectionViewSource GroupsDataSource
         {
@@ -29,9 +38,12 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
             set => Set(ref groupsDataSource, value);
         }
 
-        public void RefreshData(List<Song> allSongs)
+        public async Task RefreshData(List<Song> allSongs)
         {
-            SongGroups = songsGroupsFactory.ClassifySongsGroups(allSongs);
+            if (songGroupsAsyncFactory != null)
+                SongGroups = await songGroupsAsyncFactory.ClassifySongGroupsAsync(allSongs);
+            else
+                SongGroups = songsGroupsFactory.ClassifySongGroups(allSongs);
 
             GroupsDataSource = new CollectionViewSource
             {
@@ -58,7 +70,7 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
                 List<Song> r = new List<Song>();
                 r.AddRange(s);
                 r.AddRange(n);
-                return r;
+                return new ObservableCollection<Song>(r);
             }).ToList();
         }
 

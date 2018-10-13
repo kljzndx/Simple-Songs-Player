@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using SimpleSongsPlayer.DataModel;
 
 namespace SimpleSongsPlayer.Models.Factories
 {
-    public class AllSongAlbumsGroupsFactory : SongsGroupsFactoryBase
+    public class AllSongAlbumsGroupsFactory : ISongsGroupsFactory
     {
-        public override List<SongsGroup> ClassifySongsGroups(IEnumerable<Song> allSongs)
+        public ObservableCollection<SongsGroup> ClassifySongGroups(IEnumerable<Song> allSongs)
         {
             var songsList = allSongs.ToList();
-            var result = new List<SongsGroup>();
+            var result = new ObservableCollection<SongsGroup>();
 
             // 统计专辑名称
             foreach (var song in songsList)
@@ -20,7 +21,8 @@ namespace SimpleSongsPlayer.Models.Factories
             // 归纳数据
             foreach (var item in result)
             {
-                item.Items.AddRange(songsList.Where(s => s.Album.Trim() == item.Name));
+                foreach (var song in songsList.Where(s => s.Album.Trim() == item.Name))
+                    item.Items.Add(song);
 
                 item.AlbumCover = item.Items.First().AlbumCover;
             }

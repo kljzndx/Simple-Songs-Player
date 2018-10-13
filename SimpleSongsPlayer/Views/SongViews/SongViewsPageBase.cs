@@ -31,12 +31,12 @@ namespace SimpleSongsPlayer.Views.SongViews
             return (T) vmb;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
             if (e.Parameter is List<Song> allSongs)
-                vmb.RefreshData(allSongs);
+                await vmb.RefreshData(allSongs);
             else
                 throw new Exception("未收到歌曲数据");
         }

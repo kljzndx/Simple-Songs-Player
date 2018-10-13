@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.UI.Xaml.Media.Imaging;
 using SimpleSongsPlayer.DataModel;
@@ -10,15 +11,15 @@ namespace SimpleSongsPlayer.Models
         public SongsGroup(string name)
         {
             Name = name;
-            Items = new List<Song>();
+            Items = new ObservableCollection<Song>();
         }
 
-        public SongsGroup(string name, List<Song> items)
+        public SongsGroup(string name, IEnumerable<Song> items)
         {
             Name = name;
-            Items = items;
+            Items = new ObservableCollection<Song>(items);
 
-            var song = items.FirstOrDefault();
+            var song = Items.LastOrDefault();
             if (song != null)
                 AlbumCover = song.AlbumCover;
         }
@@ -26,6 +27,6 @@ namespace SimpleSongsPlayer.Models
         public bool IsAny => Items.Any();
         public string Name { get; }
         public BitmapSource AlbumCover { get; set; }
-        public List<Song> Items { get; }
+        public ObservableCollection<Song> Items { get; }
     }
 }
