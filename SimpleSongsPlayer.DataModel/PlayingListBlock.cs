@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -34,11 +35,12 @@ namespace SimpleSongsPlayer.DataModel
             set => Set(ref changeDate, value);
         }
 
-        public async Task<List<string>> GetPaths()
+        public async Task<ReadOnlyCollection<string>> GetPaths()
         {
             if (_paths is null)
                 _paths = (await FileIO.ReadLinesAsync(_file)).ToList();
-            return _paths;
+
+            return _paths.AsReadOnly();
         }
 
         public async Task AddPath(string path)
