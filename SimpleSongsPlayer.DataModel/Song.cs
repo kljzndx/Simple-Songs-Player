@@ -25,6 +25,7 @@ namespace SimpleSongsPlayer.DataModel
             Title = String.IsNullOrWhiteSpace(musicProperties.Title) ? file.DisplayName : musicProperties.Title;
             Singer = SongListStrings.GetString("UnknownSinger");
             Album = SongListStrings.GetString("UnknownAlbum");
+            Path = file.Path;
             CoverStream = coverStream;
 
             AlbumCover = new BitmapImage();
@@ -56,6 +57,7 @@ namespace SimpleSongsPlayer.DataModel
         public string Title { get; }
         public string Singer { get; }
         public string Album { get; }
+        public string Path { get; }
         public StorageItemThumbnail CoverStream { get; }
         public BitmapSource AlbumCover { get; }
         public TimeSpan Duration { get; }
