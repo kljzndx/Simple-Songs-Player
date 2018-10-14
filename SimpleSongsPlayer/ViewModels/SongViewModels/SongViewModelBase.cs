@@ -38,7 +38,7 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
             set => Set(ref groupsDataSource, value);
         }
 
-        public async Task RefreshData(List<Song> allSongs)
+        public virtual async Task RefreshData(List<Song> allSongs)
         {
             if (songGroupsAsyncFactory != null)
                 SongGroups = await songGroupsAsyncFactory.ClassifySongGroupsAsync(allSongs);
