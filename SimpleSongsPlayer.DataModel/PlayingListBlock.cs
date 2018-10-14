@@ -50,12 +50,13 @@ namespace SimpleSongsPlayer.DataModel
 
         public async Task AddPaths(IEnumerable<string> paths)
         {
-            List<string> sourcePaths = await GetPaths();
+            var sourcePaths = await GetPaths();
             List<string> addPaths = paths.Where(s => !sourcePaths.Contains(s)).ToList();
             if (!addPaths.Any())
                 return;
 
-            sourcePaths.AddRange(addPaths);
+            foreach (var addPath in addPaths)
+                _paths.Add(addPath);
             await FileIO.AppendLinesAsync(_file, addPaths);
             ChangeDate = DateTime.Now;
         }
@@ -67,13 +68,13 @@ namespace SimpleSongsPlayer.DataModel
 
         public async Task RemovePaths(IEnumerable<string> paths)
         {
-            List<string> sourcePaths = await GetPaths();
+            var sourcePaths = await GetPaths();
             List<string> removePaths = paths.Where(s => sourcePaths.Contains(s)).ToList();
             if (!removePaths.Any())
                 return;
 
             foreach (var path in removePaths)
-                sourcePaths.Remove(path);
+                _paths.Remove(path);
 
             await FileIO.WriteLinesAsync(_file, sourcePaths);
             ChangeDate = DateTime.Now;
