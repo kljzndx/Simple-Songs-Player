@@ -119,6 +119,7 @@
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
     <Compile Include="ViewModels\PlayingViewModel.cs" />
     <Compile Include="ViewModels\SettingProperties.cs" />
+    <Compile Include="ViewModels\SongViewModels\PlayingListViewModel.cs" />
     <Compile Include="ViewModels\SongViewModels\SongsFoldersViewModel.cs" />
     <Compile Include="ViewModels\SongViewModels\SongsViewModelLocator.cs" />
     <Compile Include="Views\AllSongListsPage.xaml.cs">
