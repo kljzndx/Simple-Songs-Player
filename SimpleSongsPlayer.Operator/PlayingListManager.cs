@@ -29,7 +29,9 @@ namespace SimpleSongsPlayer.Operator
         
         public ReadOnlyCollection<PlayingListBlock> Blocks => _blocks.AsReadOnly();
 
-        public async Task<PlayingListBlock> CreateBlockAsync(string name)
+		public PlayingListBlock GetBlock(string name) => _blocks.Find(b => b.Name.Equals(name));
+
+		public async Task<PlayingListBlock> CreateBlockAsync(string name)
         {
             var file = await plbsFolder.CreateFileAsync(name, CreationCollisionOption.GenerateUniqueName);
             var block = await PlayingListBlock.CreateFromFileAsync(file);
