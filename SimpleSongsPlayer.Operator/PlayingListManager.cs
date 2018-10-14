@@ -26,12 +26,12 @@ namespace SimpleSongsPlayer.Operator
         {
             _blocks = blocks.ToList();
         }
-        
+
         public ReadOnlyCollection<PlayingListBlock> Blocks => _blocks.AsReadOnly();
 
-		public PlayingListBlock GetBlock(string name) => _blocks.Find(b => b.Name.Equals(name));
+        public PlayingListBlock GetBlock(string name) => _blocks.Find(b => b.Name.Equals(name));
 
-		public async Task<PlayingListBlock> CreateBlockAsync(string name)
+        public async Task<PlayingListBlock> CreateBlockAsync(string name)
         {
             var file = await plbsFolder.CreateFileAsync(name, CreationCollisionOption.GenerateUniqueName);
             var block = await PlayingListBlock.CreateFromFileAsync(file);
@@ -72,11 +72,11 @@ namespace SimpleSongsPlayer.Operator
                     return manager;
                 }
 
-                var options = new QueryOptions(CommonFileQuery.OrderByName, new[] {".plb"})
+                var options = new QueryOptions(CommonFileQuery.OrderByName, new[] { ".plb" })
                 {
                     IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties
                 };
-                options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new[] {SystemProperties.Title, SystemProperties.ItemNameDisplay});
+                options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new[] { SystemProperties.Title, SystemProperties.ItemNameDisplay });
 
                 var query = plbsFolder.CreateFileQueryWithOptions(options);
                 var files = await query.GetFilesAsync();
