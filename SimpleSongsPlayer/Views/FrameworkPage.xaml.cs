@@ -8,6 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
+using SimpleSongsPlayer.Operator;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Events;
 using SimpleSongsPlayer.Views.SongViews;
@@ -22,9 +23,10 @@ namespace SimpleSongsPlayer.Views
     public sealed partial class FrameworkPage : Page
     {
         public static FrameworkPage Current;
+        private PlayingListManager playingListManager;
 
         private readonly FrameworkViewModel vm;
-
+        
         public ThreadPoolTimer PauseTimer;
 
         public FrameworkPage()
@@ -38,9 +40,10 @@ namespace SimpleSongsPlayer.Views
 
             SystemNavigationManager.GetForCurrentView().BackRequested += System_BackRequested;
             PlayItemChangeNotifier.ItemChanged += PlayItemChangeNotifier_ItemChanged;
+            PlayingListOperationNotifier.AdditionRequested += PlayingListOperationNotifier_AdditionRequested;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is ValueTuple<List<Song>, List<LyricBlock>> tuple)
             {
@@ -52,14 +55,8 @@ namespace SimpleSongsPlayer.Views
 
             Main_Frame.Navigate(typeof(AllSongListsPage), vm.AllSongs);
             PlayerController.AllSongs = vm.AllSongs;
+            playingListManager = await PlayingListManager.GetManager();
         }
-
-        //protected override void OnNavigatedFrom(NavigationEventArgs e)
-        //{
-        //    base.OnNavigatedFrom(e);
-        //    Main_Frame.Navigate(typeof(Page));
-        //    Main_Frame.BackStack.Clear();
-        //}
 
         private void System_BackRequested(object sender, BackRequestedEventArgs e)
         {
@@ -98,6 +95,24 @@ namespace SimpleSongsPlayer.Views
         private void Main_Frame_Navigated(object sender, NavigationEventArgs e)
         {
             Close_Button.Visibility = e.SourcePageType != typeof(AllSongListsPage) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private async void PlayingListOperationNotifier_AdditionRequested(object sender, PlayingListAdditionRequestedEventArgs e)
+        {
+            var result = await PlayingListAddition_ContentDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+                await playingListManager.CreateBlockAsync(PlayingListName_TextBox.Text, e.Paths);
+
+            PlayingListName_TextBox.Text = String.Empty;
+        }
+
+        private void PlayingListName_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var theBox = sender as TextBox;
+            if (theBox is null)
+                return;
+
+            PlayingListAddition_ContentDialog.IsPrimaryButtonEnabled = !String.IsNullOrWhiteSpace(theBox.Text);
         }
     }
 }

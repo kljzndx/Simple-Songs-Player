@@ -327,6 +327,11 @@ namespace SimpleSongsPlayer.Views.Controllers
             Play();
         }
 
+        private void PlayList_Flyout_OnClosed(object sender, object e)
+        {
+            PlayList_ListView.ItemsSource = null;
+        }
+
         private void PlayList_Close_Button_Click(object sender, RoutedEventArgs e)
         {
             PlayList_Flyout.Hide();
@@ -336,6 +341,12 @@ namespace SimpleSongsPlayer.Views.Controllers
         {
             settingProperties.LoopingMode = (LoopingModeEnum) LoopingMode_ListBox.SelectedIndex;
             LoopingMode_Flyout.Hide();
+        }
+
+        private void SavePlayingList_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (PlayList_ListView.ItemsSource is List<Song> songs)
+                PlayingListOperationNotifier.RequestAdd(songs);
         }
     }
 }

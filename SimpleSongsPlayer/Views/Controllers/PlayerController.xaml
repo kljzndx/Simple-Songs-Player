@@ -435,7 +435,7 @@
 
             <Button x:Name="PlayList_Button" x:Uid="/PlayerController/PlayList_Button" Content="&#xE142;">
                 <Button.Flyout>
-                    <Flyout x:Name="PlayList_Flyout" Opened="PlayList_Flyout_Opened">
+                    <Flyout x:Name="PlayList_Flyout" Opened="PlayList_Flyout_Opened" Closed="PlayList_Flyout_OnClosed">
                         <Grid x:Name="PlayList_Grid" Width="430" Height="300">
                             <Grid.Resources>
                                 <Style TargetType="Button" BasedOn="{StaticResource ControllerButton_Style}"/>
@@ -452,7 +452,11 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock x:Name="PlayList_TextBlock" x:Uid="/PlayerController/PlayList_TextBlock" Text="播放列表" VerticalAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}"/>
-                                <Button x:Name="PlayList_Close_Button" Grid.Column="1" Content="&#xE10A;" Click="PlayList_Close_Button_Click"/>
+
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Button x:Name="SavePlayingList_Button" Content="&#xE105;" Click="SavePlayingList_Button_OnClick"/>
+                                    <Button x:Name="PlayList_Close_Button" Content="&#xE10A;" Click="PlayList_Close_Button_Click"/>
+                                </StackPanel>
                             </Grid>
                             <ListView x:Name="PlayList_ListView" Grid.Row="1" IsItemClickEnabled="True" ItemClick="PlayList_ListView_ItemClick">
                                 <ListView.ItemTemplate>

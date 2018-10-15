@@ -17,5 +17,9 @@
         <Frame x:Name="Main_Frame" Navigated="Main_Frame_Navigated"/>
         <Button x:Name="Close_Button" Content="&#xE10A;" Padding="8" Margin="10" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Close_Button_Click"/>
         <ctol:PlayerController x:Name="PlayerController" Grid.Row="1" CoverClick="PlayerController_CoverClick"/>
+
+        <ContentDialog x:Name="PlayingListAddition_ContentDialog" IsPrimaryButtonEnabled="False" PrimaryButtonText="保存" SecondaryButtonText="取消">
+            <TextBox x:Name="PlayingListName_TextBox" Header="列表名称" VerticalAlignment="Center" TextChanged="PlayingListName_TextBox_TextChanged"/>
+        </ContentDialog>
     </Grid>
 </Page>
