@@ -26,7 +26,10 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
             if (SongGroups != null)
             {
                 foreach (var songGroup in SongGroups)
+                {
+                    songGroup.Renamed -= Group_Renamed;
                     songGroup.Items.CollectionChanged -= GroupItems_CollectionChanged;
+                }
 
                 SongGroups.CollectionChanged -= SongGroups_CollectionChanged;
             }
@@ -36,7 +39,10 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
             SongGroups.CollectionChanged += SongGroups_CollectionChanged;
 
             foreach (var songsGroup in SongGroups)
+            {
+                songsGroup.Renamed += Group_Renamed;
                 songsGroup.Items.CollectionChanged += GroupItems_CollectionChanged;
+            }
         }
 
         private async void SongGroups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -48,8 +54,10 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
             {
                 case NotifyCollectionChangedAction.Add:
                     foreach (SongsGroup group in e.NewItems)
+                    {
+                        group.Renamed += Group_Renamed;
                         group.Items.CollectionChanged += GroupItems_CollectionChanged;
-
+                    }
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     foreach (SongsGroup group in e.OldItems)
@@ -57,10 +65,17 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
                         if (listManager.Blocks.FirstOrDefault(b => b.Name.Equals(@group.Name)) is PlayingListBlock block)
                             await listManager.DeleteBlockAsync(block);
 
+                        group.Renamed -= Group_Renamed;
                         group.Items.CollectionChanged -= GroupItems_CollectionChanged;
                     }
                     break;
             }
+        }
+        
+        private async void Group_Renamed(SongsGroup sender, Models.Events.SongGroupRenamedEventArgs args)
+        {
+            var theBlock = listManager.GetBlock(args.OldName);
+            await theBlock.RenameAsync(args.NewName);
         }
 
         private async void GroupItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
