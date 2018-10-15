@@ -102,6 +102,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Events\SongGroupRenamedEventArgs.cs" />
     <Compile Include="Models\ExceptionExtension.cs" />
     <Compile Include="Models\ExceptionHandlingSynchronizationContext.cs" />
     <Compile Include="Models\Factories\AllSongsFoldersFactory.cs" />
