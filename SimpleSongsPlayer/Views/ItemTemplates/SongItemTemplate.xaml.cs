@@ -24,8 +24,8 @@ namespace SimpleSongsPlayer.Views.ItemTemplates
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
             nameof(Source), typeof(Song), typeof(SongItemTemplate), new PropertyMetadata(null));
 
-        public event TypedEventHandler<SongItemTemplate, EventArgs> PlayRequested;
-        public event TypedEventHandler<SongItemTemplate, EventArgs> AddItemRequested;
+        public static readonly DependencyProperty MenuProperty = DependencyProperty.Register(
+            nameof(Menu), typeof(MenuFlyout), typeof(SongItemTemplate), new PropertyMetadata(null));
 
         public SongItemTemplate()
         {
@@ -38,7 +38,29 @@ namespace SimpleSongsPlayer.Views.ItemTemplates
             get => (Song) GetValue(SourceProperty);
             set => SetValue(SourceProperty, value);
         }
+
+        public MenuFlyout Menu
+        {
+            get => (MenuFlyout) GetValue(MenuProperty);
+            set => SetValue(MenuProperty, value);
+        }
         
+        public event TypedEventHandler<SongItemTemplate, EventArgs> PlayRequested;
+        public event TypedEventHandler<SongItemTemplate, EventArgs> AddItemRequested;
+        public event TypedEventHandler<SongItemTemplate, EventArgs> MenuOpening;
+
+        protected override void OnRightTapped(RightTappedRoutedEventArgs e)
+        {
+            base.OnRightTapped(e);
+
+            if (Menu != null)
+            {
+                Point position = e.GetPosition(this);
+                Menu?.ShowAt(this, position);
+                MenuOpening?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
         private void Play_Button_Click(object sender, RoutedEventArgs e)
         {
             PlayRequested?.Invoke(this, EventArgs.Empty);
@@ -47,6 +69,12 @@ namespace SimpleSongsPlayer.Views.ItemTemplates
         private void AddItem_Button_Click(object sender, RoutedEventArgs e)
         {
             AddItemRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void More_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (Menu != null)
+                MenuOpening?.Invoke(this, EventArgs.Empty);
         }
     }
 }
