@@ -36,7 +36,7 @@
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <temp:SongItemTemplate Source="{Binding}" PlayRequested="PlayItem_Button_Tapped" AddItemRequested="AddItem_Button_Tapped"/>
+                        <temp:SongItemTemplate Source="{Binding}" Menu="{StaticResource SongItemMenu}" PlayRequested="PlayItem_Button_Tapped" MenuOpening="SongItemTemplate_MenuOpening"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

@@ -79,8 +79,7 @@
                 </StackPanel.Resources>
 
                 <Button x:Name="Play_Button" x:Uid="/SongList/PlayItem_Button" Content="&#xE102;" Click="Play_Button_Click"/>
-                <Button x:Name="AddItem_Button" x:Uid="/SongList/AddItem_Button" Content="&#xE109;" Click="AddItem_Button_Click"/>
-                <Button x:Name="More_Button" Content="&#xE10C;" Flyout="{x:Bind Menu, Mode=OneWay}" Click="More_Button_OnClick"/>
+                <Button x:Name="More_Button" x:Uid="/SongList/More_Button" Content="&#xE10C;" Flyout="{x:Bind Menu, Mode=OneWay}" Click="More_Button_OnClick"/>
             </StackPanel>
         </Grid>
 

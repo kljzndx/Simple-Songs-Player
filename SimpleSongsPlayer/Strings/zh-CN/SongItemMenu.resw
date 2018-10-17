@@ -117,28 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddGroup_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Add this group to playlist</value>
-  </data>
-  <data name="More_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>More</value>
-  </data>
-  <data name="PlayAll_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Play all</value>
-  </data>
-  <data name="PlayGroup_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Play this group</value>
-  </data>
-  <data name="PlayItem_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Play this song</value>
-  </data>
-  <data name="SongCount_Run.Text" xml:space="preserve">
-    <value>Songs</value>
-  </data>
-  <data name="UnknownAlbum" xml:space="preserve">
-    <value>Unknown album</value>
-  </data>
-  <data name="UnknownSinger" xml:space="preserve">
-    <value>Unknown singer</value>
+  <data name="AddToPlayList" xml:space="preserve">
+    <value>添加到播放列表</value>
   </data>
 </root>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.Media.Playback;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -16,10 +16,19 @@ namespace SimpleSongsPlayer.Views.SongViews
     public abstract class SongViewsPageBase : Page
     {
         private readonly SongViewModelBase vmb;
+        private readonly MenuFlyout songItemMenu;
+        
+        protected Song SongCache;
 
         protected SongViewsPageBase(SongViewModelBase vm)
         {
             vmb = vm;
+            songItemMenu = new MenuFlyout();
+            songItemMenu.Closed += (s, e) => SongCache = null;
+
+            Resources = new ResourceDictionary();
+            Resources.Add("SongItemMenu", songItemMenu);
+            
             NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
@@ -31,6 +40,15 @@ namespace SimpleSongsPlayer.Views.SongViews
             return (T) vmb;
         }
 
+        protected virtual void MenuInit(MenuFlyout menuFlyout, ResourceLoader stringResource)
+        {
+            MenuFlyoutItem addToPlayListMenu = new MenuFlyoutItem();
+            addToPlayListMenu.Text = stringResource.GetString("AddToPlayList");
+            addToPlayListMenu.Click += AddToPlayListMenu_Click;
+
+            menuFlyout.Items.Add(addToPlayListMenu);
+        }
+
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -39,6 +57,9 @@ namespace SimpleSongsPlayer.Views.SongViews
                 await vmb.RefreshData(allSongs);
             else
                 throw new Exception("未收到歌曲数据");
+            
+            if (!songItemMenu.Items.Any())
+                MenuInit(songItemMenu, ResourceLoader.GetForCurrentView("SongItemMenu"));
         }
 
         protected void Songs_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -65,10 +86,18 @@ namespace SimpleSongsPlayer.Views.SongViews
         {
             vmb.Push(sender.Source);
         }
-
-        protected void AddItem_Button_Tapped(SongItemTemplate sender, EventArgs args)
+        
+        protected void SongItemTemplate_MenuOpening(SongItemTemplate sender, EventArgs args)
         {
-            vmb.Append(sender.Source);
+            SongCache = sender.Source;
+        }
+
+        private void AddToPlayListMenu_Click(object sender, RoutedEventArgs e)
+        {
+            if (SongCache is null)
+                return;
+
+            vmb.Append(SongCache);
         }
 
         protected void PlayGroup_Button_Tapped(object sender, TappedRoutedEventArgs e)

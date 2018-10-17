@@ -46,7 +46,6 @@ namespace SimpleSongsPlayer.Views.ItemTemplates
         }
         
         public event TypedEventHandler<SongItemTemplate, EventArgs> PlayRequested;
-        public event TypedEventHandler<SongItemTemplate, EventArgs> AddItemRequested;
         public event TypedEventHandler<SongItemTemplate, EventArgs> MenuOpening;
 
         protected override void OnRightTapped(RightTappedRoutedEventArgs e)
@@ -65,12 +64,7 @@ namespace SimpleSongsPlayer.Views.ItemTemplates
         {
             PlayRequested?.Invoke(this, EventArgs.Empty);
         }
-
-        private void AddItem_Button_Click(object sender, RoutedEventArgs e)
-        {
-            AddItemRequested?.Invoke(this, EventArgs.Empty);
-        }
-
+        
         private void More_Button_OnClick(object sender, RoutedEventArgs e)
         {
             if (Menu != null)

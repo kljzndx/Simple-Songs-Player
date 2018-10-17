@@ -120,8 +120,8 @@
   <data name="AddGroup_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>添加该组到播放列表</value>
   </data>
-  <data name="AddItem_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>添加此歌曲到播放列表</value>
+  <data name="More_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>更多</value>
   </data>
   <data name="PlayAll_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>播放全部</value>
