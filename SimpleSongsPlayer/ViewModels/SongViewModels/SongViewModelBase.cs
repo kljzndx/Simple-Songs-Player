@@ -74,7 +74,7 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
             }).ToList();
         }
 
-        public void AddItem(MediaPlaybackList target, Song song)
+        private void AddItem(MediaPlaybackList target, Song song)
         {
             if (!target.Items.Contains(song.PlaybackItem))
                 target.Items.Add(song.PlaybackItem);
@@ -91,6 +91,9 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
                 }
                 else
                     mpl.MoveTo((uint) mpl.Items.IndexOf(song.PlaybackItem));
+
+                if (App.Player.PlaybackSession is null || App.Player.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
+                    App.Player.Play();
             }
             else
             {
