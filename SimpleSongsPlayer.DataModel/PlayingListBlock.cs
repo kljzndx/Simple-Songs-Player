@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using SimpleSongsPlayer.DataModel.Events;
 
 namespace SimpleSongsPlayer.DataModel
 {
@@ -34,6 +36,8 @@ namespace SimpleSongsPlayer.DataModel
             get => changeDate;
             set => Set(ref changeDate, value);
         }
+
+        public event TypedEventHandler<PlayingListBlock, PlayingListBlockRenamedEventArgs> Renamed;
 
         public async Task<ReadOnlyCollection<string>> GetPaths()
         {
@@ -82,9 +86,12 @@ namespace SimpleSongsPlayer.DataModel
 
         public async Task RenameAsync(string newName)
         {
+            string oldName = Name;
             await _file.RenameAsync(newName);
             Name = newName;
             ChangeDate = DateTime.Now;
+
+            Renamed?.Invoke(this, new PlayingListBlockRenamedEventArgs(oldName, newName));
         }
 
         public async Task DeleteFileAsync() => await _file.DeleteAsync();

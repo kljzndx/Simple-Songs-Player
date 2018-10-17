@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using SimpleSongsPlayer.DataModel;
+using SimpleSongsPlayer.DataModel.Events;
 
 namespace SimpleSongsPlayer.Operator
 {
@@ -25,9 +27,16 @@ namespace SimpleSongsPlayer.Operator
         private PlayingListManager(IEnumerable<PlayingListBlock> blocks)
         {
             _blocks = blocks.ToList();
+
+            foreach (var block in _blocks)
+                block.Renamed += (s, e) => BlockRenamed?.Invoke(this, e);
         }
 
         public ReadOnlyCollection<PlayingListBlock> Blocks => _blocks.AsReadOnly();
+
+        public event TypedEventHandler<PlayingListManager, PlayingListBlock> BlockCreated;
+        public event TypedEventHandler<PlayingListManager, PlayingListBlock> BlockDeleted;
+        public event TypedEventHandler<PlayingListManager, PlayingListBlockRenamedEventArgs> BlockRenamed;
 
         public PlayingListBlock GetBlock(string name) => _blocks.Find(b => b.Name.Equals(name));
 
@@ -36,6 +45,7 @@ namespace SimpleSongsPlayer.Operator
             var file = await plbsFolder.CreateFileAsync(name, CreationCollisionOption.GenerateUniqueName);
             var block = await PlayingListBlock.CreateFromFileAsync(file);
             _blocks.Add(block);
+            BlockCreated?.Invoke(this, block);
             return block;
         }
 
@@ -53,6 +63,7 @@ namespace SimpleSongsPlayer.Operator
 
             await block.DeleteFileAsync();
             _blocks.Remove(block);
+            BlockDeleted.Invoke(this, block);
         }
 
         public static async Task<PlayingListManager> GetManager()

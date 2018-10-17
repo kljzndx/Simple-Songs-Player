@@ -107,6 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Attributes\LyricsTagAttribute.cs" />
+    <Compile Include="Events\PlayingListBlockRenamedEventArgs.cs" />
     <Compile Include="Exceptions\ExceptionResource.cs" />
     <Compile Include="Exceptions\LyricsParsingFailedException.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
