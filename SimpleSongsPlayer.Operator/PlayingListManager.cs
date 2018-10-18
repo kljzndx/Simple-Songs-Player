@@ -83,11 +83,7 @@ namespace SimpleSongsPlayer.Operator
                     return manager;
                 }
 
-                var options = new QueryOptions(CommonFileQuery.OrderByName, new[] { ".plb" })
-                {
-                    IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties
-                };
-                options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new[] { SystemProperties.Title, SystemProperties.ItemNameDisplay });
+                var options = new QueryOptions(CommonFileQuery.OrderByName, new[] {".plb"});
 
                 var query = plbsFolder.CreateFileQueryWithOptions(options);
                 var files = await query.GetFilesAsync();
