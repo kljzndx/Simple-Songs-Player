@@ -96,11 +96,7 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
                     App.Player.Play();
             }
             else
-            {
-                MediaPlaybackList newMpl = new MediaPlaybackList();
-                AddItem(newMpl, song);
-                App.Player.Source = newMpl;
-            }
+                Push(new[] {song});
         }
 
         public void Push(IEnumerable<Song> songs)
@@ -116,11 +112,7 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
             if (App.Player.Source is MediaPlaybackList mpl)
                 AddItem(mpl, song);
             else
-            {
-                MediaPlaybackList newMpl = new MediaPlaybackList();
-                AddItem(newMpl, song);
-                App.Player.Source = newMpl;
-            }
+                Push(new[] {song});
         }
 
         public void Append(IEnumerable<Song> songs)
@@ -129,12 +121,7 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
                 foreach (var song in songs)
                     AddItem(mpl, song);
             else
-            {
-                MediaPlaybackList newMpl = new MediaPlaybackList();
-                foreach (var song in songs)
-                    AddItem(newMpl, song);
-                App.Player.Source = newMpl;
-            }
+                Push(songs);
         }
     }
 }
