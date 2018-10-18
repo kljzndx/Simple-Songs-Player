@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.Models;
+using SimpleSongsPlayer.Operator;
 using SimpleSongsPlayer.ViewModels.SongViewModels;
 using SimpleSongsPlayer.Views.ItemTemplates;
 
@@ -15,8 +16,14 @@ namespace SimpleSongsPlayer.Views.SongViews
 {
     public abstract class SongViewsPageBase : Page
     {
+        private static readonly ResourceLoader MenuResource = ResourceLoader.GetForCurrentView("SongItemMenu");
+
         private readonly SongViewModelBase vmb;
         private readonly MenuFlyout songItemMenu;
+
+        private MenuFlyoutSubItem addTo_MenuItem;
+
+        private PlayingListManager playingListManager;
         
         protected Song SongCache;
 
@@ -45,22 +52,31 @@ namespace SimpleSongsPlayer.Views.SongViews
             MenuFlyoutItem nextPlay_MenuItem = new MenuFlyoutItem();
             nextPlay_MenuItem.Text = stringResource.GetString("NextPlay");
             nextPlay_MenuItem.Click += NextPlay_MenuItem_Click;
+
+            addTo_MenuItem = new MenuFlyoutSubItem();
+            addTo_MenuItem.Text = stringResource.GetString("AddTo");
+            
             menuFlyout.Items.Add(nextPlay_MenuItem);
+            menuFlyout.Items.Add(addTo_MenuItem);
+            
+            MenuFlyoutItem playing = new MenuFlyoutItem();
+            playing.Text = stringResource.GetString("Playing");
+            playing.Click += AddTo_Playing_MenuItem_Click;
 
+            addTo_MenuItem.Items.Add(playing);
+            addTo_MenuItem.Items.Add(new MenuFlyoutSeparator());
+            
+            foreach (var block in playingListManager.Blocks)
             {
-                MenuFlyoutSubItem addTo = new MenuFlyoutSubItem();
-                addTo.Text = stringResource.GetString("AddTo");
-                
-                MenuFlyoutItem playing = new MenuFlyoutItem();
-                playing.Text = stringResource.GetString("Playing");
-                playing.Click += Playing_MenuItem_Click;
-
-                addTo.Items.Add(playing);
-                addTo.Items.Add(new MenuFlyoutSeparator());
-
-                menuFlyout.Items.Add(addTo);
+                var menuItem = new MenuFlyoutItem();
+                menuItem.Text = block.Name;
+                menuItem.Click += AddTo_PlayingList_MenuItem_Click;
+                addTo_MenuItem.Items.Add(menuItem);
             }
 
+            playingListManager.BlockCreated += PlayingListManager_BlockCreated;
+            playingListManager.BlockDeleted += PlayingListManager_BlockDeleted;
+            playingListManager.BlockRenamed += PlayingListManager_BlockRenamed;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -71,9 +87,11 @@ namespace SimpleSongsPlayer.Views.SongViews
                 await vmb.RefreshData(allSongs);
             else
                 throw new Exception("未收到歌曲数据");
-            
+        
+            playingListManager = await PlayingListManager.GetManager();
+        
             if (!songItemMenu.Items.Any())
-                MenuInit(songItemMenu, ResourceLoader.GetForCurrentView("SongItemMenu"));
+                MenuInit(songItemMenu, MenuResource);
         }
 
         protected void Songs_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -114,12 +132,23 @@ namespace SimpleSongsPlayer.Views.SongViews
             vmb.PushToNext(SongCache);
         }
 
-        private void Playing_MenuItem_Click(object sender, RoutedEventArgs e)
+        private void AddTo_Playing_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (SongCache is null)
                 return;
 
             vmb.Append(SongCache);
+        }
+
+        private async void AddTo_PlayingList_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var theMenuItem = sender as MenuFlyoutItem;
+            if (theMenuItem is null)
+                return;
+
+            var song = SongCache;
+            var block = playingListManager.GetBlock(theMenuItem.Text);
+            await block.AddPath(song.Path);
         }
 
         protected void PlayGroup_Button_Tapped(object sender, TappedRoutedEventArgs e)
@@ -139,5 +168,27 @@ namespace SimpleSongsPlayer.Views.SongViews
             if (group != null)
                 vmb.Append(group.Items);
         }
+
+        private void PlayingListManager_BlockCreated(PlayingListManager sender, PlayingListBlock args)
+        {
+            MenuFlyoutItem item = new MenuFlyoutItem { Text = args.Name };
+            item.Click += AddTo_PlayingList_MenuItem_Click;
+            addTo_MenuItem.Items.Add(item);
+        }
+
+        private void PlayingListManager_BlockDeleted(PlayingListManager sender, PlayingListBlock args)
+        {
+            var item = addTo_MenuItem.Items.FirstOrDefault(m => m is MenuFlyoutItem mi && mi.Text.Equals(args.Name));
+            if (item != null)
+                addTo_MenuItem.Items.Remove(item);
+        }
+
+        private void PlayingListManager_BlockRenamed(PlayingListManager sender, DataModel.Events.PlayingListBlockRenamedEventArgs args)
+        {
+            var item = addTo_MenuItem.Items.FirstOrDefault(m => m is MenuFlyoutItem mi && mi.Text.Equals(args.OldName));
+            if (item is MenuFlyoutItem mfi)
+                mfi.Text = args.NewName;
+        }
+
     }
 }
