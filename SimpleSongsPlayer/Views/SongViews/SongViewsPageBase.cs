@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
+using SimpleSongsPlayer.DataModel.Events;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Operator;
 using SimpleSongsPlayer.ViewModels.SongViewModels;
@@ -183,7 +184,7 @@ namespace SimpleSongsPlayer.Views.SongViews
                 addTo_MenuItem.Items.Remove(item);
         }
 
-        private void PlayingListManager_BlockRenamed(PlayingListManager sender, DataModel.Events.PlayingListBlockRenamedEventArgs args)
+        private void PlayingListManager_BlockRenamed(PlayingListManager sender, PlayingListBlockRenamedEventArgs args)
         {
             var item = addTo_MenuItem.Items.FirstOrDefault(m => m is MenuFlyoutItem mi && mi.Text.Equals(args.OldName));
             if (item is MenuFlyoutItem mfi)
