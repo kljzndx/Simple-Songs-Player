@@ -42,11 +42,25 @@ namespace SimpleSongsPlayer.Views.SongViews
 
         protected virtual void MenuInit(MenuFlyout menuFlyout, ResourceLoader stringResource)
         {
-            MenuFlyoutItem addToPlayListMenu = new MenuFlyoutItem();
-            addToPlayListMenu.Text = stringResource.GetString("AddToPlayList");
-            addToPlayListMenu.Click += AddToPlayListMenu_Click;
+            MenuFlyoutItem nextPlay_MenuItem = new MenuFlyoutItem();
+            nextPlay_MenuItem.Text = stringResource.GetString("NextPlay");
+            nextPlay_MenuItem.Click += NextPlay_MenuItem_Click;
+            menuFlyout.Items.Add(nextPlay_MenuItem);
 
-            menuFlyout.Items.Add(addToPlayListMenu);
+            {
+                MenuFlyoutSubItem addTo = new MenuFlyoutSubItem();
+                addTo.Text = stringResource.GetString("AddTo");
+                
+                MenuFlyoutItem playing = new MenuFlyoutItem();
+                playing.Text = stringResource.GetString("Playing");
+                playing.Click += Playing_MenuItem_Click;
+
+                addTo.Items.Add(playing);
+                addTo.Items.Add(new MenuFlyoutSeparator());
+
+                menuFlyout.Items.Add(addTo);
+            }
+
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -92,7 +106,15 @@ namespace SimpleSongsPlayer.Views.SongViews
             SongCache = sender.Source;
         }
 
-        private void AddToPlayListMenu_Click(object sender, RoutedEventArgs e)
+        private void NextPlay_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (SongCache is null)
+                return;
+
+            vmb.PushToNext(SongCache);
+        }
+
+        private void Playing_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (SongCache is null)
                 return;

@@ -107,6 +107,19 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
             App.Player.Source = mpl;
         }
 
+        public void PushToNext(Song song)
+        {
+            if (App.Player.Source is MediaPlaybackList mpl)
+            {
+                if (mpl.Items.Contains(song.PlaybackItem))
+                    mpl.Items.Remove(song.PlaybackItem);
+
+                mpl.Items.Insert((int) mpl.CurrentItemIndex + 1, song.PlaybackItem);
+            }
+            else
+                Push(new[] {song});
+        }
+
         public void Append(Song song)
         {
             if (App.Player.Source is MediaPlaybackList mpl)
