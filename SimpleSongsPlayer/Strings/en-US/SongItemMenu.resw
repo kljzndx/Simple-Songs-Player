@@ -120,10 +120,13 @@
   <data name="AddTo" xml:space="preserve">
     <value>Add to</value>
   </data>
+  <data name="NewPlayList" xml:space="preserve">
+    <value>New playlist</value>
+  </data>
   <data name="NextPlay" xml:space="preserve">
-    <value>Next to play</value>
+    <value>Play next</value>
   </data>
   <data name="Playing" xml:space="preserve">
-    <value>Playing</value>
+    <value>Now playing</value>
   </data>
 </root>

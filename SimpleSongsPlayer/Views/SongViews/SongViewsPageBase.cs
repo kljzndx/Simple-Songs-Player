@@ -10,6 +10,7 @@ using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.DataModel.Events;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Operator;
+using SimpleSongsPlayer.ViewModels.Events;
 using SimpleSongsPlayer.ViewModels.SongViewModels;
 using SimpleSongsPlayer.Views.ItemTemplates;
 
@@ -61,15 +62,24 @@ namespace SimpleSongsPlayer.Views.SongViews
             menuFlyout.Items.Add(addTo_MenuItem);
             
             MenuFlyoutItem playing = new MenuFlyoutItem();
+            playing.Icon = new FontIcon {Glyph = "\uE189"};
             playing.Text = stringResource.GetString("Playing");
             playing.Click += AddTo_Playing_MenuItem_Click;
 
             addTo_MenuItem.Items.Add(playing);
             addTo_MenuItem.Items.Add(new MenuFlyoutSeparator());
+
+            MenuFlyoutItem newPlayList = new MenuFlyoutItem();
+            newPlayList.Icon = new FontIcon {Glyph = "\uE109"};
+            newPlayList.Text = stringResource.GetString("NewPlayList");
+            newPlayList.Click += AddTo_NewPlayList_MenuItem_Click;
+
+            addTo_MenuItem.Items.Add(newPlayList);
             
             foreach (var block in playingListManager.Blocks)
             {
                 var menuItem = new MenuFlyoutItem();
+                menuItem.Icon = new FontIcon {Glyph = "\uE154" };
                 menuItem.Text = block.Name;
                 menuItem.Click += AddTo_PlayingList_MenuItem_Click;
                 addTo_MenuItem.Items.Add(menuItem);
@@ -139,6 +149,14 @@ namespace SimpleSongsPlayer.Views.SongViews
                 return;
 
             vmb.Append(SongCache);
+        }
+
+        private void AddTo_NewPlayList_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (SongCache is null)
+                return;
+
+            PlayingListOperationNotifier.RequestAdd(new[] { SongCache });
         }
 
         private async void AddTo_PlayingList_MenuItem_Click(object sender, RoutedEventArgs e)

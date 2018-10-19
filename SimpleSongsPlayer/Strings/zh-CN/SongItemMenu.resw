@@ -120,6 +120,9 @@
   <data name="AddTo" xml:space="preserve">
     <value>添加到</value>
   </data>
+  <data name="NewPlayList" xml:space="preserve">
+    <value>新的播放列表</value>
+  </data>
   <data name="NextPlay" xml:space="preserve">
     <value>下一首播放</value>
   </data>
