@@ -63,7 +63,7 @@ namespace SimpleSongsPlayer.Operator
 
             await block.DeleteFileAsync();
             _blocks.Remove(block);
-            BlockDeleted.Invoke(this, block);
+            BlockDeleted?.Invoke(this, block);
         }
 
         public static async Task<PlayingListManager> GetManager()
