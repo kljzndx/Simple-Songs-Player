@@ -84,10 +84,6 @@ namespace SimpleSongsPlayer.Views.SongViews
                 menuItem.Click += AddTo_PlayingList_MenuItem_Click;
                 addTo_MenuItem.Items.Add(menuItem);
             }
-
-            playingListManager.BlockCreated += PlayingListManager_BlockCreated;
-            playingListManager.BlockDeleted += PlayingListManager_BlockDeleted;
-            playingListManager.BlockRenamed += PlayingListManager_BlockRenamed;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -103,6 +99,17 @@ namespace SimpleSongsPlayer.Views.SongViews
         
             if (!songItemMenu.Items.Any())
                 MenuInit(songItemMenu, MenuResource);
+
+            if (addTo_MenuItem != null)
+            {
+                playingListManager.BlockCreated -= PlayingListManager_BlockCreated;
+                playingListManager.BlockDeleted -= PlayingListManager_BlockDeleted;
+                playingListManager.BlockRenamed -= PlayingListManager_BlockRenamed;
+
+                playingListManager.BlockCreated += PlayingListManager_BlockCreated;
+                playingListManager.BlockDeleted += PlayingListManager_BlockDeleted;
+                playingListManager.BlockRenamed += PlayingListManager_BlockRenamed;
+            }
         }
 
         protected void Songs_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
