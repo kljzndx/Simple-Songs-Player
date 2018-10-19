@@ -129,4 +129,7 @@
   <data name="Playing" xml:space="preserve">
     <value>正在播放</value>
   </data>
+  <data name="Remove" xml:space="preserve">
+    <value>移除</value>
+  </data>
 </root>

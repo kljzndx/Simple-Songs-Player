@@ -50,6 +50,7 @@ namespace SimpleSongsPlayer.Views
             AllSongArtists_Frame.Navigate(typeof(Page));
             AllSongAlbums_Frame.Navigate(typeof(Page));
             AllSongFolders_Frame.Navigate(typeof(Page));
+            PlayingList_Frame.Navigate(typeof(Page));
 
             switch (Main_Pivot.SelectedIndex)
             {
@@ -64,6 +65,9 @@ namespace SimpleSongsPlayer.Views
                     break;
                 case 3:
                     AllSongFolders_Frame.Navigate(typeof(SongsFoldersViewPage), vm.AllSongs);
+                    break;
+                case 4:
+                    PlayingList_Frame.Navigate(typeof(PlayingList_ViewPage), vm.AllSongs);
                     break;
                 default:
                     throw new Exception("未找到对应处理器");

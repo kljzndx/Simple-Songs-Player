@@ -42,6 +42,9 @@
             <PivotItem x:Name="SongFolders_PivotItem" x:Uid="/AllSongLists/SongFolders_PivotItem">
                 <Frame x:Name="AllSongFolders_Frame"/>
             </PivotItem>
+            <PivotItem x:Name="PlayingList_PivotItem" x:Uid="/AllSongLists/PlayingList_PivotItem">
+                <Frame x:Name="PlayingList_Frame"/>
+            </PivotItem>
         </Pivot>
     </SplitView>
 </Page>
