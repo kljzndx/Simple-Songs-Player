@@ -346,7 +346,13 @@ namespace SimpleSongsPlayer.Views.Controllers
         private void SavePlayingList_Button_OnClick(object sender, RoutedEventArgs e)
         {
             if (PlayList_ListView.ItemsSource is List<Song> songs)
-                PlayingListOperationNotifier.RequestAdd(songs);
+            {
+                var items = new List<SongItem>();
+                foreach (var song in songs)
+                    items.Add(new SongItem(song));
+
+                PlayingListOperationNotifier.RequestAdd(items);
+            }
         }
     }
 }

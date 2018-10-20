@@ -28,9 +28,9 @@ namespace SimpleSongsPlayer.Models.Factories
                 string label = cgs.Lookup(song.Title);
                 int groupId = defaultGroup.FindIndex(c => c.Name.Equals(label, StringComparison.CurrentCulture));
                 if (groupId != -1)
-                    defaultGroup[groupId].Items.Add(song);
+                    defaultGroup[groupId].Items.Add(new SongItem(song));
                 else
-                    defaultGroup.Add(new SongsGroup(label, new List<Song> {song}));
+                    defaultGroup.Add(new SongsGroup(label, new[] {new SongItem(song)}));
             }
 
             return new ObservableCollection<SongsGroup>(defaultGroup);

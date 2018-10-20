@@ -16,13 +16,13 @@ namespace SimpleSongsPlayer.Models
         public SongsGroup(string name)
         {
             _name = name;
-            Items = new ObservableCollection<Song>();
+            Items = new ObservableCollection<SongItem>();
         }
 
-        public SongsGroup(string name, IEnumerable<Song> items)
+        public SongsGroup(string name, IEnumerable<SongItem> items)
         {
             _name = name;
-            Items = new ObservableCollection<Song>(items);
+            Items = new ObservableCollection<SongItem>(items);
 
             var song = Items.LastOrDefault();
             if (song != null)
@@ -45,7 +45,7 @@ namespace SimpleSongsPlayer.Models
         }
 
         public BitmapSource AlbumCover { get; set; }
-        public ObservableCollection<Song> Items { get; }
+        public ObservableCollection<SongItem> Items { get; }
 
         public event TypedEventHandler<SongsGroup, SongGroupRenamedEventArgs> Renamed;
     }

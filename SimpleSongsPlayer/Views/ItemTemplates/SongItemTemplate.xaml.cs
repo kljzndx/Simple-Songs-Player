@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
+using SimpleSongsPlayer.Models;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -22,7 +23,7 @@ namespace SimpleSongsPlayer.Views.ItemTemplates
     public sealed partial class SongItemTemplate : UserControl
     {
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
-            nameof(Source), typeof(Song), typeof(SongItemTemplate), new PropertyMetadata(null));
+            nameof(Source), typeof(SongItem), typeof(SongItemTemplate), new PropertyMetadata(null));
 
         public static readonly DependencyProperty MenuProperty = DependencyProperty.Register(
             nameof(Menu), typeof(MenuFlyout), typeof(SongItemTemplate), new PropertyMetadata(null));
@@ -33,9 +34,9 @@ namespace SimpleSongsPlayer.Views.ItemTemplates
             ControllerButtons_StackPanel.Visibility = Visibility.Collapsed;
         }
         
-        public Song Source
+        public SongItem Source
         {
-            get => (Song) GetValue(SourceProperty);
+            get => (SongItem) GetValue(SourceProperty);
             set => SetValue(SourceProperty, value);
         }
 

@@ -22,7 +22,7 @@ namespace SimpleSongsPlayer.Models.Factories
             foreach (var item in result)
             {
                 foreach (var song in songsList.Where(s => s.Album.Trim() == item.Name))
-                    item.Items.Add(song);
+                    item.Items.Add(new SongItem(song));
 
                 item.AlbumCover = item.Items.First().AlbumCover;
             }

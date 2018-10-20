@@ -18,7 +18,7 @@ namespace SimpleSongsPlayer.Models.Factories
 
             foreach (var songsGroup in songsGroups)
                 foreach (var song in sourceList.Where(s => s.FolderName.Trim() == songsGroup.Name))
-                    songsGroup.Items.Add(song);
+                    songsGroup.Items.Add(new SongItem(song));
 
             return songsGroups;
         }

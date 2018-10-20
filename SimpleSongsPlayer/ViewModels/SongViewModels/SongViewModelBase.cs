@@ -62,25 +62,25 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
         /// 提示： 为 "$all$" 时将获取所有组中的歌曲
         /// </param>
         /// <returns>该组下的所有歌曲</returns>
-        public List<Song> GetSongs(string groupName)
+        public List<SongItem> GetSongs(string groupName)
         {
             var group = groupName == "$all$" ? SongGroups : SongGroups.Where(sg => sg.Name == groupName);
             return group.Select(sg => sg.Items).Aggregate((s, n) =>
             {
-                List<Song> r = new List<Song>();
+                List<SongItem> r = new List<SongItem>();
                 r.AddRange(s);
                 r.AddRange(n);
-                return new ObservableCollection<Song>(r);
+                return new ObservableCollection<SongItem>(r);
             }).ToList();
         }
 
-        private void AddItem(MediaPlaybackList target, Song song)
+        private void AddItem(MediaPlaybackList target, SongItem song)
         {
             if (!target.Items.Contains(song.PlaybackItem))
                 target.Items.Add(song.PlaybackItem);
         }
 
-        public void Push(Song song)
+        public void Push(SongItem song)
         {
             if (App.Player.Source is MediaPlaybackList mpl)
             {
@@ -99,7 +99,7 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
                 Push(new[] {song});
         }
 
-        public void Push(IEnumerable<Song> songs)
+        public void Push(IEnumerable<SongItem> songs)
         {
             MediaPlaybackList mpl = new MediaPlaybackList();
             foreach (var song in songs)
@@ -107,7 +107,7 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
             App.Player.Source = mpl;
         }
 
-        public void PushToNext(Song song)
+        public void PushToNext(SongItem song)
         {
             if (App.Player.Source is MediaPlaybackList mpl)
             {
@@ -120,7 +120,7 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
                 Push(new[] {song});
         }
 
-        public void Append(Song song)
+        public void Append(SongItem song)
         {
             if (App.Player.Source is MediaPlaybackList mpl)
                 AddItem(mpl, song);
@@ -128,7 +128,7 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
                 Push(new[] {song});
         }
 
-        public void Append(IEnumerable<Song> songs)
+        public void Append(IEnumerable<SongItem> songs)
         {
             if (App.Player.Source is MediaPlaybackList mpl)
                 foreach (var song in songs)

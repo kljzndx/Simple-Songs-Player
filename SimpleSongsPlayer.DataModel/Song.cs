@@ -16,8 +16,7 @@ namespace SimpleSongsPlayer.DataModel
         private static readonly ResourceLoader SongListStrings = ResourceLoader.GetForCurrentView("SongList");
 
         private bool isPlaying;
-        private bool isSelected;
-        
+
         private Song(StorageFolder baseFolder, StorageFile file, MusicProperties musicProperties, StorageItemThumbnail coverStream)
         {
             FolderName = baseFolder.DisplayName;
@@ -45,13 +44,7 @@ namespace SimpleSongsPlayer.DataModel
             get => isPlaying;
             set => Set(ref isPlaying, value);
         }
-
-        public bool IsSelected
-        {
-            get => isSelected;
-            set => Set(ref isSelected, value);
-        }
-
+        
         public string FolderName { get; }
         public string FileName { get; }
         public string Title { get; }

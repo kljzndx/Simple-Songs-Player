@@ -109,6 +109,7 @@
     <Compile Include="Models\Factories\ISongGroupsAsyncFactory.cs" />
     <Compile Include="Models\Factories\PlayingListFactory.cs" />
     <Compile Include="Models\LoopingModeEnum.cs" />
+    <Compile Include="Models\SongItem.cs" />
     <Compile Include="Models\SymbolIndexItemStyleSelector.cs" />
     <Compile Include="Models\TimeSpanExtension.cs" />
     <Compile Include="ViewModels\Controllers\PlayerControllerViewModel.cs" />

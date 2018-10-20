@@ -19,7 +19,7 @@ namespace SimpleSongsPlayer.Models.Factories
 
             foreach (var item in result)
                 foreach (var song in songsList.Where(s => s.Singer.Trim() == item.Name))
-                    item.Items.Add(song);
+                    item.Items.Add(new SongItem(song));
 
             return result;
         }

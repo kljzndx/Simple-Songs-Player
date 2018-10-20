@@ -34,6 +34,22 @@ namespace SimpleSongsPlayer.Views.SongViews
             vm = base.GetViewModel<PlayingListViewModel>();
         }
 
+        protected override void MenuInit(MenuFlyout menuFlyout, ResourceLoader stringResource)
+        {
+            base.MenuInit(menuFlyout, stringResource);
+
+            MenuFlyoutItem remove = new MenuFlyoutItem();
+            remove.Text = stringResource.GetString("Remove");
+            remove.Click += Remove_MenuItem_Click;
+
+            menuFlyout.Items.Add(remove);
+        }
+
+        private void Remove_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private  void Delete_Button_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             e.Handled = true;

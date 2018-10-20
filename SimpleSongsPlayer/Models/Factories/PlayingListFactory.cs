@@ -29,7 +29,7 @@ namespace SimpleSongsPlayer.Models.Factories
 
                 foreach (var path in paths)
                     if (allSongsList.Find(s => s.Path.Equals(path)) is Song song)
-                        group.Items.Add(song);
+                        group.Items.Add(new SongItem(song));
                     else
                         await block.RemovePath(path);
 
