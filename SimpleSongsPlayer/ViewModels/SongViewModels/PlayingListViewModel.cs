@@ -14,13 +14,24 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
     public class PlayingListViewModel : SongViewModelBase
     {
         private PlayingListManager listManager;
+        private List<Song> allSongsList;
 
         public PlayingListViewModel() : base(new PlayingListFactory())
         {
         }
 
+        public async Task RefreshData()
+        {
+            if (allSongsList is null)
+                return;
+
+            await RefreshData(allSongsList);
+        }
+
         public override async Task RefreshData(List<Song> allSongs)
         {
+            allSongsList = allSongs;
+
             if (listManager is null)
                 listManager = await PlayingListManager.GetManager();
 
@@ -70,7 +81,7 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
                 case NotifyCollectionChangedAction.Remove:
                     foreach (SongsGroup group in e.OldItems)
                     {
-                        if (listManager.Blocks.FirstOrDefault(b => b.Name.Equals(@group.Name)) is PlayingListBlock block)
+                        if (listManager.GetBlocks().FirstOrDefault(b => b.Name.Equals(@group.Name)) is PlayingListBlock block)
                             await listManager.DeleteBlockAsync(block);
 
                         group.Renamed -= Group_Renamed;

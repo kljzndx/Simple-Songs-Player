@@ -31,14 +31,13 @@ namespace SimpleSongsPlayer.Operator
             foreach (var block in _blocks)
                 block.Renamed += (s, e) => BlockRenamed?.Invoke(this, e);
         }
-
-        public ReadOnlyCollection<PlayingListBlock> Blocks => _blocks.AsReadOnly();
-
+        
         public event TypedEventHandler<PlayingListManager, PlayingListBlock> BlockCreated;
         public event TypedEventHandler<PlayingListManager, PlayingListBlock> BlockDeleted;
         public event TypedEventHandler<PlayingListManager, PlayingListBlockRenamedEventArgs> BlockRenamed;
 
         public PlayingListBlock GetBlock(string name) => _blocks.Find(b => b.Name.Equals(name));
+        public ReadOnlyCollection<PlayingListBlock> GetBlocks() => _blocks.AsReadOnly();
 
         public async Task<PlayingListBlock> CreateBlockAsync(string name)
         {

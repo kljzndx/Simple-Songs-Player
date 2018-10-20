@@ -76,7 +76,7 @@ namespace SimpleSongsPlayer.Views.SongViews
 
             addTo_MenuItem.Items.Add(newPlayList);
             
-            foreach (var block in playingListManager.Blocks)
+            foreach (var block in playingListManager.GetBlocks())
             {
                 var menuItem = new MenuFlyoutItem();
                 menuItem.Icon = new FontIcon {Glyph = "\uE154" };

@@ -20,7 +20,7 @@ namespace SimpleSongsPlayer.Models.Factories
             List<Song> allSongsList = allSongs.ToList();
 
             ObservableCollection<SongsGroup> result = new ObservableCollection<SongsGroup>();
-            ReadOnlyCollection<PlayingListBlock> playingListBlocks = listManager.Blocks;
+            ReadOnlyCollection<PlayingListBlock> playingListBlocks = listManager.GetBlocks();
 
             foreach (var block in playingListBlocks)
             {

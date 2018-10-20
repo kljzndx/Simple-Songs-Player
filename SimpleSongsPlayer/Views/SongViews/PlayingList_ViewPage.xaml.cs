@@ -32,6 +32,7 @@ namespace SimpleSongsPlayer.Views.SongViews
         {
             this.InitializeComponent();
             vm = base.GetViewModel<PlayingListViewModel>();
+            NavigationCacheMode = NavigationCacheMode.Disabled;
         }
 
         protected override void MenuInit(MenuFlyout menuFlyout, ResourceLoader stringResource)
@@ -56,6 +57,11 @@ namespace SimpleSongsPlayer.Views.SongViews
                 return;
 
             vm.SongGroups.Remove(theGroup);
+        }
+
+        private async void Refresh_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            await vm.RefreshData();
         }
     }
 }
