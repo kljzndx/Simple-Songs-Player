@@ -47,7 +47,7 @@ namespace SimpleSongsPlayer.Views.SongViews
 
         private void Remove_MenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            SongCache.RequestRemove();
         }
 
         private  void Delete_Button_OnTapped(object sender, TappedRoutedEventArgs e)

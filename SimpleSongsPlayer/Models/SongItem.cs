@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Windows.Foundation;
 using Windows.Media.Playback;
 using Windows.UI.Xaml.Media.Imaging;
 using SimpleSongsPlayer.DataModel;
@@ -29,16 +30,6 @@ namespace SimpleSongsPlayer.Models
             _song.PropertyChanged += Song_PropertyChanged;
         }
 
-        private void Song_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(_song.IsPlaying):
-                    IsPlaying = _song.IsPlaying;
-                    break;
-            }
-        }
-
         public bool IsPlaying
         {
             get => isPlaying;
@@ -58,5 +49,23 @@ namespace SimpleSongsPlayer.Models
         public TimeSpan Duration { get; }
         public MediaPlaybackItem PlaybackItem { get; }
         public string Path { get; }
+
+        public event TypedEventHandler<SongItem, EventArgs> RemoveRequested;
+
+        public void RequestRemove()
+        {
+            _song.PropertyChanged -= Song_PropertyChanged;
+            RemoveRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void Song_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(_song.IsPlaying):
+                    IsPlaying = _song.IsPlaying;
+                    break;
+            }
+        }
     }
 }
