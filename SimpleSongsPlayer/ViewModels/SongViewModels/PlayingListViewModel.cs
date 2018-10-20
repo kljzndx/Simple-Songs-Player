@@ -55,6 +55,9 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
                 case NotifyCollectionChangedAction.Add:
                     foreach (SongsGroup group in e.NewItems)
                     {
+                        group.Renamed -= Group_Renamed;
+                        group.Items.CollectionChanged -= GroupItems_CollectionChanged;
+
                         group.Renamed += Group_Renamed;
                         group.Items.CollectionChanged += GroupItems_CollectionChanged;
                     }
@@ -94,7 +97,7 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
             if (theBlock is null)
                 throw new Exception("未找到该歌曲所属的列表");
 
-            foreach (Song item in e.NewItems)
+            foreach (SongItem item in e.NewItems)
                 if (isAdd)
                     await theBlock.AddPath(item.Path);
                 else
