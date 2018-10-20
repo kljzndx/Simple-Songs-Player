@@ -132,6 +132,9 @@
   <data name="PlayItem_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Play this song</value>
   </data>
+  <data name="RemoveGroup_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Remove this group</value>
+  </data>
   <data name="SongCount_Run.Text" xml:space="preserve">
     <value>Songs</value>
   </data>

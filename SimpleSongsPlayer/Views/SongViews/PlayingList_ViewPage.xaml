@@ -28,7 +28,7 @@
                                         <StackPanel Grid.Column="1" Orientation="Horizontal">
                                             <Button x:Name="PlayGroup_Button" x:Uid="/SongList/PlayGroup_Button" Content="&#xE102;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="PlayGroup_Button_Tapped"/>
                                             <Button x:Name="AddGroup_Button" x:Uid="/SongList/AddGroup_Button" Content="&#xE109;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="AddGroup_Button_Tapped"/>
-                                            <Button x:Name="Delete_Button" x:Uid="/SongList/Delete_Button" Content="&#xE107;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="Delete_Button_OnTapped"/>
+                                            <Button x:Name="Delete_Button" x:Uid="/SongList/RemoveGroup_Button" Content="&#xE107;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="Delete_Button_OnTapped"/>
                                         </StackPanel>
                                     </Grid>
                                 </DataTemplate>
