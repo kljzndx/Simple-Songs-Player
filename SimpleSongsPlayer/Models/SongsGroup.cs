@@ -39,31 +39,6 @@ namespace SimpleSongsPlayer.Models
                 AlbumCover = song.AlbumCover;
         }
 
-        private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    foreach (SongItem item in e.NewItems)
-                    {
-                        item.RemoveRequested -= SongItem_RemoveRequested;
-                        item.RemoveRequested += SongItem_RemoveRequested;
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    foreach (SongItem item in e.OldItems)
-                        item.RemoveRequested -= SongItem_RemoveRequested;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private void SongItem_RemoveRequested(SongItem sender, System.EventArgs args)
-        {
-            Items.Remove(sender);
-        }
-
         public bool IsAny => Items.Any();
 
         public string Name
@@ -83,5 +58,31 @@ namespace SimpleSongsPlayer.Models
         public ObservableCollection<SongItem> Items { get; }
 
         public event TypedEventHandler<SongsGroup, SongGroupRenamedEventArgs> Renamed;
+        
+        private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (SongItem item in e.NewItems)
+                    {
+                        item.RemoveRequested -= SongItem_RemoveRequested;
+                        item.RemoveRequested += SongItem_RemoveRequested;
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (SongItem item in e.OldItems)
+                        item.RemoveRequested -= SongItem_RemoveRequested;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void SongItem_RemoveRequested(SongItem sender, EventArgs args)
+        {
+            Items.Remove(sender);
+        }
+
     }
 }

@@ -40,14 +40,9 @@ namespace SimpleSongsPlayer.Views.SongViews
 
             MenuFlyoutItem remove = new MenuFlyoutItem();
             remove.Text = stringResource.GetString("Remove");
-            remove.Click += Remove_MenuItem_Click;
+            remove.Click += (s, e) => SongCache?.RequestRemove();
 
             menuFlyout.Items.Add(remove);
-        }
-
-        private void Remove_MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            SongCache.RequestRemove();
         }
 
         private  void Delete_Button_OnTapped(object sender, TappedRoutedEventArgs e)
