@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.Models;
+using SimpleSongsPlayer.Models.Events;
 using SimpleSongsPlayer.Models.Factories;
 using SimpleSongsPlayer.Operator;
 
@@ -28,6 +29,7 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
                 foreach (var songGroup in SongGroups)
                 {
                     songGroup.Renamed -= Group_Renamed;
+                    songGroup.ItemRemoveRequested -= GroupItem_RemoveRequested;
                     songGroup.Items.CollectionChanged -= GroupItems_CollectionChanged;
                 }
 
@@ -41,6 +43,7 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
             foreach (var songsGroup in SongGroups)
             {
                 songsGroup.Renamed += Group_Renamed;
+                songsGroup.ItemRemoveRequested += GroupItem_RemoveRequested;
                 songsGroup.Items.CollectionChanged += GroupItems_CollectionChanged;
             }
         }
@@ -56,9 +59,11 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
                     foreach (SongsGroup group in e.NewItems)
                     {
                         group.Renamed -= Group_Renamed;
+                        group.ItemRemoveRequested -= GroupItem_RemoveRequested;
                         group.Items.CollectionChanged -= GroupItems_CollectionChanged;
 
                         group.Renamed += Group_Renamed;
+                        group.ItemRemoveRequested += GroupItem_RemoveRequested;
                         group.Items.CollectionChanged += GroupItems_CollectionChanged;
                     }
                     break;
@@ -69,16 +74,23 @@ namespace SimpleSongsPlayer.ViewModels.SongViewModels
                             await listManager.DeleteBlockAsync(block);
 
                         group.Renamed -= Group_Renamed;
+                        group.ItemRemoveRequested -= GroupItem_RemoveRequested;
                         group.Items.CollectionChanged -= GroupItems_CollectionChanged;
                     }
                     break;
             }
         }
-        
-        private async void Group_Renamed(SongsGroup sender, Models.Events.SongGroupRenamedEventArgs args)
+
+        private async void Group_Renamed(SongsGroup sender, SongGroupRenamedEventArgs args)
         {
             var theBlock = listManager.GetBlock(args.OldName);
             await theBlock.RenameAsync(args.NewName);
+        }
+
+        private void GroupItem_RemoveRequested(SongsGroup sender, SongItem args)
+        {
+            if (!sender.IsAny)
+                SongGroups.Remove(sender);
         }
 
         private async void GroupItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

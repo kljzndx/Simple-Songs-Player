@@ -58,6 +58,7 @@ namespace SimpleSongsPlayer.Models
         public ObservableCollection<SongItem> Items { get; }
 
         public event TypedEventHandler<SongsGroup, SongGroupRenamedEventArgs> Renamed;
+        public event TypedEventHandler<SongsGroup, SongItem> ItemRemoveRequested;
         
         private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -82,6 +83,7 @@ namespace SimpleSongsPlayer.Models
         private void SongItem_RemoveRequested(SongItem sender, EventArgs args)
         {
             Items.Remove(sender);
+            ItemRemoveRequested?.Invoke(this, sender);
         }
 
     }
