@@ -46,7 +46,7 @@ namespace SimpleSongsPlayer.Views.SongViews
             menuFlyout.Items.Add(remove);
         }
 
-        private  void Delete_Button_OnTapped(object sender, TappedRoutedEventArgs e)
+        private async void Delete_Button_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             e.Handled = true;
 
@@ -56,7 +56,10 @@ namespace SimpleSongsPlayer.Views.SongViews
             if (theGroup is null)
                 return;
 
-            vm.SongGroups.Remove(theGroup);
+            var result = await PlayingListDelete_ContentDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+                vm.SongGroups.Remove(theGroup);
         }
 
         private async void Refresh_Button_OnClick(object sender, RoutedEventArgs e)
