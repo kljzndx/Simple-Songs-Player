@@ -18,12 +18,7 @@ namespace SimpleSongsPlayer.Operator
         private static StorageFolder plbsFolder;
 
         private List<PlayingListBlock> _blocks;
-
-        public PlayingListManager()
-        {
-            _blocks = new List<PlayingListBlock>();
-        }
-
+        
         private PlayingListManager(IEnumerable<PlayingListBlock> blocks)
         {
             _blocks = blocks.ToList();
@@ -69,18 +64,7 @@ namespace SimpleSongsPlayer.Operator
         {
             if (manager is null)
             {
-                var localFolder = ApplicationData.Current.LocalFolder;
-
-                try
-                {
-                    plbsFolder = await localFolder.GetFolderAsync("plbs");
-                }
-                catch (Exception)
-                {
-                    plbsFolder = await localFolder.CreateFolderAsync("plbs");
-                    manager = new PlayingListManager();
-                    return manager;
-                }
+                plbsFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("plbs", CreationCollisionOption.OpenIfExists);
 
                 var options = new QueryOptions(CommonFileQuery.OrderByName, new[] {".plb"});
 
