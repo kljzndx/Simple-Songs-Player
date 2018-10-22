@@ -12,7 +12,7 @@ namespace SimpleSongsPlayer.Models.Factories
     {
         private static List<SongsGroup> CreateDefaultGroup(CharacterGroupings cgs)
         {
-            var result = cgs.Where(c => !String.IsNullOrWhiteSpace(c.Label))
+            var result = cgs.Where(c => !String.IsNullOrWhiteSpace(c.Label) && !c.Label.Contains("拼音"))
                 .Select(c => c.Label == "..." ? new SongsGroup("?") : new SongsGroup(c.Label)).ToList();
 
             return result;
@@ -25,7 +25,7 @@ namespace SimpleSongsPlayer.Models.Factories
 
             foreach (Song song in allSongs.ToList())
             {
-                string label = cgs.Lookup(song.Title);
+                string label = cgs.Lookup(song.Title).Replace("拼音", String.Empty);
                 int groupId = defaultGroup.FindIndex(c => c.Name.Equals(label, StringComparison.CurrentCulture));
                 if (groupId != -1)
                     defaultGroup[groupId].Items.Add(new SongItem(song));
