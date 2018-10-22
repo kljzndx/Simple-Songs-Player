@@ -14,6 +14,8 @@ namespace SimpleSongsPlayer.Operator
 {
     public class PlayingListManager
     {
+        private static readonly object InitLocker = new object();
+
         private static PlayingListManager manager;
         private static StorageFolder plbsFolder;
 
@@ -76,7 +78,9 @@ namespace SimpleSongsPlayer.Operator
                 foreach (var file in files)
                     blocksList.Add(await PlayingListBlock.CreateFromFileAsync(file));
 
-                manager = new PlayingListManager(blocksList);
+                lock (InitLocker)
+                    if (manager is null)
+                        manager = new PlayingListManager(blocksList);
             }
 
             return manager;
