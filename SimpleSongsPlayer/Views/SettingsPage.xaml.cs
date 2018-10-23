@@ -68,15 +68,15 @@ namespace SimpleSongsPlayer.Views
             await musicLibrary.RequestRemoveFolderAsync((StorageFolder) e.ClickedItem);
         }
 
-        private void TimerPause_ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+        private void TimerExit_ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
         {
-            if (TimerPause_ToggleSwitch.IsOn)
+            if (TimerExit_ToggleSwitch.IsOn)
             {
                 if (settings.PauseTimeMinutes < 10)
                     settings.PauseTimeMinutes = 10;
 
-                FrameworkPage.Current.PauseTimer?.Cancel();
-                FrameworkPage.Current.PauseTimer = ThreadPoolTimer.CreatePeriodicTimer(async t =>
+                FrameworkPage.Current.ExitTimer?.Cancel();
+                FrameworkPage.Current.ExitTimer = ThreadPoolTimer.CreatePeriodicTimer(async t =>
                 {
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
@@ -84,19 +84,15 @@ namespace SimpleSongsPlayer.Views
                             settings.PauseTimeMinutes -= 1;
                         else 
                         {
-                            if (App.Player.PlaybackSession.PlaybackState != MediaPlaybackState.Paused &&
-                                App.Player.PlaybackSession.PlaybackState != MediaPlaybackState.None)
-                            {
-                                App.Player.Pause();
-                            }
                             settings.IsTimerPauseEnable = false;
                             t.Cancel();
+                            Application.Current.Exit();
                         }
                     });
                 }, TimeSpan.FromMinutes(1));
             }
             else
-                FrameworkPage.Current.PauseTimer?.Cancel();
+                FrameworkPage.Current.ExitTimer?.Cancel();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace SimpleSongsPlayer.Views
 
         private readonly FrameworkViewModel vm;
         
-        public ThreadPoolTimer PauseTimer;
+        public ThreadPoolTimer ExitTimer;
 
         public FrameworkPage()
         {

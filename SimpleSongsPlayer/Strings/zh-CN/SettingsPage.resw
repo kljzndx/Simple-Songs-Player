@@ -141,14 +141,14 @@
   <data name="RescanMusic_Button.Content" xml:space="preserve">
     <value>重新扫描音乐</value>
   </data>
-  <data name="TimerPauseInfo1_Run.Text" xml:space="preserve">
+  <data name="TimerExitInfo1_Run.Text" xml:space="preserve">
     <value>播放器将在 </value>
   </data>
-  <data name="TimerPauseInfo2_Run.Text" xml:space="preserve">
-    <value> 分钟后暂停</value>
+  <data name="TimerExitInfo2_Run.Text" xml:space="preserve">
+    <value> 分钟后退出</value>
   </data>
-  <data name="TimerPause_ToggleSwitch.Header" xml:space="preserve">
-    <value>定时暂停</value>
+  <data name="TimerExit_ToggleSwitch.Header" xml:space="preserve">
+    <value>定时退出</value>
   </data>
   <data name="Title_TextBlock.Text" xml:space="preserve">
     <value>设置</value>
