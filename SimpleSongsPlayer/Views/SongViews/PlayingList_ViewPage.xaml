@@ -62,7 +62,7 @@
 
         <ContentDialog x:Name="PlayingListDelete_ContentDialog" x:Uid="/PlayingListOperation/PlayingListDelete_ContentDialog"/>
 
-        <Button x:Name="Refresh_Button" x:Uid="/SongList/Refresh_Button" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,56,36" Click="Refresh_Button_OnClick">
+        <Button x:Name="Refresh_Button" x:Uid="/PlayingListOperation/Refresh_Button" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,56,36" Click="Refresh_Button_OnClick">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid x:Name="RootGrid">

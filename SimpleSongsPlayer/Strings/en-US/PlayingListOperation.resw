@@ -138,4 +138,7 @@
   <data name="PlayingListName_TextBox.Header" xml:space="preserve">
     <value>Name of list</value>
   </data>
+  <data name="Refresh_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 </root>
