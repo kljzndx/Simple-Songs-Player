@@ -80,7 +80,7 @@
                         <ToggleSwitch x:Name="TimerExit_ToggleSwitch" x:Uid="/SettingsPage/TimerExit_ToggleSwitch" IsOn="{x:Bind settings.IsTimerPauseEnable, Mode=TwoWay}" Toggled="TimerExit_ToggleSwitch_OnToggled"/>
 
                         <StackPanel Visibility="{x:Bind settings.IsTimerPauseEnable, Mode=OneWay}">
-                            <Slider x:Name="PauseTime_Slider" Minimum="1" Value="{x:Bind settings.PauseTimeMinutes, Mode=TwoWay}" Maximum="120" StepFrequency="10"/>
+                            <Slider x:Name="PauseTime_Slider" Minimum="10" Value="{x:Bind settings.PauseTimeMinutes, Mode=TwoWay}" Maximum="120" StepFrequency="10"/>
                             <TextBlock>
                                 <Run x:Uid="/SettingsPage/TimerExitInfo1_Run"/>
                                 <Run Text="{x:Bind settings.PauseTimeMinutes, Mode=OneWay}"/>
