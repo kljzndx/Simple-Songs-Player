@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.DataModel.Events;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Operator;
 using SimpleSongsPlayer.ViewModels.Events;
@@ -94,6 +95,8 @@ namespace SimpleSongsPlayer.Views.SongViews
                 await vmb.RefreshData(allSongs);
             else
                 throw new Exception("未收到歌曲数据");
+
+            LoggerMembers.PagesLogger.Info($"切换歌曲视图至 {e.SourcePageType.Name}");
         
             playingListManager = await PlayingListManager.GetManager();
         
@@ -110,6 +113,8 @@ namespace SimpleSongsPlayer.Views.SongViews
                 playingListManager.BlockDeleted += PlayingListManager_BlockDeleted;
                 playingListManager.BlockRenamed += PlayingListManager_BlockRenamed;
             }
+
+            LoggerMembers.PagesLogger.Info($"歌曲视图数据初始化完成");
         }
 
         protected void Songs_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -123,29 +128,38 @@ namespace SimpleSongsPlayer.Views.SongViews
                 return;
 
             song.IsSelected = true;
+
+            LoggerMembers.PagesLogger.Info($"选中歌曲 {song.Title}");
         }
 
         public void Songs_ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             FrameworkElement args = e.OriginalSource as FrameworkElement;
             if (args.DataContext is SongItem theSong)
+            {
+                LoggerMembers.PagesLogger.Info($"用户双击了歌曲 -> {theSong.Title}");
                 vmb.Push(theSong);
+            }
         }
 
         protected void PlayItem_Button_Tapped(SongItemTemplate sender, EventArgs args)
         {
+            LoggerMembers.PagesLogger.Info("点击按钮 播放此歌曲");
             vmb.Push(sender.Source);
         }
         
         protected void SongItemTemplate_MenuOpening(SongItemTemplate sender, EventArgs args)
         {
             SongCache = sender.Source;
+            LoggerMembers.PagesLogger.Info($"打开歌曲菜单 歌名为： {SongCache.Title}");
         }
 
         private void NextPlay_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (SongCache is null)
                 return;
+
+            LoggerMembers.PagesLogger.Info("点击菜单项 下一首播放");
 
             vmb.PushToNext(SongCache);
         }
@@ -155,6 +169,8 @@ namespace SimpleSongsPlayer.Views.SongViews
             if (SongCache is null)
                 return;
 
+            LoggerMembers.PagesLogger.Info("点击菜单项 添加到 -> 正在播放");
+
             vmb.Append(SongCache);
         }
 
@@ -162,6 +178,8 @@ namespace SimpleSongsPlayer.Views.SongViews
         {
             if (SongCache is null)
                 return;
+
+            LoggerMembers.PagesLogger.Info("点击菜单项 添加到 -> 新的播放列表");
 
             PlayingListOperationNotifier.RequestAdd(new[] { SongCache });
         }
@@ -171,6 +189,8 @@ namespace SimpleSongsPlayer.Views.SongViews
             var theMenuItem = sender as MenuFlyoutItem;
             if (theMenuItem is null)
                 return;
+
+            LoggerMembers.PagesLogger.Info($"点击菜单项 添加到 -> 播放列表 {theMenuItem.Text}");
 
             var song = SongCache;
             var block = playingListManager.GetBlock(theMenuItem.Text);
@@ -183,7 +203,10 @@ namespace SimpleSongsPlayer.Views.SongViews
             var btn = sender as FrameworkElement;
             var group = btn?.DataContext as SongsGroup;
             if (group != null)
+            {
+                LoggerMembers.PagesLogger.Info("点击按钮 播放该组");
                 vmb.Push(group.Items);
+            }
         }
 
         protected void AddGroup_Button_Tapped(object sender, TappedRoutedEventArgs e)
@@ -192,7 +215,10 @@ namespace SimpleSongsPlayer.Views.SongViews
             var btn = sender as FrameworkElement;
             var group = btn?.DataContext as SongsGroup;
             if (group != null)
+            {
+                LoggerMembers.PagesLogger.Info("点击按钮 添加该组到正在播放列表");
                 vmb.Append(group.Items);
+            }
         }
 
         private void PlayingListManager_BlockCreated(PlayingListManager sender, PlayingListBlock args)

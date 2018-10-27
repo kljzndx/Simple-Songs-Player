@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.ViewModels;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -42,6 +43,8 @@ namespace SimpleSongsPlayer.Views
         {
             base.OnNavigatedTo(e);
 
+            LoggerMembers.PagesLogger.Info("开始扫描音乐库");
+
             FadeIn_Storyboard.Begin();
             Information_TextBlock.Text = strs.GetString("Scanning");
             if (App.Player != null)
@@ -49,6 +52,8 @@ namespace SimpleSongsPlayer.Views
             await vm.ScanFolders(new List<StorageFolder> {KnownFolders.MusicLibrary});
             Information_TextBlock.Text = strs.GetString("Scanned");
             FadeOut_Storyboard.Begin();
+
+            LoggerMembers.PagesLogger.Info("音乐库扫描完成");
         }
 
         private void FadeOut_Storyboard_OnCompleted(object sender, object e)

@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.SongViewModels;
@@ -38,6 +39,7 @@ namespace SimpleSongsPlayer.Views.SongViews
 
         private void PlayAll_Button_Click(object sender, RoutedEventArgs e)
         {
+            LoggerMembers.PagesLogger.Info("点击按钮 播放全部");
             vm.Push(vm.GetSongs("$all$"));
         }
     }

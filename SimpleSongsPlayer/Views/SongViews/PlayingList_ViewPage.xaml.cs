@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.SongViewModels;
@@ -41,7 +42,11 @@ namespace SimpleSongsPlayer.Views.SongViews
 
             MenuFlyoutItem remove = new MenuFlyoutItem();
             remove.Text = stringResource.GetString("Remove");
-            remove.Click += (s, e) => SongCache?.RequestRemove();
+            remove.Click += (s, e) =>
+            {
+                LoggerMembers.PagesLogger.Info("点击菜单项 移除歌曲");
+                SongCache?.RequestRemove();
+            };
 
             menuFlyout.Items.Add(remove);
         }
@@ -56,6 +61,8 @@ namespace SimpleSongsPlayer.Views.SongViews
             if (theGroup is null)
                 return;
 
+            LoggerMembers.PagesLogger.Info("点击按钮 删除播放列表");
+
             var result = await PlayingListDelete_ContentDialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
@@ -64,6 +71,8 @@ namespace SimpleSongsPlayer.Views.SongViews
 
         private async void Refresh_Button_OnClick(object sender, RoutedEventArgs e)
         {
+            LoggerMembers.PagesLogger.Info("点击按钮 刷新");
+
             await vm.RefreshData();
         }
     }

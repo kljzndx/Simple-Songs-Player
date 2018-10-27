@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Navigation;
 using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using HappyStudio.UwpToolsLibrary.Information;
 using NCEWalkman.Models;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Views;
 using WinRTExceptions;
 
@@ -64,6 +65,8 @@ namespace SimpleSongsPlayer
 
         private async Task ShowErrorDialog(Exception ex)
         {
+            LoggerMembers.PagesLogger.Error(ex);
+
             StringBuilder builder = new StringBuilder();
             builder.AppendLine(ExceptionExtension.ErrorTable.GetString("OperationProcess"));
             builder.AppendLine();
@@ -118,6 +121,8 @@ namespace SimpleSongsPlayer
 
                 // 将框架放在当前窗口中
                 Window.Current.Content = rootFrame;
+
+                LoggerMembers.PagesLogger.Info("应用启动完毕");
             }
 
             if (e.PrelaunchActivated == false)
@@ -137,6 +142,8 @@ namespace SimpleSongsPlayer
                 Player = new MediaPlayer {AutoPlay = true};
 
             EnsureSyncContext();
+
+            LoggerMembers.PagesLogger.Info("应用初始化完毕");
         }
 
         /// <summary>

@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.Views.SongViews;
 
@@ -40,8 +41,12 @@ namespace SimpleSongsPlayer.Views
 
             if (e.Parameter is List<Song> allSongs)
                 vm.AllSongs = allSongs;
+            else
+                throw new Exception("未收到歌曲资源");
 
             Main_Pivot_SelectionChanged(null, null);
+
+            LoggerMembers.PagesLogger.Info("已切换到 AllSongListsPage");
         }
 
         private void Main_Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -77,6 +82,17 @@ namespace SimpleSongsPlayer.Views
         private void Settings_Button_OnClick(object sender, RoutedEventArgs e)
         {
             Root_SplitView.IsPaneOpen = !Root_SplitView.IsPaneOpen;
+        }
+
+        private void Root_SplitView_OnPaneOpened(SplitView sender, object args)
+        {
+            LoggerMembers.PagesLogger.Info("已打开侧面板");
+            LoggerMembers.PagesLogger.Info("已切换至设置页面");
+        }
+
+        private void Root_SplitView_OnPaneClosed(SplitView sender, object args)
+        {
+            LoggerMembers.PagesLogger.Info("已关闭侧面板");
         }
     }
 }

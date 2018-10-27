@@ -8,6 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Operator;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Events;
@@ -49,6 +50,7 @@ namespace SimpleSongsPlayer.Views
             {
                 vm.AllSongs = tuple.Item1;
                 vm.AllLyricBlocks = tuple.Item2;
+                LoggerMembers.PagesLogger.Info("成功传入资源");
             }
             else
                 throw new Exception("未传入资源");
@@ -56,6 +58,8 @@ namespace SimpleSongsPlayer.Views
             Main_Frame.Navigate(typeof(AllSongListsPage), vm.AllSongs);
             PlayerController.AllSongs = vm.AllSongs;
             playingListManager = await PlayingListManager.GetManager();
+
+            LoggerMembers.PagesLogger.Info("FrameworkPage 初始化完成");
         }
 
         private void System_BackRequested(object sender, BackRequestedEventArgs e)
@@ -76,7 +80,7 @@ namespace SimpleSongsPlayer.Views
         {
             if (vm.CurrentSong is null)
                 return;
-
+            
             if (Main_Frame.SourcePageType.Name == typeof(PlayingPage).Name)
             {
                 Main_Frame.Navigate(typeof(AllSongListsPage), vm.AllSongs);
@@ -99,9 +103,15 @@ namespace SimpleSongsPlayer.Views
 
         private async void PlayingListOperationNotifier_AdditionRequested(object sender, PlayingListAdditionRequestedEventArgs e)
         {
+            LoggerMembers.PagesLogger.Info("询问是否要新建歌单");
             var result = await PlayingListAddition_ContentDialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
+            {
                 await playingListManager.CreateBlockAsync(PlayingListName_TextBox.Text, e.Paths);
+                LoggerMembers.PagesLogger.Info("成功新建歌单");
+            }
+            else
+                LoggerMembers.PagesLogger.Info("新建歌单操作被取消");
 
             PlayingListName_TextBox.Text = String.Empty;
         }

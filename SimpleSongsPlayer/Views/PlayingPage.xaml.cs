@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Events;
 
@@ -42,22 +43,31 @@ namespace SimpleSongsPlayer.Views
 
         private void SetLyricSource(LyricBlock lyric)
         {
-            if (lyric == null)
+            if (lyric != null)
             {
-                PreviewArea_ScrollLyricsPreview.Lyrics = null;
-                Error_StackPanel.Visibility = Visibility.Visible;
-                PickLyric_Button.Visibility = vm.AllLyricBlocks.Any() ? Visibility.Visible : Visibility.Collapsed;
-            }
-            else
-            {
+                LoggerMembers.PagesLogger.Info("已找到对应歌词， 正在应用歌词");
+
                 PreviewArea_ScrollLyricsPreview.Lyrics = lyric.Lines;
                 Error_StackPanel.Visibility = Visibility.Collapsed;
                 isNeedReposition = true;
+
+                LoggerMembers.PagesLogger.Info("成功应用歌词");
+            }
+            else
+            {
+                LoggerMembers.PagesLogger.Info("未找到对应歌词， 正在显示未找到歌词说明");
+
+                PreviewArea_ScrollLyricsPreview.Lyrics = null;
+                Error_StackPanel.Visibility = Visibility.Visible;
+                PickLyric_Button.Visibility = vm.AllLyricBlocks.Any() ? Visibility.Visible : Visibility.Collapsed;
+
+                LoggerMembers.PagesLogger.Info("完成说明显示");
             }
         }
 
         private void SetLyricSource()
         {
+            LoggerMembers.PagesLogger.Info("正在查找对应歌词");
             LyricBlock lyric = vm.AllLyricBlocks.Find(l => l.FileName.Contains(vm.CurrentSong.Title));
             SetLyricSource(lyric);
         }
@@ -66,6 +76,8 @@ namespace SimpleSongsPlayer.Views
         {
             base.OnNavigatedTo(e);
 
+            LoggerMembers.PagesLogger.Info("已切换到播放详情页面， 正在校验数据");
+
             if (e.Parameter is ValueTuple<Song, List<LyricBlock>> tuple)
             {
                 vm.CurrentSong = tuple.Item1;
@@ -73,12 +85,17 @@ namespace SimpleSongsPlayer.Views
             }
             else throw new Exception("未传入歌词列表");
 
+            LoggerMembers.PagesLogger.Info("数据校验成功");
+
             SetLyricSource();
         }
 
         private void PlayItemChangeNotifier_ItemChanged(object sender, PlayItemChangeEventArgs e)
         {
             vm.CurrentSong = e.Song;
+
+            LoggerMembers.PagesLogger.Info("已更新歌曲信息");
+
             SetLyricSource();
         }
 
@@ -86,8 +103,12 @@ namespace SimpleSongsPlayer.Views
         {
             if (e.DidUserChange || isNeedReposition)
             {
+                LoggerMembers.PagesLogger.Info("正在重新定位字幕");
+
                 PreviewArea_ScrollLyricsPreview.Reposition(e.Position);
                 isNeedReposition = false;
+
+                LoggerMembers.PagesLogger.Info("完成定位");
             }
             else
                 PreviewArea_ScrollLyricsPreview.RefreshLyric(e.Position);
@@ -99,6 +120,8 @@ namespace SimpleSongsPlayer.Views
             if (lyricBlock == null)
                 return;
 
+            LoggerMembers.PagesLogger.Info("用户手动选择了歌词");
+
             SetLyricSource(lyricBlock);
         }
 
@@ -108,8 +131,11 @@ namespace SimpleSongsPlayer.Views
             if (line == null)
                 return;
 
+            LoggerMembers.PagesLogger.Info("用户点击了字幕项");
+
             PreviewArea_ScrollLyricsPreview.Reposition(line.Time);
             App.Player.PlaybackSession.Position = line.Time;
+
         }
     }
 }
