@@ -191,6 +191,9 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="nlog.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="SimpleSongsPlayer_StoreKey.pfx" />
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
     <PRIResource Include="Strings\en-US\PlayingListOperation.resw" />
@@ -375,6 +378,10 @@
     <ProjectReference Include="..\SimpleSongsPlayer.DataModel\SimpleSongsPlayer.DataModel.csproj">
       <Project>{b77ca852-6989-4e32-966e-e959d9d5d132}</Project>
       <Name>SimpleSongsPlayer.DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleSongsPlayer.Log\SimpleSongsPlayer.Log.csproj">
+      <Project>{6305d477-e20f-4266-a071-b8d3fd4b6dea}</Project>
+      <Name>SimpleSongsPlayer.Log</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimpleSongsPlayer.Operator\SimpleSongsPlayer.Operator.csproj">
       <Project>{eb18171f-d618-4ae8-92f6-985e533ef066}</Project>
