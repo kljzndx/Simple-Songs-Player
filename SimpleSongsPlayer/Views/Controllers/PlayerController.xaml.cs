@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Media;
 using Windows.Media.Playback;
 using Windows.Storage.Streams;
@@ -13,15 +9,12 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using NCEWalkman.Models;
 using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.DataModel.Exceptions;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Controllers;
@@ -48,10 +41,15 @@ namespace SimpleSongsPlayer.Views.Controllers
         public PlayerController()
         {
             this.InitializeComponent();
+
+            LoggerMembers.PlayerLogger.Info("开始初始化控制条， 正在获取必要的数据");
+
             vm = ((ViewModelLocator)Application.Current.Resources["Locator"]).PlayerController;
             player = App.Player;
             settingProperties = SettingProperties.Current;
             LoopingMode_ListBox.SelectedIndex = (int) settingProperties.LoopingMode;
+
+            LoggerMembers.PlayerLogger.Info("正在关联事件");
 
             player.SourceChanged += Player_SourceChanged;
             player.PlaybackSession.PositionChanged += Player_PositionChanged;
@@ -74,6 +72,8 @@ namespace SimpleSongsPlayer.Views.Controllers
             Position_Slider.AddHandler(PointerReleasedEvent, new PointerEventHandler(Position_Slider_PointerReleased), true);
             Position_Slider.AddHandler(PointerCanceledEvent, new PointerEventHandler(Position_Slider_PointerReleased), true);
             Position_Slider.AddHandler(PointerCaptureLostEvent, new PointerEventHandler(Position_Slider_PointerReleased), true);
+
+            LoggerMembers.PlayerLogger.Info("已完成播放控制条初始化");
         }
 
         public List<Song> AllSongs
@@ -84,14 +84,17 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private void UpdateInfo(MediaPlaybackItem media)
         {
+            LoggerMembers.PlayerLogger.Info("正在刷新歌曲信息");
             vm.CurrentSong = AllSongs.Find(s => s.PlaybackItem == media);
             AllSongs.ForEach(s => s.IsPlaying = false);
             vm.CurrentSong.IsPlaying = true;
-
-            player.Volume = settingProperties.Volume;
-            player.PlaybackSession.PlaybackRate = settingProperties.PlaybackSpeed;
             PlayItemChangeNotifier.SendChangeNotification(vm.CurrentSong);
 
+            LoggerMembers.PlayerLogger.Info("正在设置音量和速率");
+            player.Volume = settingProperties.Volume;
+            player.PlaybackSession.PlaybackRate = settingProperties.PlaybackSpeed;
+
+            LoggerMembers.PlayerLogger.Info("正在更新锁屏信息");
             // 更新锁屏信息
             var mediaProperties = player.SystemMediaTransportControls.DisplayUpdater;
             mediaProperties.Type = MediaPlaybackType.Music;
@@ -116,8 +119,10 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private void SetPosition(TimeSpan newTime)
         {
+            LoggerMembers.PlayerLogger.Info("正在设置进度");
             player.PlaybackSession.Position = newTime;
             PositionChangeNotifier.SendChangeNotification(true, newTime);
+            LoggerMembers.PlayerLogger.Info("完成进度设置");
         }
 
         private async Task PressPositionButton(bool isAdd)
@@ -134,15 +139,21 @@ namespace SimpleSongsPlayer.Views.Controllers
 
             Pause();
 
+            string optionInfo = isAdd ? "快进" : "快退";
+            LoggerMembers.PlayerLogger.Info($"正在执行 {optionInfo} 操作");
+
             while (isPressPositionControlButton == true)
             {
                 if (isAdd)
                     SetPosition(player.PlaybackSession.Position + TimeSpan.FromSeconds(1));
                 else
                     SetPosition(player.PlaybackSession.Position - TimeSpan.FromSeconds(1));
+                LoggerMembers.PlayerLogger.Info($"已 {optionInfo} 1秒");
 
                 await Task.Delay(TimeSpan.FromMilliseconds(200));
             }
+
+            LoggerMembers.PlayerLogger.Info($"已完成 {optionInfo} 操作");
         }
 
         private void ReleasePositionButton(bool isNextSong)
@@ -151,12 +162,20 @@ namespace SimpleSongsPlayer.Views.Controllers
             isPressPositionControlButton = false;
 
             if (b == null)
+            {
+                string optionInfo = isNextSong ? "下一曲" : "上一曲";
+                LoggerMembers.PlayerLogger.Info($"正在执行 {optionInfo} 操作");
+
                 if (isNextSong)
                     vm.PlayerSource.MoveNext();
                 else
                     vm.PlayerSource.MovePrevious();
+
+                LoggerMembers.PlayerLogger.Info($"完成 {optionInfo} 操作");
+            }
             else
                 Play();
+
         }
 
         private void SwitchLoopingMode(LoopingModeEnum mode)
@@ -165,14 +184,20 @@ namespace SimpleSongsPlayer.Views.Controllers
             if (vm.PlayerSource != null)
                 vm.PlayerSource.ShuffleEnabled = false;
 
+            LoggerMembers.PlayerLogger.Info($"重置循环模式为 列表循环");
+            
             switch (mode)
             {
                 case LoopingModeEnum.Single:
                     player.IsLoopingEnabled = true;
+                    LoggerMembers.PlayerLogger.Info($"设置循环模式为 单曲循环");
                     break;
                 case LoopingModeEnum.Random:
                     if (vm.PlayerSource != null)
+                    {
                         vm.PlayerSource.ShuffleEnabled = true;
+                        LoggerMembers.PlayerLogger.Info($"设置循环模式为 随机播放");
+                    }
                     break;
             }
         }
@@ -195,8 +220,11 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private void Player_SourceChanged(MediaPlayer sender, object args)
         {
+            LoggerMembers.PlayerLogger.Info("正在更新歌曲组信息");
+
             if (vm.PlayerSource != null)
             {
+                LoggerMembers.PlayerLogger.Info("正在取消监听旧歌曲组");
                 vm.PlayerSource.CurrentItemChanged -= PlayerSource_CurrentItemChanged;
                 vm.PlayerSource.ItemFailed -= PlayerSource_ItemFailed;
                 vm.PlayerSource = null;
@@ -205,20 +233,26 @@ namespace SimpleSongsPlayer.Views.Controllers
             if (sender.Source == null)
                 return;
 
+            LoggerMembers.PlayerLogger.Info("正在监听新歌曲组");
+
             vm.PlayerSource = (MediaPlaybackList)sender.Source;
             vm.PlayerSource.CurrentItemChanged += PlayerSource_CurrentItemChanged;
             vm.PlayerSource.ItemFailed += PlayerSource_ItemFailed;
             vm.PlayerSource.AutoRepeatEnabled = true;
 
+            LoggerMembers.PlayerLogger.Info("正在对新歌曲组应用循环模式");
             SwitchLoopingMode(settingProperties.LoopingMode);
+            LoggerMembers.PlayerLogger.Info("完成更新歌曲组信息");
         }
 
         private async void PlayerSource_ItemFailed(MediaPlaybackList sender, MediaPlaybackItemFailedEventArgs args)
         {
             if (!App.isInBackground)
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
-                    MessageBox.ShowAsync(ExceptionResource.ErrorInfoStrings.GetString("SongLoadFail"), args.Error.ExtendedError.ToShortString(),
+                    LoggerMembers.PlayerLogger.Error(args.Error.ExtendedError);
+
+                    await MessageBox.ShowAsync(ExceptionResource.ErrorInfoStrings.GetString("SongLoadFail"), args.Error.ExtendedError.ToShortString(),
                         App.MessageBoxResourceLoader.GetString("Close"));
                 });
         }
@@ -230,8 +264,13 @@ namespace SimpleSongsPlayer.Views.Controllers
                 if (args.NewItem == null)
                     return;
 
+                LoggerMembers.PlayerLogger.Info("正在更换歌曲");
                 UpdateInfo(args.NewItem);
+
+                LoggerMembers.PlayerLogger.Info("正在获取歌曲持续时间");
                 Position_Slider.Maximum = args.NewItem.Source.Duration.GetValueOrDefault(TimeSpan.Zero).TotalMinutes;
+
+                LoggerMembers.PlayerLogger.Info("完成更换");
             });
         }
 
@@ -241,18 +280,25 @@ namespace SimpleSongsPlayer.Views.Controllers
             {
                 switch (sender.PlaybackState)
                 {
+                    case MediaPlaybackState.None:
+                        LoggerMembers.PlayerLogger.Info("注销播放线程");
+                        break;
                     case MediaPlaybackState.Opening:
+                        LoggerMembers.PlayerLogger.Info("正在打开歌曲");
+                        break;
                     case MediaPlaybackState.Buffering:
+                        LoggerMembers.PlayerLogger.Info("正在读取歌曲数据");
                         break;
                     case MediaPlaybackState.Playing:
+                        LoggerMembers.PlayerLogger.Info("开始播放歌曲");
+
                         PlayOrPause_ToggleButton.IsChecked = true;
                         break;
-                    case MediaPlaybackState.None:
                     case MediaPlaybackState.Paused:
+                        LoggerMembers.PlayerLogger.Info("暂停播放歌曲");
+
                         PlayOrPause_ToggleButton.IsChecked = false;
                         break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
                 }
             });
         }
@@ -273,8 +319,12 @@ namespace SimpleSongsPlayer.Views.Controllers
         private void PlayOrPause_ToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             var theButton = sender as ToggleButton;
-            if (theButton != null)
-                theButton.Content = '\uE103';
+            if (theButton is null)
+                return;
+
+            LoggerMembers.PlayerLogger.Info("点击播放按钮");
+
+            theButton.Content = '\uE103';
 
             Play();
         }
@@ -282,27 +332,39 @@ namespace SimpleSongsPlayer.Views.Controllers
         private void PlayOrPause_ToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
             var theButton = sender as ToggleButton;
-            if (theButton != null)
-                theButton.Content = '\uE102';
+            if (theButton is null)
+                return;
+
+            LoggerMembers.PlayerLogger.Info("点击暂停按钮");
+
+            theButton.Content = '\uE102';
 
             Pause();
         }
 
         private void Position_Slider_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
+            LoggerMembers.PlayerLogger.Info("正在拖动进度条");
+
             isPressPositionSlider = true;
         }
 
         private void Position_Slider_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
+            LoggerMembers.PlayerLogger.Info("正在更改播放进度");
+
             SetPosition(TimeSpan.FromMinutes(Position_Slider.Value));
             isPressPositionSlider = false;
+
+            LoggerMembers.PlayerLogger.Info("完成进度更改");
         }
 
         private void PlayList_Flyout_Opened(object sender, object e)
         {
             if (vm.PlayerSource == null)
                 return;
+
+            LoggerMembers.PlayerLogger.Info("已打开正在播放列表， 正在加载数据");
 
             List<Song> playList = new List<Song>();
             foreach (var item in vm.PlayerSource.Items)
@@ -314,6 +376,8 @@ namespace SimpleSongsPlayer.Views.Controllers
 
             PlayList_ListView.ItemsSource = playList;
             PlayList_ListView.ScrollIntoView(vm.CurrentSong, ScrollIntoViewAlignment.Leading);
+
+            LoggerMembers.PlayerLogger.Info("正在播放列表数据加载完成");
         }
 
         private void PlayList_ListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -322,36 +386,53 @@ namespace SimpleSongsPlayer.Views.Controllers
             if (song == null || vm.CurrentSong.Equals(song))
                 return;
 
+            LoggerMembers.PlayerLogger.Info("正在通过正在播放列表更换歌曲");
+
             int id = vm.PlayerSource.Items.IndexOf(song.PlaybackItem);
             vm.PlayerSource.MoveTo((uint)id);
             Play();
+
+            LoggerMembers.PlayerLogger.Info("完成更换");
         }
 
         private void PlayList_Flyout_OnClosed(object sender, object e)
         {
+            LoggerMembers.PlayerLogger.Info("已关闭正在播放列表");
+
             PlayList_ListView.ItemsSource = null;
         }
 
         private void PlayList_Close_Button_Click(object sender, RoutedEventArgs e)
         {
+            LoggerMembers.PlayerLogger.Info("点击按钮 关闭正在播放列表");
+
             PlayList_Flyout.Hide();
         }
 
         private void LoopingMode_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            LoggerMembers.PlayerLogger.Info("正在更改循环模式");
+
             settingProperties.LoopingMode = (LoopingModeEnum) LoopingMode_ListBox.SelectedIndex;
             LoopingMode_Flyout.Hide();
+
         }
 
         private void SavePlayingList_Button_OnClick(object sender, RoutedEventArgs e)
         {
             if (PlayList_ListView.ItemsSource is List<Song> songs)
             {
+                LoggerMembers.PlayerLogger.Info("点击按钮 保存正在播放列表， 正在提取歌曲");
+
                 var items = new List<SongItem>();
                 foreach (var song in songs)
                     items.Add(new SongItem(song));
 
+                LoggerMembers.PlayerLogger.Info("完成歌曲提取， 正在发送保存请求");
+
                 PlayingListOperationNotifier.RequestAdd(items);
+
+                LoggerMembers.PlayerLogger.Info("已发送保存请求");
             }
         }
     }
