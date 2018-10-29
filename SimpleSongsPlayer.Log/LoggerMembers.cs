@@ -7,6 +7,7 @@ namespace SimpleSongsPlayer.Log
     {
         public static Logger PagesLogger { get; }
         public static Logger PlayerLogger { get; }
+        public static Logger VmLogger { get; }
 
         static LoggerMembers()
         {
@@ -15,6 +16,7 @@ namespace SimpleSongsPlayer.Log
 
             PagesLogger = LogManager.GetLogger("pages");
             PlayerLogger = LogManager.GetLogger("player");
+            VmLogger = LogManager.GetLogger("viewModel");
         }
         
     }
