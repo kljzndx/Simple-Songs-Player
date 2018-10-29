@@ -83,10 +83,9 @@ namespace SimpleSongsPlayer
                     async c =>
                     {
                         await EmailEx.SendAsync(Email, errorReportEmillTitle, builder.ToString());
-                        Application.Current.Exit();
                     }
                 },
-                {MessageBoxResourceLoader.GetString("Close"), c => Application.Current.Exit()}
+                {MessageBoxResourceLoader.GetString("Close"), c => {}}
             };
 
             await MessageBox.ShowAsync(MessageBoxResourceLoader.GetString("ErrorReportDialogTitle"),
