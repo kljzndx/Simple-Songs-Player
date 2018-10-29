@@ -74,9 +74,11 @@ namespace SimpleSongsPlayer
             builder.AppendLine();
             builder.AppendLine($"{ExceptionExtension.ErrorTable.GetString("SystemVersion")} {SystemInfo.BuildVersion}");
             builder.AppendLine(ex.ToLongString());
+            builder.AppendLine(ExceptionExtension.ErrorTable.GetString("LogInfo"));
+            builder.AppendLine(await LogContentGetter.GetContent(30));
 
             string errorReportEmillTitle =
-                $"{HappyStudio.UwpToolsLibrary.Information.AppInfo.Name} {HappyStudio.UwpToolsLibrary.Information.AppInfo.Version} {MessageBoxResourceLoader.GetString("ErrorReportEmillTitle")}";
+                $"{HappyStudio.UwpToolsLibrary.Information.AppInfo.Name} {HappyStudio.UwpToolsLibrary.Information.AppInfo.Version} {MessageBoxResourceLoader.GetString("ErrorReportEmailTitle")}";
 
             var buttons = new Dictionary<string, UICommandInvokedHandler>
             {

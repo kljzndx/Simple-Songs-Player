@@ -126,6 +126,9 @@
   <data name="Information" xml:space="preserve">
     <value>错误信息：</value>
   </data>
+  <data name="LogInfo" xml:space="preserve">
+    <value>日志信息：</value>
+  </data>
   <data name="OperationProcess" xml:space="preserve">
     <value>请说明你做了什么</value>
   </data>

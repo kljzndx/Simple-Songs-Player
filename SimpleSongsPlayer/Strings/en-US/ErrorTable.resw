@@ -126,6 +126,9 @@
   <data name="Information" xml:space="preserve">
     <value>Error info:</value>
   </data>
+  <data name="LogInfo" xml:space="preserve">
+    <value>Log info: </value>
+  </data>
   <data name="OperationProcess" xml:space="preserve">
     <value>Please introduce what you do</value>
   </data>
