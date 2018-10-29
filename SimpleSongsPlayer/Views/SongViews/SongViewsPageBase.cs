@@ -52,16 +52,20 @@ namespace SimpleSongsPlayer.Views.SongViews
 
         protected virtual void MenuInit(MenuFlyout menuFlyout, ResourceLoader stringResource)
         {
+            LoggerMembers.PagesLogger.Info("初始化菜单项 下一首播放");
             MenuFlyoutItem nextPlay_MenuItem = new MenuFlyoutItem();
             nextPlay_MenuItem.Text = stringResource.GetString("NextPlay");
             nextPlay_MenuItem.Click += NextPlay_MenuItem_Click;
-
-            addTo_MenuItem = new MenuFlyoutSubItem();
-            addTo_MenuItem.Text = stringResource.GetString("AddTo");
             
             menuFlyout.Items.Add(nextPlay_MenuItem);
+
+            LoggerMembers.PagesLogger.Info("初始化菜单项 添加到");
+            addTo_MenuItem = new MenuFlyoutSubItem();
+            addTo_MenuItem.Text = stringResource.GetString("AddTo");
+
             menuFlyout.Items.Add(addTo_MenuItem);
-            
+
+            LoggerMembers.PagesLogger.Info("初始化‘正在播放’菜单项并增加至‘添加到’菜单项里");
             MenuFlyoutItem playing = new MenuFlyoutItem();
             playing.Icon = new FontIcon {Glyph = "\uE189"};
             playing.Text = stringResource.GetString("Playing");
@@ -70,6 +74,7 @@ namespace SimpleSongsPlayer.Views.SongViews
             addTo_MenuItem.Items.Add(playing);
             addTo_MenuItem.Items.Add(new MenuFlyoutSeparator());
 
+            LoggerMembers.PagesLogger.Info("初始化‘新的播放列表’菜单项并增加至‘添加到’菜单项里");
             MenuFlyoutItem newPlayList = new MenuFlyoutItem();
             newPlayList.Icon = new FontIcon {Glyph = "\uE109"};
             newPlayList.Text = stringResource.GetString("NewPlayList");
@@ -79,6 +84,7 @@ namespace SimpleSongsPlayer.Views.SongViews
             
             foreach (var block in playingListManager.GetBlocks())
             {
+                LoggerMembers.PagesLogger.Info($"初始化‘{block.Name}’菜单项并增加至‘添加到’菜单项里");
                 var menuItem = new MenuFlyoutItem();
                 menuItem.Icon = new FontIcon {Glyph = "\uE154" };
                 menuItem.Text = block.Name;
