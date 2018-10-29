@@ -68,10 +68,6 @@ namespace SimpleSongsPlayer
             LoggerMembers.PagesLogger.Error(ex);
 
             StringBuilder builder = new StringBuilder();
-            builder.AppendLine(ExceptionExtension.ErrorTable.GetString("OperationProcess"));
-            builder.AppendLine();
-            builder.AppendLine();
-            builder.AppendLine();
             builder.AppendLine($"{ExceptionExtension.ErrorTable.GetString("SystemVersion")} {SystemInfo.BuildVersion}");
             builder.AppendLine(ex.ToLongString());
             builder.AppendLine(ExceptionExtension.ErrorTable.GetString("LogInfo"));
