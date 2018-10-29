@@ -18,6 +18,5 @@ namespace SimpleSongsPlayer.Log
             PlayerLogger = LogManager.GetLogger("player");
             VmLogger = LogManager.GetLogger("viewModel");
         }
-        
     }
 }
