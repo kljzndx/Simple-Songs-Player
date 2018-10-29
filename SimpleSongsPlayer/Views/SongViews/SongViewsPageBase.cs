@@ -129,7 +129,7 @@ namespace SimpleSongsPlayer.Views.SongViews
 
             song.IsSelected = true;
 
-            LoggerMembers.PagesLogger.Info($"选中歌曲 {song.Title}");
+            LoggerMembers.PagesLogger.Info("选中歌曲");
         }
 
         public void Songs_ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -137,7 +137,7 @@ namespace SimpleSongsPlayer.Views.SongViews
             FrameworkElement args = e.OriginalSource as FrameworkElement;
             if (args.DataContext is SongItem theSong)
             {
-                LoggerMembers.PagesLogger.Info($"用户双击了歌曲 -> {theSong.Title}");
+                LoggerMembers.PagesLogger.Info("用户双击了一个歌曲");
                 vmb.Push(theSong);
             }
         }
@@ -151,7 +151,7 @@ namespace SimpleSongsPlayer.Views.SongViews
         protected void SongItemTemplate_MenuOpening(SongItemTemplate sender, EventArgs args)
         {
             SongCache = sender.Source;
-            LoggerMembers.PagesLogger.Info($"打开歌曲菜单 歌名为： {SongCache.Title}");
+            LoggerMembers.PagesLogger.Info("打开歌曲菜单");
         }
 
         private void NextPlay_MenuItem_Click(object sender, RoutedEventArgs e)
@@ -190,7 +190,7 @@ namespace SimpleSongsPlayer.Views.SongViews
             if (theMenuItem is null)
                 return;
 
-            LoggerMembers.PagesLogger.Info($"点击菜单项 添加到 -> 播放列表 {theMenuItem.Text}");
+            LoggerMembers.PagesLogger.Info("点击菜单项 添加到 -> 播放列表");
 
             var song = SongCache;
             var block = playingListManager.GetBlock(theMenuItem.Text);
