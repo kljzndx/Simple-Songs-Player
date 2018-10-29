@@ -210,7 +210,8 @@ namespace SimpleSongsPlayer.Views.Controllers
                     player.Volume = settingProperties.Volume;
                     break;
                 case nameof(settingProperties.PlaybackSpeed):
-                    player.PlaybackSession.PlaybackRate = settingProperties.PlaybackSpeed;
+                    if (player.PlaybackSession != null)
+                        player.PlaybackSession.PlaybackRate = settingProperties.PlaybackSpeed;
                     break;
                 case nameof(settingProperties.LoopingMode):
                     SwitchLoopingMode(settingProperties.LoopingMode);
