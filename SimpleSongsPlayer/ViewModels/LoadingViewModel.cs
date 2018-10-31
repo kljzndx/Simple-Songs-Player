@@ -31,8 +31,9 @@ namespace SimpleSongsPlayer.ViewModels
             LoggerMembers.VmLogger.Info("开始扫描文件夹");
             foreach (var folder in folders.ToList())
             {
-                LoggerMembers.VmLogger.Info("正在获取当前文件夹下的所有歌曲和歌词文件");
+                LoggerMembers.VmLogger.Info("正在获取当前文件夹下的所有歌曲文件");
                 var songFiles = await MusicFileScanner.ScanFiles(folder);
+                LoggerMembers.VmLogger.Info("正在获取当前文件夹下的所有歌词文件");
                 var lyricsFiles = await LyricsFileScanner.ScanFiles(folder);
 
                 LoggerMembers.VmLogger.Info("完成文件获取， 开始解析歌曲文件");
