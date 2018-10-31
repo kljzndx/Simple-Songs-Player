@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Media.Core;
@@ -17,9 +18,11 @@ namespace SimpleSongsPlayer.DataModel
 
         private bool isPlaying;
 
-        private Song(StorageFolder baseFolder, StorageFile file, MusicProperties musicProperties, StorageItemThumbnail coverStream)
+        private Song(StorageFile file, MusicProperties musicProperties, StorageItemThumbnail coverStream)
         {
-            FolderName = baseFolder.DisplayName;
+            Uri u = new Uri(file.Path);
+            FolderName = u.Segments[u.Segments.Length - 2].Replace("/", String.Empty);
+
             FileName = file.DisplayName;
             Title = String.IsNullOrWhiteSpace(musicProperties.Title) ? file.DisplayName : musicProperties.Title;
             Singer = SongListStrings.GetString("UnknownSinger");
@@ -58,11 +61,10 @@ namespace SimpleSongsPlayer.DataModel
 
         public static async Task<Song> CreateFromStorageFile(StorageFile file)
         {
-            var baseFolder = await file.GetParentAsync();
             var property = await file.Properties.GetMusicPropertiesAsync();
             var coverSource = await file.GetThumbnailAsync(ThumbnailMode.SingleItem);
 
-            return new Song(baseFolder, file, property, coverSource);
+            return new Song(file, property, coverSource);
         }
     }
 }
