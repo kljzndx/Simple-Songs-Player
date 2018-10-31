@@ -12,7 +12,7 @@
         <Style x:Key="TopButton_Style" TargetType="Button" BasedOn="{StaticResource ControllerButton_Style}"/>
     </Page.Resources>
 
-    <SplitView x:Name="Root_SplitView" PanePlacement="Right" PaneOpened="Root_SplitView_OnPaneOpened" PaneClosed="Root_SplitView_OnPaneClosed">
+    <SplitView x:Name="Root_SplitView" PanePlacement="Right" PaneClosed="Root_SplitView_OnPaneClosed">
         <SplitView.Pane>
             <Grid>
                 <Grid.RowDefinitions>
