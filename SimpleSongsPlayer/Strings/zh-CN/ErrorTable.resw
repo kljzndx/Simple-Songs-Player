@@ -138,9 +138,6 @@
   <data name="Source" xml:space="preserve">
     <value>错误源：</value>
   </data>
-  <data name="StackTrace" xml:space="preserve">
-    <value>堆栈信息：</value>
-  </data>
   <data name="SystemVersion" xml:space="preserve">
     <value>系统版本：</value>
   </data>

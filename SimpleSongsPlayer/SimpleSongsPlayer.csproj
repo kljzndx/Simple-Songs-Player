@@ -355,9 +355,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AsyncStackTraceEx">
-      <Version>1.0.1.1</Version>
-    </PackageReference>
     <PackageReference Include="HappyStudio.UwpToolsLibrary.Auxiliarys">
       <Version>1.1.5</Version>
     </PackageReference>

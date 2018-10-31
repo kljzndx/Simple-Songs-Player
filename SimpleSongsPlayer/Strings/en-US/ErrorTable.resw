@@ -138,9 +138,6 @@
   <data name="Source" xml:space="preserve">
     <value>Errow source:</value>
   </data>
-  <data name="StackTrace" xml:space="preserve">
-    <value>Stack trare info:</value>
-  </data>
   <data name="SystemVersion" xml:space="preserve">
     <value>System Version:</value>
   </data>

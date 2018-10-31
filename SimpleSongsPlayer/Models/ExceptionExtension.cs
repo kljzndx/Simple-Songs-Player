@@ -28,8 +28,6 @@ namespace NCEWalkman.Models
             builder.AppendLine($"{ErrorTable.GetString("Source")} {ex.Source}");
             builder.AppendLine($"{ErrorTable.GetString("HelpLink")}: {ex.HelpLink}");
             builder.AppendLine($"{ErrorTable.GetString("Other")} {ex.Data}");
-            builder.AppendLine(ErrorTable.GetString("StackTrace"));
-            builder.AppendLine(ex.StackTraceEx());
 
             return builder.ToString().Trim();
         }
