@@ -87,7 +87,7 @@ namespace SimpleSongsPlayer.DataModel
         public async Task RenameAsync(string newName)
         {
             string oldName = Name;
-            await _file.RenameAsync(newName);
+            await _file.RenameAsync(newName + ".plb");
             Name = newName;
             ChangeDate = DateTime.Now;
 
