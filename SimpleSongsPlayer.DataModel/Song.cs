@@ -20,8 +20,8 @@ namespace SimpleSongsPlayer.DataModel
 
         private Song(StorageFile file, MusicProperties musicProperties, StorageItemThumbnail coverStream)
         {
-            Uri u = new Uri(file.Path);
-            FolderName = u.Segments[u.Segments.Length - 2].Replace("/", String.Empty);
+            var pathSplit = file.Path.Split('\\');
+            FolderName = pathSplit[pathSplit.Length - 2];
 
             FileName = file.DisplayName;
             Title = String.IsNullOrWhiteSpace(musicProperties.Title) ? file.DisplayName : musicProperties.Title;
