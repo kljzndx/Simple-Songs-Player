@@ -138,7 +138,16 @@
   <data name="PlayingListName_TextBox.Header" xml:space="preserve">
     <value>列表名称</value>
   </data>
+  <data name="PlayingListRename_ContentDialog.PrimaryButtonText" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="PlayingListRename_ContentDialog.SecondaryButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
   <data name="Refresh_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>刷新</value>
+  </data>
+  <data name="Rename_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>重命名该组</value>
   </data>
 </root>

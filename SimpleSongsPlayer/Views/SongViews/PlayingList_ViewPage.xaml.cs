@@ -69,6 +69,27 @@ namespace SimpleSongsPlayer.Views.SongViews
                 vm.SongGroups.Remove(theGroup);
         }
 
+        private async void Rename_Button_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            e.Handled = true;
+
+            var theButton = sender as Button;
+
+            var theGroup = theButton?.DataContext as SongsGroup;
+            if (theGroup is null)
+                return;
+
+            LoggerMembers.PagesLogger.Info("点击按钮 重命名该组");
+
+            ListName_TextBox.Text = theGroup.Name;
+            var result = await PlayingListRename_ContentDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary && !String.IsNullOrWhiteSpace(ListName_TextBox.Text))
+            {
+                theGroup.Name = ListName_TextBox.Text;
+            }
+        }
+
         private async void Refresh_Button_OnClick(object sender, RoutedEventArgs e)
         {
             LoggerMembers.PagesLogger.Info("点击按钮 刷新");

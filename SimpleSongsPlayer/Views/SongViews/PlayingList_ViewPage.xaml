@@ -28,6 +28,7 @@
                                         <StackPanel Grid.Column="1" Orientation="Horizontal">
                                             <Button x:Name="PlayGroup_Button" x:Uid="/SongList/PlayGroup_Button" Content="&#xE102;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="PlayGroup_Button_Tapped"/>
                                             <Button x:Name="AddGroup_Button" x:Uid="/SongList/AddGroup_Button" Content="&#xE109;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="AddGroup_Button_Tapped"/>
+                                            <Button x:Name="Rename_Button" x:Uid="/PlayingListOperation/Rename_Button" Content="&#xE104;"  Style="{StaticResource ControllerButton_Small_Style}" Tapped="Rename_Button_OnTapped"/>
                                             <Button x:Name="Delete_Button" x:Uid="/PlayingListOperation/DeleteGroup_Button" Content="&#xE107;" Style="{StaticResource ControllerButton_Small_Style}" Tapped="Delete_Button_OnTapped"/>
                                         </StackPanel>
                                     </Grid>
@@ -61,6 +62,9 @@
         </SemanticZoom>
 
         <ContentDialog x:Name="PlayingListDelete_ContentDialog" x:Uid="/PlayingListOperation/PlayingListDelete_ContentDialog"/>
+        <ContentDialog x:Name="PlayingListRename_ContentDialog" x:Uid="/PlayingListOperation/PlayingListRename_ContentDialog">
+            <TextBox x:Name="ListName_TextBox" x:Uid="/PlayingListOperation/PlayingListName_TextBox"/>
+        </ContentDialog>
 
         <Button x:Name="Refresh_Button" x:Uid="/PlayingListOperation/Refresh_Button" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,56,36" Click="Refresh_Button_OnClick">
             <Button.Template>
