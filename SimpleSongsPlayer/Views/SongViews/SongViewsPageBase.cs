@@ -52,44 +52,89 @@ namespace SimpleSongsPlayer.Views.SongViews
 
         protected virtual void MenuInit(MenuFlyout menuFlyout, ResourceLoader stringResource)
         {
-            LoggerMembers.PagesLogger.Info("初始化菜单项 下一首播放");
-            MenuFlyoutItem nextPlay_MenuItem = new MenuFlyoutItem();
-            nextPlay_MenuItem.Text = stringResource.GetString("NextPlay");
-            nextPlay_MenuItem.Click += NextPlay_MenuItem_Click;
-            
-            menuFlyout.Items.Add(nextPlay_MenuItem);
+            List<MenuFlyoutItemBase> songMenuItems = new List<MenuFlyoutItemBase>();
+            List<MenuFlyoutItemBase> addToMenuItems = new List<MenuFlyoutItemBase>();
 
-            LoggerMembers.PagesLogger.Info("初始化菜单项 添加到");
-            addTo_MenuItem = new MenuFlyoutSubItem();
-            addTo_MenuItem.Text = stringResource.GetString("AddTo");
-
-            menuFlyout.Items.Add(addTo_MenuItem);
-
-            LoggerMembers.PagesLogger.Info("初始化‘正在播放’菜单项并增加至‘添加到’菜单项里");
-            MenuFlyoutItem playing = new MenuFlyoutItem();
-            playing.Icon = new FontIcon {Glyph = "\uE189"};
-            playing.Text = stringResource.GetString("Playing");
-            playing.Click += AddTo_Playing_MenuItem_Click;
-
-            addTo_MenuItem.Items.Add(playing);
-            addTo_MenuItem.Items.Add(new MenuFlyoutSeparator());
-
-            LoggerMembers.PagesLogger.Info("初始化‘新的播放列表’菜单项并增加至‘添加到’菜单项里");
-            MenuFlyoutItem newPlayList = new MenuFlyoutItem();
-            newPlayList.Icon = new FontIcon {Glyph = "\uE109"};
-            newPlayList.Text = stringResource.GetString("NewPlayList");
-            newPlayList.Click += AddTo_NewPlayList_MenuItem_Click;
-
-            addTo_MenuItem.Items.Add(newPlayList);
-            
-            foreach (var block in playingListManager.GetBlocks())
             {
-                LoggerMembers.PagesLogger.Info($"初始化‘{block.Name}’菜单项并增加至‘添加到’菜单项里");
-                var menuItem = new MenuFlyoutItem();
-                menuItem.Icon = new FontIcon {Glyph = "\uE154" };
-                menuItem.Text = block.Name;
-                menuItem.Click += AddTo_PlayingList_MenuItem_Click;
-                addTo_MenuItem.Items.Add(menuItem);
+                LoggerMembers.PagesLogger.Info("初始化菜单项 下一首播放");
+                MenuFlyoutItem nextPlay_MenuItem = new MenuFlyoutItem();
+                nextPlay_MenuItem.Text = stringResource.GetString("NextPlay");
+                nextPlay_MenuItem.Tag = nextPlay_MenuItem.Text;
+                nextPlay_MenuItem.Click += NextPlay_MenuItem_Click;
+
+                songMenuItems.Add(nextPlay_MenuItem);
+
+                LoggerMembers.PagesLogger.Info("初始化菜单项 添加到");
+                addTo_MenuItem = new MenuFlyoutSubItem();
+                addTo_MenuItem.Text = stringResource.GetString("AddTo");
+                addTo_MenuItem.Tag = addTo_MenuItem.Text;
+
+                songMenuItems.Add(addTo_MenuItem);
+            }
+
+            {
+                LoggerMembers.PagesLogger.Info("初始化‘正在播放’菜单项并增加至‘添加到’菜单项里");
+                MenuFlyoutItem playing = new MenuFlyoutItem();
+                playing.Icon = new FontIcon {Glyph = "\uE189"};
+                playing.Text = stringResource.GetString("Playing");
+                playing.Tag = playing.Text;
+                playing.Click += AddTo_Playing_MenuItem_Click;
+
+                addToMenuItems.Add(playing);
+                addToMenuItems.Add(new MenuFlyoutSeparator());
+
+                LoggerMembers.PagesLogger.Info("初始化‘新的播放列表’菜单项并增加至‘添加到’菜单项里");
+                MenuFlyoutItem newPlayList = new MenuFlyoutItem();
+                newPlayList.Icon = new FontIcon {Glyph = "\uE109"};
+                newPlayList.Text = stringResource.GetString("NewPlayList");
+                newPlayList.Tag = newPlayList.Text;
+                newPlayList.Click += AddTo_NewPlayList_MenuItem_Click;
+
+                addToMenuItems.Add(newPlayList);
+                
+                foreach (var block in playingListManager.GetBlocks())
+                {
+                    LoggerMembers.PagesLogger.Info($"初始化‘{block.Name}’菜单项并增加至‘添加到’菜单项里");
+                    var menuItem = new MenuFlyoutItem();
+                    menuItem.Icon = new FontIcon {Glyph = "\uE154" };
+                    menuItem.Text = block.Name;
+                    menuItem.Tag = block.Name;
+                    menuItem.Click += AddTo_PlayingList_MenuItem_Click;
+
+                    addToMenuItems.Add(menuItem);
+                }
+            }
+
+            LoggerMembers.PagesLogger.Info("开始为添加到菜单项的子项生成 UI");
+            foreach (var item in addToMenuItems)
+            {
+                try
+                {
+                    addTo_MenuItem.Items.Add(item);
+                    LoggerMembers.PagesLogger.Info($"{item.Tag} UI 生成成功");
+                }
+                catch (Exception e)
+                {
+                    LoggerMembers.PagesLogger.Error(e, $"{item.Tag} UI 生成失败");
+                    App.ShowErrorDialog(e);
+                    continue;
+                }
+            }
+
+            LoggerMembers.PagesLogger.Info("开始为歌曲菜单的子项生成 UI");
+            foreach (var item in songMenuItems)
+            {
+                try
+                {
+                    songItemMenu.Items.Add(item);
+                    LoggerMembers.PagesLogger.Info($"{item.Tag} UI 生成成功");
+                }
+                catch (Exception e)
+                {
+                    LoggerMembers.PagesLogger.Error(e, $"{item.Tag} UI 生成失败");
+                    App.ShowErrorDialog(e);
+                    continue;
+                }
             }
         }
 

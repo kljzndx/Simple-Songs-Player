@@ -63,10 +63,8 @@ namespace SimpleSongsPlayer
             exceptionHandlingSynchronizationContext.UnhandledException += ExceptionHandlingSynchronizationContext_UnhandledException;
         }
 
-        private async Task ShowErrorDialog(Exception ex)
+        public static async Task ShowErrorDialog(Exception ex)
         {
-            LoggerMembers.PagesLogger.Error(ex);
-
             StringBuilder builder = new StringBuilder();
             builder.AppendLine($"{ExceptionExtension.ErrorTable.GetString("SystemVersion")} {SystemInfo.BuildVersion}");
             builder.AppendLine(ex.ToLongString());
@@ -184,12 +182,14 @@ namespace SimpleSongsPlayer
         private async void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
+            LoggerMembers.PagesLogger.Error(e.Exception);
             await ShowErrorDialog(e.Exception);
         }
 
         private async void ExceptionHandlingSynchronizationContext_UnhandledException(object sender, WinRTExceptions.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
+            LoggerMembers.PagesLogger.Error(e.Exception);
             await ShowErrorDialog(e.Exception);
         }
     }
