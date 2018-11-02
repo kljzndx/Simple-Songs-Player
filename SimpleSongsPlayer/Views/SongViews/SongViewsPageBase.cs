@@ -105,7 +105,7 @@ namespace SimpleSongsPlayer.Views.SongViews
                 }
             }
 
-            LoggerMembers.PagesLogger.Info("开始为添加到菜单项的子项生成 UI");
+            LoggerMembers.PagesLogger.Info("开始为‘添加到’菜单项的子项生成 UI");
             foreach (var item in addToMenuItems)
             {
                 try
@@ -121,7 +121,7 @@ namespace SimpleSongsPlayer.Views.SongViews
                 }
             }
 
-            LoggerMembers.PagesLogger.Info("开始为歌曲菜单的子项生成 UI");
+            LoggerMembers.PagesLogger.Info("开始为‘歌曲菜单’的子项生成 UI");
             foreach (var item in songMenuItems)
             {
                 try
