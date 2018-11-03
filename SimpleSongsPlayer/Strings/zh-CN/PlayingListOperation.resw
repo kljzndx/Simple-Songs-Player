@@ -120,29 +120,23 @@
   <data name="DeleteGroup_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>删除该组</value>
   </data>
-  <data name="PlayingListAddition_ContentDialog.PrimaryButtonText" xml:space="preserve">
-    <value>保存</value>
-  </data>
-  <data name="PlayingListAddition_ContentDialog.SecondaryButtonText" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="PlayingListDelete_ContentDialog.Content" xml:space="preserve">
-    <value>你确定要删除吗？</value>
-  </data>
-  <data name="PlayingListDelete_ContentDialog.PrimaryButtonText" xml:space="preserve">
-    <value>是</value>
-  </data>
-  <data name="PlayingListDelete_ContentDialog.SecondaryButtonText" xml:space="preserve">
-    <value>否</value>
-  </data>
-  <data name="PlayingListName_TextBox.Header" xml:space="preserve">
+  <data name="PlayingListAddition_InputDialog.Label" xml:space="preserve">
     <value>列表名称</value>
   </data>
-  <data name="PlayingListRename_ContentDialog.PrimaryButtonText" xml:space="preserve">
-    <value>确定</value>
+  <data name="PlayingListAddition_InputDialog.PrimaryButtonText" xml:space="preserve">
+    <value>保存</value>
   </data>
-  <data name="PlayingListRename_ContentDialog.SecondaryButtonText" xml:space="preserve">
-    <value>取消</value>
+  <data name="PlayingListDelete_InputDialog.Content" xml:space="preserve">
+    <value>你确定要删除吗？</value>
+  </data>
+  <data name="PlayingListDelete_InputDialog.PrimaryButtonText" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="PlayingListDelete_InputDialog.SecondaryButtonText" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="PlayingListRename_InputDialog.Label" xml:space="preserve">
+    <value>列表名称</value>
   </data>
   <data name="Refresh_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>刷新</value>

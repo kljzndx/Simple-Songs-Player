@@ -104,25 +104,14 @@ namespace SimpleSongsPlayer.Views
         private async void PlayingListOperationNotifier_AdditionRequested(object sender, PlayingListAdditionRequestedEventArgs e)
         {
             LoggerMembers.PagesLogger.Info("询问是否要新建歌单");
-            var result = await PlayingListAddition_ContentDialog.ShowAsync();
+            var result = await PlayingListAddition_InputDialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
-                await playingListManager.CreateBlockAsync(PlayingListName_TextBox.Text, e.Paths);
+                await playingListManager.CreateBlockAsync(PlayingListAddition_InputDialog.Text, e.Paths);
                 LoggerMembers.PagesLogger.Info("成功新建歌单");
             }
             else
                 LoggerMembers.PagesLogger.Info("新建歌单操作被取消");
-
-            PlayingListName_TextBox.Text = String.Empty;
-        }
-
-        private void PlayingListName_TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var theBox = sender as TextBox;
-            if (theBox is null)
-                return;
-
-            PlayingListAddition_ContentDialog.IsPrimaryButtonEnabled = !String.IsNullOrWhiteSpace(theBox.Text);
         }
     }
 }

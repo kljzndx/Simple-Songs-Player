@@ -1,0 +1,25 @@
+﻿<ContentDialog
+    x:Class="SimpleSongsPlayer.Views.Controllers.InputDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cvt="using:SimpleSongsPlayer.Views.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    Closed="InputDialog_OnClosed">
+
+    <ContentDialog.Resources>
+        <cvt:CollectionToString x:Name="CollectionToString"/>
+    </ContentDialog.Resources>
+
+    <StackPanel>
+        <TextBox x:Name="Main_TextBox" Header="{x:Bind Label, Mode=OneWay}" TextChanged="Main_TextBox_OnTextChanged" LostFocus="Main_TextBox_OnLostFocus"/>
+        <TextBlock x:Name="ErrorInfo_TextBlock" Foreground="Red" HorizontalAlignment="Center" Margin="0,4" FontWeight="Bold">
+            <Run x:Uid="/InputDialog/ErrorInfo_1_Run"/>
+            <LineBreak/>
+            <Run Text="{x:Bind NoInputs, Mode=OneWay, Converter={StaticResource CollectionToString}}"/>
+        </TextBlock>
+    </StackPanel>
+</ContentDialog>

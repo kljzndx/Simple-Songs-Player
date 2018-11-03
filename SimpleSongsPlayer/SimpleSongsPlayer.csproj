@@ -129,6 +129,9 @@
     <Compile Include="Views\AllSongListsPage.xaml.cs">
       <DependentUpon>AllSongListsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controllers\InputDialog.xaml.cs">
+      <DependentUpon>InputDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controllers\LyricsPreviewControlBase.cs" />
     <Compile Include="Views\Controllers\PlayerController.xaml.cs">
       <DependentUpon>PlayerController.xaml</DependentUpon>
@@ -136,6 +139,7 @@
     <Compile Include="Views\Controllers\ScrollLyricsPreview.xaml.cs">
       <DependentUpon>ScrollLyricsPreview.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Converters\CollectionToString.cs" />
     <Compile Include="Views\Converters\DoubleToPercentage.cs" />
     <Compile Include="Views\Converters\DoubleToSongTimeString.cs" />
     <Compile Include="Views\Converters\TimeSpanToSongTimeString.cs" />
@@ -196,6 +200,8 @@
     </Content>
     <None Include="SimpleSongsPlayer_StoreKey.pfx" />
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="Strings\zh-CN\Controllers\InputDialog.resw" />
+    <PRIResource Include="Strings\en-US\Controllers\InputDialog.resw" />
     <PRIResource Include="Strings\en-US\PlayingListOperation.resw" />
     <PRIResource Include="Strings\zh-CN\PlayingListOperation.resw" />
     <PRIResource Include="Strings\en-US\SongItemMenu.resw" />
@@ -211,12 +217,12 @@
     <PRIResource Include="Strings\en-US\SongList.resw" />
     <PRIResource Include="Strings\zh-CN\SongList.resw" />
     <PRIResource Include="Strings\en-US\Playing.resw" />
-    <PRIResource Include="Strings\en-US\PlayerController.resw" />
+    <PRIResource Include="Strings\en-US\Controllers\PlayerController.resw" />
     <PRIResource Include="Strings\en-US\Loading.resw" />
     <PRIResource Include="Strings\en-US\App.resw" />
     <PRIResource Include="Strings\en-US\AllSongLists.resw" />
     <PRIResource Include="Strings\zh-CN\App.resw" />
-    <PRIResource Include="Strings\zh-CN\PlayerController.resw" />
+    <PRIResource Include="Strings\zh-CN\Controllers\PlayerController.resw" />
     <PRIResource Include="Strings\zh-CN\Loading.resw" />
     <PRIResource Include="Strings\zh-CN\Playing.resw" />
     <PRIResource Include="Strings\zh-CN\AllSongLists.resw" />
@@ -294,6 +300,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Views\AllSongListsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controllers\InputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

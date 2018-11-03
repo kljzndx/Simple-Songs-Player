@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SimpleSongsPlayer.Views.SongViews"
     xmlns:temp="using:SimpleSongsPlayer.Views.ItemTemplates"
+    xmlns:ctol="using:SimpleSongsPlayer.Views.Controllers"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -62,9 +63,7 @@
         </SemanticZoom>
 
         <ContentDialog x:Name="PlayingListDelete_ContentDialog" x:Uid="/PlayingListOperation/PlayingListDelete_ContentDialog"/>
-        <ContentDialog x:Name="PlayingListRename_ContentDialog" x:Uid="/PlayingListOperation/PlayingListRename_ContentDialog">
-            <TextBox x:Name="ListName_TextBox" x:Uid="/PlayingListOperation/PlayingListName_TextBox"/>
-        </ContentDialog>
+        <ctol:InputDialog x:Name="PlayingListRename_InputDialog" x:Uid="/PlayingListOperation/PlayingListRename_InputDialog"/>
 
         <Button x:Name="Refresh_Button" x:Uid="/PlayingListOperation/Refresh_Button" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,56,36" Click="Refresh_Button_OnClick">
             <Button.Template>

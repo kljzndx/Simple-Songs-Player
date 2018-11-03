@@ -18,8 +18,6 @@
         <Button x:Name="Close_Button" Content="&#xE10A;" Padding="8" Margin="10" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Close_Button_Click"/>
         <ctol:PlayerController x:Name="PlayerController" Grid.Row="1" CoverClick="PlayerController_CoverClick"/>
 
-        <ContentDialog x:Name="PlayingListAddition_ContentDialog" x:Uid="/PlayingListOperation/PlayingListAddition_ContentDialog" IsPrimaryButtonEnabled="False">
-            <TextBox x:Name="PlayingListName_TextBox" x:Uid="/PlayingListOperation/PlayingListName_TextBox" VerticalAlignment="Center" TextChanged="PlayingListName_TextBox_TextChanged"/>
-        </ContentDialog>
+        <ctol:InputDialog x:Name="PlayingListAddition_InputDialog" x:Uid="/PlayingListOperation/PlayingListAddition_InputDialog"/>
     </Grid>
 </Page>

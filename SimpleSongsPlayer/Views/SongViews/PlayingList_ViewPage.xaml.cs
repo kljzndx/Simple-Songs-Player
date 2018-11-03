@@ -81,12 +81,12 @@ namespace SimpleSongsPlayer.Views.SongViews
 
             LoggerMembers.PagesLogger.Info("点击按钮 重命名该组");
 
-            ListName_TextBox.Text = theGroup.Name;
-            var result = await PlayingListRename_ContentDialog.ShowAsync();
+            PlayingListRename_InputDialog.Text = theGroup.Name;
+            var result = await PlayingListRename_InputDialog.ShowAsync();
 
-            if (result == ContentDialogResult.Primary && !String.IsNullOrWhiteSpace(ListName_TextBox.Text))
+            if (result == ContentDialogResult.Primary)
             {
-                theGroup.Name = ListName_TextBox.Text;
+                theGroup.Name = PlayingListRename_InputDialog.Text;
             }
         }
 

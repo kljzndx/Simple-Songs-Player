@@ -117,31 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DeleteGroup_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Delete this group</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
   </data>
-  <data name="PlayingListAddition_InputDialog.Label" xml:space="preserve">
-    <value>Name of list</value>
+  <data name="ErrorInfo_1_Run.Text" xml:space="preserve">
+    <value>不能包含以下字符</value>
   </data>
-  <data name="PlayingListAddition_InputDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="PlayingListDelete_InputDialog.Content" xml:space="preserve">
-    <value>Are you sure you want to delete it?</value>
-  </data>
-  <data name="PlayingListDelete_InputDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Yes</value>
-  </data>
-  <data name="PlayingListDelete_InputDialog.SecondaryButtonText" xml:space="preserve">
-    <value>No</value>
-  </data>
-  <data name="PlayingListRename_InputDialog.Label" xml:space="preserve">
-    <value>Name of list</value>
-  </data>
-  <data name="Refresh_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Refresh</value>
-  </data>
-  <data name="Rename_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Rename this group</value>
+  <data name="OK" xml:space="preserve">
+    <value>确定</value>
   </data>
 </root>
