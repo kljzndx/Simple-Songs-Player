@@ -120,6 +120,9 @@
   <data name="AlbumCover_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Click to go to the song details page</value>
   </data>
+  <data name="ClearPlayList_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Clear the list</value>
+  </data>
   <data name="FastForward_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>FastForward</value>
   </data>
@@ -147,8 +150,14 @@
   <data name="PlayOrPause_ToggleButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Play / Pause</value>
   </data>
+  <data name="RemoveSongItem_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Remove this song</value>
+  </data>
   <data name="Rewind_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Rewind</value>
+  </data>
+  <data name="SavePlayingList_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Save the list</value>
   </data>
   <data name="Volume_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Volume</value>

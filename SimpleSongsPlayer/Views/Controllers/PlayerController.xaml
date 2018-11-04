@@ -454,10 +454,12 @@
                                 <TextBlock x:Name="PlayList_TextBlock" x:Uid="/PlayerController/PlayList_TextBlock" Text="播放列表" VerticalAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}"/>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                    <Button x:Name="SavePlayingList_Button" Content="&#xE105;" Click="SavePlayingList_Button_OnClick"/>
-                                    <Button x:Name="PlayList_Close_Button" Content="&#xE10A;" Click="PlayList_Close_Button_Click"/>
+                                    <Button x:Name="SavePlayingList_Button" x:Uid="/PlayerController/SavePlayingList_Button" Content="&#xE1CE;" Click="SavePlayingList_Button_OnClick"/>
+                                    <Button x:Name="ClearPlayList_Button" x:Uid="/PlayerController/ClearPlayList_Button" Content="&#xE107;" Click="ClearPlayingList_Button_OnClick"/>
+                                    <Button x:Name="PlayList_Close_Button" x:Uid="/PlayerController/PlayList_Close_Button" Content="&#xE10A;" Click="PlayList_Close_Button_Click"/>
                                 </StackPanel>
                             </Grid>
+
                             <ListView x:Name="PlayList_ListView" Grid.Row="1" IsItemClickEnabled="True" ItemClick="PlayList_ListView_ItemClick">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
@@ -465,16 +467,17 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition/>
+                                                <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
 
-                                            <Polygon Grid.RowSpan="2" VerticalAlignment="Center" Margin="0,0,8,0" Points="0,0, 18,9, 0,18" Fill="{ThemeResource SystemControlForegroundAccentBrush}" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" StrokeThickness="2" Visibility="{Binding IsPlaying, Mode=OneWay}"/>
+                                            <Polygon VerticalAlignment="Center" Margin="0,0,8,0" Points="0,0, 18,9, 0,18" Fill="{ThemeResource SystemControlForegroundAccentBrush}" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" StrokeThickness="2" Visibility="{Binding IsPlaying, Mode=OneWay}"/>
 
-                                            <TextBlock Grid.Column="1" Text="{Binding Title}" Style="{ThemeResource BodyTextBlockStyle}"/>
-                                            <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Singer}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                                            <StackPanel Grid.Column="1">
+                                                <TextBlock Text="{Binding Title}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                                                <TextBlock Text="{Binding Singer}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                                            </StackPanel>
+
+                                            <Button x:Name="RemoveSongItem_Button" x:Uid="/PlayerController/RemoveSongItem_Button" Grid.Column="2" Content="&#xE10A;" Margin="0" Click="RemoveSongItem_Button_OnClick"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Media;
@@ -367,7 +368,7 @@ namespace SimpleSongsPlayer.Views.Controllers
 
             LoggerMembers.PlayerLogger.Info("已打开正在播放列表， 正在加载数据");
 
-            List<Song> playList = new List<Song>();
+            ObservableCollection<Song> playList = new ObservableCollection<Song>();
             foreach (var item in vm.PlayerSource.Items)
             {
                 var fundSong = AllSongs.FirstOrDefault(s => s.PlaybackItem == item);
@@ -403,6 +404,50 @@ namespace SimpleSongsPlayer.Views.Controllers
             PlayList_ListView.ItemsSource = null;
         }
 
+        private void SavePlayingList_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (PlayList_ListView.ItemsSource is IList<Song> songs)
+            {
+                LoggerMembers.PlayerLogger.Info("点击按钮 保存正在播放列表， 正在提取歌曲");
+
+                var items = new List<SongItem>();
+                foreach (var song in songs)
+                    items.Add(new SongItem(song));
+
+                LoggerMembers.PlayerLogger.Info("完成歌曲提取， 正在发送保存请求");
+
+                PlayingListOperationNotifier.RequestAdd(items);
+
+                LoggerMembers.PlayerLogger.Info("已发送保存请求");
+            }
+        }
+
+        private void ClearPlayingList_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            var listSource = PlayList_ListView.ItemsSource as IList<Song>;
+            if (listSource is null)
+                return;
+
+            LoggerMembers.PlayerLogger.Info("点击按钮 清空播放列表");
+            listSource.Clear();
+            App.Player.Source = null;
+            LoggerMembers.PlayerLogger.Info("完成播放列表清空操作");
+        }
+
+        private void RemoveSongItem_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            var theButton = sender as FrameworkElement;
+            var theSong = theButton?.DataContext as Song;
+            var listSource = PlayList_ListView.ItemsSource as IList<Song>;
+            if (theSong is null || listSource is null)
+                return;
+
+            LoggerMembers.PlayerLogger.Info("点击按钮 移除该歌曲");
+            listSource.Remove(theSong);
+            ((MediaPlaybackList)App.Player.Source).Items.Remove(theSong.PlaybackItem);
+            LoggerMembers.PlayerLogger.Info("完成歌曲移除操作");
+        }
+
         private void PlayList_Close_Button_Click(object sender, RoutedEventArgs e)
         {
             LoggerMembers.PlayerLogger.Info("点击按钮 关闭正在播放列表");
@@ -417,24 +462,6 @@ namespace SimpleSongsPlayer.Views.Controllers
             settingProperties.LoopingMode = (LoopingModeEnum) LoopingMode_ListBox.SelectedIndex;
             LoopingMode_Flyout.Hide();
 
-        }
-
-        private void SavePlayingList_Button_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (PlayList_ListView.ItemsSource is List<Song> songs)
-            {
-                LoggerMembers.PlayerLogger.Info("点击按钮 保存正在播放列表， 正在提取歌曲");
-
-                var items = new List<SongItem>();
-                foreach (var song in songs)
-                    items.Add(new SongItem(song));
-
-                LoggerMembers.PlayerLogger.Info("完成歌曲提取， 正在发送保存请求");
-
-                PlayingListOperationNotifier.RequestAdd(items);
-
-                LoggerMembers.PlayerLogger.Info("已发送保存请求");
-            }
         }
     }
 }
