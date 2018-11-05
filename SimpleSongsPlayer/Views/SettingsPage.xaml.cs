@@ -114,6 +114,7 @@ namespace SimpleSongsPlayer.Views
 
         private async void SendFeedback_Button_OnClick(object sender, RoutedEventArgs e)
         {
+            LoggerMembers.PagesLogger.Info("点击按钮 发送反馈");
             await EmailEx.SendAsync("kljzndx@outlook.com", AppInfo.Name + " " + AppInfo.Version, String.Empty);
         }
     }
