@@ -17,6 +17,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using HappyStudio.UwpToolsLibrary.Auxiliarys;
+using HappyStudio.UwpToolsLibrary.Information;
 using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.ViewModels;
 
@@ -108,6 +110,11 @@ namespace SimpleSongsPlayer.Views
 
                 FrameworkPage.Current.ExitTimer?.Cancel();
             }
+        }
+
+        private async void SendFeedback_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            await EmailEx.SendAsync("kljzndx@outlook.com", AppInfo.Name + " " + AppInfo.Version, String.Empty);
         }
     }
 }

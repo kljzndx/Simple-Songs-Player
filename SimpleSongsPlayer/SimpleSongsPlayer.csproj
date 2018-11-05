@@ -200,6 +200,8 @@
     </Content>
     <None Include="SimpleSongsPlayer_StoreKey.pfx" />
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="Strings\en-US\AboutPage.resw" />
+    <PRIResource Include="Strings\zh-CN\AboutPage.resw" />
     <PRIResource Include="Strings\zh-CN\Controllers\InputDialog.resw" />
     <PRIResource Include="Strings\en-US\Controllers\InputDialog.resw" />
     <PRIResource Include="Strings\en-US\PlayingListOperation.resw" />
