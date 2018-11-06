@@ -368,7 +368,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HappyStudio.UwpToolsLibrary.Auxiliarys">
-      <Version>1.1.5</Version>
+      <Version>1.2.1</Version>
     </PackageReference>
     <PackageReference Include="HappyStudio.UwpToolsLibrary.Information">
       <Version>1.0.3</Version>

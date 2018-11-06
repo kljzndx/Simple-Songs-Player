@@ -14,7 +14,6 @@ namespace SimpleSongsPlayer.ViewModels
 
         private SettingProperties()
         {
-            InitializeSettingFields();
         }
 
         public double Volume
