@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -15,6 +16,8 @@ using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.ViewModels.Attributes;
+using SimpleSongsPlayer.Views.SideViews;
 using SimpleSongsPlayer.Views.SongViews;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -83,12 +86,21 @@ namespace SimpleSongsPlayer.Views
         {
             Root_SplitView.IsPaneOpen = !Root_SplitView.IsPaneOpen;
             LoggerMembers.PagesLogger.Info("已打开侧面板");
+            if (SideView_Frame.SourcePageType != typeof(SettingsPage))
+                SideView_Frame.Navigate(typeof(SettingsPage));
             LoggerMembers.PagesLogger.Info("已切换至设置页面");
         }
         
         private void Root_SplitView_OnPaneClosed(SplitView sender, object args)
         {
             LoggerMembers.PagesLogger.Info("已关闭侧面板");
+        }
+
+        private void SideView_Frame_OnNavigated(object sender, NavigationEventArgs e)
+        {
+            var getter = e.SourcePageType.GetTypeInfo().GetCustomAttribute<SideViewNameAttribute>();
+            if (getter != null)
+                Title_TextBlock.Text = getter.GetName();
         }
     }
 }

@@ -21,9 +21,9 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock x:Uid="/SettingsPage/Title_TextBlock" Style="{ThemeResource TitleTextBlockStyle}" Margin="8"/>
+                <TextBlock x:Name="Title_TextBlock" Style="{ThemeResource TitleTextBlockStyle}" Margin="8"/>
 
-                <Frame Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" SourcePageType="sideViews:SettingsPage"/>
+                <Frame x:Name="SideView_Frame" Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" Navigated="SideView_Frame_OnNavigated"/>
             </Grid>
         </SplitView.Pane>
 

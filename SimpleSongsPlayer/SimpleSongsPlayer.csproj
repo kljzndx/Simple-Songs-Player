@@ -112,6 +112,7 @@
     <Compile Include="Models\SongItem.cs" />
     <Compile Include="Models\SymbolIndexItemStyleSelector.cs" />
     <Compile Include="Models\TimeSpanExtension.cs" />
+    <Compile Include="ViewModels\Attributes\SideViewNameAttribute.cs" />
     <Compile Include="ViewModels\Controllers\PlayerControllerViewModel.cs" />
     <Compile Include="ViewModels\Events\LyricsPreviewRefreshEventArgs.cs" />
     <Compile Include="ViewModels\Events\PlayingListAdditionRequestedEventArgs.cs" />
