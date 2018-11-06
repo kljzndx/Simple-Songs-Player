@@ -81,7 +81,16 @@ namespace SimpleSongsPlayer.Views.SongViews
                 playing.Click += AddTo_Playing_MenuItem_Click;
 
                 addToMenuItems.Add(playing);
-                addToMenuItems.Add(new MenuFlyoutSeparator());
+
+                try
+                {
+                    LoggerMembers.PagesLogger.Info("初始化分隔符并增加至‘添加到’菜单项里");
+                    addToMenuItems.Add(new MenuFlyoutSeparator());
+                }
+                catch (InvalidCastException e)
+                {
+                    LoggerMembers.PagesLogger.Error(e, "分隔符初始化失败");
+                }
 
                 LoggerMembers.PagesLogger.Info("初始化‘新的播放列表’菜单项并增加至‘添加到’菜单项里");
                 MenuFlyoutItem newPlayList = new MenuFlyoutItem();
@@ -126,7 +135,7 @@ namespace SimpleSongsPlayer.Views.SongViews
             {
                 try
                 {
-                    songItemMenu.Items.Add(item);
+                    menuFlyout.Items.Add(item);
                     LoggerMembers.PagesLogger.Info($"{item.Tag} UI 生成成功");
                 }
                 catch (Exception e)
