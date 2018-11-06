@@ -5,6 +5,7 @@
     xmlns:local="using:SimpleSongsPlayer.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sideViews="using:SimpleSongsPlayer.Views.SideViews"
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource Locator}, Path=AllSongLists}">
 
@@ -22,7 +23,7 @@
 
                 <TextBlock x:Uid="/SettingsPage/Title_TextBlock" Style="{ThemeResource TitleTextBlockStyle}" Margin="8"/>
 
-                <Frame Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" SourcePageType="local:SettingsPage"/>
+                <Frame Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" SourcePageType="sideViews:SettingsPage"/>
             </Grid>
         </SplitView.Pane>
 
