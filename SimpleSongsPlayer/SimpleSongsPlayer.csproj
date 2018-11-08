@@ -112,6 +112,7 @@
     <Compile Include="Models\SongItem.cs" />
     <Compile Include="Models\SymbolIndexItemStyleSelector.cs" />
     <Compile Include="Models\TimeSpanExtension.cs" />
+    <Compile Include="ViewModels\Attributes\Getters\SideViewNameGetter.cs" />
     <Compile Include="ViewModels\Attributes\SideViewNameAttribute.cs" />
     <Compile Include="ViewModels\Controllers\PlayerControllerViewModel.cs" />
     <Compile Include="ViewModels\Events\LyricsPreviewRefreshEventArgs.cs" />
@@ -171,6 +172,9 @@
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\PlayingPage.xaml.cs">
       <DependentUpon>PlayingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SideViews\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SideViews\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -339,6 +343,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\PlayingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SideViews\AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

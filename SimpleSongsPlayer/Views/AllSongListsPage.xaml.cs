@@ -17,6 +17,7 @@ using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Attributes;
+using SimpleSongsPlayer.ViewModels.Attributes.Getters;
 using SimpleSongsPlayer.Views.SideViews;
 using SimpleSongsPlayer.Views.SongViews;
 
@@ -30,12 +31,33 @@ namespace SimpleSongsPlayer.Views
     public sealed partial class AllSongListsPage : Page
     {
         private readonly AllSongListsViewModel vm;
+        private readonly MenuFlyout more_MenuFlyout;
 
         public AllSongListsPage()
         {
+            more_MenuFlyout = new MenuFlyout();
+            this.Resources["MoreMenuFlyout"] = more_MenuFlyout;
+
             this.InitializeComponent();
             vm = this.DataContext as AllSongListsViewModel;
-            this.NavigationCacheMode = NavigationCacheMode.Enabled;
+
+            LoggerMembers.PagesLogger.Info("开始初始化 “更多” 菜单");
+            LoggerMembers.PagesLogger.Info("开始创建 “设置” 菜单项");
+            more_MenuFlyout.Items.Add(CreateMenuItemFromPageType(typeof(SettingsPage)));
+            LoggerMembers.PagesLogger.Info("开始创建 “关于” 菜单项");
+            more_MenuFlyout.Items.Add(CreateMenuItemFromPageType(typeof(AboutPage)));
+            LoggerMembers.PagesLogger.Info("完成初始化 “更多” 菜单");
+        }
+
+        public MenuFlyoutItemBase CreateMenuItemFromPageType(Type pageType)
+        {
+            LoggerMembers.PagesLogger.Info("正在获取页面标题");
+            string name = SideViewNameGetter.GetNameFromType(pageType);
+            LoggerMembers.PagesLogger.Info("正在初始化菜单项");
+            var item = new MenuFlyoutItem {Text = name, Tag = pageType};
+            item.Click += More_MenuFlyoutItem_Click;
+            LoggerMembers.PagesLogger.Info("完成菜单项初始化");
+            return item;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -81,15 +103,6 @@ namespace SimpleSongsPlayer.Views
                     throw new Exception("未找到对应处理器");
             }
         }
-
-        private void Settings_Button_OnClick(object sender, RoutedEventArgs e)
-        {
-            Root_SplitView.IsPaneOpen = !Root_SplitView.IsPaneOpen;
-            LoggerMembers.PagesLogger.Info("已打开侧面板");
-            if (SideView_Frame.SourcePageType != typeof(SettingsPage))
-                SideView_Frame.Navigate(typeof(SettingsPage));
-            LoggerMembers.PagesLogger.Info("已切换至设置页面");
-        }
         
         private void Root_SplitView_OnPaneClosed(SplitView sender, object args)
         {
@@ -98,9 +111,24 @@ namespace SimpleSongsPlayer.Views
 
         private void SideView_Frame_OnNavigated(object sender, NavigationEventArgs e)
         {
-            var getter = e.SourcePageType.GetTypeInfo().GetCustomAttribute<SideViewNameAttribute>();
-            if (getter != null)
-                Title_TextBlock.Text = getter.GetName();
+            LoggerMembers.PagesLogger.Info("正在获取页面标题");
+            Title_TextBlock.Text = SideViewNameGetter.GetNameFromType(e.SourcePageType);
+            LoggerMembers.PagesLogger.Info("完成页面标题获取");
+        }
+
+        private void More_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuFlyoutItem item && item.Tag is Type pageType)
+            {
+                Root_SplitView.IsPaneOpen = true;
+                LoggerMembers.PagesLogger.Info("已打开侧面板");
+                if (SideView_Frame.SourcePageType != pageType)
+                {
+                    LoggerMembers.PagesLogger.Info($"正在切换至 {item.Text} 视图");
+                    SideView_Frame.Navigate(pageType);
+                }
+                LoggerMembers.PagesLogger.Info($"已切换至 {item.Text} 视图");
+            }
         }
     }
 }

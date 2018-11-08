@@ -90,7 +90,6 @@
                     </StackPanel>
                 </StackPanel>
             </Grid>
-            <Button x:Name="SendFeedback_Button" x:Uid="/AboutPage/SendFeedback_Button" Margin="8" Click="SendFeedback_Button_OnClick"/>
         </StackPanel>
     </ScrollViewer>
 </Page>

@@ -117,11 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="More_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>更多</value>
+  </data>
   <data name="PlayingList_PivotItem.Header" xml:space="preserve">
     <value>播放列表</value>
-  </data>
-  <data name="Settings_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>设置</value>
   </data>
   <data name="SongAlbums_PivotItem.Header" xml:space="preserve">
     <value>专辑</value>

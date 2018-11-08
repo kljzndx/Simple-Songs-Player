@@ -6,9 +6,6 @@ namespace SimpleSongsPlayer.ViewModels.Attributes
 {
     public class SideViewNameAttribute : Attribute
     {
-        private static readonly object TextGetLocker = new object();
-        private static readonly Dictionary<string, string> NamesCache = new Dictionary<string, string>();
-
         public SideViewNameAttribute(string textResourceName) : this(textResourceName, "Title")
         {
         }
@@ -24,12 +21,7 @@ namespace SimpleSongsPlayer.ViewModels.Attributes
 
         public string GetName()
         {
-            if (!NamesCache.ContainsKey(TextResourceName))
-                lock (TextGetLocker)
-                    if (!NamesCache.ContainsKey(TextResourceName))
-                        NamesCache.Add(TextResourceName, ResourceLoader.GetForCurrentView(TextResourceName).GetString(Key));
-
-            return NamesCache[TextResourceName];
+            return ResourceLoader.GetForCurrentView(TextResourceName).GetString(Key);
         }
     }
 }
