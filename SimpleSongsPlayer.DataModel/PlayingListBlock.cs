@@ -37,8 +37,6 @@ namespace SimpleSongsPlayer.DataModel
             set => Set(ref changeDate, value);
         }
 
-        public int Count => _paths != null ? _paths.Count : 0;
-
         public event TypedEventHandler<PlayingListBlock, PlayingListBlockRenamedEventArgs> Renamed;
 
         public async Task<ReadOnlyCollection<string>> GetPaths()
@@ -100,9 +98,7 @@ namespace SimpleSongsPlayer.DataModel
 
         public static async Task<PlayingListBlock> CreateFromFileAsync(StorageFile file)
         {
-            var block = new PlayingListBlock(file, await file.GetBasicPropertiesAsync());
-            await block.GetPaths();
-            return block;
+            return new PlayingListBlock(file, await file.GetBasicPropertiesAsync());
         }
     }
 }
