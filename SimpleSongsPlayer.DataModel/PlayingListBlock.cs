@@ -37,6 +37,8 @@ namespace SimpleSongsPlayer.DataModel
             set => Set(ref changeDate, value);
         }
 
+        public int Count => _paths?.Count ?? 0;
+
         public event TypedEventHandler<PlayingListBlock, PlayingListBlockRenamedEventArgs> Renamed;
 
         public async Task<ReadOnlyCollection<string>> GetPaths()
