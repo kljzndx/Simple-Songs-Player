@@ -16,7 +16,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <ListViewItem HorizontalAlignment="Stretch" Tapped="Add_ListViewItem_OnTapped">
+        <ListViewItem HorizontalAlignment="Stretch" MinHeight="64" Tapped="Add_ListViewItem_OnTapped">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -51,6 +51,11 @@
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="MinHeight" Value="64"/>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
     </Grid>
 </ContentDialog>
