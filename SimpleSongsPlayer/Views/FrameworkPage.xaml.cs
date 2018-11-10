@@ -9,9 +9,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.Log;
+using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Operator;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Events;
+using SimpleSongsPlayer.Views.Controllers;
 using SimpleSongsPlayer.Views.SongViews;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
@@ -27,6 +29,7 @@ namespace SimpleSongsPlayer.Views
         private PlayingListManager playingListManager;
 
         private readonly FrameworkViewModel vm;
+        private List<string> additionPaths;
         
         public ThreadPoolTimer ExitTimer;
 
@@ -67,6 +70,7 @@ namespace SimpleSongsPlayer.Views
             if (Main_Frame.SourcePageType != typeof(AllSongListsPage))
             {
                 e.Handled = true;
+                LoggerMembers.PagesLogger.Info("返回主页--通过标题栏返回键");
                 Main_Frame.Navigate(typeof(AllSongListsPage), vm.AllSongs);
             }
         }
@@ -83,16 +87,19 @@ namespace SimpleSongsPlayer.Views
             
             if (Main_Frame.SourcePageType.Name == typeof(PlayingPage).Name)
             {
+                LoggerMembers.PagesLogger.Info("返回主页--通过播放控制条上的歌曲详情按钮");
                 Main_Frame.Navigate(typeof(AllSongListsPage), vm.AllSongs);
                 return;
             }
 
+            LoggerMembers.PagesLogger.Info("正在切换至歌曲详情页");
             ValueTuple<Song, List<LyricBlock>> tuple = ValueTuple.Create(vm.CurrentSong, vm.AllLyricBlocks);
             Main_Frame.Navigate(typeof(PlayingPage), tuple);
         }
 
         private void Close_Button_Click(object sender, RoutedEventArgs e)
         {
+            LoggerMembers.PagesLogger.Info("返回主页--通过关闭按钮");
             Main_Frame.Navigate(typeof(AllSongListsPage), vm.AllSongs);
         }
 
@@ -101,17 +108,37 @@ namespace SimpleSongsPlayer.Views
             Close_Button.Visibility = e.SourcePageType != typeof(AllSongListsPage) ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private async void PlayingListOperationNotifier_AdditionRequested(object sender, PlayingListAdditionRequestedEventArgs e)
+        private void PlayingListOperationNotifier_AdditionRequested(object sender, PlayingListAdditionRequestedEventArgs e)
         {
-            LoggerMembers.PagesLogger.Info("询问是否要新建歌单");
-            var result = await PlayingListAddition_InputDialog.ShowAsync();
-            if (result == ContentDialogResult.Primary)
-            {
-                await playingListManager.CreateBlockAsync(PlayingListAddition_InputDialog.Text, e.Paths);
-                LoggerMembers.PagesLogger.Info("成功新建歌单");
-            }
-            else
-                LoggerMembers.PagesLogger.Info("新建歌单操作被取消");
+            LoggerMembers.PagesLogger.Info("取出歌曲数据");
+            additionPaths = e.Paths;
+            LoggerMembers.PagesLogger.Info("弹出收藏面板");
+            FavoriteSelector_Dialog.ShowAsync();
+        }
+
+        private async void FavoriteSelector_Dialog_OnRequestAdd(FavoritesDialog sender, EventArgs args)
+        {
+            LoggerMembers.PagesLogger.Info("弹出新建播放列表对话框");
+            await PlayingListAddition_InputDialog.ShowAsync();
+        }
+
+        private async void FavoriteSelector_Dialog_OnItemClick(FavoritesDialog sender, FavoriteItem args)
+        {
+            LoggerMembers.PagesLogger.Info("正在将歌曲添加至选定播放列表");
+            await playingListManager.GetBlock(args.Name).AddPaths(additionPaths);
+            LoggerMembers.PagesLogger.Info("完成歌曲添加操作");
+        }
+
+        private async void PlayingListAddition_InputDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            LoggerMembers.PagesLogger.Info("正在新建歌单");
+            await playingListManager.CreateBlockAsync(PlayingListAddition_InputDialog.Text, additionPaths);
+            LoggerMembers.PagesLogger.Info("完成歌单创建");
+        }
+
+        private void PlayingListAddition_InputDialog_OnSecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            LoggerMembers.PagesLogger.Info("取消新建歌单操作");
         }
     }
 }
