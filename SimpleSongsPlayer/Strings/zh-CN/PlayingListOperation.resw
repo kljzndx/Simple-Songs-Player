@@ -120,6 +120,12 @@
   <data name="DeleteGroup_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>删除该组</value>
   </data>
+  <data name="FavoriteSelector_Dialog.SecondaryButtonText" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="FavoriteSelector_Dialog.Title" xml:space="preserve">
+    <value>收藏</value>
+  </data>
   <data name="PlayingListAddition_InputDialog.Label" xml:space="preserve">
     <value>列表名称</value>
   </data>

@@ -19,6 +19,6 @@
         <ctol:PlayerController x:Name="PlayerController" Grid.Row="1" CoverClick="PlayerController_CoverClick"/>
 
         <ctol:InputDialog x:Name="PlayingListAddition_InputDialog" x:Uid="/PlayingListOperation/PlayingListAddition_InputDialog" PrimaryButtonClick="PlayingListAddition_InputDialog_OnPrimaryButtonClick" SecondaryButtonClick="PlayingListAddition_InputDialog_OnSecondaryButtonClick"/>
-        <ctol:FavoritesDialog x:Name="FavoriteSelector_Dialog" RequestAdd="FavoriteSelector_Dialog_OnRequestAdd" ItemClick="FavoriteSelector_Dialog_OnItemClick"/>
+        <ctol:FavoritesDialog x:Name="FavoriteSelector_Dialog" x:Uid="/PlayingListOperation/FavoriteSelector_Dialog" RequestAdd="FavoriteSelector_Dialog_OnRequestAdd" ItemClick="FavoriteSelector_Dialog_OnItemClick"/>
     </Grid>
 </Page>
