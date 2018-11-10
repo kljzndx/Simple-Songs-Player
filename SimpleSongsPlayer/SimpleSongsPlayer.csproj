@@ -109,6 +109,7 @@
     <Compile Include="Models\Factories\ISongGroupsAsyncFactory.cs" />
     <Compile Include="Models\Factories\PlayingListFactory.cs" />
     <Compile Include="Models\LoopingModeEnum.cs" />
+    <Compile Include="Models\FavoriteItem.cs" />
     <Compile Include="Models\SongItem.cs" />
     <Compile Include="Models\SymbolIndexItemStyleSelector.cs" />
     <Compile Include="Models\TimeSpanExtension.cs" />
@@ -130,6 +131,9 @@
     <Compile Include="ViewModels\SongViewModels\SongsViewModelLocator.cs" />
     <Compile Include="Views\AllSongListsPage.xaml.cs">
       <DependentUpon>AllSongListsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controllers\FavoritesDialog.xaml.cs">
+      <DependentUpon>FavoritesDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controllers\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
@@ -307,6 +311,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Views\AllSongListsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controllers\FavoritesDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
