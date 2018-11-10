@@ -233,7 +233,10 @@ namespace SimpleSongsPlayer.Views.Controllers
             }
 
             if (sender.Source == null)
+            {
+                PlayOrPause_ToggleButton.IsChecked = false;
                 return;
+            }
 
             LoggerMembers.PlayerLogger.Info("正在监听新歌曲组");
 
@@ -282,9 +285,6 @@ namespace SimpleSongsPlayer.Views.Controllers
             {
                 switch (sender.PlaybackState)
                 {
-                    case MediaPlaybackState.None:
-                        LoggerMembers.PlayerLogger.Info("注销播放线程");
-                        break;
                     case MediaPlaybackState.Opening:
                         LoggerMembers.PlayerLogger.Info("正在打开歌曲");
                         break;
@@ -296,6 +296,7 @@ namespace SimpleSongsPlayer.Views.Controllers
 
                         PlayOrPause_ToggleButton.IsChecked = true;
                         break;
+                    case MediaPlaybackState.None:
                     case MediaPlaybackState.Paused:
                         LoggerMembers.PlayerLogger.Info("暂停播放歌曲");
 
