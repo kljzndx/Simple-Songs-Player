@@ -117,17 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddTo" xml:space="preserve">
-    <value>Add to</value>
-  </data>
-  <data name="NewPlayList" xml:space="preserve">
-    <value>New playlist</value>
+  <data name="Favorite" xml:space="preserve">
+    <value>Favorite</value>
   </data>
   <data name="NextPlay" xml:space="preserve">
     <value>Play next</value>
-  </data>
-  <data name="Playing" xml:space="preserve">
-    <value>Now playing</value>
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
