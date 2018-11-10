@@ -28,7 +28,7 @@
                     <SymbolIcon Symbol="Add" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
                 </RelativePanel>
 
-                <TextBlock Grid.Column="1" Text="新建播放列表" Margin="8,0" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="新建播放列表" Margin="8,0" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
             </Grid>
         </ListViewItem>
         <ListView x:Name="Main_ListView" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True" ItemClick="Main_ListView_OnItemClick">
@@ -42,8 +42,8 @@
 
                         <Image Width="48" Height="48" Source="{x:Bind Cover}"/>
                         <StackPanel Grid.Column="1" Margin="8,0">
-                            <TextBlock Text="{x:Bind Name}" TextWrapping="Wrap"/>
-                            <TextBlock Margin="0,4" Style="{ThemeResource CaptionTextBlockStyle}">
+                            <TextBlock Text="{x:Bind Name}" TextTrimming="CharacterEllipsis" Style="{ThemeResource BodyTextBlockStyle}"/>
+                            <TextBlock Margin="0,4" Opacity="0.45" Style="{ThemeResource CaptionTextBlockStyle}">
                                 <Run Text="{x:Bind Count}"/>
                                 <Run Text="首歌曲"/>
                             </TextBlock>
