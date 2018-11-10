@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    Closed="InputDialog_OnClosed">
+    Closed="InputDialog_OnClosed" Style="{StaticResource Adaptive_ContentDialog_Style}">
 
     <ContentDialog.Resources>
         <cvt:CollectionToString x:Name="CollectionToString"/>
