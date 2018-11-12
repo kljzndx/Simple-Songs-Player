@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using SimpleSongsPlayer.DataModel;
 using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models;
@@ -119,7 +121,13 @@ namespace SimpleSongsPlayer.Views
         private async void FavoriteSelector_Dialog_OnRequestAdd(FavoritesDialog sender, EventArgs args)
         {
             LoggerMembers.PagesLogger.Info("弹出新建播放列表对话框");
-            await PlayingListAddition_InputDialog.ShowAsync();
+            var option = await PlayingListAddition_InputDialog.ShowAsync();
+            if (option == ContentDialogResult.Secondary)
+            {
+                LoggerMembers.PagesLogger.Info("用户取消了新建歌单操作");
+                LoggerMembers.PagesLogger.Info("返回新建播放列表弹窗");
+                FavoriteSelector_Dialog.ShowAsync();
+            }
         }
 
         private async void FavoriteSelector_Dialog_OnItemClick(FavoritesDialog sender, FavoriteItem args)
@@ -131,14 +139,21 @@ namespace SimpleSongsPlayer.Views
 
         private async void PlayingListAddition_InputDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            LoggerMembers.PagesLogger.Info("正在新建歌单");
-            await playingListManager.CreateBlockAsync(PlayingListAddition_InputDialog.Text, additionPaths);
-            LoggerMembers.PagesLogger.Info("完成歌单创建");
-        }
-
-        private void PlayingListAddition_InputDialog_OnSecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            LoggerMembers.PagesLogger.Info("取消新建歌单操作");
+            string blockName = PlayingListAddition_InputDialog.Text;
+            try
+            {
+                LoggerMembers.PagesLogger.Info("正在新建歌单");
+                await playingListManager.CreateBlockAsync(blockName, additionPaths);
+                LoggerMembers.PagesLogger.Info("完成歌单创建");
+            }
+            catch (Exception e)
+            {
+                LoggerMembers.PagesLogger.Info("歌单已存在，无法创建");
+                await MessageBox.ShowAsync(e.Message, ResourceLoader.GetForCurrentView("MessageBox").GetString("Close"));
+                LoggerMembers.PagesLogger.Info("返回新建播放列表弹窗");
+                PlayingListAddition_InputDialog.ShowAsync();
+                PlayingListAddition_InputDialog.Text = blockName;
+            }
         }
     }
 }

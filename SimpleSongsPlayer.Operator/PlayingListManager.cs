@@ -38,7 +38,7 @@ namespace SimpleSongsPlayer.Operator
 
         public async Task<PlayingListBlock> CreateBlockAsync(string name)
         {
-            var file = await plbsFolder.CreateFileAsync(name + ".plb", CreationCollisionOption.GenerateUniqueName);
+            var file = await plbsFolder.CreateFileAsync(name + ".plb", CreationCollisionOption.FailIfExists);
             var block = await PlayingListBlock.CreateFromFileAsync(file);
             _blocks.Add(block);
             BlockCreated?.Invoke(this, block);
