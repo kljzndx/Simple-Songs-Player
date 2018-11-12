@@ -62,7 +62,7 @@
             </SemanticZoom.ZoomedOutView>
         </SemanticZoom>
 
-        <ContentDialog x:Name="PlayingListDelete_ContentDialog" x:Uid="/PlayingListOperation/PlayingListDelete_ContentDialog"/>
+        <ContentDialog x:Name="PlayingListDelete_ContentDialog" x:Uid="/PlayingListOperation/PlayingListDelete_ContentDialog" Style="{StaticResource Adaptive_ContentDialog_Style}"/>
         <ctol:InputDialog x:Name="PlayingListRename_InputDialog" x:Uid="/PlayingListOperation/PlayingListRename_InputDialog"/>
 
         <Button x:Name="Refresh_Button" x:Uid="/PlayingListOperation/Refresh_Button" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,56,36" Click="Refresh_Button_OnClick">

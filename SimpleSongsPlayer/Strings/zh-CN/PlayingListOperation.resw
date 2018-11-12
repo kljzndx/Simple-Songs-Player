@@ -132,14 +132,14 @@
   <data name="PlayingListAddition_InputDialog.PrimaryButtonText" xml:space="preserve">
     <value>保存</value>
   </data>
-  <data name="PlayingListDelete_InputDialog.Content" xml:space="preserve">
-    <value>你确定要删除吗？</value>
-  </data>
-  <data name="PlayingListDelete_InputDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="PlayingListDelete_ContentDialog.PrimaryButtonText" xml:space="preserve">
     <value>是</value>
   </data>
-  <data name="PlayingListDelete_InputDialog.SecondaryButtonText" xml:space="preserve">
+  <data name="PlayingListDelete_ContentDialog.SecondaryButtonText" xml:space="preserve">
     <value>否</value>
+  </data>
+  <data name="PlayingListDelete_ContentDialog.Title" xml:space="preserve">
+    <value>你确定要删除吗？</value>
   </data>
   <data name="PlayingListRename_InputDialog.Label" xml:space="preserve">
     <value>列表名称</value>
