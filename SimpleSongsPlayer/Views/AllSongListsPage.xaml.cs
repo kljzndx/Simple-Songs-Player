@@ -30,6 +30,8 @@ namespace SimpleSongsPlayer.Views
     /// </summary>
     public sealed partial class AllSongListsPage : Page
     {
+        public static AllSongListsPage Current;
+
         private readonly AllSongListsViewModel vm;
         private readonly MenuFlyout more_MenuFlyout;
 
@@ -40,6 +42,7 @@ namespace SimpleSongsPlayer.Views
 
             this.InitializeComponent();
             vm = this.DataContext as AllSongListsViewModel;
+            Current = this;
 
             LoggerMembers.PagesLogger.Info("开始初始化 “更多” 菜单");
             LoggerMembers.PagesLogger.Info("开始创建 “设置” 菜单项");
@@ -58,6 +61,15 @@ namespace SimpleSongsPlayer.Views
             item.Click += More_MenuFlyoutItem_Click;
             LoggerMembers.PagesLogger.Info("完成菜单项初始化");
             return item;
+        }
+
+        public void OpenSideView(Type pageType)
+        {
+            LoggerMembers.PagesLogger.Info("正在手动打开侧边栏并跳转到指定页面");
+            Root_SplitView.IsPaneOpen = true;
+            if (SideView_Frame.SourcePageType != pageType)
+                SideView_Frame.Navigate(pageType);
+            LoggerMembers.PagesLogger.Info("完成侧边栏打开和跳转操作");
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

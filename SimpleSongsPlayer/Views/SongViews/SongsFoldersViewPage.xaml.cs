@@ -12,8 +12,10 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.SongViewModels;
+using SimpleSongsPlayer.Views.SideViews;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -30,6 +32,12 @@ namespace SimpleSongsPlayer.Views.SongViews
         {
             this.InitializeComponent();
             vm = base.GetViewModel<SongsFoldersViewModel>();
+        }
+
+        private void OpenSettings_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            LoggerMembers.PagesLogger.Info("手动打开设置页面");
+            AllSongListsPage.Current.OpenSideView(typeof(SettingsPage));
         }
     }
 }
