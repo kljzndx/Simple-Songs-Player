@@ -127,9 +127,22 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore">
+      <Version>1.1.6</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.9</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleSongsPlayer.DAL\SimpleSongsPlayer.DAL.csproj">
+      <Project>{2127e56d-cbcf-4b6a-bb52-7b1148a948e1}</Project>
+      <Name>SimpleSongsPlayer.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleSongsPlayer.Service\SimpleSongsPlayer.Service.csproj">
+      <Project>{d0cbc51c-8d5a-4b2b-b0b1-f718b5261a2c}</Project>
+      <Name>SimpleSongsPlayer.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

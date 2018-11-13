@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.EntityFrameworkCore;
+using SimpleSongsPlayer.DAL;
 
 namespace SimpleSongsPlayer
 {
@@ -30,6 +32,11 @@ namespace SimpleSongsPlayer
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            using (var db = new FilesContext())
+            {
+                db.Database.Migrate();
+            }
         }
 
         /// <summary>
