@@ -21,11 +21,11 @@ namespace SimpleSongsPlayer.DAL
 
         public static void AddRange<TableModel>(IEnumerable<TableModel> data) where TableModel : class
         {
-            var prop = GetTableInfo<TableModel>();
+            var tableInfo = GetTableInfo<TableModel>();
 
             using (var db = Activator.CreateInstance<Context>())
             {
-                var table = (DbSet<TableModel>) prop.GetValue(db);
+                var table = (DbSet<TableModel>) tableInfo.GetValue(db);
                 table.AddRange(data);
                 db.SaveChanges();
             }
@@ -35,11 +35,11 @@ namespace SimpleSongsPlayer.DAL
 
         public static void RemoveRange<TableModel>(IEnumerable<TableModel> data) where TableModel : class
         {
-            var prop = GetTableInfo<TableModel>();
+            var tableInfo = GetTableInfo<TableModel>();
 
             using (var db = Activator.CreateInstance<Context>())
             {
-                var table = (DbSet<TableModel>) prop.GetValue(db);
+                var table = (DbSet<TableModel>) tableInfo.GetValue(db);
                 table.RemoveRange(data);
                 db.SaveChanges();
             }
@@ -50,11 +50,11 @@ namespace SimpleSongsPlayer.DAL
 
         public static void UpdateRange<TableModel>(IEnumerable<TableModel> data) where TableModel : class
         {
-            var prop = GetTableInfo<TableModel>();
+            var tableInfo = GetTableInfo<TableModel>();
 
             using (var db = Activator.CreateInstance<Context>())
             {
-                var table = (DbSet<TableModel>) prop.GetValue(db);
+                var table = (DbSet<TableModel>) tableInfo.GetValue(db);
                 table.UpdateRange(data);
                 db.SaveChanges();
             }
@@ -66,11 +66,11 @@ namespace SimpleSongsPlayer.DAL
                 lock (TableGetting_Locker)
                     if (!AllTables.ContainsKey(typeof(TableModel)))
                     {
-                        var prop = typeof(Context).GetTypeInfo().DeclaredProperties.FirstOrDefault(x => x is DbSet<TableModel>);
-                        if (prop is null)
+                        var tableInfo = typeof(Context).GetTypeInfo().DeclaredProperties.FirstOrDefault(x => x is DbSet<TableModel>);
+                        if (tableInfo is null)
                             throw new Exception("上下文中没有该表");
 
-                        AllTables.Add(typeof(TableModel), prop);
+                        AllTables.Add(typeof(TableModel), tableInfo);
                     }
 
             return AllTables[typeof(TableModel)];
