@@ -10,24 +10,17 @@ namespace SimpleSongsPlayer.DAL
     /// 数据库上下文帮助类
     /// </summary>
     /// <typeparam name="C">上下文类型</typeparam>
-    /// <typeparam name="M">表模型</typeparam>
-    public static class ContextHelper<C, M> where C : DbContext, new() where M : class, new()
+    public static class ContextHelper<C> where C : DbContext, new()
     {
         private static readonly object TableGetting_Locker = new object();
 
-        private static readonly Dictionary<Type, Dictionary<Type, PropertyInfo>> AllTables = new Dictionary<Type, Dictionary<Type, PropertyInfo>>();
+        private static readonly Dictionary<Type, PropertyInfo> AllTables = new Dictionary<Type, PropertyInfo>();
+        
+        public static void Add<M>(M data) where M : class => AddRange(new[] {data});
 
-        static ContextHelper()
+        public static void AddRange<M>(IEnumerable<M> data) where M : class
         {
-            if (!AllTables.ContainsKey(typeof(C)))
-                AllTables.Add(typeof(C), new Dictionary<Type, PropertyInfo>());
-        }
-
-        public static void Add(M data) => AddRange(new[] {data});
-
-        public static void AddRange(IEnumerable<M> data)
-        {
-            var prop = GetTableInfo();
+            var prop = GetTableInfo<M>();
 
             using (var db = Activator.CreateInstance<C>())
             {
@@ -37,11 +30,11 @@ namespace SimpleSongsPlayer.DAL
             }
         }
 
-        public static void Remove(M data) => RemoveRange(new[] {data});
+        public static void Remove<M>(M data) where M : class => RemoveRange(new[] {data});
 
-        public static void RemoveRange(IEnumerable<M> data)
+        public static void RemoveRange<M>(IEnumerable<M> data) where M : class
         {
-            var prop = GetTableInfo();
+            var prop = GetTableInfo<M>();
 
             using (var db = Activator.CreateInstance<C>())
             {
@@ -52,20 +45,20 @@ namespace SimpleSongsPlayer.DAL
             
         }
 
-        private static PropertyInfo GetTableInfo()
+        private static PropertyInfo GetTableInfo<M>() where M : class
         {
-            if (!AllTables[typeof(C)].ContainsKey(typeof(M)))
+            if (!AllTables.ContainsKey(typeof(M)))
                 lock (TableGetting_Locker)
-                    if (!AllTables[typeof(C)].ContainsKey(typeof(M)))
+                    if (!AllTables.ContainsKey(typeof(M)))
                     {
                         var prop = typeof(C).GetTypeInfo().DeclaredProperties.FirstOrDefault(x => x is DbSet<M>);
                         if (prop is null)
                             throw new Exception("上下文中没有该表");
 
-                        AllTables[typeof(C)].Add(typeof(M), prop);
+                        AllTables.Add(typeof(M), prop);
                     }
 
-            return AllTables[typeof(C)][typeof(M)];
+            return AllTables[typeof(M)];
         }
     }
 }
