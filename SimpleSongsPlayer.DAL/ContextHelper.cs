@@ -11,6 +11,7 @@ namespace SimpleSongsPlayer.DAL
     /// 数据库上下文帮助类
     /// </summary>
     /// <typeparam name="Context">上下文类型</typeparam>
+    /// <typeparam name="TableModel">表模型</typeparam>
     public static class ContextHelper<Context, TableModel> where Context : DbContext, new() where TableModel : class
     {
         private static readonly PropertyInfo TableInfo = GetTableInfo();
