@@ -11,69 +11,54 @@ namespace SimpleSongsPlayer.DAL
     /// 数据库上下文帮助类
     /// </summary>
     /// <typeparam name="Context">上下文类型</typeparam>
-    public static class ContextHelper<Context> where Context : DbContext, new()
+    public static class ContextHelper<Context, TableModel> where Context : DbContext, new() where TableModel : class
     {
-        private static readonly object TableGetting_Locker = new object();
-
-        private static readonly Dictionary<Type, PropertyInfo> AllTables = new Dictionary<Type, PropertyInfo>();
+        private static readonly PropertyInfo TableInfo = GetTableInfo();
         
-        public static void Add<TableModel>(TableModel data) where TableModel : class => AddRange(new[] {data});
+        public static void Add(TableModel data) => AddRange(new[] {data});
 
-        public static void AddRange<TableModel>(IEnumerable<TableModel> data) where TableModel : class
+        public static void AddRange(IEnumerable<TableModel> data)
         {
-            var tableInfo = GetTableInfo<TableModel>();
-
             using (var db = Activator.CreateInstance<Context>())
             {
-                var table = (DbSet<TableModel>) tableInfo.GetValue(db);
+                var table = (DbSet<TableModel>) TableInfo.GetValue(db);
                 table.AddRange(data);
                 db.SaveChanges();
             }
         }
 
-        public static void Remove<TableModel>(TableModel data) where TableModel : class => RemoveRange(new[] {data});
+        public static void Remove(TableModel data) => RemoveRange(new[] {data});
 
-        public static void RemoveRange<TableModel>(IEnumerable<TableModel> data) where TableModel : class
+        public static void RemoveRange(IEnumerable<TableModel> data)
         {
-            var tableInfo = GetTableInfo<TableModel>();
-
             using (var db = Activator.CreateInstance<Context>())
             {
-                var table = (DbSet<TableModel>) tableInfo.GetValue(db);
+                var table = (DbSet<TableModel>) TableInfo.GetValue(db);
                 table.RemoveRange(data);
                 db.SaveChanges();
             }
             
         }
 
-        public static void Update<TableModel>(TableModel data) where TableModel : class => UpdateRange(new[] {data});
+        public static void Update(TableModel data) => UpdateRange(new[] {data});
 
-        public static void UpdateRange<TableModel>(IEnumerable<TableModel> data) where TableModel : class
+        public static void UpdateRange(IEnumerable<TableModel> data)
         {
-            var tableInfo = GetTableInfo<TableModel>();
-
             using (var db = Activator.CreateInstance<Context>())
             {
-                var table = (DbSet<TableModel>) tableInfo.GetValue(db);
+                var table = (DbSet<TableModel>) TableInfo.GetValue(db);
                 table.UpdateRange(data);
                 db.SaveChanges();
             }
         }
 
-        private static PropertyInfo GetTableInfo<TableModel>() where TableModel : class
+        private static PropertyInfo GetTableInfo()
         {
-            if (!AllTables.ContainsKey(typeof(TableModel)))
-                lock (TableGetting_Locker)
-                    if (!AllTables.ContainsKey(typeof(TableModel)))
-                    {
-                        var tableInfo = typeof(Context).GetTypeInfo().DeclaredProperties.FirstOrDefault(x => x is DbSet<TableModel>);
-                        if (tableInfo is null)
-                            throw new Exception("上下文中没有该表");
+            var tableInfo = typeof(Context).GetTypeInfo().DeclaredProperties.FirstOrDefault(x => x is DbSet<TableModel>);
+            if (tableInfo is null)
+                throw new Exception("上下文中没有该表");
 
-                        AllTables.Add(typeof(TableModel), tableInfo);
-                    }
-
-            return AllTables[typeof(TableModel)];
+            return tableInfo;
         }
     }
 }
