@@ -16,49 +16,49 @@ namespace SimpleSongsPlayer.DAL
 
         private static readonly Dictionary<Type, PropertyInfo> AllTables = new Dictionary<Type, PropertyInfo>();
         
-        public static void Add<M>(M data) where M : class => AddRange(new[] {data});
+        public static void Add<TableModel>(TableModel data) where TableModel : class => AddRange(new[] {data});
 
-        public static void AddRange<M>(IEnumerable<M> data) where M : class
+        public static void AddRange<TableModel>(IEnumerable<TableModel> data) where TableModel : class
         {
-            var prop = GetTableInfo<M>();
+            var prop = GetTableInfo<TableModel>();
 
             using (var db = Activator.CreateInstance<C>())
             {
-                var table = (DbSet<M>) prop.GetValue(db);
+                var table = (DbSet<TableModel>) prop.GetValue(db);
                 table.AddRange(data);
                 db.SaveChanges();
             }
         }
 
-        public static void Remove<M>(M data) where M : class => RemoveRange(new[] {data});
+        public static void Remove<TableModel>(TableModel data) where TableModel : class => RemoveRange(new[] {data});
 
-        public static void RemoveRange<M>(IEnumerable<M> data) where M : class
+        public static void RemoveRange<TableModel>(IEnumerable<TableModel> data) where TableModel : class
         {
-            var prop = GetTableInfo<M>();
+            var prop = GetTableInfo<TableModel>();
 
             using (var db = Activator.CreateInstance<C>())
             {
-                var table = (DbSet<M>) prop.GetValue(db);
+                var table = (DbSet<TableModel>) prop.GetValue(db);
                 table.RemoveRange(data);
                 db.SaveChanges();
             }
             
         }
 
-        private static PropertyInfo GetTableInfo<M>() where M : class
+        private static PropertyInfo GetTableInfo<TableModel>() where TableModel : class
         {
-            if (!AllTables.ContainsKey(typeof(M)))
+            if (!AllTables.ContainsKey(typeof(TableModel)))
                 lock (TableGetting_Locker)
-                    if (!AllTables.ContainsKey(typeof(M)))
+                    if (!AllTables.ContainsKey(typeof(TableModel)))
                     {
-                        var prop = typeof(C).GetTypeInfo().DeclaredProperties.FirstOrDefault(x => x is DbSet<M>);
+                        var prop = typeof(C).GetTypeInfo().DeclaredProperties.FirstOrDefault(x => x is DbSet<TableModel>);
                         if (prop is null)
                             throw new Exception("上下文中没有该表");
 
-                        AllTables.Add(typeof(M), prop);
+                        AllTables.Add(typeof(TableModel), prop);
                     }
 
-            return AllTables[typeof(M)];
+            return AllTables[typeof(TableModel)];
         }
     }
 }
