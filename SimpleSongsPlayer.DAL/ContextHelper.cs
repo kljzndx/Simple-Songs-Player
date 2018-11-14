@@ -9,8 +9,8 @@ namespace SimpleSongsPlayer.DAL
     /// <summary>
     /// 数据库上下文帮助类
     /// </summary>
-    /// <typeparam name="C">上下文类型</typeparam>
-    public static class ContextHelper<C> where C : DbContext, new()
+    /// <typeparam name="Context">上下文类型</typeparam>
+    public static class ContextHelper<Context> where Context : DbContext, new()
     {
         private static readonly object TableGetting_Locker = new object();
 
@@ -22,7 +22,7 @@ namespace SimpleSongsPlayer.DAL
         {
             var prop = GetTableInfo<TableModel>();
 
-            using (var db = Activator.CreateInstance<C>())
+            using (var db = Activator.CreateInstance<Context>())
             {
                 var table = (DbSet<TableModel>) prop.GetValue(db);
                 table.AddRange(data);
@@ -36,7 +36,7 @@ namespace SimpleSongsPlayer.DAL
         {
             var prop = GetTableInfo<TableModel>();
 
-            using (var db = Activator.CreateInstance<C>())
+            using (var db = Activator.CreateInstance<Context>())
             {
                 var table = (DbSet<TableModel>) prop.GetValue(db);
                 table.RemoveRange(data);
@@ -51,7 +51,7 @@ namespace SimpleSongsPlayer.DAL
                 lock (TableGetting_Locker)
                     if (!AllTables.ContainsKey(typeof(TableModel)))
                     {
-                        var prop = typeof(C).GetTypeInfo().DeclaredProperties.FirstOrDefault(x => x is DbSet<TableModel>);
+                        var prop = typeof(Context).GetTypeInfo().DeclaredProperties.FirstOrDefault(x => x is DbSet<TableModel>);
                         if (prop is null)
                             throw new Exception("上下文中没有该表");
 
