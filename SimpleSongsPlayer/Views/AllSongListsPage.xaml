@@ -23,7 +23,9 @@
 
                 <TextBlock x:Name="Title_TextBlock" Style="{ThemeResource TitleTextBlockStyle}" Margin="8"/>
 
-                <Frame x:Name="SideView_Frame" Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" Navigated="SideView_Frame_OnNavigated"/>
+                <ScrollViewer Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}">
+                    <Frame x:Name="SideView_Frame" Navigated="SideView_Frame_OnNavigated"/>
+                </ScrollViewer>
             </Grid>
         </SplitView.Pane>
 

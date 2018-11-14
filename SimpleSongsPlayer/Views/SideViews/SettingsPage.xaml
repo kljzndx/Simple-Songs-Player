@@ -25,71 +25,69 @@
         </Style>
     </Page.Resources>
 
-    <ScrollViewer>
-        <StackPanel>
-            <Grid Style="{StaticResource Frame_Grid_Style}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+    <StackPanel>
+        <Grid Style="{StaticResource Frame_Grid_Style}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-                <TextBlock x:Uid="/SettingsPage/MusicScan_TextBlock" Text="音乐扫描" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+            <TextBlock x:Uid="/SettingsPage/MusicScan_TextBlock" Text="音乐扫描" Style="{ThemeResource SubtitleTextBlockStyle}"/>
 
-                <StackPanel x:Name="MusicScanningButtons_StackPanel" Grid.Row="1" Margin="0,4">
-                    <StackPanel.Resources>
-                        <Style TargetType="Button">
-                            <Setter Property="Margin" Value="0,2"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <Button x:Name="OpenMusicsPathsManager_Button" x:Uid="/SettingsPage/ManageScanLocations_Button" Content="管理扫描位置" Click="OpenMusicsPathsManager_Button_OnClick"/>
-                    <Button x:Name="ReScan_Button" x:Uid="/SettingsPage/RescanMusic_Button" Content="重新扫描音乐" Click="ReScan_Button_OnClick"/>
-                </StackPanel>
+            <StackPanel x:Name="MusicScanningButtons_StackPanel" Grid.Row="1" Margin="0,4">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="0,2"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button x:Name="OpenMusicsPathsManager_Button" x:Uid="/SettingsPage/ManageScanLocations_Button" Content="管理扫描位置" Click="OpenMusicsPathsManager_Button_OnClick"/>
+                <Button x:Name="ReScan_Button" x:Uid="/SettingsPage/RescanMusic_Button" Content="重新扫描音乐" Click="ReScan_Button_OnClick"/>
+            </StackPanel>
 
-                <ContentDialog x:Name="MusicPathsManager_ContentDialog" x:Uid="/SettingsPage/MusicPathsManager_ContentDialog" Title="扫描位置管理" SecondaryButtonText="关闭">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
+            <ContentDialog x:Name="MusicPathsManager_ContentDialog" x:Uid="/SettingsPage/MusicPathsManager_ContentDialog" Title="扫描位置管理" SecondaryButtonText="关闭">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
-                        <Button x:Name="AddFolder_Button" x:Uid="/SettingsPage/AddFolder_Button" BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}" Content="添加文件夹" HorizontalAlignment="Stretch" Margin="0,8" Click="AddFolder_Button_OnClick"/>
+                    <Button x:Name="AddFolder_Button" x:Uid="/SettingsPage/AddFolder_Button" BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}" Content="添加文件夹" HorizontalAlignment="Stretch" Margin="0,8" Click="AddFolder_Button_OnClick"/>
 
-                        <ListView x:Name="MusicPaths_ListView" Grid.Row="1" MaxHeight="300" SelectionMode="None" IsItemClickEnabled="True" ItemClick="MusicPaths_ListView_OnItemClick">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Path=Path}" TextWrapping="Wrap"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </Grid>
-                </ContentDialog>
-            </Grid>
+                    <ListView x:Name="MusicPaths_ListView" Grid.Row="1" MaxHeight="300" SelectionMode="None" IsItemClickEnabled="True" ItemClick="MusicPaths_ListView_OnItemClick">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Path}" TextWrapping="Wrap"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </ContentDialog>
+        </Grid>
 
-            <Grid Style="{StaticResource Frame_Grid_Style}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+        <Grid Style="{StaticResource Frame_Grid_Style}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-                <TextBlock x:Uid="/SettingsPage/Playing_TextBlock" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+            <TextBlock x:Uid="/SettingsPage/Playing_TextBlock" Style="{ThemeResource SubtitleTextBlockStyle}"/>
 
-                <StackPanel Grid.Row="1" Margin="0,8,0,0">
-                    <Slider x:Name="PlaybackSpeed_Slider" x:Uid="/SettingsPage/PlaybackSpeed_Slider" Minimum="10" Value="{x:Bind settings.PlaybackSpeed, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}" Maximum="300" StepFrequency="10" SmallChange="10"/>
+            <StackPanel Grid.Row="1" Margin="0,8,0,0">
+                <Slider x:Name="PlaybackSpeed_Slider" x:Uid="/SettingsPage/PlaybackSpeed_Slider" Minimum="10" Value="{x:Bind settings.PlaybackSpeed, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}" Maximum="300" StepFrequency="10" SmallChange="10"/>
 
-                    <StackPanel Margin="0,4,0,0">
-                        <ToggleSwitch x:Name="TimerExit_ToggleSwitch" x:Uid="/SettingsPage/TimerExit_ToggleSwitch" IsOn="{x:Bind settings.IsTimerPauseEnable, Mode=TwoWay}" Toggled="TimerExit_ToggleSwitch_OnToggled"/>
+                <StackPanel Margin="0,4,0,0">
+                    <ToggleSwitch x:Name="TimerExit_ToggleSwitch" x:Uid="/SettingsPage/TimerExit_ToggleSwitch" IsOn="{x:Bind settings.IsTimerPauseEnable, Mode=TwoWay}" Toggled="TimerExit_ToggleSwitch_OnToggled"/>
 
-                        <StackPanel Visibility="{x:Bind settings.IsTimerPauseEnable, Mode=OneWay}">
-                            <Slider x:Name="PauseTime_Slider" Minimum="10" Value="{x:Bind settings.PauseTimeMinutes, Mode=TwoWay}" Maximum="120" StepFrequency="10"/>
-                            <TextBlock>
+                    <StackPanel Visibility="{x:Bind settings.IsTimerPauseEnable, Mode=OneWay}">
+                        <Slider x:Name="PauseTime_Slider" Minimum="10" Value="{x:Bind settings.PauseTimeMinutes, Mode=TwoWay}" Maximum="120" StepFrequency="10"/>
+                        <TextBlock>
                                 <Run x:Uid="/SettingsPage/TimerExitInfo1_Run"/>
                                 <Run Text="{x:Bind settings.PauseTimeMinutes, Mode=OneWay}"/>
                                 <Run x:Uid="/SettingsPage/TimerExitInfo2_Run"/>
-                            </TextBlock>
-                        </StackPanel>
+                        </TextBlock>
                     </StackPanel>
                 </StackPanel>
-            </Grid>
-        </StackPanel>
-    </ScrollViewer>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
 </Page>
