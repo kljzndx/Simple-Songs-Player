@@ -14,6 +14,32 @@ namespace SimpleSongsPlayer.DAL
     public static class ContextHelper<Context, TableModel> where Context : DbContext, new() where TableModel : class
     {
         private static readonly PropertyInfo TableInfo = GetTableInfo();
+
+        public static TableModel Find(params object[] primaryKeyValues)
+        {
+            TableModel result = null;
+
+            using (var db = Activator.CreateInstance<Context>())
+            {
+                var table = (DbSet<TableModel>) TableInfo.GetValue(db);
+                result = table.Find(primaryKeyValues);
+            }
+
+            return result;
+        }
+
+        public static List<TableModel> ToList()
+        {
+            List<TableModel> result = null;
+
+            using (var db = Activator.CreateInstance<Context>())
+            {
+                var table = (DbSet<TableModel>) TableInfo.GetValue(db);
+                result = table.ToList();
+            }
+
+            return result;
+        }
         
         public static void Add(TableModel data) => AddRange(new[] {data});
 
