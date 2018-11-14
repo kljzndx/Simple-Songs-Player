@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,6 +44,20 @@ namespace SimpleSongsPlayer.DAL
                 db.SaveChanges();
             }
             
+        }
+
+        public static void Update<TableModel>(TableModel data) where TableModel : class => UpdateRange(new[] {data});
+
+        public static void UpdateRange<TableModel>(IEnumerable<TableModel> data) where TableModel : class
+        {
+            var prop = GetTableInfo<TableModel>();
+
+            using (var db = Activator.CreateInstance<Context>())
+            {
+                var table = (DbSet<TableModel>) prop.GetValue(db);
+                table.UpdateRange(data);
+                db.SaveChanges();
+            }
         }
 
         private static PropertyInfo GetTableInfo<TableModel>() where TableModel : class
