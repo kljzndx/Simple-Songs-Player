@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSongsPlayer.Service",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleSongsPlayer.DAL", "SimpleSongsPlayer.DAL\SimpleSongsPlayer.DAL.csproj", "{2127E56D-CBCF-4B6A-BB52-7B1148A948E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSongsPlayer.Migration.StartUp", "SimpleSongsPlayer.Migration.StartUp\SimpleSongsPlayer.Migration.StartUp.csproj", "{DE849FF3-6D66-4ECE-8CB7-14444F38F409}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleSongsPlayer.Migration.StartUp", "SimpleSongsPlayer.Migration.StartUp\SimpleSongsPlayer.Migration.StartUp.csproj", "{DE849FF3-6D66-4ECE-8CB7-14444F38F409}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSongsPlayer.Test", "SimpleSongsPlayer.Test\SimpleSongsPlayer.Test.csproj", "{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,26 @@ Global
 		{DE849FF3-6D66-4ECE-8CB7-14444F38F409}.Release|x64.Build.0 = Release|Any CPU
 		{DE849FF3-6D66-4ECE-8CB7-14444F38F409}.Release|x86.ActiveCfg = Release|Any CPU
 		{DE849FF3-6D66-4ECE-8CB7-14444F38F409}.Release|x86.Build.0 = Release|Any CPU
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Debug|ARM.ActiveCfg = Debug|ARM
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Debug|ARM.Build.0 = Debug|ARM
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Debug|ARM.Deploy.0 = Debug|ARM
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Debug|x64.ActiveCfg = Debug|x64
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Debug|x64.Build.0 = Debug|x64
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Debug|x64.Deploy.0 = Debug|x64
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Debug|x86.ActiveCfg = Debug|x86
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Debug|x86.Build.0 = Debug|x86
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Debug|x86.Deploy.0 = Debug|x86
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Release|Any CPU.ActiveCfg = Release|x86
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Release|ARM.ActiveCfg = Release|ARM
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Release|ARM.Build.0 = Release|ARM
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Release|ARM.Deploy.0 = Release|ARM
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Release|x64.ActiveCfg = Release|x64
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Release|x64.Build.0 = Release|x64
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Release|x64.Deploy.0 = Release|x64
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Release|x86.ActiveCfg = Release|x86
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Release|x86.Build.0 = Release|x86
+		{81F0159F-64B8-4CE5-BF49-9100BE1BBD68}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
