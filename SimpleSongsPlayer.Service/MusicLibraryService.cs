@@ -15,8 +15,7 @@ namespace SimpleSongsPlayer.Service
         private static readonly QueryOptions ScanOptions = new QueryOptions();
         private static readonly StorageLibrary MusicLibrary = StorageLibrary.GetLibraryAsync(KnownLibraryId.Music).GetResults();
         private static readonly ContextHelper<FilesContext, MusicFile> Helper = new ContextHelper<FilesContext, MusicFile>();
-
-        private static List<MusicFile> musicFiles = Helper.ToList();
+        private static readonly List<MusicFile> MusicFiles = Helper.ToList();
 
         public static event EventHandler<IEnumerable<MusicFile>> FilesAdded;
         public static event EventHandler<IEnumerable<MusicFile>> FilesRemoved;
@@ -33,7 +32,7 @@ namespace SimpleSongsPlayer.Service
         
         public static List<MusicFile> GetFiles()
         {
-            return musicFiles.ToList();
+            return MusicFiles.ToList();
         }
 
         public static async Task ScanFiles()
@@ -41,7 +40,7 @@ namespace SimpleSongsPlayer.Service
             List<MusicFile> addFiles = new List<MusicFile>();
             List<MusicFile> removeFiles = new List<MusicFile>();
 
-            if (!musicFiles.Any())
+            if (!MusicFiles.Any())
             {
                 foreach (var folder in MusicLibrary.Folders)
                 {
@@ -54,11 +53,11 @@ namespace SimpleSongsPlayer.Service
                 return;
             }
 
-            foreach (var folderName in musicFiles.Select(f => f.LibraryFolder).Distinct())
+            foreach (var folderName in MusicFiles.Select(f => f.LibraryFolder).Distinct())
                 if (MusicLibrary.Folders.All(d => d.Name != folderName))
-                    RemoveRange(musicFiles.Where(f => f.LibraryFolder == folderName));
+                    RemoveRange(MusicFiles.Where(f => f.LibraryFolder == folderName));
 
-            var allGroup = musicFiles.GroupBy(f => f.LibraryFolder).ToList();
+            var allGroup = MusicFiles.GroupBy(f => f.LibraryFolder).ToList();
 
             foreach (var folder in MusicLibrary.Folders)
             {
@@ -93,7 +92,7 @@ namespace SimpleSongsPlayer.Service
             List<MusicFile> filesList = new List<MusicFile>(files);
 
             Helper.AddRange(filesList);
-            musicFiles.AddRange(filesList);
+            MusicFiles.AddRange(filesList);
             FilesAdded?.Invoke(null, filesList);
         }
 
@@ -102,7 +101,7 @@ namespace SimpleSongsPlayer.Service
             List<MusicFile> filesList = new List<MusicFile>(files);
 
             Helper.RemoveRange(filesList);
-            musicFiles.RemoveAll(filesList.Contains);
+            MusicFiles.RemoveAll(filesList.Contains);
             FilesRemoved?.Invoke(null, filesList);
         }
     }
