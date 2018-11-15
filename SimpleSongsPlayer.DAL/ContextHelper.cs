@@ -15,6 +15,12 @@ namespace SimpleSongsPlayer.DAL
     {
         private static readonly PropertyInfo TableInfo = GetTableInfo();
 
+        static ContextHelper()
+        {
+            using (var db = Activator.CreateInstance<Context>())
+                db.Database.Migrate();
+        }
+
         public static TableModel Find(params object[] primaryKeyValues)
         {
             TableModel result = null;
