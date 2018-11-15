@@ -11,7 +11,7 @@ namespace SimpleSongsPlayer.DAL
     /// </summary>
     /// <typeparam name="Context">上下文类型</typeparam>
     /// <typeparam name="TableModel">表模型</typeparam>
-    public static class ContextHelper<Context, TableModel> where Context : DbContext, new() where TableModel : class
+    public class ContextHelper<Context, TableModel> where Context : DbContext, new() where TableModel : class
     {
         private static readonly PropertyInfo TableInfo = GetTableInfo();
 
@@ -21,7 +21,7 @@ namespace SimpleSongsPlayer.DAL
                 db.Database.Migrate();
         }
 
-        public static TableModel Find(params object[] primaryKeyValues)
+        public TableModel Find(params object[] primaryKeyValues)
         {
             TableModel result = null;
 
@@ -34,7 +34,7 @@ namespace SimpleSongsPlayer.DAL
             return result;
         }
 
-        public static List<TableModel> ToList()
+        public List<TableModel> ToList()
         {
             List<TableModel> result = null;
 
@@ -47,9 +47,9 @@ namespace SimpleSongsPlayer.DAL
             return result;
         }
         
-        public static void Add(TableModel data) => AddRange(new[] {data});
+        public void Add(TableModel data) => AddRange(new[] {data});
 
-        public static void AddRange(IEnumerable<TableModel> data)
+        public void AddRange(IEnumerable<TableModel> data)
         {
             using (var db = Activator.CreateInstance<Context>())
             {
@@ -59,9 +59,9 @@ namespace SimpleSongsPlayer.DAL
             }
         }
 
-        public static void Remove(TableModel data) => RemoveRange(new[] {data});
+        public void Remove(TableModel data) => RemoveRange(new[] {data});
 
-        public static void RemoveRange(IEnumerable<TableModel> data)
+        public void RemoveRange(IEnumerable<TableModel> data)
         {
             using (var db = Activator.CreateInstance<Context>())
             {
@@ -72,9 +72,9 @@ namespace SimpleSongsPlayer.DAL
             
         }
 
-        public static void Update(TableModel data) => UpdateRange(new[] {data});
+        public void Update(TableModel data) => UpdateRange(new[] {data});
 
-        public static void UpdateRange(IEnumerable<TableModel> data)
+        public void UpdateRange(IEnumerable<TableModel> data)
         {
             using (var db = Activator.CreateInstance<Context>())
             {
