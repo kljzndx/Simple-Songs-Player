@@ -86,9 +86,9 @@ namespace SimpleSongsPlayer.DAL
 
         private static PropertyInfo GetTableInfo()
         {
-            var tableInfo = typeof(Context).GetTypeInfo().DeclaredProperties.FirstOrDefault(x => x is DbSet<TableModel>);
+            var tableInfo = typeof(Context).GetTypeInfo().DeclaredProperties.FirstOrDefault(x => x.PropertyType == typeof(DbSet<TableModel>));
             if (tableInfo is null)
-                throw new Exception("上下文中没有该表");
+                throw new Exception("当前上下文类型中没有该表");
 
             return tableInfo;
         }
