@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleSongsPlayer.DAL;
 
@@ -8,7 +7,7 @@ namespace SimpleSongsPlayer.Test.DAL
     [TestClass]
     public class ContextHelper
     {
-        private ContextHelper<FilesContext, MusicFile> helper = new ContextHelper<FilesContext, MusicFile>();
+        private readonly ContextHelper<FilesContext, MusicFile> helper = new ContextHelper<FilesContext, MusicFile>();
 
         public MusicFile Add()
         {
