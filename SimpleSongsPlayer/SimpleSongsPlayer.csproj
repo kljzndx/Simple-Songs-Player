@@ -135,6 +135,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SimpleSongsPlayer.DAL.Factory\SimpleSongsPlayer.DAL.Factory.csproj">
+      <Project>{e9066de6-9977-4d1e-9a0b-bb029ba7a94d}</Project>
+      <Name>SimpleSongsPlayer.DAL.Factory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimpleSongsPlayer.DAL\SimpleSongsPlayer.DAL.csproj">
       <Project>{2127e56d-cbcf-4b6a-bb52-7b1148a948e1}</Project>
       <Name>SimpleSongsPlayer.DAL</Name>
