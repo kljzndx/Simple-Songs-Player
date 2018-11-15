@@ -33,7 +33,7 @@ namespace SimpleSongsPlayer.Service
         
         public static List<MusicFile> GetFiles()
         {
-            return musicFiles;
+            return musicFiles.ToList();
         }
 
         public static async Task ScanFiles()
