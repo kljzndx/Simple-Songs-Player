@@ -29,13 +29,6 @@ namespace SimpleSongsPlayer.Service
 
             foreach (var filter in fileTypeFilter)
                 scanOptions.FileTypeFilter.Add(filter[0] == '.' ? filter : $".{filter}");
-
-            //scanOptions.FileTypeFilter.Add(".mp3");
-            //scanOptions.FileTypeFilter.Add(".aac");
-            //scanOptions.FileTypeFilter.Add(".wav");
-            //scanOptions.FileTypeFilter.Add(".flac");
-            //scanOptions.FileTypeFilter.Add(".alac");
-            //scanOptions.FileTypeFilter.Add(".m4a");
         }
 
         public List<TFile> GetFiles()
