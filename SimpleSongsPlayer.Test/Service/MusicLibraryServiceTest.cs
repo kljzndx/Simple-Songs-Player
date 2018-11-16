@@ -21,5 +21,13 @@ namespace SimpleSongsPlayer.Test.Service
             var files = service.GetFiles();
             Assert.IsTrue(files.Any());
         }
+
+        [TestMethod]
+        public async Task GetFiles()
+        {
+            var service = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService("mp3", "aac", "wav", "flac", "alac", "m4a");
+            var files = service.GetFiles();
+            Assert.IsTrue(files.Count > 20);
+        }
     }
 }
