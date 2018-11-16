@@ -95,7 +95,7 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAL\ContextHelper.cs" />
+    <Compile Include="DAL\ContextHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\MusicLibraryServiceTest.cs" />
     <Compile Include="UnitTestApp.xaml.cs">

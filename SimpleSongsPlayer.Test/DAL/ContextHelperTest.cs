@@ -1,11 +1,12 @@
 ﻿using System;
+using Windows.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleSongsPlayer.DAL;
 
 namespace SimpleSongsPlayer.Test.DAL
 {
     [TestClass]
-    public class ContextHelper
+    public class ContextHelperTest
     {
         private readonly ContextHelper<FilesContext, MusicFile> helper = new ContextHelper<FilesContext, MusicFile>();
 
@@ -46,6 +47,13 @@ namespace SimpleSongsPlayer.Test.DAL
 
             var query = helper.Find("C:\\Users\\kljzn\\Music\\Capo Productions - Journey.mp3");
             Assert.IsNull(query);
+        }
+
+        [TestMethod]
+        public void Test_ToList()
+        {
+            var result = helper.ToList();
+            Assert.IsTrue(result.Count > 20);
         }
     }
 }
