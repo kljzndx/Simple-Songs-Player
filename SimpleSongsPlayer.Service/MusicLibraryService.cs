@@ -11,6 +11,7 @@ namespace SimpleSongsPlayer.Service
 {
     public class MusicLibraryService<TFile, TFileFactory> : IFileService<TFile> where TFile : class, ILibraryFile where TFileFactory : ILibraryFileFactory<TFile>, new()
     {
+        private static string[] _fileTypeFilter;
         private static MusicLibraryService<TFile, TFileFactory> Current;
 
         private readonly QueryOptions scanOptions = new QueryOptions();
@@ -106,10 +107,21 @@ namespace SimpleSongsPlayer.Service
             FilesRemoved?.Invoke(this, filesList);
         }
 
-        public static async Task<MusicLibraryService<TFile, TFileFactory>> GetService(params string[] fileTypeFilter)
+        public static void SetupFileTypeFilter(params string[] fileTypeFilter)
         {
+            if (_fileTypeFilter is null)
+                _fileTypeFilter = fileTypeFilter;
+            else 
+                throw new Exception("Filter has been set up");
+        }
+
+        public static async Task<MusicLibraryService<TFile, TFileFactory>> GetService()
+        {
+            if (_fileTypeFilter is null)
+                throw new Exception("Filter has not set up. Please use 'SetupFileTypeFilter' method to set filter");
+
             if (Current is null)
-                Current = new MusicLibraryService<TFile, TFileFactory>(await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music), fileTypeFilter);
+                Current = new MusicLibraryService<TFile, TFileFactory>(await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music), _fileTypeFilter);
             return Current;
         }
     }
