@@ -9,7 +9,7 @@ using SimpleSongsPlayer.DAL.Factory;
 
 namespace SimpleSongsPlayer.Service
 {
-    public class MusicLibraryService<TFile, TFileFactory> where TFile : class, ILibraryFile where TFileFactory : ILibraryFileFactory<TFile>, new()
+    public class MusicLibraryService<TFile, TFileFactory> : IFileService<TFile> where TFile : class, ILibraryFile where TFileFactory : ILibraryFileFactory<TFile>, new()
     {
         private static MusicLibraryService<TFile, TFileFactory> Current;
 
