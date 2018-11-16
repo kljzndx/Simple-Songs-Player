@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SimpleSongsPlayer.DAL
 {
-    public class MusicFile
+    public class MusicFile : ILibraryFile
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "库文件夹名称为空")]
         public string LibraryFolder { get; set; }

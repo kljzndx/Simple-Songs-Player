@@ -4,9 +4,9 @@ using Windows.Storage;
 
 namespace SimpleSongsPlayer.DAL.Factory
 {
-    public static class MusicFileFactory
+    public class MusicFileFactory : ILibraryFileFactory<MusicFile>
     {
-        public static async Task<MusicFile> FromStorageFile(string libraryFolder, StorageFile file)
+        public async Task<MusicFile> FromStorageFile(string libraryFolder, StorageFile file)
         {
             var properties = await file.Properties.GetMusicPropertiesAsync();
 

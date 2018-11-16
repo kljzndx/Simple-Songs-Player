@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
@@ -10,40 +9,44 @@ using SimpleSongsPlayer.DAL.Factory;
 
 namespace SimpleSongsPlayer.Service
 {
-    public class MusicLibraryService
+    public class MusicLibraryService<TFile, TFileFactory> where TFile : class, ILibraryFile where TFileFactory : ILibraryFileFactory<TFile>, new()
     {
-        private static MusicLibraryService Current;
+        private static MusicLibraryService<TFile, TFileFactory> Current;
 
         private readonly QueryOptions scanOptions = new QueryOptions();
         private readonly StorageLibrary musicLibrary;
-        private readonly ContextHelper<FilesContext, MusicFile> helper = new ContextHelper<FilesContext, MusicFile>();
-        private readonly List<MusicFile> musicFiles;
+        private readonly ContextHelper<FilesContext, TFile> helper = new ContextHelper<FilesContext, TFile>();
+        private readonly TFileFactory fileFactory = new TFileFactory();
+        private readonly List<TFile> musicFiles;
 
-        public event EventHandler<IEnumerable<MusicFile>> FilesAdded;
-        public event EventHandler<IEnumerable<MusicFile>> FilesRemoved;
+        public event EventHandler<IEnumerable<TFile>> FilesAdded;
+        public event EventHandler<IEnumerable<TFile>> FilesRemoved;
 
-        private MusicLibraryService(StorageLibrary library)
+        private MusicLibraryService(StorageLibrary library, string[] fileTypeFilter)
         {
             musicLibrary = library;
             musicFiles = helper.ToList();
 
-            scanOptions.FileTypeFilter.Add(".mp3");
-            scanOptions.FileTypeFilter.Add(".aac");
-            scanOptions.FileTypeFilter.Add(".wav");
-            scanOptions.FileTypeFilter.Add(".flac");
-            scanOptions.FileTypeFilter.Add(".alac");
-            scanOptions.FileTypeFilter.Add(".m4a");
+            foreach (var filter in fileTypeFilter)
+                scanOptions.FileTypeFilter.Add(filter[0] == '.' ? filter : $".{filter}");
+
+            //scanOptions.FileTypeFilter.Add(".mp3");
+            //scanOptions.FileTypeFilter.Add(".aac");
+            //scanOptions.FileTypeFilter.Add(".wav");
+            //scanOptions.FileTypeFilter.Add(".flac");
+            //scanOptions.FileTypeFilter.Add(".alac");
+            //scanOptions.FileTypeFilter.Add(".m4a");
         }
 
-        public List<MusicFile> GetFiles()
+        public List<TFile> GetFiles()
         {
             return musicFiles.ToList();
         }
 
         public async Task ScanFiles()
         {
-            List<MusicFile> addFiles = new List<MusicFile>();
-            List<MusicFile> removeFiles = new List<MusicFile>();
+            List<TFile> addFiles = new List<TFile>();
+            List<TFile> removeFiles = new List<TFile>();
 
             if (!musicFiles.Any())
             {
@@ -51,7 +54,7 @@ namespace SimpleSongsPlayer.Service
                 {
                     var allFiles = await folder.CreateFileQueryWithOptions(scanOptions).GetFilesAsync();
                     foreach (var file in allFiles)
-                        addFiles.Add(await MusicFileFactory.FromStorageFile(folder.Name, file));
+                        addFiles.Add(await fileFactory.FromStorageFile(folder.Name, file));
                 }
 
                 AddFileRange(addFiles);
@@ -82,7 +85,7 @@ namespace SimpleSongsPlayer.Service
                 // 查缺补漏
                 var needAddFiles = systemFiles.Where(sf => myFilePaths is null || !myFilePaths.Contains(sf.Path));
                 foreach (var file in needAddFiles)
-                    addFiles.Add(await MusicFileFactory.FromStorageFile(folder.Name, file));
+                    addFiles.Add(await fileFactory.FromStorageFile(folder.Name, file));
             }
 
             if (addFiles.Any())
@@ -92,28 +95,28 @@ namespace SimpleSongsPlayer.Service
                 RemoveRange(removeFiles);
         }
 
-        private void AddFileRange(IEnumerable<MusicFile> files)
+        private void AddFileRange(IEnumerable<TFile> files)
         {
-            List<MusicFile> filesList = new List<MusicFile>(files);
+            List<TFile> filesList = new List<TFile>(files);
 
             helper.AddRange(filesList);
             musicFiles.AddRange(filesList);
             FilesAdded?.Invoke(null, filesList);
         }
 
-        private void RemoveRange(IEnumerable<MusicFile> files)
+        private void RemoveRange(IEnumerable<TFile> files)
         {
-            List<MusicFile> filesList = new List<MusicFile>(files);
+            List<TFile> filesList = new List<TFile>(files);
 
             helper.RemoveRange(filesList);
             musicFiles.RemoveAll(filesList.Contains);
             FilesRemoved?.Invoke(null, filesList);
         }
 
-        public static async Task<MusicLibraryService> GetService()
+        public static async Task<MusicLibraryService<TFile, TFileFactory>> GetService(params string[] fileTypeFilter)
         {
             if (Current is null)
-                Current = new MusicLibraryService(await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music));
+                Current = new MusicLibraryService<TFile, TFileFactory>(await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music), fileTypeFilter);
             return Current;
         }
     }
