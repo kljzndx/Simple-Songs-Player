@@ -94,7 +94,7 @@ namespace SimpleSongsPlayer.Service
 
             helper.AddRange(filesList);
             musicFiles.AddRange(filesList);
-            FilesAdded?.Invoke(null, filesList);
+            FilesAdded?.Invoke(this, filesList);
         }
 
         private void RemoveRange(IEnumerable<TFile> files)
@@ -103,7 +103,7 @@ namespace SimpleSongsPlayer.Service
 
             helper.RemoveRange(filesList);
             musicFiles.RemoveAll(filesList.Contains);
-            FilesRemoved?.Invoke(null, filesList);
+            FilesRemoved?.Invoke(this, filesList);
         }
 
         public static async Task<MusicLibraryService<TFile, TFileFactory>> GetService(params string[] fileTypeFilter)
