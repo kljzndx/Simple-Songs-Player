@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Windows.Storage;
 using NLog;
 using SimpleSongsPlayer.Service.Models;
@@ -15,6 +18,7 @@ namespace SimpleSongsPlayer.Service
 
         private static readonly Dictionary<LoggerMembers, Logger> AllLoggers = new Dictionary<LoggerMembers, Logger>();
         private static readonly List<FieldInfo> MembersInfo;
+        private static readonly Regex LogRegex = new Regex(@"^(\d{4}\/\d{1,2}\/\d{1,2}).*\|");
 
         static LoggerService()
         {
@@ -32,6 +36,25 @@ namespace SimpleSongsPlayer.Service
                         AllLoggers.Add(member, LogManager.GetLogger(GetName(member)));
 
             return AllLoggers[member];
+        }
+
+        public static async Task<string> GetLogs(int lineCount)
+        {
+            var file = await StorageFile.GetFileFromPathAsync($"{ApplicationData.Current.LocalFolder.Path}\\logs\\main.log");
+            var lines = await FileIO.ReadLinesAsync(file);
+            var results = new StringBuilder();
+
+            int hasLines = 0;
+
+            for (var i = lines.Count - 1; i >= 0 && hasLines < lineCount; i--)
+            {
+                if (LogRegex.IsMatch(lines[i]))
+                    hasLines++;
+
+                results.AppendLine(lines[i]);
+            }
+
+            return results.ToString().Trim();
         }
 
         private static string GetName(LoggerMembers member)
