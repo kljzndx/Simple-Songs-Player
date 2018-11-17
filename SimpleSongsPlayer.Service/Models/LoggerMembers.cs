@@ -4,6 +4,7 @@
     {
         App,
         Ui,
-        Service
+        Service,
+        UnitTest
     }
 }
