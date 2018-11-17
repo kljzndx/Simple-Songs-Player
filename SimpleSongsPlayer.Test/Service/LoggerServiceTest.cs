@@ -16,6 +16,7 @@ namespace SimpleSongsPlayer.Test.Service
             Assert.IsNotNull(logger);
         }
 
+        [TestMethod]
         public async Task ReadLogs()
         {
             var logger = LoggerService.GetLogger(LoggerMembers.UnitTest);
