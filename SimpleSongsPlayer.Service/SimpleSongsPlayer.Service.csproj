@@ -107,6 +107,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="IFileService.cs" />
+    <Compile Include="LoggerService.cs" />
+    <Compile Include="Models\Attributes\LoggerNameAttribute.cs" />
+    <Compile Include="Models\LoggerMembers.cs" />
     <Compile Include="MusicLibraryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\SimpleSongsPlayer.Service.rd.xml" />
@@ -117,6 +120,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.9</Version>
+    </PackageReference>
+    <PackageReference Include="NLog">
+      <Version>4.5.11</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
