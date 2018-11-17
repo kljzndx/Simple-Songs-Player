@@ -38,12 +38,12 @@ namespace SimpleSongsPlayer.Service
             return AllLoggers[member];
         }
 
-        public static async Task<string> GetLogs(int lineCount)
+        public static async Task<string> ReadLogs(int lineCount)
         {
             var file = await StorageFile.GetFileFromPathAsync($"{ApplicationData.Current.LocalFolder.Path}\\logs\\main.log");
             var lines = await FileIO.ReadLinesAsync(file);
-            var results = new StringBuilder();
 
+            var builder = new StringBuilder();
             int hasLines = 0;
 
             for (var i = lines.Count - 1; i >= 0 && hasLines < lineCount; i--)
@@ -51,10 +51,10 @@ namespace SimpleSongsPlayer.Service
                 if (LogRegex.IsMatch(lines[i]))
                     hasLines++;
 
-                results.AppendLine(lines[i]);
+                builder.AppendLine(lines[i]);
             }
 
-            return results.ToString().Trim();
+            return builder.ToString().Trim();
         }
 
         private static string GetName(LoggerMembers member)
