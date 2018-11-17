@@ -104,6 +104,9 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="nlog.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

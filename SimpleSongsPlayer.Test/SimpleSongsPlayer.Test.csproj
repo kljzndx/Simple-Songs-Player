@@ -112,6 +112,10 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="..\SimpleSongsPlayer\nlog.config">
+      <SubType>Designer</SubType>
+      <Link>nlog.config</Link>
+    </Content>
     <None Include="SimpleSongsPlayer.Test_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
