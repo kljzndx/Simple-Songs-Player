@@ -55,31 +55,28 @@ namespace SimpleSongsPlayer.Service
                 return;
             }
 
-            foreach (var folderName in musicFiles.Select(f => f.LibraryFolder).Distinct())
-                if (musicLibrary.Folders.All(d => d.Name != folderName))
-                    RemoveRange(musicFiles.Where(f => f.LibraryFolder == folderName));
+            foreach (var libraryGroups in musicFiles.GroupBy(f => f.LibraryFolder))
+                if (musicLibrary.Folders.All(d => d.Name != libraryGroups.Key))
+                    RemoveRange(libraryGroups);
 
-            var allGroup = musicFiles.GroupBy(f => f.LibraryFolder).ToList();
+            var allGroup = musicFiles.GroupBy(f => f.LibraryFolder).ToDictionary(g => g.Key, g => g.ToList());
 
             foreach (var folder in musicLibrary.Folders)
             {
-                var myFiles = allGroup.FirstOrDefault(g => g.Key == folder.Name)?.ToList();
-                var myFilePaths = myFiles?.Select(f => f.Path).ToList();
+                var myFiles = allGroup[folder.Name];
+                var myFilePaths = myFiles.Select(f => f.Path).ToList();
 
                 var systemFiles = await folder.CreateFileQueryWithOptions(scanOptions).GetFilesAsync();
                 var systemFilePaths = systemFiles.Select(f => f.Path).ToList();
 
                 // 清理垃圾
-                if (myFilePaths != null)
-                {
-                    var needRemoveFilePaths = myFilePaths.Where(mf => !systemFilePaths.Contains(mf)).ToList();
-                    removeFiles.AddRange(myFiles.Where(f => needRemoveFilePaths.Contains(f.Path)));
-                }
+                var needRemoveFilePaths = myFilePaths.Where(mf => !systemFilePaths.Contains(mf)).ToList();
+                removeFiles.AddRange(myFiles.Where(f => needRemoveFilePaths.Contains(f.Path)));
 
                 // 查缺补漏
-                var needAddFiles = systemFiles.Where(sf => myFilePaths is null || !myFilePaths.Contains(sf.Path));
-                foreach (var file in needAddFiles)
-                    addFiles.Add(await fileFactory.FromStorageFile(folder.Name, file));
+                var needAddFiles = systemFiles.Where(sf => !myFilePaths.Contains(sf.Path));
+                foreach (var filePath in needAddFiles)
+                    addFiles.Add(await fileFactory.FromStorageFile(folder.Name, filePath));
             }
 
             if (addFiles.Any())
