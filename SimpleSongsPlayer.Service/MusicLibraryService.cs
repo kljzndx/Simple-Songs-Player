@@ -51,7 +51,9 @@ namespace SimpleSongsPlayer.Service
                         addFiles.Add(await fileFactory.FromStorageFile(folder.Name, file));
                 }
 
-                AddFileRange(addFiles);
+                if (addFiles.Any())
+                    AddFileRange(addFiles);
+
                 return;
             }
 
