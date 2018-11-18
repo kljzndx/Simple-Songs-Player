@@ -108,7 +108,7 @@
   <ItemGroup>
     <Compile Include="IFileService.cs" />
     <Compile Include="LoggerService.cs" />
-    <Compile Include="Models\Attributes\LoggerNameAttribute.cs" />
+    <Compile Include="Models\Attributes\LoggerInfoAttribute.cs" />
     <Compile Include="Models\LoggerMembers.cs" />
     <Compile Include="MusicLibraryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

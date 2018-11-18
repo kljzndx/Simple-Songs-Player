@@ -16,7 +16,7 @@ namespace SimpleSongsPlayer.Service
     {
         private static readonly object LoggerGetting_Locker = new object();
 
-        private static readonly Dictionary<LoggerMembers, Logger> AllLoggers = new Dictionary<LoggerMembers, Logger>();
+        private static readonly Dictionary<LoggerMembers, KeyValuePair<LoggerInfoAttribute, Logger>> AllLoggers = new Dictionary<LoggerMembers, KeyValuePair<LoggerInfoAttribute, Logger>>();
         private static readonly List<FieldInfo> MembersInfo;
         private static readonly Regex LogRegex = new Regex(@"^(\d{4}\/\d{1,2}\/\d{1,2}).*\|");
 
@@ -30,17 +30,15 @@ namespace SimpleSongsPlayer.Service
 
         public static Logger GetLogger(LoggerMembers member)
         {
-            if (!AllLoggers.ContainsKey(member))
-                lock (LoggerGetting_Locker)
-                    if (!AllLoggers.ContainsKey(member))
-                        AllLoggers.Add(member, LogManager.GetLogger(GetName(member)));
+            Initialize(member);
 
-            return AllLoggers[member];
+            return AllLoggers[member].Value;
         }
 
-        public static async Task<string> ReadLogs(int lineCount)
+        public static async Task<string> ReadLogs(LoggerMembers member, int lineCount)
         {
-            var file = await StorageFile.GetFileFromPathAsync($"{ApplicationData.Current.LocalFolder.Path}\\logs\\main.log");
+            Initialize(member);
+            var file = await StorageFile.GetFileFromPathAsync(String.Format("{0}{1}", ApplicationData.Current.LocalFolder.Path, AllLoggers[member].Key.NowPath));
             var lines = await FileIO.ReadLinesAsync(file);
 
             var builder = new StringBuilder();
@@ -57,20 +55,28 @@ namespace SimpleSongsPlayer.Service
             return builder.ToString().Trim();
         }
 
-        private static string GetName(LoggerMembers member)
+        private static void Initialize(LoggerMembers member)
         {
-            string result = String.Empty;
+            if (!AllLoggers.ContainsKey(member))
+                lock (LoggerGetting_Locker)
+                    if (!AllLoggers.ContainsKey(member))
+                    {
+                        var info = GetName(member);
+                        AllLoggers.Add(member,
+                            new KeyValuePair<LoggerInfoAttribute, Logger>(info, LogManager.GetLogger(info.Name)));
+                    }
+        }
 
+        private static LoggerInfoAttribute GetName(LoggerMembers member)
+        {
             var info = MembersInfo.First(i => i.Name == member.ToString());
-            if (info.GetCustomAttribute<LoggerNameAttribute>() is LoggerNameAttribute loggerName)
-                result = loggerName.Name;
-            else
+            var result = info.GetCustomAttribute<LoggerInfoAttribute>();
+            if (result.Name is null)
             {
                 string firstWord = info.Name.First().ToString();
                 var restWords = info.Name.Remove(0, 1);
-                result = String.Format("{0}{1}", firstWord.ToLower(), restWords);
+                result.Name = String.Format("{0}{1}", firstWord.ToLower(), restWords);
             }
-
             return result;
         }
     }

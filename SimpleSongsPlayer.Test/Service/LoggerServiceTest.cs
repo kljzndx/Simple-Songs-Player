@@ -25,7 +25,7 @@ namespace SimpleSongsPlayer.Test.Service
             logger.Info("测试3");
             logger.Info("测试4");
             logger.Info("测试5");
-            var text = await LoggerService.ReadLogs(5);
+            var text = await LoggerService.ReadLogs(LoggerMembers.UnitTest, 5);
             Assert.IsFalse(String.IsNullOrWhiteSpace(text));
         }
     }
