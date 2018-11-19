@@ -5,6 +5,17 @@ namespace SimpleSongsPlayer.DAL
 {
     public class UserFavorite
     {
+        public UserFavorite()
+        {
+            
+        }
+
+        public UserFavorite(string groupName, MusicFile file)
+        {
+            GroupName = groupName;
+            File = file;
+        }
+
         public int Id { get; set; }
         public string GroupName { get; set; }
         
