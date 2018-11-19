@@ -21,6 +21,16 @@ namespace SimpleSongsPlayer.DAL
                 db.Database.Migrate();
         }
 
+        public void CustomOption(Action<DbSet<TableModel>> action)
+        {
+            using (var db = Activator.CreateInstance<Context>())
+            {
+                var table = (DbSet<TableModel>) TableInfo.GetValue(db);
+                action.Invoke(table);
+                db.SaveChanges();
+            }
+        }
+
         public TableModel Find(params object[] primaryKeyValues)
         {
             TableModel result = null;
