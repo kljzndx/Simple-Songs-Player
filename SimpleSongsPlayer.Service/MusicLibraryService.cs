@@ -159,11 +159,7 @@ namespace SimpleSongsPlayer.Service
             if (_fileTypeFilter is null)
                 _fileTypeFilter = fileTypeFilter;
             else
-            {
-                var ex = new Exception("Filter has been set up");
-                Log(ex);
-                throw ex;
-            }
+                Log("已设置筛选器");
         }
 
         public static async Task<MusicLibraryService<TFile, TFileFactory>> GetService()
