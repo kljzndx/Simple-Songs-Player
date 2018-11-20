@@ -15,7 +15,7 @@ namespace SimpleSongsPlayer.Test.Service
 
         static UserFavoriteServiceTest()
         {
-            // MusicLibraryService<MusicFile, MusicFileFactory>.SetupFileTypeFilter("mp3", "aac", "wav", "flac", "alac", "m4a");
+            MusicLibraryService<MusicFile, MusicFileFactory>.SetupFileTypeFilter("mp3", "aac", "wav", "flac", "alac", "m4a");
         }
 
         [TestMethod]
@@ -24,8 +24,8 @@ namespace SimpleSongsPlayer.Test.Service
             var libraryService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
             List<MusicFile> allFiles = libraryService.GetFiles();
             FavoriteService.AddRange("test", allFiles);
-            List<UserFavorite> f = FavoriteService.GetFiles();
-            Assert.IsTrue(f.Count > 30);
+            List<IGrouping<string, MusicFile>> f = await FavoriteService.GetFiles();
+            Assert.IsTrue(f.Count > 0);
         }
 
         [TestMethod]
@@ -33,8 +33,8 @@ namespace SimpleSongsPlayer.Test.Service
         {
             var libraryService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
             List<MusicFile> allFiles = libraryService.GetFiles();
-            FavoriteService.RemoveRange(allFiles);
-            List<UserFavorite> f = FavoriteService.GetFiles();
+            FavoriteService.RemoveRange("test", allFiles);
+            List<IGrouping<string, MusicFile>> f = await FavoriteService.GetFiles();
             Assert.IsFalse(f.Any());
         }
     }
