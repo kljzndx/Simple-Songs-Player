@@ -20,5 +20,21 @@ namespace SimpleSongsPlayer.DAL.Factory
                 LibraryFolder = libraryFolder
             };
         }
+
+        public async Task<MusicFile> FromFilePath(string path)
+        {
+            var file = await StorageFile.GetFileFromPathAsync(path);
+            var properties = await file.Properties.GetMusicPropertiesAsync();
+
+            return new MusicFile
+            {
+                Title = String.IsNullOrWhiteSpace(properties.Title) ? file.DisplayName : properties.Title,
+                Artist = properties.Artist,
+                Album = properties.Album,
+                Path = file.Path,
+                Duration = properties.Duration,
+                LibraryFolder = ""
+            };
+        }
     }
 }
