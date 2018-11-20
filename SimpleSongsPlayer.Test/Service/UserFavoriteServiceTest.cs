@@ -11,7 +11,6 @@ namespace SimpleSongsPlayer.Test.Service
     [TestClass]
     public class UserFavoriteServiceTest
     {
-        private static readonly UserFavoriteService FavoriteService = UserFavoriteService.GetService();
 
         static UserFavoriteServiceTest()
         {
@@ -22,9 +21,10 @@ namespace SimpleSongsPlayer.Test.Service
         public async Task AddRange()
         {
             var libraryService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
+            var FavoriteService = UserFavoriteService.GetService(libraryService);
             List<MusicFile> allFiles = libraryService.GetFiles();
             FavoriteService.AddRange("test", allFiles);
-            List<IGrouping<string, MusicFile>> f = await FavoriteService.GetFiles();
+            List<IGrouping<string, MusicFile>> f = FavoriteService.GetFiles();
             Assert.IsTrue(f.Count > 0);
         }
 
@@ -32,9 +32,10 @@ namespace SimpleSongsPlayer.Test.Service
         public async Task RemoveRange()
         {
             var libraryService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
+            var FavoriteService = UserFavoriteService.GetService(libraryService);
             List<MusicFile> allFiles = libraryService.GetFiles();
             FavoriteService.RemoveRange("test", allFiles);
-            List<IGrouping<string, MusicFile>> f = await FavoriteService.GetFiles();
+            List<IGrouping<string, MusicFile>> f = FavoriteService.GetFiles();
             Assert.IsFalse(f.Any());
         }
     }
