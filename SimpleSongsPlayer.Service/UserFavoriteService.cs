@@ -8,28 +8,23 @@ using SimpleSongsPlayer.DAL.Factory;
 
 namespace SimpleSongsPlayer.Service
 {
-    public class UserFavoriteService
+    public class UserFavoriteService : IFileService<IGrouping<string, MusicFile>>
     {
         private static UserFavoriteService current;
-
+        
         private readonly ContextHelper<FilesContext, UserFavorite> helper = new ContextHelper<FilesContext, UserFavorite>();
-        private readonly MusicFileFactory factory = new MusicFileFactory();
 
         public event EventHandler<IEnumerable<IGrouping<string, MusicFile>>> FilesAdded;
         public event EventHandler<IEnumerable<IGrouping<string, MusicFile>>> FilesRemoved;
 
-        private UserFavoriteService()
+        private UserFavoriteService(MusicLibraryService<MusicFile, MusicFileFactory> libraryService)
         {
+            libraryService.FilesRemoved += MusicLibraryService_FilesRemoved;
         }
 
-        public async Task<List<IGrouping<string, MusicFile>>> GetFiles()
+        public List<IGrouping<string, MusicFile>> GetFiles()
         {
-            var data = helper.ToList().GroupBy(f => f.GroupName);
-            var result = new List<IGrouping<string, MusicFile>>();
-
-            foreach (var favorite in data)
-                result.Add(CreateGrouping(favorite.Key, await ConvertToFile(favorite)));
-
+            var result = QueryMusicFiles();
             return result;
         }
 
@@ -58,23 +53,19 @@ namespace SimpleSongsPlayer.Service
             FilesRemoved?.Invoke(this, new[] {CreateGrouping(name, source)});
         }
 
-        public async Task RemoveRangeInAllGroup(IEnumerable<MusicFile> files)
+        private void RemoveRangeInAllGroup(IEnumerable<MusicFile> files)
         {
             var source = files.ToList();
             var list = source.Select(f => f.Path).ToList();
             List<UserFavorite> optionResult = null;
-            List<IGrouping<string, MusicFile>> result = new List<IGrouping<string, MusicFile>>();
 
             helper.CustomOption(table =>
             {
                 optionResult = table.Where(favorite => list.Contains(favorite.FilePath)).ToList();
                 table.RemoveRange(optionResult);
             });
-
-            foreach (var item in optionResult.GroupBy(f => f.GroupName))
-                result.Add(CreateGrouping(item.Key, await ConvertToFile(item)));
-
-            FilesRemoved?.Invoke(this, result);
+            
+            FilesRemoved?.Invoke(this, QueryMusicFiles(optionResult));
         }
 
         private IGrouping<string, MusicFile> CreateGrouping(string name, IEnumerable<MusicFile> files)
@@ -85,32 +76,39 @@ namespace SimpleSongsPlayer.Service
             return group;
         }
 
-        private async Task<List<MusicFile>> ConvertToFile(IEnumerable<UserFavorite> favorites)
+        private List<IGrouping<string, MusicFile>> QueryMusicFiles(IEnumerable<UserFavorite> target = null)
         {
-            var result = new List<MusicFile>();
-            var rubbish = new List<UserFavorite>();
-            foreach (var favorite in favorites)
+            var result = new List<IGrouping<string, MusicFile>>();
+
+            using (var db = new FilesContext())
             {
-                try
+                var source = (target ?? db.UserFavorites).ToList();
+                List<string> allPaths = source.Select(fa => fa.FilePath).Distinct().ToList();
+                List<MusicFile> allFiles = db.MusicFiles.Where(mf => allPaths.Contains(mf.Path)).ToList();
+
+                foreach (var path in allPaths)
+                    if (allFiles.TrueForAll(af => af.Path != path))
+                        db.UserFavorites.RemoveRange(db.UserFavorites.Where(fa => fa.FilePath == path));
+
+                foreach (var favorite in source.GroupBy(fa => fa.GroupName))
                 {
-                    result.Add(await factory.FromFilePath(favorite.FilePath));
-                }
-                catch (Exception)
-                {
-                    rubbish.Add(favorite);
+                    List<string> paths = favorite.Select(fa => fa.FilePath).ToList();
+                    result.Add(CreateGrouping(favorite.Key, allFiles.Where(f => paths.Contains(f.Path))));
                 }
             }
-
-            if (rubbish.Any())
-                helper.RemoveRange(rubbish);
 
             return result;
         }
 
-        public static UserFavoriteService GetService()
+        private void MusicLibraryService_FilesRemoved(object sender, IEnumerable<MusicFile> e)
+        {
+            RemoveRangeInAllGroup(e);
+        }
+
+        public static UserFavoriteService GetService(MusicLibraryService<MusicFile, MusicFileFactory> libraryService)
         {
             if (current is null)
-                current = new UserFavoriteService();
+                current = new UserFavoriteService(libraryService);
 
             return current;
         }
