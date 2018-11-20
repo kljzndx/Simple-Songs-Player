@@ -8,8 +8,8 @@ using SimpleSongsPlayer.DAL;
 namespace SimpleSongsPlayer.DAL.Migrations
 {
     [DbContext(typeof(FilesContext))]
-    [Migration("20181119015736_AddTable_UserFavorites")]
-    partial class AddTable_UserFavorites
+    [Migration("20181120031427_ReaddTable_UserFavorites")]
+    partial class ReaddTable_UserFavorites
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,22 +43,13 @@ namespace SimpleSongsPlayer.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("GroupName");
+                    b.Property<string>("FilePath");
 
-                    b.Property<string>("Path");
+                    b.Property<string>("GroupName");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Path");
-
                     b.ToTable("UserFavorites");
-                });
-
-            modelBuilder.Entity("SimpleSongsPlayer.DAL.UserFavorite", b =>
-                {
-                    b.HasOne("SimpleSongsPlayer.DAL.MusicFile", "File")
-                        .WithMany()
-                        .HasForeignKey("Path");
                 });
         }
     }

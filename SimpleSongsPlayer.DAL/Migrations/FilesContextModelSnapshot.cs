@@ -42,22 +42,13 @@ namespace SimpleSongsPlayer.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("GroupName");
+                    b.Property<string>("FilePath");
 
-                    b.Property<string>("Path");
+                    b.Property<string>("GroupName");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Path");
-
                     b.ToTable("UserFavorites");
-                });
-
-            modelBuilder.Entity("SimpleSongsPlayer.DAL.UserFavorite", b =>
-                {
-                    b.HasOne("SimpleSongsPlayer.DAL.MusicFile", "File")
-                        .WithMany()
-                        .HasForeignKey("Path");
                 });
         }
     }

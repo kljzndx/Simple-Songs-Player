@@ -10,17 +10,14 @@ namespace SimpleSongsPlayer.DAL
             
         }
 
-        public UserFavorite(string groupName, MusicFile file)
+        public UserFavorite(string groupName, string filePath)
         {
             GroupName = groupName;
-            File = file;
+            FilePath = filePath;
         }
 
         public int Id { get; set; }
         public string GroupName { get; set; }
-        
-        [ForeignKey("Path")]
-        [Column("FilePath")]
-        public MusicFile File { get; set; }
+        public string FilePath { get; set; }
     }
 }
