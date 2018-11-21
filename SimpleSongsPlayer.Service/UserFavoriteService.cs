@@ -16,6 +16,7 @@ namespace SimpleSongsPlayer.Service
 
         public event EventHandler<IEnumerable<IGrouping<string, MusicFile>>> FilesAdded;
         public event EventHandler<IEnumerable<IGrouping<string, MusicFile>>> FilesRemoved;
+        public event EventHandler<KeyValuePair<string, string>> GroupRenamed;
 
         private UserFavoriteService(MusicLibraryService<MusicFile, MusicFileFactory> libraryService)
         {
@@ -58,6 +59,18 @@ namespace SimpleSongsPlayer.Service
             });
 
             FilesRemoved?.Invoke(this, new[] {CreateGrouping(name, source)});
+        }
+
+        public void RenameGroup(string oldName, string newName)
+        {
+            helper.CustomOption(fat =>
+            {
+                List<UserFavorite> list = fat.Where(fa => fa.GroupName == oldName).ToList();
+                list.ForEach(fa => fa.GroupName = newName);
+                fat.UpdateRange(list);
+            });
+
+            GroupRenamed?.Invoke(this, new KeyValuePair<string, string>(oldName, newName));
         }
 
         private void RemoveRangeInAllGroup(IEnumerable<MusicFile> files)
