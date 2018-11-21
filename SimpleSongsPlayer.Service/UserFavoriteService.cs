@@ -31,10 +31,17 @@ namespace SimpleSongsPlayer.Service
         public void AddRange(string name, IEnumerable<MusicFile> files)
         {
             var list = files.ToList();
-            var result = new List<UserFavorite>();
 
-            list.ForEach(file => result.Add(new UserFavorite(name, file.Path)));
-            helper.AddRange(result);
+            helper.CustomOption(fa =>
+            {
+                var result = new List<UserFavorite>();
+
+                list.RemoveAll(mf => fa.Any(f => f.GroupName == name && f.FilePath == mf.Path));
+                list.ForEach(mf => result.Add(new UserFavorite(name, mf.Path)));
+
+                fa.AddRange(result);
+            });
+
             FilesAdded?.Invoke(this, new[] {CreateGrouping(name, list)});
         }
 
@@ -67,7 +74,7 @@ namespace SimpleSongsPlayer.Service
             
             FilesRemoved?.Invoke(this, QueryMusicFiles(optionResult));
         }
-
+        
         private IGrouping<string, MusicFile> CreateGrouping(string name, IEnumerable<MusicFile> files)
         {
             var group = new Grouping<string, MusicFile>(name);
