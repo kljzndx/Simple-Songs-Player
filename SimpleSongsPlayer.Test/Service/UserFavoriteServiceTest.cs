@@ -21,21 +21,31 @@ namespace SimpleSongsPlayer.Test.Service
         public async Task AddRange()
         {
             var libraryService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
-            var FavoriteService = UserFavoriteService.GetService(libraryService);
+            var favoriteService = UserFavoriteService.GetService(libraryService);
             List<MusicFile> allFiles = libraryService.GetFiles();
-            FavoriteService.AddRange("test", allFiles);
-            List<IGrouping<string, MusicFile>> f = FavoriteService.GetFiles();
+            favoriteService.AddRange("test", allFiles);
+            List<IGrouping<string, MusicFile>> f = favoriteService.GetFiles();
             Assert.IsTrue(f.Count > 0);
+        }
+
+        [TestMethod]
+        public async Task RenameGroup()
+        {
+            var libraryService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
+            var favoriteService = UserFavoriteService.GetService(libraryService);
+            favoriteService.RenameGroup("test", "newTest");
+            List<IGrouping<string, MusicFile>> f = favoriteService.GetFiles();
+            Assert.IsTrue(f.All(uf => uf.Key != "test") && f.Any(uf => uf.Key == "newTest"));
         }
 
         [TestMethod]
         public async Task RemoveRange()
         {
             var libraryService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
-            var FavoriteService = UserFavoriteService.GetService(libraryService);
+            var favoriteService = UserFavoriteService.GetService(libraryService);
             List<MusicFile> allFiles = libraryService.GetFiles();
-            FavoriteService.RemoveRange("test", allFiles);
-            List<IGrouping<string, MusicFile>> f = FavoriteService.GetFiles();
+            favoriteService.RemoveRange("newTest", allFiles);
+            List<IGrouping<string, MusicFile>> f = favoriteService.GetFiles();
             Assert.IsFalse(f.Any());
         }
     }
