@@ -22,7 +22,7 @@ namespace SimpleSongsPlayer.Test.DAL
         }
 
         [TestMethod]
-        public void Test_Add()
+        public void Add()
         {
             var queryResult = helper.Find("C:\\Users\\kljzn\\Music\\Capo Productions - Journey.mp3");
             if (queryResult != null)
@@ -39,7 +39,7 @@ namespace SimpleSongsPlayer.Test.DAL
         }
 
         [TestMethod]
-        public void Test_Remove()
+        public void Remove()
         {
             var obj = GetFile();
 
@@ -50,10 +50,10 @@ namespace SimpleSongsPlayer.Test.DAL
         }
 
         [TestMethod]
-        public void Test_ToList()
+        public void ToList()
         {
             var result = helper.ToList();
-            Assert.IsTrue(result.Count > 20);
+            Assert.IsTrue(result.Count > 0);
         }
     }
 }
