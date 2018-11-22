@@ -20,44 +20,52 @@ namespace SimpleSongsPlayer.Service
 
         private UserFavoriteService(MusicLibraryService<MusicFile, MusicFileFactory> libraryService)
         {
+            this.LogByObject("订阅音乐库的文件移除事件");
             libraryService.FilesRemoved += MusicLibraryService_FilesRemoved;
         }
 
         public List<IGrouping<string, MusicFile>> GetFiles()
         {
+            this.LogByObject("开始对数据进行分组操作");
             var result = QueryMusicFiles();
+            this.LogByObject("分组完成，返回数据");
             return result;
         }
 
         public void AddRange(string name, IEnumerable<MusicFile> files)
         {
+            this.LogByObject("接收文件");
             var list = files.ToList();
 
             helper.CustomOption(fa =>
             {
+                this.LogByObject("准备结果集合");
                 var result = new List<UserFavorite>();
 
+                this.LogByObject("筛选掉已有的收藏");
                 list.RemoveAll(mf => fa.Any(f => f.GroupName == name && f.FilePath == mf.Path));
+                this.LogByObject("生成收藏项并添加到结果集合");
                 list.ForEach(mf => result.Add(new UserFavorite(name, mf.Path)));
 
+                this.LogByObject("应用结果集合");
                 fa.AddRange(result);
             });
 
+            this.LogByObject("触发收藏添加事件");
             FilesAdded?.Invoke(this, new[] {CreateGrouping(name, list)});
         }
 
         public void RemoveRange(string name, IEnumerable<MusicFile> files)
         {
+            this.LogByObject("接收文件");
             var source = files.ToList();
+            this.LogByObject("提取出文件路径");
             var list = source.Select(f => f.Path).ToList();
-            List<UserFavorite> optionResult = null;
 
-            helper.CustomOption(table =>
-            {
-                optionResult = table.Where(favorite => favorite.GroupName == name && list.Contains(favorite.FilePath)).ToList();
-                table.RemoveRange(optionResult);
-            });
+            this.LogByObject("开始从数据库删数据");
+            helper.CustomOption(table => table.RemoveRange(table.Where(favorite => favorite.GroupName == name && list.Contains(favorite.FilePath))));
 
+            this.LogByObject("触发收藏删除事件");
             FilesRemoved?.Invoke(this, new[] {CreateGrouping(name, source)});
         }
 
@@ -65,26 +73,38 @@ namespace SimpleSongsPlayer.Service
         {
             helper.CustomOption(fat =>
             {
+                this.LogByObject("筛选出要改名的收藏");
                 List<UserFavorite> list = fat.Where(fa => fa.GroupName == oldName).ToList();
+                this.LogByObject("开始改名");
                 list.ForEach(fa => fa.GroupName = newName);
+                this.LogByObject("应用改名操作");
                 fat.UpdateRange(list);
             });
 
+            this.LogByObject("触发重命名事件");
             GroupRenamed?.Invoke(this, new KeyValuePair<string, string>(oldName, newName));
         }
 
         private void RemoveRangeInAllGroup(IEnumerable<MusicFile> files)
         {
+            this.LogByObject("接收文件");
             var source = files.ToList();
+            this.LogByObject("提取出文件路径");
             var list = source.Select(f => f.Path).ToList();
+
+            this.LogByObject("准备操作集合");
             List<UserFavorite> optionResult = null;
+            
 
             helper.CustomOption(table =>
             {
+                this.LogByObject("将要移除的数据添加到集合中");
                 optionResult = table.Where(favorite => list.Contains(favorite.FilePath)).ToList();
+                this.LogByObject("应用操作集合");
                 table.RemoveRange(optionResult);
             });
             
+            this.LogByObject("触发收藏删除事件");
             FilesRemoved?.Invoke(this, QueryMusicFiles(optionResult));
         }
         
@@ -122,6 +142,7 @@ namespace SimpleSongsPlayer.Service
 
         private void MusicLibraryService_FilesRemoved(object sender, IEnumerable<MusicFile> e)
         {
+            this.LogByObject("已检测到音乐库发生文件移除操作，正在同步移除");
             RemoveRangeInAllGroup(e);
         }
 
