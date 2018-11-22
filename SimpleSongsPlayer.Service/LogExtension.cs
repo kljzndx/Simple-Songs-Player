@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using NLog;
 using SimpleSongsPlayer.Service.Models;
 
@@ -20,26 +21,26 @@ namespace SimpleSongsPlayer.Service
             AllAssembly[assembly.FullName.Split(',')[0].Trim()] = LoggerService.GetLogger(member);
         }
         
-        public static void LogByObject<T>(this T obj, string message)
+        public static void LogByObject<T>(this T obj, string message, [CallerMemberName] string callerName = "")
         {
-            typeof(T).LogByType(message);
+            typeof(T).LogByType(message, callerName);
         }
 
-        public static void LogByObject<T>(this T obj, Exception exception, string message = "")
+        public static void LogByObject<T>(this T obj, Exception exception, string message = "", [CallerMemberName] string callerName = "")
         {
-            typeof(T).LogByType(exception, message);
+            typeof(T).LogByType(exception, message, callerName);
         }
 
-        public static void LogByType(this Type type, string message)
+        public static void LogByType(this Type type, string message, [CallerMemberName] string callerName = "")
         {
             string assemblyName = GetAssemblyNameFromType(type);
-            AllAssembly[assemblyName].Info($"{message} in {type.Name}");
+            AllAssembly[assemblyName].Info($"{message} on {callerName} in {type.Name}");
         }
 
-        public static void LogByType(this Type type, Exception exception, string message = "")
+        public static void LogByType(this Type type, Exception exception, string message = "", [CallerMemberName] string callerName = "")
         {
             string assemblyName = GetAssemblyNameFromType(type);
-            AllAssembly[assemblyName].Error(exception, $"{message} in {type.Name}");
+            AllAssembly[assemblyName].Error(exception, $"{message} on {callerName} in {type.Name}");
         }
 
         private static string GetAssemblyNameFromType(Type type)
