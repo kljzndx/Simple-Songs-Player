@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using NLog;
@@ -15,7 +16,7 @@ namespace SimpleSongsPlayer.Service
         {
             SetUpAssembly(typeof(LogExtension).GetTypeInfo().Assembly, LoggerMembers.Service);
         }
-
+        
         public static void SetUpAssembly(Assembly assembly, LoggerMembers member)
         {
             AllAssembly[assembly.FullName.Split(',')[0].Trim()] = LoggerService.GetLogger(member);
@@ -45,7 +46,8 @@ namespace SimpleSongsPlayer.Service
 
         private static string GetAssemblyNameFromType(Type type)
         {
-            return type.AssemblyQualifiedName.Split(',')[1].Trim();
+            var split = type.AssemblyQualifiedName.Split(',');
+            return split[split.Length - 4].Trim();
         }
     }
 }
