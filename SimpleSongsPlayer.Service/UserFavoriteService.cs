@@ -95,7 +95,7 @@ namespace SimpleSongsPlayer.Service
             this.LogByObject("准备操作集合");
             List<UserFavorite> optionResult = null;
             
-
+            this.LogByObject("连接数据库");
             helper.CustomOption(table =>
             {
                 this.LogByObject("将要移除的数据添加到集合中");
@@ -110,26 +110,37 @@ namespace SimpleSongsPlayer.Service
         
         private IGrouping<string, MusicFile> CreateGrouping(string name, IEnumerable<MusicFile> files)
         {
+            this.LogByObject("准备空的组");
             var group = new Grouping<string, MusicFile>(name);
+
+            this.LogByObject("将文件添加到组中");
             foreach (var file in files)
                 group.Add(file);
+
+            this.LogByObject("返回组数据");
             return group;
         }
 
         private List<IGrouping<string, MusicFile>> QueryMusicFiles(IEnumerable<UserFavorite> target = null)
         {
+            this.LogByObject("准备操作结果集合");
             var result = new List<IGrouping<string, MusicFile>>();
 
             using (var db = new FilesContext())
             {
+                this.LogByObject("获取数据源");
                 var source = (target ?? db.UserFavorites).ToList();
+                this.LogByObject("从数据源提取出路径");
                 List<string> allPaths = source.Select(fa => fa.FilePath).Distinct().ToList();
+                this.LogByObject("从数据库根据路径查询文件");
                 List<MusicFile> allFiles = db.MusicFiles.Where(mf => allPaths.Contains(mf.Path)).ToList();
 
+                this.LogByObject("清理垃圾收藏");
                 foreach (var path in allPaths)
                     if (allFiles.TrueForAll(af => af.Path != path))
                         db.UserFavorites.RemoveRange(db.UserFavorites.Where(fa => fa.FilePath == path));
 
+                this.LogByObject("开始对文件分组并添加至结果集合");
                 foreach (var favorite in source.GroupBy(fa => fa.GroupName))
                 {
                     List<string> paths = favorite.Select(fa => fa.FilePath).ToList();
@@ -137,6 +148,7 @@ namespace SimpleSongsPlayer.Service
                 }
             }
 
+            this.LogByObject("返回分组数据");
             return result;
         }
 
@@ -148,6 +160,7 @@ namespace SimpleSongsPlayer.Service
 
         public static UserFavoriteService GetService(MusicLibraryService<MusicFile, MusicFileFactory> libraryService)
         {
+            typeof(UserFavoriteService).LogByType("获取用户收藏服务");
             if (current is null)
                 current = new UserFavoriteService(libraryService);
 
