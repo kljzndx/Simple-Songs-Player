@@ -96,6 +96,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\DTO\MusicFileDTO.cs" />
+    <Compile Include="Models\MusicFileGroup.cs" />
     <Compile Include="ViewModels\Extensions\ExceptionExtensions.cs" />
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
