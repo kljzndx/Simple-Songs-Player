@@ -16,12 +16,14 @@ namespace SimpleSongsPlayer.Models.DTO
             Title = fileData.Title;
             Artist = fileData.Artist;
             Album = fileData.Album;
+            Duration = fileData.Duration;
             FilePath = fileData.Path;
         }
 
-        public string Title { get; set; }
-        public string Artist { get; set; }
-        public string Album { get; set; }
+        public string Title { get; }
+        public string Artist { get; }
+        public string Album { get; }
+        public TimeSpan Duration { get; }
         public string FilePath { get; }
 
         public async Task<StorageFile> GetFile()
