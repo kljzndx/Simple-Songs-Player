@@ -96,6 +96,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\DTO\MusicFileDTO.cs" />
+    <Compile Include="ViewModels\Extensions\ExceptionExtensions.cs" />
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\FrameworkPage.xaml.cs">
@@ -111,6 +112,16 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="StringResources\zh-CN\ErrorDialog.resw" />
+    <PRIResource Include="StringResources\en-US\ErrorDialog.resw" />
+    <PRIResource Include="StringResources\zh-CN\ErrorTable.resw" />
+    <PRIResource Include="StringResources\zh-CN\Dialog.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
+    <PRIResource Include="StringResources\en-US\Dialog.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
+    <PRIResource Include="StringResources\en-US\ErrorTable.resw" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
@@ -133,6 +144,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="HappyStudio.UwpToolsLibrary.Auxiliarys">
+      <Version>1.2.2</Version>
+    </PackageReference>
+    <PackageReference Include="HappyStudio.UwpToolsLibrary.Information">
+      <Version>1.0.3</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore">
       <Version>1.1.6</Version>
     </PackageReference>

@@ -1,25 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.EntityFrameworkCore;
+using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using NLog;
-using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.Service.Models;
+using SimpleSongsPlayer.ViewModels.Extensions;
 using SimpleSongsPlayer.Views;
 
 namespace SimpleSongsPlayer
@@ -39,9 +29,17 @@ namespace SimpleSongsPlayer
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += App_UnhandledException;
 
             _logger = LoggerService.GetLogger(LoggerMembers.App);
             LogExtension.SetUpAssembly(typeof(App).GetTypeInfo().Assembly, LoggerMembers.Ui);
+        }
+
+        private async void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+
+            await e.Exception.ShowErrorDialog(_logger);
         }
 
         /// <summary>
