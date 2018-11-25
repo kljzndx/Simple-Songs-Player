@@ -1,35 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
+using SimpleSongsPlayer.Views;
 
-// https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
-
-namespace SimpleSongsPlayer.Views
+namespace SimpleSongsPlayer.ViewModels
 {
-    /// <summary>
-    /// 可用于自身或导航至 Frame 内部的空白页。
-    /// </summary>
-    public sealed partial class ResourcesPage : Page
+    public class DataServer
     {
-        public static ResourcesPage Current;
+        public static DataServer Current;
 
         public MusicLibraryService<MusicFile, MusicFileFactory> MusicFilesService;
         public UserFavoriteService UserFavoriteService;
@@ -37,13 +22,11 @@ namespace SimpleSongsPlayer.Views
         public ObservableCollection<MusicFileDTO> MusicFilesList = new ObservableCollection<MusicFileDTO>();
         public ObservableCollection<MusicFileGroup> UserFavoritesList = new ObservableCollection<MusicFileGroup>();
 
-        public ResourcesPage()
+        private DataServer()
         {
-            this.InitializeComponent();
-            Current = this;
         }
-        
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+
+        private async Task Initialize()
         {
             MusicFilesService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
             UserFavoriteService = UserFavoriteService.GetService(MusicFilesService);
@@ -64,7 +47,7 @@ namespace SimpleSongsPlayer.Views
             UserFavoriteService.FilesAdded += UserFavoriteService_FilesAdded;
             UserFavoriteService.FilesRemoved += UserFavoriteService_FilesRemoved;
         }
-        
+
         private void MusicFilesService_FilesAdded(object sender, IEnumerable<MusicFile> e)
         {
             foreach (var musicFile in e)
@@ -111,8 +94,18 @@ namespace SimpleSongsPlayer.Views
 
                     files.ForEach(mf => fileGroup.Items.Remove(mf));
                 }
-
             }
+        }
+
+        public static async Task<DataServer> GetServer()
+        {
+            if (Current is null)
+            {
+                Current = new DataServer();
+                await Current.Initialize();
+            }
+
+            return Current;
         }
     }
 }
