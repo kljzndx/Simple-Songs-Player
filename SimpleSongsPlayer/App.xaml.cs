@@ -7,6 +7,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using NLog;
+using SimpleSongsPlayer.DAL;
+using SimpleSongsPlayer.DAL.Factory;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.Service.Models;
 using SimpleSongsPlayer.ViewModels.Extensions;
@@ -78,11 +80,14 @@ namespace SimpleSongsPlayer
                     // 当导航堆栈尚未还原时，导航到第一页，
                     // 并通过将所需信息作为导航参数传入来配置
                     // 参数
-                    rootFrame.Navigate(typeof(FrameworkPage), e.Arguments);
+                    rootFrame.Navigate(typeof(ResourcesPage), e.Arguments);
                 }
                 _logger.Info("激活窗口");
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
+
+                _logger.Info("初始化音乐库服务的文件筛选器");
+                MusicLibraryService<MusicFile, MusicFileFactory>.SetupFileTypeFilter("mp3", "aac", "wav", "flac", "alac", "m4a");
             }
         }
 
