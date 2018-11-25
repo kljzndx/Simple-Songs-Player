@@ -20,7 +20,7 @@ namespace SimpleSongsPlayer.Service
         private readonly StorageLibrary musicLibrary;
         private readonly ContextHelper<FilesContext, TFile> helper = new ContextHelper<FilesContext, TFile>();
         private readonly TFileFactory fileFactory = new TFileFactory();
-        private readonly List<TFile> musicFiles;
+        private List<TFile> musicFiles;
 
         public event EventHandler<IEnumerable<TFile>> FilesAdded;
         public event EventHandler<IEnumerable<TFile>> FilesRemoved;
@@ -29,8 +29,6 @@ namespace SimpleSongsPlayer.Service
         {
             this.LogByObject("正在构造服务，正在获取音乐库引用");
             musicLibrary = library;
-            this.LogByObject("正在获取文件");
-            musicFiles = helper.ToList();
 
             this.LogByObject("正在配置文件筛选器");
             foreach (var filter in fileTypeFilter)
@@ -41,12 +39,21 @@ namespace SimpleSongsPlayer.Service
 
         public List<TFile> GetFiles()
         {
+            if (musicFiles is null)
+            {
+                this.LogByObject("正在获取文件");
+                musicFiles = helper.ToList();
+            }
+
             this.LogByObject("正在输出文件列表");
             return musicFiles.ToList();
         }
 
         public async Task ScanFiles()
         {
+            if (musicFiles is null)
+                GetFiles();
+
             this.LogByObject("准备 ‘操作集合’");
             List<TFile> addFiles = new List<TFile>();
             List<TFile> removeFiles = new List<TFile>();
