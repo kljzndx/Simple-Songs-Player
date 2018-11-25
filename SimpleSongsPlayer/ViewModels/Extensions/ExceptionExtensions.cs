@@ -58,7 +58,7 @@ namespace SimpleSongsPlayer.ViewModels.Extensions
             if (needSendEmail)
             {
                 string title = $"{AppInfo.Name} {AppInfo.Version} {EmailTitle}";
-                string body = $"{SystemVersion} {SystemInfo.BuildVersion}\r\n{ErrorMessage} {exception.Message}\r\n{LoggingInfo}\r\n{LoggerService.ReadLogs(LoggerMembers.App, 20)}";
+                string body = $"{SystemVersion} {SystemInfo.BuildVersion}\r\n{LoggingInfo}\r\n{await LoggerService.ReadLogs(LoggerMembers.App, 20)}";
 
                 await EmailEx.SendAsync(Email, title, body);
             }
