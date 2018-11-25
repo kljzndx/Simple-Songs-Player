@@ -107,6 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="IFileService.cs" />
+    <Compile Include="IGroupServiceBasicOptions.cs" />
     <Compile Include="LoggerService.cs" />
     <Compile Include="Models\Attributes\LoggerInfoAttribute.cs" />
     <Compile Include="Models\LoggerMembers.cs" />

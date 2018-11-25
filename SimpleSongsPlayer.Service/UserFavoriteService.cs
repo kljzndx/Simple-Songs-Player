@@ -8,7 +8,7 @@ using SimpleSongsPlayer.DAL.Factory;
 
 namespace SimpleSongsPlayer.Service
 {
-    public class UserFavoriteService : IFileService<IGrouping<string, MusicFile>>
+    public class UserFavoriteService : IFileService<IGrouping<string, MusicFile>>, IGroupServiceBasicOptions<string, MusicFile>
     {
         private static UserFavoriteService current;
         
@@ -53,6 +53,22 @@ namespace SimpleSongsPlayer.Service
 
             this.LogByObject("触发收藏添加事件");
             FilesAdded?.Invoke(this, new[] {CreateGrouping(name, list)});
+        }
+
+        public void RemoveGroup(string name)
+        {
+            this.LogByObject("准备操作结果集合");
+            List<UserFavorite> optionResult = new List<UserFavorite>();
+
+            this.LogByObject("开始从数据库删数据");
+            helper.CustomOption(table =>
+            {
+                optionResult.AddRange(table.Where(favorite => favorite.GroupName == name));
+                table.RemoveRange(optionResult);
+            });
+
+            this.LogByObject("触发收藏删除事件");
+            FilesRemoved?.Invoke(this, QueryMusicFiles(optionResult));
         }
 
         public void RemoveRange(string name, IEnumerable<MusicFile> files)
