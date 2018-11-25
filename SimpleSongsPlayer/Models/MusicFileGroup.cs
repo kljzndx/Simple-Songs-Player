@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Windows.Foundation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using SimpleSongsPlayer.Models.DTO;
+using SimpleSongsPlayer.Views;
 
 namespace SimpleSongsPlayer.Models
 {
@@ -9,13 +12,13 @@ namespace SimpleSongsPlayer.Models
     {
         private string name;
 
-        public MusicFileGroup(string name, IList<MusicFileDTO> items)
+        public MusicFileGroup(string name, IEnumerable<MusicFileDTO> items)
         {
             this.name = name;
-            Items = items;
+            Items = new ObservableCollection<MusicFileDTO>(items);
         }
 
-        public MusicFileGroup(string name, IList<MusicFileDTO> items, BitmapSource cover) : this(name, items)
+        public MusicFileGroup(string name, IEnumerable<MusicFileDTO> items, BitmapSource cover) : this(name, items)
         {
             Cover = cover;
         }
@@ -23,10 +26,17 @@ namespace SimpleSongsPlayer.Models
         public string Name
         {
             get => name;
-            set => Set(ref name, value);
+            set
+            {
+                string str = name;
+                Set(ref name, value);
+                Renamed?.Invoke(this, new KeyValuePair<string, string>(str, value));
+            }
         }
 
         public BitmapSource Cover { get; }
-        public IList<MusicFileDTO> Items { get; }
+        public ObservableCollection<MusicFileDTO> Items { get; }
+
+        public event TypedEventHandler<MusicFileGroup, KeyValuePair<string, string>> Renamed;
     }
 }
