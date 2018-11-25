@@ -64,7 +64,7 @@ namespace SimpleSongsPlayer.Views
             UserFavoriteService.FilesAdded += UserFavoriteService_FilesAdded;
             UserFavoriteService.FilesRemoved += UserFavoriteService_FilesRemoved;
         }
-
+        
         private void MusicFilesService_FilesAdded(object sender, IEnumerable<MusicFile> e)
         {
             foreach (var musicFile in e)
@@ -74,7 +74,7 @@ namespace SimpleSongsPlayer.Views
         private void MusicFilesService_FilesRemoved(object sender, IEnumerable<MusicFile> e)
         {
             foreach (var musicFile in e)
-                MusicFilesList.Add(new MusicFileDTO(musicFile));
+                MusicFilesList.Remove(new MusicFileDTO(musicFile));
         }
 
         private async void UserFavoriteService_FilesAdded(object sender, IEnumerable<IGrouping<string, MusicFile>> e)
