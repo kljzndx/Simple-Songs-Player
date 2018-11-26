@@ -107,6 +107,25 @@ namespace SimpleSongsPlayer.Service
             FilesRemoved?.Invoke(this, new[] {CreateGrouping(name, source)});
         }
 
+        public async Task RemoveRange(string name, IEnumerable<string> paths)
+        {
+            this.LogByObject("接收路径");
+            var list = paths.ToList();
+            this.LogByObject("准备结果集合");
+            var result = new List<UserFavorite>();
+
+            await helper.CustomOption(table =>
+            {
+                this.LogByObject("将要删除的数据添加到结果集合");
+                result = table.Where(uf => uf.GroupName == name && list.Contains(uf.FilePath)).ToList();
+                this.LogByObject("应用移除操作");
+                table.RemoveRange(result);
+            });
+
+            this.LogByObject("触发收藏删除事件");
+            FilesRemoved?.Invoke(this, await QueryMusicFiles(result));
+        }
+
         public async Task RenameGroup(string oldName, string newName)
         {
             await helper.CustomOption(fat =>
@@ -123,7 +142,7 @@ namespace SimpleSongsPlayer.Service
             GroupRenamed?.Invoke(this, new KeyValuePair<string, string>(oldName, newName));
         }
 
-        private async Task RemoveRangeInAllGroup(IEnumerable<MusicFile> files)
+        public async Task RemoveRangeInAllGroup(IEnumerable<MusicFile> files)
         {
             this.LogByObject("接收文件");
             var source = files.ToList();

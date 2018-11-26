@@ -3,12 +3,16 @@ using System.Threading.Tasks;
 
 namespace SimpleSongsPlayer.Service
 {
-    public interface IGroupServiceBasicOptions<TName, TValue>
+    public interface IGroupServiceBasicOptions<TKey, TValue>
     {
-        Task AddRange(TName name, IEnumerable<TValue> value);
-        Task AddRange(TName name, IEnumerable<string> key);
+        Task AddRange(string name, IEnumerable<TValue> value);
+        Task AddRange(string name, IEnumerable<TKey> keys);
 
-        Task RemoveGroup(TName name);
-        Task RemoveRange(TName name, IEnumerable<TValue> value);
+        Task RemoveGroup(string name);
+        Task RemoveRange(string name, IEnumerable<TValue> value);
+        Task RemoveRange(string name, IEnumerable<TKey> keys);
+        Task RemoveRangeInAllGroup(IEnumerable<TValue> files);
+
+        Task RenameGroup(string oldName, string newName);
     }
 }
