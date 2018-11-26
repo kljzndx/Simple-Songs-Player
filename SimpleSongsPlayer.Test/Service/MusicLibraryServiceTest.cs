@@ -23,7 +23,7 @@ namespace SimpleSongsPlayer.Test.Service
         {
             var service = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
             await service.ScanFiles();
-            var files = service.GetFiles();
+            var files = await service.GetFiles();
             Assert.IsTrue(files.Any());
         }
 
@@ -31,7 +31,7 @@ namespace SimpleSongsPlayer.Test.Service
         public async Task GetFiles()
         {
             var service = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
-            var files = service.GetFiles();
+            var files = await service.GetFiles();
             Assert.IsTrue(files.Count > 20);
         }
     }

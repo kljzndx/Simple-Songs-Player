@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleSongsPlayer.DAL;
@@ -22,9 +23,9 @@ namespace SimpleSongsPlayer.Test.DAL
         }
 
         [TestMethod]
-        public void Add()
+        public async Task Add()
         {
-            var queryResult = helper.Find("C:\\Users\\kljzn\\Music\\Capo Productions - Journey.mp3");
+            var queryResult = await helper.Find("C:\\Users\\kljzn\\Music\\Capo Productions - Journey.mp3");
             if (queryResult != null)
             {
                 Assert.IsNotNull(queryResult);
@@ -33,26 +34,26 @@ namespace SimpleSongsPlayer.Test.DAL
 
             var file = GetFile();
 
-            helper.Add(file);
-            queryResult = helper.Find("C:\\Users\\kljzn\\Music\\Capo Productions - Journey.mp3");
+            await helper.Add(file);
+            queryResult = await helper.Find("C:\\Users\\kljzn\\Music\\Capo Productions - Journey.mp3");
             Assert.IsNotNull(queryResult);
         }
 
         [TestMethod]
-        public void ToList()
+        public async Task ToList()
         {
-            var result = helper.ToList();
+            var result = await helper.ToList();
             Assert.IsTrue(result.Count > 0);
         }
 
         [TestMethod]
-        public void Remove()
+        public async Task Remove()
         {
             var obj = GetFile();
 
-            helper.Remove(obj);
+            await helper.Remove(obj);
 
-            var query = helper.Find("C:\\Users\\kljzn\\Music\\Capo Productions - Journey.mp3");
+            var query = await helper.Find("C:\\Users\\kljzn\\Music\\Capo Productions - Journey.mp3");
             Assert.IsNull(query);
         }
     }

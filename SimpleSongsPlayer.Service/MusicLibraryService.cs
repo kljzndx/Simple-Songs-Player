@@ -37,12 +37,12 @@ namespace SimpleSongsPlayer.Service
             this.LogByObject("构造完成");
         }
 
-        public List<TFile> GetFiles()
+        public async Task<List<TFile>> GetFiles()
         {
             if (musicFiles is null)
             {
                 this.LogByObject("正在获取文件");
-                musicFiles = helper.ToList();
+                musicFiles = await helper.ToList();
             }
 
             this.LogByObject("正在输出文件列表");
@@ -52,7 +52,7 @@ namespace SimpleSongsPlayer.Service
         public async Task ScanFiles()
         {
             if (musicFiles is null)
-                GetFiles();
+                await GetFiles();
 
             this.LogByObject("准备 ‘操作集合’");
             List<TFile> addFiles = new List<TFile>();
@@ -71,7 +71,7 @@ namespace SimpleSongsPlayer.Service
 
                 this.LogByObject("应用 ‘添加操作集合’");
                 if (addFiles.Any())
-                    AddFileRange(addFiles);
+                    await AddFileRange(addFiles);
 
                 this.LogByObject("完成 ‘添加操作集合’ 应用");
                 return;
@@ -82,7 +82,7 @@ namespace SimpleSongsPlayer.Service
                 if (musicLibrary.Folders.All(d => d.Name != libraryGroups.Key))
                 {
                     this.LogByObject($"已检测到有文件夹已被移除，正在同步至数据库");
-                    RemoveRange(libraryGroups);
+                    await RemoveRange(libraryGroups);
                     this.LogByObject("完成同步");
                 }
 
@@ -118,34 +118,34 @@ namespace SimpleSongsPlayer.Service
 
             this.LogByObject("应用 ‘操作集合’");
             if (addFiles.Any())
-                AddFileRange(addFiles);
+                await AddFileRange(addFiles);
 
             if (removeFiles.Any())
-                RemoveRange(removeFiles);
+                await RemoveRange(removeFiles);
 
             this.LogByObject("完成文件扫描");
         }
 
-        private void AddFileRange(IEnumerable<TFile> files)
+        private async Task AddFileRange(IEnumerable<TFile> files)
         {
             this.LogByObject("正在接受数据");
             List<TFile> filesList = new List<TFile>(files);
 
             this.LogByObject("正在添加到数据库");
-            helper.AddRange(filesList);
+            await helper.AddRange(filesList);
             this.LogByObject("正在添加到列表");
             musicFiles.AddRange(filesList);
             this.LogByObject("触发 ‘添加完成’ 事件");
             FilesAdded?.Invoke(this, filesList);
         }
 
-        private void RemoveRange(IEnumerable<TFile> files)
+        private async Task RemoveRange(IEnumerable<TFile> files)
         {
             this.LogByObject("正在接受数据");
             List<TFile> filesList = new List<TFile>(files);
 
             this.LogByObject("正在从数据库移除");
-            helper.RemoveRange(filesList);
+            await helper.RemoveRange(filesList);
             this.LogByObject("正在从列表移除");
             musicFiles.RemoveAll(filesList.Contains);
             this.LogByObject("触发 ‘移除完成’ 事件");

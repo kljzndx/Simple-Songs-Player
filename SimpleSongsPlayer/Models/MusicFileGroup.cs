@@ -47,10 +47,10 @@ namespace SimpleSongsPlayer.Models
             this.Renamed += MusicFileGroup_Renamed;
         }
 
-        private void MusicFileGroup_Renamed(MusicFileGroup sender, KeyValuePair<string, string> args)
+        private async void MusicFileGroup_Renamed(MusicFileGroup sender, KeyValuePair<string, string> args)
         {
             this.LogByObject("检测到 重命名音乐文件组 操作，正在同步至数据库");
-            service.RenameGroup(args.Key, args.Value);
+            await service.RenameGroup(args.Key, args.Value);
         }
     }
 }

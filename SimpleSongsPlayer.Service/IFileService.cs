@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SimpleSongsPlayer.Service
 {
@@ -9,6 +10,6 @@ namespace SimpleSongsPlayer.Service
         event EventHandler<IEnumerable<TFile>> FilesRemoved;
 
 
-        List<TFile> GetFiles();
+        Task<List<TFile>> GetFiles();
     }
 }

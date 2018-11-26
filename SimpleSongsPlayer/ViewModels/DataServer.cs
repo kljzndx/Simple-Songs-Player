@@ -36,10 +36,10 @@ namespace SimpleSongsPlayer.ViewModels
             UserFavoriteService = UserFavoriteService.GetService(MusicFilesService);
 
             this.LogByObject("获取音乐文件");
-            MusicFilesService.GetFiles().ForEach(mf => MusicFilesList.Add(new MusicFileDTO(mf)));
+            (await MusicFilesService.GetFiles()).ForEach(mf => MusicFilesList.Add(new MusicFileDTO(mf)));
 
             this.LogByObject("获取用户收藏");
-            foreach (var grouping in UserFavoriteService.GetFiles())
+            foreach (var grouping in await UserFavoriteService.GetFiles())
             {
                 List<MusicFileDTO> files = new List<MusicFileDTO>();
                 foreach (var file in grouping)
@@ -108,20 +108,20 @@ namespace SimpleSongsPlayer.ViewModels
             }
         }
 
-        private void UserFavoritesList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private async void UserFavoritesList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     foreach (MusicFileGroup item in e.NewItems)
                     {
-                        UserFavoriteService.AddRange(item.Name, item.Items.Select(f => f.FilePath));
+                        await UserFavoriteService.AddRange(item.Name, item.Items.Select(f => f.FilePath));
                         item.SetUpService(UserFavoriteService);
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     foreach (MusicFileGroup item in e.OldItems)
-                        UserFavoriteService.RemoveGroup(item.Name);
+                        await UserFavoriteService.RemoveGroup(item.Name);
                     break;
             }
         }

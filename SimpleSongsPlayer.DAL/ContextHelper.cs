@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace SimpleSongsPlayer.DAL
@@ -21,17 +22,27 @@ namespace SimpleSongsPlayer.DAL
                 db.Database.Migrate();
         }
 
-        public void CustomOption(Action<DbSet<TableModel>> action)
+        public async Task CustomOption(Action<DbSet<TableModel>> action)
         {
             using (var db = Activator.CreateInstance<Context>())
             {
                 var table = (DbSet<TableModel>) TableInfo.GetValue(db);
                 action.Invoke(table);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
 
-        public TableModel Find(params object[] primaryKeyValues)
+        public async Task CustomOption(Func<DbSet<TableModel>, Task> action)
+        {
+            using (var db = Activator.CreateInstance<Context>())
+            {
+                var table = (DbSet<TableModel>) TableInfo.GetValue(db);
+                await action.Invoke(table);
+                await db.SaveChangesAsync();
+            }
+        }
+
+        public Task<TableModel> Find(params object[] primaryKeyValues)
         {
             TableModel result = null;
 
@@ -41,10 +52,10 @@ namespace SimpleSongsPlayer.DAL
                 result = table.Find(primaryKeyValues);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
 
-        public List<TableModel> ToList()
+        public Task<List<TableModel>> ToList()
         {
             List<TableModel> result = null;
 
@@ -54,43 +65,42 @@ namespace SimpleSongsPlayer.DAL
                 result = table.ToList();
             }
 
-            return result;
+            return Task.FromResult(result);
         }
         
-        public void Add(TableModel data) => AddRange(new[] {data});
+        public async Task Add(TableModel data) => await AddRange(new[] {data});
 
-        public void AddRange(IEnumerable<TableModel> data)
+        public async Task AddRange(IEnumerable<TableModel> data)
         {
             using (var db = Activator.CreateInstance<Context>())
             {
                 var table = (DbSet<TableModel>) TableInfo.GetValue(db);
-                table.AddRange(data);
-                db.SaveChanges();
+                await table.AddRangeAsync(data);
+                await db.SaveChangesAsync();
             }
         }
 
-        public void Remove(TableModel data) => RemoveRange(new[] {data});
+        public async Task Remove(TableModel data) => await RemoveRange(new[] {data});
 
-        public void RemoveRange(IEnumerable<TableModel> data)
+        public async Task RemoveRange(IEnumerable<TableModel> data)
         {
             using (var db = Activator.CreateInstance<Context>())
             {
                 var table = (DbSet<TableModel>) TableInfo.GetValue(db);
                 table.RemoveRange(data);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
-            
         }
 
-        public void Update(TableModel data) => UpdateRange(new[] {data});
+        public async Task Update(TableModel data) => await UpdateRange(new[] {data});
 
-        public void UpdateRange(IEnumerable<TableModel> data)
+        public async Task UpdateRange(IEnumerable<TableModel> data)
         {
             using (var db = Activator.CreateInstance<Context>())
             {
                 var table = (DbSet<TableModel>) TableInfo.GetValue(db);
                 table.UpdateRange(data);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
 

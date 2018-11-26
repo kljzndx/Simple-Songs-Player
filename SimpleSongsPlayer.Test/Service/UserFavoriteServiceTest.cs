@@ -22,9 +22,9 @@ namespace SimpleSongsPlayer.Test.Service
         {
             var libraryService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
             var favoriteService = UserFavoriteService.GetService(libraryService);
-            List<MusicFile> allFiles = libraryService.GetFiles();
-            favoriteService.AddRange("test", allFiles);
-            List<IGrouping<string, MusicFile>> f = favoriteService.GetFiles();
+            List<MusicFile> allFiles = await libraryService.GetFiles();
+            await favoriteService.AddRange("test", allFiles);
+            List<IGrouping<string, MusicFile>> f = await favoriteService.GetFiles();
             Assert.IsTrue(f.Count > 0);
         }
 
@@ -33,8 +33,8 @@ namespace SimpleSongsPlayer.Test.Service
         {
             var libraryService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
             var favoriteService = UserFavoriteService.GetService(libraryService);
-            favoriteService.RenameGroup("test", "newTest");
-            List<IGrouping<string, MusicFile>> f = favoriteService.GetFiles();
+            await favoriteService.RenameGroup("test", "newTest");
+            List<IGrouping<string, MusicFile>> f = await favoriteService.GetFiles();
             Assert.IsTrue(f.All(uf => uf.Key != "test") && f.Any(uf => uf.Key == "newTest"));
         }
 
@@ -43,9 +43,9 @@ namespace SimpleSongsPlayer.Test.Service
         {
             var libraryService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
             var favoriteService = UserFavoriteService.GetService(libraryService);
-            List<MusicFile> allFiles = libraryService.GetFiles();
-            favoriteService.RemoveRange("newTest", allFiles);
-            List<IGrouping<string, MusicFile>> f = favoriteService.GetFiles();
+            List<MusicFile> allFiles = await libraryService.GetFiles();
+            await favoriteService.RemoveRange("newTest", allFiles);
+            List<IGrouping<string, MusicFile>> f = await favoriteService.GetFiles();
             Assert.IsFalse(f.Any());
         }
     }
