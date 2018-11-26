@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 using Windows.Foundation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
+using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.Views;
@@ -11,7 +14,7 @@ namespace SimpleSongsPlayer.Models
 {
     public class MusicFileGroup : ObservableObject
     {
-        private UserFavoriteService service;
+        private IGroupServiceBasicOptions<string, MusicFile> service;
         private string name;
 
         public MusicFileGroup(string name, IEnumerable<MusicFileDTO> items)
@@ -41,10 +44,25 @@ namespace SimpleSongsPlayer.Models
 
         public event TypedEventHandler<MusicFileGroup, KeyValuePair<string, string>> Renamed;
 
-        public void SetUpService(UserFavoriteService service)
+        public void SetUpService(IGroupServiceBasicOptions<string, MusicFile> service)
         {
             this.service = service;
-            this.Renamed += MusicFileGroup_Renamed;
+            Renamed += MusicFileGroup_Renamed;
+            Items.CollectionChanged += Items_CollectionChanged;
+        }
+
+        private async void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    await service.AddRange(name, e.NewItems.Cast<MusicFileDTO>().Select(f => f.FilePath));
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    if (Items.Any())
+                        await service.RemoveRange(name, e.NewItems.Cast<MusicFileDTO>().Select(f => f.FilePath));
+                    break;
+            }
         }
 
         private async void MusicFileGroup_Renamed(MusicFileGroup sender, KeyValuePair<string, string> args)
