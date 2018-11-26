@@ -59,14 +59,16 @@ namespace SimpleSongsPlayer.ViewModels
         {
             this.LogByObject("检测到有音乐文件添加，正在同步添加操作");
             foreach (var musicFile in e)
-                MusicFilesList.Add(new MusicFileDTO(musicFile));
+                if (MusicFilesList.All(f => f.FilePath != musicFile.Path))
+                    MusicFilesList.Add(new MusicFileDTO(musicFile));
         }
 
         private void MusicFilesService_FilesRemoved(object sender, IEnumerable<MusicFile> e)
         {
             this.LogByObject("检测到有音乐文件被移除，正在同步移除操作");
             foreach (var musicFile in e)
-                MusicFilesList.Remove(MusicFilesList.First(mf => mf.FilePath == musicFile.Path));
+                if (MusicFilesList.Any(f => f.FilePath == musicFile.Path))
+                    MusicFilesList.Remove(MusicFilesList.First(mf => mf.FilePath == musicFile.Path));
         }
 
         private async void UserFavoriteService_FilesAdded(object sender, IEnumerable<IGrouping<string, MusicFile>> e)
@@ -80,7 +82,8 @@ namespace SimpleSongsPlayer.ViewModels
 
                 var fileGroup = UserFavoritesList.FirstOrDefault(uf => uf.Name == group.Key);
                 if (fileGroup != null)
-                    files.ForEach(fileGroup.Items.Add);
+                    foreach (var dto in files.Where(f => fileGroup.Items.All(i => i.FilePath != f.FilePath)))
+                        fileGroup.Items.Add(dto);
                 else
                     UserFavoritesList.Add(new MusicFileGroup(group.Key, files, await files.First().GetAlbumCover()));
             }
