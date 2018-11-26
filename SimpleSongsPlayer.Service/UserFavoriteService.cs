@@ -55,6 +55,28 @@ namespace SimpleSongsPlayer.Service
             FilesAdded?.Invoke(this, new[] {CreateGrouping(name, list)});
         }
 
+        public void AddRange(string name, IEnumerable<string> paths)
+        {
+            this.LogByObject("接收路径");
+            var list = paths.ToList();
+            this.LogByObject("准备结果集合");
+            var result = new List<UserFavorite>();
+
+            using (var db = new FilesContext())
+            {
+                this.LogByObject("筛选掉无效的路径");
+                list.RemoveAll(p => db.MusicFiles.All(mf => mf.Path != p));
+                foreach (var path in list)
+                    result.Add(new UserFavorite(name, path));
+                result.RemoveAll(rFa => db.UserFavorites.Any(dFa => dFa.GroupName == name && dFa.FilePath == rFa.FilePath));
+                db.UserFavorites.AddRange(result);
+                db.SaveChanges();
+            }
+
+            this.LogByObject("触发收藏添加事件");
+            FilesAdded?.Invoke(this, QueryMusicFiles(result));
+        }
+
         public void RemoveGroup(string name)
         {
             this.LogByObject("准备操作结果集合");
