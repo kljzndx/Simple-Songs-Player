@@ -61,6 +61,9 @@ namespace SimpleSongsPlayer.Models
                 case NotifyCollectionChangedAction.Remove:
                     if (Items.Any())
                         await service.RemoveRange(name, e.NewItems.Cast<MusicFileDTO>().Select(f => f.FilePath));
+                    else
+                        await service.RemoveGroup(name);
+
                     break;
             }
         }
