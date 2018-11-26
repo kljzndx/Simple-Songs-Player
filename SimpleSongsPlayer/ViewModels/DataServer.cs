@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Navigation;
@@ -14,16 +16,17 @@ namespace SimpleSongsPlayer.ViewModels
 {
     public class DataServer
     {
-        public static DataServer Current;
+        private static DataServer current;
 
         public MusicLibraryService<MusicFile, MusicFileFactory> MusicFilesService;
         public UserFavoriteService UserFavoriteService;
 
-        public ObservableCollection<MusicFileDTO> MusicFilesList = new ObservableCollection<MusicFileDTO>();
-        public ObservableCollection<MusicFileGroup> UserFavoritesList = new ObservableCollection<MusicFileGroup>();
+        public readonly ObservableCollection<MusicFileDTO> MusicFilesList = new ObservableCollection<MusicFileDTO>();
+        public readonly ObservableCollection<MusicFileGroup> UserFavoritesList = new ObservableCollection<MusicFileGroup>();
 
         private DataServer()
         {
+            UserFavoritesList.CollectionChanged += UserFavoritesList_CollectionChanged;
         }
 
         private async Task Initialize()
@@ -105,16 +108,34 @@ namespace SimpleSongsPlayer.ViewModels
             }
         }
 
+        private void UserFavoritesList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (MusicFileGroup item in e.NewItems)
+                    {
+                        UserFavoriteService.AddRange(item.Name, item.Items.Select(f => f.FilePath));
+                        item.SetUpService(UserFavoriteService);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (MusicFileGroup item in e.OldItems)
+                        UserFavoriteService.RemoveGroup(item.Name);
+                    break;
+            }
+        }
+
         public static async Task<DataServer> GetServer()
         {
             typeof(DataServer).LogByType("获取数据服务器");
-            if (Current is null)
+            if (current is null)
             {
-                Current = new DataServer();
-                await Current.Initialize();
+                current = new DataServer();
+                await current.Initialize();
             }
 
-            return Current;
+            return current;
         }
     }
 }
