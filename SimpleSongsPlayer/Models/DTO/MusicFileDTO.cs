@@ -62,13 +62,5 @@ namespace SimpleSongsPlayer.Models.DTO
 
             return _playbackItem;
         }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is MusicFile data)
-                return data.Path == FilePath;
-
-            return base.Equals(obj);
-        }
     }
 }
