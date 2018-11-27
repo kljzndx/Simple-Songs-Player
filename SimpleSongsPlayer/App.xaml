@@ -5,6 +5,12 @@
     xmlns:vm="using:SimpleSongsPlayer.ViewModels">
 
     <Application.Resources>
-        <vm:ViewModelLocator x:Key="VmLocator"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ViewModels/Converters/GlobalValueConverters.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <vm:ViewModelLocator x:Key="VmLocator"/>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
