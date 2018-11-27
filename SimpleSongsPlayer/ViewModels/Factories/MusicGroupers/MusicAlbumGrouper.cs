@@ -9,7 +9,7 @@ namespace SimpleSongsPlayer.ViewModels.Factories.MusicGroupers
     {
         public IEnumerable<MusicFileGroup> Group(IEnumerable<MusicFileDTO> source)
         {
-            foreach (var group in source.GroupBy(f=>f.Album))
+            foreach (var group in source.GroupBy(f => f.Album))
                 yield return new MusicFileGroup(group.Key, group, group.First().GetAlbumCover().Result);
         }
     }
