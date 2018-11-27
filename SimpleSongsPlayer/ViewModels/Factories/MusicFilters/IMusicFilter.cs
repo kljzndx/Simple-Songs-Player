@@ -7,6 +7,6 @@ namespace SimpleSongsPlayer.ViewModels.Factories.MusicFilters
 {
     public interface IMusicFilter
     {
-        void Filter(IEnumerable<MusicFileDTO> source, IList<MusicFileDynamic> target);
+        IEnumerable<MusicFileDynamic> Filter(IEnumerable<MusicFileDTO> source, object constraint);
     }
 }

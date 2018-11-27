@@ -7,6 +7,6 @@ namespace SimpleSongsPlayer.ViewModels.Factories.MusicGroupers
 {
     public interface IMusicGrouper
     {
-        void Group(IEnumerable<MusicFile> source, IList<MusicFileGroup> target);
+        IEnumerable<MusicFileGroup> Group(IEnumerable<MusicFile> source);
     }
 }
