@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.Models;
+using SimpleSongsPlayer.Models.DTO;
 
 namespace SimpleSongsPlayer.ViewModels.Factories.MusicGroupers
 {
     public interface IMusicGrouper
     {
-        IEnumerable<MusicFileGroup> Group(IEnumerable<MusicFile> source);
+        IEnumerable<MusicFileGroup> Group(IEnumerable<MusicFileDTO> source);
     }
 }
