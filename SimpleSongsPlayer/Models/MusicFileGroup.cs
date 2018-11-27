@@ -44,6 +44,13 @@ namespace SimpleSongsPlayer.Models
 
         public event TypedEventHandler<MusicFileGroup, KeyValuePair<string, string>> Renamed;
 
+        public void Join(MusicFileGroup collection)
+        {
+            foreach (var item in collection.Items)
+                if (Items.All(f => f.FilePath != item.FilePath))
+                    Items.Add(item);
+        }
+
         public void SetUpService(IGroupServiceBasicOptions<string, MusicFile> service)
         {
             this.service = service;
