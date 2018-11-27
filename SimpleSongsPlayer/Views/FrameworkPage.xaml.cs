@@ -26,7 +26,6 @@ namespace SimpleSongsPlayer.Views
             DataLoading_ProgressRing.Value = 50;
             dataServer.MusicFilesService.ScanFiles().GetAwaiter()
                 .OnCompleted(async () => await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => DataLoading_ProgressRing.Value=100));
-
             Main_Frame.Navigate(typeof(SongListPage), dataServer.MusicFilesList);
         }
     }
