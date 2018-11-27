@@ -3,11 +3,11 @@ using SimpleSongsPlayer.Models.DTO;
 
 namespace SimpleSongsPlayer.Models
 {
-    public class MusicFileUI : ObservableObject
+    public class MusicFileDynamic : ObservableObject
     {
         private bool isSelected;
 
-        public MusicFileUI(MusicFileDTO original)
+        public MusicFileDynamic(MusicFileDTO original)
         {
             Original = original;
         }
