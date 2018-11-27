@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Models\DTO\MusicFileDTO.cs" />
     <Compile Include="Models\MusicFileGroup.cs" />
+    <Compile Include="Models\MusicFileUI.cs" />
     <Compile Include="ViewModels\DataServer.cs" />
     <Compile Include="ViewModels\Extensions\ExceptionExtensions.cs" />
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
