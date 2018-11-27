@@ -102,6 +102,8 @@
     <Compile Include="ViewModels\DataServer.cs" />
     <Compile Include="ViewModels\Extensions\ExceptionExtensions.cs" />
     <Compile Include="ViewModels\Extensions\TimespanExtension.cs" />
+    <Compile Include="ViewModels\Factories\MusicFilters\IMusicFilter.cs" />
+    <Compile Include="ViewModels\Factories\MusicGroupers\IMusicGrouper.cs" />
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
     <Compile Include="ViewModels\SongListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
