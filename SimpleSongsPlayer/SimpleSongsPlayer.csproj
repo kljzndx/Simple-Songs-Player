@@ -11,7 +11,7 @@
     <AssemblyName>SimpleSongsPlayer</AssemblyName>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17134.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -103,11 +103,15 @@
     <Compile Include="ViewModels\Extensions\ExceptionExtensions.cs" />
     <Compile Include="ViewModels\Extensions\TimespanExtension.cs" />
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
+    <Compile Include="ViewModels\SongListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\FrameworkPage.xaml.cs">
       <DependentUpon>FrameworkPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\SongListPage.xaml.cs">
+      <DependentUpon>SongListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Templates\MusicFileItemTemplate.xaml.cs">
       <DependentUpon>MusicFileItemTemplate.xaml</DependentUpon>
     </Compile>
@@ -153,6 +157,10 @@
     <Page Include="Views\FrameworkPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SongListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Templates\MusicFileItemTemplate.xaml">
       <SubType>Designer</SubType>

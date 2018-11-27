@@ -6,10 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    DataContext="{Binding Source={StaticResource VmLocator}, Path=Framework}">
+    DataContext="{Binding Source={StaticResource VmLocator}, Path=Framework}"
+    Loaded="FrameworkPage_OnLoaded">
 
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ProgressBar x:Name="DataLoading_ProgressRing" Height="50" VerticalAlignment="Top"/>
+        <Frame x:Name="Main_Frame" Grid.Row="1"/>
     </Grid>
 </Page>
