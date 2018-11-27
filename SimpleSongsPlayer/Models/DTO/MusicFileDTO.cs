@@ -39,7 +39,7 @@ namespace SimpleSongsPlayer.Models.DTO
         public TimeSpan Duration { get; }
         public string FilePath { get; }
 
-        public async Task<StorageFile> GetFile()
+        private async Task<StorageFile> GetFile()
         {
             if (_file is null)
                 _file = await StorageFile.GetFileFromPathAsync(FilePath);
