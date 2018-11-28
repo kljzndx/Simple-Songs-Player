@@ -13,7 +13,7 @@ namespace SimpleSongsPlayer.Models.DTO
 {
     public class MusicFileDTO : ObservableObject
     {
-        private StorageFile _file;
+        private WeakReference<StorageFile> _fileReference = new WeakReference<StorageFile>(null);
         private MediaPlaybackItem _playbackItem;
 
         private bool isPlaying;
@@ -41,10 +41,13 @@ namespace SimpleSongsPlayer.Models.DTO
 
         private async Task<StorageFile> GetFile()
         {
-            if (_file is null)
-                _file = await StorageFile.GetFileFromPathAsync(FilePath);
+            StorageFile file = null;
+            if (_fileReference.TryGetTarget(out file))
+                return file;
 
-            return _file;
+            file = await StorageFile.GetFileFromPathAsync(FilePath);
+            _fileReference.SetTarget(file);
+            return file;
         }
 
         public async Task<BitmapSource> GetAlbumCover()

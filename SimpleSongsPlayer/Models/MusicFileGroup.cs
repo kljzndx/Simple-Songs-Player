@@ -19,7 +19,7 @@ namespace SimpleSongsPlayer.Models
         private IGroupServiceBasicOptions<string, MusicFile> service;
         private string name;
 
-        private WeakReference<BitmapSource> coverReference;
+        private WeakReference<BitmapSource> coverReference = new WeakReference<BitmapSource>(null);
         private Func<MusicFileDTO, Task<BitmapSource>> _coverGetter;
 
         public MusicFileGroup(string name, IEnumerable<MusicFileDTO> items)
