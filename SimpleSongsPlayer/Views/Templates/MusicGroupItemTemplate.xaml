@@ -17,9 +17,9 @@
 
         <Image x:Name="Cover_Image" Width="98" Height="98"/>
         <StackPanel Grid.Row="1">
-            <TextBlock Text="{Binding Name}"/>
+            <TextBlock Text="{x:Bind Source.Name, Mode=OneWay}"/>
             <TextBlock HorizontalAlignment="Right" Style="{ThemeResource CaptionTextBlockStyle}">
-                <Run Text="{Binding Items.Count}"/>
+                <Run Text="{x:Bind Source.Items.Count, Mode=OneWay}"/>
                 <Run Text=" 首歌"/>
             </TextBlock>
         </StackPanel>
