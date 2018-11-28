@@ -4,7 +4,7 @@ using System.Linq;
 using GalaSoft.MvvmLight;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
-using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
+using SimpleSongsPlayer.ViewModels.Factories;
 
 namespace SimpleSongsPlayer.ViewModels
 {

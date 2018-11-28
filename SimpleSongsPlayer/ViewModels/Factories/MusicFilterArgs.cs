@@ -1,6 +1,7 @@
 ﻿using System;
+using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
 
-namespace SimpleSongsPlayer.ViewModels.Factories.MusicFilters
+namespace SimpleSongsPlayer.ViewModels.Factories
 {
     public class MusicFilterArgs
     {
