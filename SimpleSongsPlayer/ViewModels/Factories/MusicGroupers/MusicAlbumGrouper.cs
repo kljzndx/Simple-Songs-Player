@@ -13,7 +13,7 @@ namespace SimpleSongsPlayer.ViewModels.Factories.MusicGroupers
             List<MusicFileGroup> groups = new List<MusicFileGroup>();
 
             foreach (var group in source.GroupBy(f => f.Album))
-                 groups.Add(new MusicFileGroup(group.Key, group, await group.First().GetAlbumCover()));
+                 groups.Add(new MusicFileGroup(group.Key, group, f => f.GetAlbumCover()));
 
             return groups;
         }
