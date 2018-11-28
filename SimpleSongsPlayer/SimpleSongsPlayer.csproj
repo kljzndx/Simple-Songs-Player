@@ -105,6 +105,7 @@
     <Compile Include="ViewModels\Factories\MusicFilters\IMusicFilter.cs" />
     <Compile Include="ViewModels\Factories\MusicFilters\MusicAlbumFilter.cs" />
     <Compile Include="ViewModels\Factories\MusicFilters\MusicArtistFilter.cs" />
+    <Compile Include="ViewModels\Factories\MusicFilters\MusicFilterArgs.cs" />
     <Compile Include="ViewModels\Factories\MusicGroupers\IMusicGrouper.cs" />
     <Compile Include="ViewModels\Factories\MusicGroupers\MusicAlbumGrouper.cs" />
     <Compile Include="ViewModels\Factories\MusicGroupers\MusicArtistGrouper.cs" />
@@ -188,6 +189,9 @@
     </PackageReference>
     <PackageReference Include="MvvmLight">
       <Version>5.4.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.3.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -37,6 +38,8 @@ namespace SimpleSongsPlayer.Views
         {
             if (e.Parameter is ObservableCollection<MusicFileDTO> dtos)
                 vm.SetUpDataSource(dtos);
+            if (e.Parameter is ValueTuple<ObservableCollection<MusicFileDTO>, MusicFilterArgs> fullParameter)
+                vm.SetUpDataSource(fullParameter.Item1, fullParameter.Item2);
         }
     }
 }
