@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
@@ -17,15 +19,18 @@ namespace SimpleSongsPlayer.Models
         private IGroupServiceBasicOptions<string, MusicFile> service;
         private string name;
 
+        private WeakReference<BitmapSource> coverReference;
+        private Func<MusicFileDTO, Task<BitmapSource>> _coverGetter;
+
         public MusicFileGroup(string name, IEnumerable<MusicFileDTO> items)
         {
             this.name = name;
             Items = new ObservableCollection<MusicFileDTO>(items);
         }
-
-        public MusicFileGroup(string name, IEnumerable<MusicFileDTO> items, BitmapSource cover) : this(name, items)
+        
+        public MusicFileGroup(string name, IEnumerable<MusicFileDTO> items, Func<MusicFileDTO, Task<BitmapSource>> coverGetter) : this(name, items)
         {
-            Cover = cover;
+            _coverGetter = coverGetter;
         }
 
         public string Name
@@ -38,8 +43,7 @@ namespace SimpleSongsPlayer.Models
                 Renamed?.Invoke(this, new KeyValuePair<string, string>(str, value));
             }
         }
-
-        public BitmapSource Cover { get; }
+        
         public ObservableCollection<MusicFileDTO> Items { get; }
 
         public event TypedEventHandler<MusicFileGroup, KeyValuePair<string, string>> Renamed;
@@ -49,6 +53,20 @@ namespace SimpleSongsPlayer.Models
             foreach (var item in collection.Items)
                 if (Items.All(f => f.FilePath != item.FilePath))
                     Items.Add(item);
+        }
+
+        public async Task<BitmapSource> GetCover()
+        {
+            if (_coverGetter is null)
+                return null;
+
+            BitmapSource bitmap = null;
+            if (coverReference.TryGetTarget(out bitmap))
+                return bitmap;
+
+            bitmap = await _coverGetter.Invoke(Items.First());
+            coverReference.SetTarget(bitmap);
+            return bitmap;
         }
 
         public void SetUpService(IGroupServiceBasicOptions<string, MusicFile> service)
