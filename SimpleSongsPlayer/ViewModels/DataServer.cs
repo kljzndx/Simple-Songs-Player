@@ -45,7 +45,7 @@ namespace SimpleSongsPlayer.ViewModels
                 foreach (var file in grouping)
                     files.Add(new MusicFileDTO(file));
 
-                UserFavoritesList.Add(new MusicFileGroup(grouping.Key, files, await files.First().GetAlbumCover()));
+                UserFavoritesList.Add(new MusicFileGroup(grouping.Key, files, f => f.GetAlbumCover()));
             }
 
             this.LogByObject("监听服务");
@@ -85,7 +85,7 @@ namespace SimpleSongsPlayer.ViewModels
                     foreach (var dto in files.Where(f => fileGroup.Items.All(i => i.FilePath != f.FilePath)))
                         fileGroup.Items.Add(dto);
                 else
-                    UserFavoritesList.Add(new MusicFileGroup(group.Key, files, await files.First().GetAlbumCover()));
+                    UserFavoritesList.Add(new MusicFileGroup(group.Key, files, f => f.GetAlbumCover()));
             }
         }
 
