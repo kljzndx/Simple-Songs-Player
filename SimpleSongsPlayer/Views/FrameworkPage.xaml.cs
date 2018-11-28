@@ -5,6 +5,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.ViewModels.Factories;
+using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
+using SimpleSongsPlayer.ViewModels.Factories.MusicGroupers;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -26,7 +29,7 @@ namespace SimpleSongsPlayer.Views
             DataLoading_ProgressRing.Value = 50;
             dataServer.MusicFilesService.ScanFiles().GetAwaiter()
                 .OnCompleted(async () => await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => DataLoading_ProgressRing.Value=100));
-            Main_Frame.Navigate(typeof(SongListPage), dataServer.MusicFilesList);
+            Main_Frame.Navigate(typeof(MusicGroupListPage), ValueTuple.Create(dataServer.MusicFilesList, new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
         }
     }
 }
