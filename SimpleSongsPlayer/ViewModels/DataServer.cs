@@ -76,7 +76,7 @@ namespace SimpleSongsPlayer.ViewModels
         public async Task ScanMusicFiles()
         {
             if (musicFilesService is null)
-                return;
+                await InitializeMusicService();
 
             this.LogByObject("开始扫描音乐文件");
             await musicFilesService.ScanFiles();
