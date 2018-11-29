@@ -21,6 +21,7 @@ namespace SimpleSongsPlayer.Views
         public FrameworkPage()
         {
             this.InitializeComponent();
+            Main_Frame.Navigate(typeof(MusicClassifyPage));
         }
     }
 }

@@ -114,6 +114,9 @@
     <Compile Include="ViewModels\MusicGroupListViewModel.cs" />
     <Compile Include="ViewModels\SongListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\MusicClassifyPage.xaml.cs">
+      <DependentUpon>MusicClassifyPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FrameworkPage.xaml.cs">
       <DependentUpon>FrameworkPage.xaml</DependentUpon>
     </Compile>
@@ -166,6 +169,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="ViewModels\Converters\GlobalValueConverters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MusicClassifyPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

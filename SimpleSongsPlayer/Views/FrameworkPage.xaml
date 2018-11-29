@@ -9,6 +9,6 @@
     DataContext="{Binding Source={StaticResource VmLocator}, Path=Framework}">
 
     <Grid>
-
+        <Frame x:Name="Main_Frame"/>
     </Grid>
 </Page>

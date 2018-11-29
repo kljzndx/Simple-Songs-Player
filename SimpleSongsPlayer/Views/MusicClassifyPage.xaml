@@ -1,0 +1,22 @@
+﻿<Page
+    x:Class="SimpleSongsPlayer.Views.MusicClassifyPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleSongsPlayer.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loaded="AllMusicClassifyPage_OnLoaded">
+
+    <Pivot x:Name="Root_Pivot" SelectionChanged="Root_Pivot_OnSelectionChanged">
+        <PivotItem Header="歌曲">
+            <Frame x:Name="Song_Frame"/>
+        </PivotItem>
+        <PivotItem Header="歌手">
+            <Frame x:Name="Artist_Frame"/>
+        </PivotItem>
+        <PivotItem Header="专辑">
+            <Frame x:Name="Album_Frame"/>
+        </PivotItem>
+    </Pivot>
+</Page>
