@@ -159,7 +159,7 @@ namespace SimpleSongsPlayer.ViewModels
 
         private void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
         {
-            if (args.WindowActivationState != CoreWindowActivationState.Deactivated)
+            if (args.WindowActivationState != CoreWindowActivationState.Deactivated && musicFilesService != null)
                 musicFilesService.ScanFiles();
         }
 
