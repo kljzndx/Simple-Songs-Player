@@ -9,7 +9,7 @@
     DataContext="{Binding Source={StaticResource VmLocator}, Path=MusicGroupList}">
 
     <Grid>
-        <GridView ItemsSource="{Binding DataSource}">
+        <GridView ItemsSource="{Binding DataSource}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="Main_GridView_OnItemClick">
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <temp:MusicGroupItemTemplate Source="{Binding}"/>

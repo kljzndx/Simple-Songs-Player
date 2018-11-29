@@ -42,5 +42,17 @@ namespace SimpleSongsPlayer.Views
             if (e.Parameter is ValueTuple<ObservableCollection<MusicFileDTO>, MusicGrouperArgs> tuple)
                 await vm.SetUp(tuple.Item1, tuple.Item2);
         }
+
+        private void Main_GridView_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            var item = e.ClickedItem as MusicFileGroup;
+            if (item is null)
+                return;
+
+            if (vm.ItemFilter != null)
+                Frame.Navigate(typeof(SongListPage), ValueTuple.Create(vm.Original, new MusicFilterArgs(vm.ItemFilter, item.Name)));
+            else
+                Frame.Navigate(typeof(SongListPage), item.Items);
+        }
     }
 }

@@ -13,11 +13,11 @@ namespace SimpleSongsPlayer.ViewModels
 {
     public class MusicGroupListViewModel : ViewModelBase
     {
-        private ObservableCollection<MusicFileDTO> original;
         private IMusicGrouper _grouper;
 
         private ObservableCollection<MusicFileGroup> dataSource;
 
+        public ObservableCollection<MusicFileDTO> Original { get; private set; }
         public IMusicFilter ItemFilter { get; private set; }
 
         public ObservableCollection<MusicFileGroup> DataSource
@@ -33,13 +33,13 @@ namespace SimpleSongsPlayer.ViewModels
 
         public async Task SetUp(ObservableCollection<MusicFileDTO> source, MusicGrouperArgs grouperArgs)
         {
-            original = source;
+            Original = source;
             _grouper = grouperArgs.Grouper;
             ItemFilter = grouperArgs.ItemFilter;
 
-            DataSource = new ObservableCollection<MusicFileGroup>(await _grouper.Group(original));
+            DataSource = new ObservableCollection<MusicFileGroup>(await _grouper.Group(Original));
 
-            original.CollectionChanged += Original_CollectionChanged;
+            Original.CollectionChanged += Original_CollectionChanged;
         }
 
         private async void Original_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
