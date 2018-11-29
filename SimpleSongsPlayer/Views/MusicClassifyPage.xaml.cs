@@ -34,7 +34,6 @@ namespace SimpleSongsPlayer.Views
         
         private void Root_Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DataServer.Current.InitializeMusicService();
             switch (Root_Pivot.SelectedIndex)
             {
                 case 0:

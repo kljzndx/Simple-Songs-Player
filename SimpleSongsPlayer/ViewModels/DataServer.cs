@@ -18,8 +18,6 @@ namespace SimpleSongsPlayer.ViewModels
 {
     public class DataServer
     {
-        private static readonly object SeverGetting_Locker = new object();
-
         public static readonly DataServer Current = GetServer();
 
         private MusicLibraryService<MusicFile, MusicFileFactory> musicFilesService;
@@ -161,7 +159,7 @@ namespace SimpleSongsPlayer.ViewModels
 
         private void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
         {
-            if (args.WindowActivationState != CoreWindowActivationState.Deactivated && musicFilesService != null)
+            if (args.WindowActivationState != CoreWindowActivationState.Deactivated)
                 musicFilesService.ScanFiles();
         }
 
