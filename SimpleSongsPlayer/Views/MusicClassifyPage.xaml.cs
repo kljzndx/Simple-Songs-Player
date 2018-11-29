@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.ViewModels.Extensions;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
 using SimpleSongsPlayer.ViewModels.Factories.MusicGroupers;
@@ -37,15 +38,15 @@ namespace SimpleSongsPlayer.Views
             switch (Root_Pivot.SelectedIndex)
             {
                 case 0:
-                    Song_Frame.Navigate(typeof(SongListPage), DataServer.Current.MusicFilesList);
+                    Song_Frame.NavigateEx(typeof(SongListPage), DataServer.Current.MusicFilesList);
                     break;
                 case 1:
-                    Artist_Frame.Navigate(typeof(MusicGroupListPage),
+                    Artist_Frame.NavigateEx(typeof(MusicGroupListPage),
                         ValueTuple.Create(DataServer.Current.MusicFilesList,
                             new MusicGrouperArgs(new MusicArtistGrouper(), new MusicArtistFilter())));
                     break;
                 case 2:
-                    Album_Frame.Navigate(typeof(MusicGroupListPage),
+                    Album_Frame.NavigateEx(typeof(MusicGroupListPage),
                         ValueTuple.Create(DataServer.Current.MusicFilesList,
                             new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
                     break;

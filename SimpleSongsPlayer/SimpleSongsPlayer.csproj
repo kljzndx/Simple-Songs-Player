@@ -101,6 +101,7 @@
     <Compile Include="ViewModels\Converters\TimeSpanToSongTimeString.cs" />
     <Compile Include="ViewModels\DataServer.cs" />
     <Compile Include="ViewModels\Extensions\ExceptionExtensions.cs" />
+    <Compile Include="ViewModels\Extensions\FrameExtension.cs" />
     <Compile Include="ViewModels\Extensions\TimespanExtension.cs" />
     <Compile Include="ViewModels\Factories\MusicFilters\IMusicFilter.cs" />
     <Compile Include="ViewModels\Factories\MusicFilters\MusicAlbumFilter.cs" />
