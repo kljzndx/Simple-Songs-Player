@@ -22,14 +22,5 @@ namespace SimpleSongsPlayer.Views
         {
             this.InitializeComponent();
         }
-
-        private async void FrameworkPage_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            var dataServer = await DataServer.GetServer();
-            DataLoading_ProgressRing.Value = 50;
-            dataServer.MusicFilesService.ScanFiles().GetAwaiter()
-                .OnCompleted(async () => await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => DataLoading_ProgressRing.Value=100));
-            Main_Frame.Navigate(typeof(MusicGroupListPage), ValueTuple.Create(dataServer.MusicFilesList, new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
-        }
     }
 }
