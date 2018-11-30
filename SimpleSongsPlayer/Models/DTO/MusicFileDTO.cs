@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
@@ -13,18 +14,32 @@ namespace SimpleSongsPlayer.Models.DTO
 {
     public class MusicFileDTO : ObservableObject
     {
+        private static readonly string UnknownArtist;
+        private static readonly string UnknownAlbum;
+
         private WeakReference<StorageFile> _fileReference = new WeakReference<StorageFile>(null);
         private MediaPlaybackItem _playbackItem;
 
         private bool isPlaying;
+
+        static MusicFileDTO()
+        {
+            ResourceLoader itemStrings = ResourceLoader.GetForCurrentView("MusicItem");
+            UnknownArtist = itemStrings.GetString(nameof(UnknownArtist));
+            UnknownAlbum = itemStrings.GetString(nameof(UnknownAlbum));
+        }
         
         public MusicFileDTO(MusicFile fileData)
         {
             Title = fileData.Title;
-            Artist = fileData.Artist;
-            Album = fileData.Album;
             Duration = fileData.Duration;
             FilePath = fileData.Path;
+
+            FoundArtist = !String.IsNullOrWhiteSpace(fileData.Artist);
+            FoundAlbum = !String.IsNullOrWhiteSpace(fileData.Album);
+
+            Artist = FoundArtist ? fileData.Artist : UnknownArtist;
+            Album = FoundAlbum ? fileData.Album : UnknownAlbum;
         }
 
         public bool IsPlaying
@@ -38,6 +53,9 @@ namespace SimpleSongsPlayer.Models.DTO
         public string Album { get; }
         public TimeSpan Duration { get; }
         public string FilePath { get; }
+
+        public bool FoundArtist { get; }
+        public bool FoundAlbum { get; }
 
         private async Task<StorageFile> GetFile()
         {

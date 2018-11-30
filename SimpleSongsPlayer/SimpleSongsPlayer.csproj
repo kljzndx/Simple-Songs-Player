@@ -147,6 +147,8 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="StringResources\zh-CN\MusicItem.resw" />
+    <PRIResource Include="StringResources\en-US\MusicItem.resw" />
     <PRIResource Include="StringResources\zh-CN\ErrorDialog.resw" />
     <PRIResource Include="StringResources\en-US\ErrorDialog.resw" />
     <PRIResource Include="StringResources\zh-CN\ErrorTable.resw" />
