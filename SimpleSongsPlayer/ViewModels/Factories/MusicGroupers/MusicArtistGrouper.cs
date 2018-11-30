@@ -13,7 +13,7 @@ namespace SimpleSongsPlayer.ViewModels.Factories.MusicGroupers
             List<MusicFileGroup> groups = new List<MusicFileGroup>();
 
             foreach (var item in source.GroupBy(f => f.Artist))
-                groups.Add(new MusicFileGroup(item.Key, item));
+                groups.Add(new MusicFileGroup(item.Key, item, "ms-appx:///Assets/Icons/Artist.png"));
 
             return Task.FromResult<IEnumerable<MusicFileGroup>>(groups);
         }
