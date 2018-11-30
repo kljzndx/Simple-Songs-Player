@@ -19,6 +19,7 @@ namespace SimpleSongsPlayer.Models
         private IGroupServiceBasicOptions<string, MusicFile> service;
         private string name;
 
+        private readonly string _defaultCoverUri;
         private WeakReference<BitmapSource> coverReference = new WeakReference<BitmapSource>(null);
         private Func<MusicFileDTO, Task<BitmapSource>> _coverGetter;
 
@@ -27,8 +28,18 @@ namespace SimpleSongsPlayer.Models
             this.name = name;
             Items = new ObservableCollection<MusicFileDTO>(items);
         }
-        
+
+        public MusicFileGroup(string name, IEnumerable<MusicFileDTO> items, string defaultCoverUri) : this(name, items)
+        {
+            _defaultCoverUri = defaultCoverUri;
+        }
+
         public MusicFileGroup(string name, IEnumerable<MusicFileDTO> items, Func<MusicFileDTO, Task<BitmapSource>> coverGetter) : this(name, items)
+        {
+            _coverGetter = coverGetter;
+        }
+
+        public MusicFileGroup(string name, IEnumerable<MusicFileDTO> items, string defaultCoverUri, Func<MusicFileDTO, Task<BitmapSource>> coverGetter) : this(name, items, defaultCoverUri)
         {
             _coverGetter = coverGetter;
         }
@@ -43,7 +54,7 @@ namespace SimpleSongsPlayer.Models
                 Renamed?.Invoke(this, new KeyValuePair<string, string>(str, value));
             }
         }
-        
+
         public ObservableCollection<MusicFileDTO> Items { get; }
 
         public event TypedEventHandler<MusicFileGroup, KeyValuePair<string, string>> Renamed;
@@ -57,14 +68,22 @@ namespace SimpleSongsPlayer.Models
 
         public async Task<BitmapSource> GetCover()
         {
-            if (_coverGetter is null)
-                return null;
-
             BitmapSource bitmap = null;
+
             if (coverReference.TryGetTarget(out bitmap))
                 return bitmap;
 
-            bitmap = await _coverGetter.Invoke(Items.First());
+            if (_coverGetter != null)
+                bitmap = await _coverGetter.Invoke(Items.First());
+
+            if (bitmap is null || bitmap.PixelWidth <= 1 && bitmap.PixelHeight <= 1)
+            {
+                if (String.IsNullOrWhiteSpace(_defaultCoverUri))
+                    return null;
+
+                bitmap = new BitmapImage(new Uri(_defaultCoverUri));
+            }
+
             coverReference.SetTarget(bitmap);
             return bitmap;
         }
