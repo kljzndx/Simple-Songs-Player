@@ -139,6 +139,10 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets\Icons\theme-dark\Artist.png" />
+    <Content Include="Assets\Icons\theme-dark\Album.png" />
+    <Content Include="Assets\Icons\theme-light\Artist.png" />
+    <Content Include="Assets\Icons\theme-light\Album.png" />
     <Content Include="nlog.config">
       <SubType>Designer</SubType>
     </Content>
