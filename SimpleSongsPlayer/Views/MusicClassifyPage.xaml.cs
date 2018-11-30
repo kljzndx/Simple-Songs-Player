@@ -27,6 +27,9 @@ namespace SimpleSongsPlayer.Views
     /// </summary>
     public sealed partial class MusicClassifyPage : Page
     {
+        private static readonly Type ListPageType = typeof(SongListPage);
+        private static readonly Type GroupPageType = typeof(MusicGroupListPage);
+
         public MusicClassifyPage()
         {
             this.InitializeComponent();
@@ -38,15 +41,15 @@ namespace SimpleSongsPlayer.Views
             switch (Root_Pivot.SelectedIndex)
             {
                 case 0:
-                    Song_Frame.NavigateEx(typeof(SongListPage), DataServer.Current.MusicFilesList);
+                    Song_Frame.NavigateEx(ListPageType, DataServer.Current.MusicFilesList);
                     break;
                 case 1:
-                    Artist_Frame.NavigateEx(typeof(MusicGroupListPage),
+                    Artist_Frame.NavigateEx(GroupPageType,
                         ValueTuple.Create(DataServer.Current.MusicFilesList,
                             new MusicGrouperArgs(new MusicArtistGrouper(), new MusicArtistFilter())));
                     break;
                 case 2:
-                    Album_Frame.NavigateEx(typeof(MusicGroupListPage),
+                    Album_Frame.NavigateEx(GroupPageType,
                         ValueTuple.Create(DataServer.Current.MusicFilesList,
                             new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
                     break;
@@ -56,6 +59,15 @@ namespace SimpleSongsPlayer.Views
         private void AllMusicClassifyPage_OnLoaded(object sender, RoutedEventArgs e)
         {
             DataServer.Current.ScanMusicFiles();
+        }
+
+        private void MusicGroup_Frame_OnNavigating(object sender, NavigatingCancelEventArgs e)
+        {
+            if (e.SourcePageType != ListPageType)
+                return;
+
+            e.Cancel = true;
+            Frame.Navigate(e.SourcePageType, e.Parameter);
         }
     }
 }
