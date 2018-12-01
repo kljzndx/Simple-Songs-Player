@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SimpleSongsPlayer.Models.Attributes;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Factories;
@@ -28,14 +30,19 @@ namespace SimpleSongsPlayer.Views
             this.InitializeComponent();
             Main_Frame.Navigate(ClassifyPageType);
             systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
-            var player = Main_MediaPlayerElement.MediaPlayer;
         }
 
         private void Main_Frame_OnNavigated(object sender, NavigationEventArgs e)
         {
-            systemNavigationManager.AppViewBackButtonVisibility = e.SourcePageType != ClassifyPageType
-                ? AppViewBackButtonVisibility.Visible
-                : AppViewBackButtonVisibility.Disabled;
+            var titleAttribute = e.SourcePageType.GetTypeInfo().GetCustomAttribute<PageTitleAttribute>();
+            if (titleAttribute != null)
+            {
+                TitleBar_Grid.Visibility = Visibility.Visible;
+                Title_TextBlock.Text = titleAttribute.GetTitle();
+                Back_Button.Visibility = Main_Frame.CanGoBack ? Visibility.Visible : Visibility.Collapsed;
+            }
+            else
+                TitleBar_Grid.Visibility = Visibility.Collapsed;
         }
 
         private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
@@ -47,6 +54,11 @@ namespace SimpleSongsPlayer.Views
 
                 Main_Frame.GoBack();
             }
+        }
+
+        private void Back_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            Main_Frame.GoBack();
         }
     }
 }

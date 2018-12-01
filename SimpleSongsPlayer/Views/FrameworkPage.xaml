@@ -10,13 +10,24 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Frame x:Name="Main_Frame" Navigated="Main_Frame_OnNavigated"/>
+        <Grid x:Name="TitleBar_Grid" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-        <MediaPlayerElement x:Name="Main_MediaPlayerElement" Grid.Row="1" AutoPlay="True" AreTransportControlsEnabled="True">
+            <Button x:Name="Back_Button" Style="{ThemeResource NavigationBackButtonNormalStyle}" Click="Back_Button_OnClick"/>
+            <TextBlock x:Name="Title_TextBlock" Grid.Column="1" Margin="8" Style="{ThemeResource TitleTextBlockStyle}"/>
+        </Grid>
+
+        <Frame x:Name="Main_Frame" Grid.Row="1" Navigated="Main_Frame_OnNavigated"/>
+
+        <MediaPlayerElement x:Name="Main_MediaPlayerElement" Grid.Row="2" AutoPlay="True" AreTransportControlsEnabled="True">
             <MediaPlayerElement.TransportControls>
                 <ctrl:CustomTransportControls IsCompact="True" IsFullWindowButtonVisible="False" IsFullWindowEnabled="False" IsFastForwardButtonVisible="True" IsFastForwardEnabled="True" IsFastRewindButtonVisible="True" IsFastRewindEnabled="True" IsZoomButtonVisible="False" IsZoomEnabled="False"/>
             </MediaPlayerElement.TransportControls>
