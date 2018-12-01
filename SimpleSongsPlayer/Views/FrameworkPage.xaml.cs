@@ -28,6 +28,7 @@ namespace SimpleSongsPlayer.Views
             this.InitializeComponent();
             Main_Frame.Navigate(ClassifyPageType);
             systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
+            var player = Main_MediaPlayerElement.MediaPlayer;
         }
 
         private void Main_Frame_OnNavigated(object sender, NavigationEventArgs e)
