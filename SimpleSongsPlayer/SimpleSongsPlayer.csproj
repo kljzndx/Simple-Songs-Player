@@ -116,6 +116,9 @@
     <Compile Include="ViewModels\MusicGroupListViewModel.cs" />
     <Compile Include="ViewModels\SongListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\Controllers\CustomMediaPlayerElement.xaml.cs">
+      <DependentUpon>CustomMediaPlayerElement.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controllers\CustomTransportControls.cs" />
     <Compile Include="Views\MusicClassifyPage.xaml.cs">
       <DependentUpon>MusicClassifyPage.xaml</DependentUpon>
@@ -177,7 +180,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Views\Controllers\Generic.xaml">
+    <Page Include="Views\Controllers\CustomMediaPlayerElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
