@@ -33,8 +33,12 @@ namespace SimpleSongsPlayer.Views.Controllers
             set => SetValue(RepeatMode_SelectedIDProperty, value);
         }
 
-        public event EventHandler<object> RewindButtonClick;
-        public event EventHandler<object> FastForwardButtonClick;
+        public event PointerEventHandler RewindButton_PointerPressed;
+        public event PointerEventHandler RewindButton_PointerReleased;
+
+        public event PointerEventHandler FastForwardButton_PointerPressed;
+        public event PointerEventHandler FastForwardButton_PointerReleased;
+
         public event TypedEventHandler<CustomTransportControls, KeyValuePair<int, string>> RepeatModeSelectionChanged;
 
         protected override void OnApplyTemplate()
@@ -52,12 +56,14 @@ namespace SimpleSongsPlayer.Views.Controllers
 
             {
                 var rewindButton = (AppBarButton) GetTemplateChild("Rewind_Button");
-                rewindButton.Click += (s, e) => RewindButtonClick?.Invoke(this, null);
+                rewindButton.AddHandler(PointerPressedEvent, new PointerEventHandler((s, e) => RewindButton_PointerPressed?.Invoke(s, e)), true);
+                rewindButton.AddHandler(PointerReleasedEvent, new PointerEventHandler((s, e) => RewindButton_PointerReleased?.Invoke(s, e)), true);
             }
 
             {
                 var fastForwardButton = (AppBarButton) GetTemplateChild("FastForward_Button");
-                fastForwardButton.Click += (s, e) => FastForwardButtonClick?.Invoke(this, null);
+                fastForwardButton.AddHandler(PointerPressedEvent, new PointerEventHandler((s, e) => FastForwardButton_PointerPressed?.Invoke(s, e)), true);
+                fastForwardButton.AddHandler(PointerReleasedEvent, new PointerEventHandler((s, e) => FastForwardButton_PointerReleased?.Invoke(s, e)), true);
             }
         }
     }
