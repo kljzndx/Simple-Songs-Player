@@ -114,6 +114,9 @@
     <Compile Include="ViewModels\Factories\MusicGroupers\MusicArtistGrouper.cs" />
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
     <Compile Include="ViewModels\MusicGroupListViewModel.cs" />
+    <Compile Include="ViewModels\SettingProperties\PlayerSettingProperties.cs" />
+    <Compile Include="ViewModels\SettingProperties\PlaybackRepeatModeEnum.cs" />
+    <Compile Include="ViewModels\SettingProperties\SettingLocator.cs" />
     <Compile Include="ViewModels\SongListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Controllers\CustomMediaPlayerElement.xaml.cs">
