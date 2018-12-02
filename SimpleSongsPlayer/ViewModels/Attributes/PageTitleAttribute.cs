@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Windows.ApplicationModel.Resources;
 
-namespace SimpleSongsPlayer.Models.Attributes
+namespace SimpleSongsPlayer.ViewModels.Attributes
 {
     public class PageTitleAttribute : Attribute
     {

@@ -95,7 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Attributes\PageTitleAttribute.cs" />
+    <Compile Include="ViewModels\Attributes\PageTitleAttribute.cs" />
     <Compile Include="Models\DTO\MusicFileDTO.cs" />
     <Compile Include="Models\MusicFileGroup.cs" />
     <Compile Include="Models\MusicFileDynamic.cs" />
