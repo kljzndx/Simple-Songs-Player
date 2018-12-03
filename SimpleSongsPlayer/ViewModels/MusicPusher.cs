@@ -14,7 +14,7 @@ namespace SimpleSongsPlayer.ViewModels
                 target.Items.Add(item);
         }
 
-        public static async Task Pash(MusicFileDTO music)
+        public static async Task Push(MusicFileDTO music)
         {
             var playbackItem = await music.GetPlaybackItem();
 
