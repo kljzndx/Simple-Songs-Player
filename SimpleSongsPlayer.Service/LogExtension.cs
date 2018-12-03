@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using NLog;
 using SimpleSongsPlayer.Service.Models;
 
@@ -31,6 +32,16 @@ namespace SimpleSongsPlayer.Service
             typeof(T).LogByType(exception, message, callerName);
         }
 
+        public static void LogWhetherByObject<T>(this T type, string info, bool condition, string trueMessage, Action trueAction = null, string falseMessage = null, Action falseAction = null)
+        {
+            typeof(T).LogWhetherByType(info, condition, trueMessage, trueAction, falseMessage, falseAction);
+        }
+
+        public static async Task LogWhetherByObjectAsync<T>(this T type, string info, bool condition, string trueMessage, Func<Task> trueAction = null, string falseMessage = null, Func<Task> falseAction = null)
+        {
+            await typeof(T).LogWhetherByTypeAsync(info, condition, trueMessage, trueAction, falseMessage, falseAction);
+        }
+
         public static void LogByType(this Type type, string message, [CallerMemberName] string callerName = "")
         {
             string assemblyName = GetAssemblyNameFromType(type);
@@ -41,6 +52,36 @@ namespace SimpleSongsPlayer.Service
         {
             string assemblyName = GetAssemblyNameFromType(type);
             AllAssembly[assemblyName].Error(exception, $"{message} on {callerName} in {type.Name}");
+        }
+
+        public static void LogWhetherByType(this Type type, string info, bool condition, string trueMessage, Action trueAction = null, string falseMessage = null, Action falseAction = null)
+        {
+            if (condition)
+            {
+                type.LogByType(String.Format("{0}：{1}", info, trueMessage));
+                trueAction?.Invoke();
+            }
+            else if (!String.IsNullOrWhiteSpace(falseMessage))
+            {
+                type.LogByType(String.Format("{0}：{1}", info, falseMessage));
+                falseAction?.Invoke();
+            }
+        }
+
+        public static async Task LogWhetherByTypeAsync(this Type type, string info, bool condition, string trueMessage, Func<Task> trueAction = null, string falseMessage = null, Func<Task> falseAction = null)
+        {
+            if (condition)
+            {
+                type.LogByType(String.Format("{0}：{1}", info, trueMessage));
+                if (trueAction != null)
+                    await trueAction.Invoke();
+            }
+            else if (!String.IsNullOrWhiteSpace(falseMessage))
+            {
+                type.LogByType(String.Format("{0}：{1}", info, falseMessage));
+                if (falseAction != null)
+                    await falseAction.Invoke();
+            }
         }
 
         private static string GetAssemblyNameFromType(Type type)
