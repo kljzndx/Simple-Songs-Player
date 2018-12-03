@@ -32,14 +32,14 @@ namespace SimpleSongsPlayer.Service
             typeof(T).LogByType(exception, message, callerName);
         }
 
-        public static void LogWhetherByObject<T>(this T type, string info, bool condition, string trueMessage, Action trueAction = null, string falseMessage = null, Action falseAction = null)
+        public static void LogWhetherByObject<T>(this T type, string info, bool condition, string trueMessage, string falseMessage = null, Action trueAction = null, Action falseAction = null)
         {
-            typeof(T).LogWhetherByType(info, condition, trueMessage, trueAction, falseMessage, falseAction);
+            typeof(T).LogWhetherByType(info, condition, trueMessage, falseMessage, trueAction, falseAction);
         }
 
-        public static async Task LogWhetherByObjectAsync<T>(this T type, string info, bool condition, string trueMessage, Func<Task> trueAction = null, string falseMessage = null, Func<Task> falseAction = null)
+        public static async Task LogWhetherByObjectAsync<T>(this T type, string info, bool condition, string trueMessage, string falseMessage = null, Func<Task> trueAction = null, Func<Task> falseAction = null)
         {
-            await typeof(T).LogWhetherByTypeAsync(info, condition, trueMessage, trueAction, falseMessage, falseAction);
+            await typeof(T).LogWhetherByTypeAsync(info, condition, trueMessage, falseMessage, trueAction, falseAction);
         }
 
         public static void LogByType(this Type type, string message, [CallerMemberName] string callerName = "")
@@ -54,7 +54,7 @@ namespace SimpleSongsPlayer.Service
             AllAssembly[assemblyName].Error(exception, $"{message} on {callerName} in {type.Name}");
         }
 
-        public static void LogWhetherByType(this Type type, string info, bool condition, string trueMessage, Action trueAction = null, string falseMessage = null, Action falseAction = null)
+        public static void LogWhetherByType(this Type type, string info, bool condition, string trueMessage, string falseMessage = null, Action trueAction = null, Action falseAction = null)
         {
             if (condition)
             {
@@ -68,7 +68,7 @@ namespace SimpleSongsPlayer.Service
             }
         }
 
-        public static async Task LogWhetherByTypeAsync(this Type type, string info, bool condition, string trueMessage, Func<Task> trueAction = null, string falseMessage = null, Func<Task> falseAction = null)
+        public static async Task LogWhetherByTypeAsync(this Type type, string info, bool condition, string trueMessage, string falseMessage = null, Func<Task> trueAction = null, Func<Task> falseAction = null)
         {
             if (condition)
             {
