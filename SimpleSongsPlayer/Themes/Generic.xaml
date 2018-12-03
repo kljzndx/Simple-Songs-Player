@@ -349,31 +349,6 @@
                             </Style>
                         </Grid.Resources>
                         <VisualStateManager.VisualStateGroups>
-                            <!-- ControlPanel Visibility states -->
-                            <VisualStateGroup x:Name="ControlPanelVisibilityStates">
-                                <VisualState x:Name="ControlPanelFadeIn">
-                                    <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ControlPanel_ControlPanelVisibilityStates_Border">
-                                            <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimation Storyboard.TargetProperty="Y" Storyboard.TargetName="TranslateVertical" From="50" To ="0.5" Duration="0:0:0.3"/>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="ControlPanelFadeOut">
-                                    <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ControlPanel_ControlPanelVisibilityStates_Border">
-                                            <EasingDoubleKeyFrame KeyTime="0" Value="1" />
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="IsHitTestVisible" Storyboard.TargetName="ControlPanel_ControlPanelVisibilityStates_Border">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="False" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <DoubleAnimation Storyboard.TargetProperty="Y" Storyboard.TargetName="TranslateVertical" From="0.5" To ="50" Duration="0:0:0.7"/>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                            <!-- ControlPanel Visibility states -->
                             <!-- Media state visual states -->
                             <VisualStateGroup x:Name="MediaStates">
                                 <VisualState x:Name="Normal" />
@@ -422,56 +397,7 @@
                                     <Storyboard />
                                 </VisualState>
                             </VisualStateGroup>
-                            <!-- Media state visual states -->
-                            <!-- Audio Selection Button visibility states -->
-                            <VisualStateGroup x:Name="AudioSelectionAvailablityStates">
-                                <VisualState x:Name="AudioSelectionAvailable">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="AudioTracksSelectionButton">
-                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                <DiscreteObjectKeyFrame.Value>
-                                                    <Visibility>Visible</Visibility>
-                                                </DiscreteObjectKeyFrame.Value>
-                                            </DiscreteObjectKeyFrame>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="AudioSelectionUnavailable" />
-                            </VisualStateGroup>
-                            <!-- Video volume visibility states -->
-                            <!-- Closed Captioning Selection Button visibility states -->
-                            <VisualStateGroup x:Name="CCSelectionAvailablityStates">
-                                <VisualState x:Name="CCSelectionAvailable">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="CCSelectionButton">
-                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                <DiscreteObjectKeyFrame.Value>
-                                                    <Visibility>Visible</Visibility>
-                                                </DiscreteObjectKeyFrame.Value>
-                                            </DiscreteObjectKeyFrame>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="CCSelectionUnavailable" />
-                            </VisualStateGroup>
-                            <!-- Closed Captioning  visibility states -->
-                            <!-- Focus states -->
-                            <VisualStateGroup x:Name="FocusStates">
-                                <VisualState x:Name="Focused">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="FocusVisualWhite"
-                                            Storyboard.TargetProperty="Opacity"
-                                            To="1"
-                                            Duration="0" />
-                                        <DoubleAnimation Storyboard.TargetName="FocusVisualBlack"
-                                            Storyboard.TargetProperty="Opacity"
-                                            To="1"
-                                            Duration="0" />
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Unfocused" />
-                                <VisualState x:Name="PointerFocused" />
-                            </VisualStateGroup>
+
                             <!-- Focus states -->
                             <VisualStateGroup x:Name="MediaTransportControlMode">
                                 <VisualState x:Name="NormalMode" />
@@ -491,13 +417,6 @@
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MediaControlsCommandBar" Storyboard.TargetProperty="Margin">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="0" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayPauseButton" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                <DiscreteObjectKeyFrame.Value>
-                                                    <Visibility>Collapsed</Visibility>
-                                                </DiscreteObjectKeyFrame.Value>
-                                            </DiscreteObjectKeyFrame>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -526,17 +445,6 @@
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VolumeMuteSymbol" Storyboard.TargetProperty="Symbol">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Mute" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                            <!-- FullWindow states -->
-                            <VisualStateGroup x:Name="FullWindowStates">
-                                <VisualState x:Name="NonFullWindowState" />
-                                <VisualState x:Name="FullWindowState">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FullWindowSymbol" Storyboard.TargetProperty="Symbol">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="BackToWindow" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
