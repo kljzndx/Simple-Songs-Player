@@ -429,9 +429,6 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayPauseSymbolLeft" Storyboard.TargetProperty="Symbol">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Pause" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlayPauseSymbol" Storyboard.TargetProperty="Symbol">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Pause" />
-                                        </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
