@@ -2,6 +2,7 @@
 using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -21,7 +22,16 @@ namespace SimpleSongsPlayer
     /// </summary>
     sealed partial class App : Application
     {
-        private readonly Logger _logger;
+        public static readonly MediaPlayer MediaPlayer;
+
+        private static readonly Logger Logger;
+
+        static App()
+        {
+            Logger = LoggerService.GetLogger(LoggerMembers.App);
+            Logger.Info("初始化播放模块");
+            MediaPlayer = new MediaPlayer();
+        }
 
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
@@ -33,7 +43,6 @@ namespace SimpleSongsPlayer
             this.Suspending += OnSuspending;
             this.UnhandledException += App_UnhandledException;
 
-            _logger = LoggerService.GetLogger(LoggerMembers.App);
             LogExtension.SetUpAssembly(typeof(App).GetTypeInfo().Assembly, LoggerMembers.Ui);
         }
 
@@ -41,7 +50,7 @@ namespace SimpleSongsPlayer
         {
             e.Handled = true;
 
-            await e.Exception.ShowErrorDialog(_logger);
+            await e.Exception.ShowErrorDialog(Logger);
         }
 
         /// <summary>
@@ -57,7 +66,7 @@ namespace SimpleSongsPlayer
             // 只需确保窗口处于活动状态
             if (rootFrame == null)
             {
-                _logger.Info("未检测到页面框架，开始初始化页面框架");
+                Logger.Info("未检测到页面框架，开始初始化页面框架");
                 // 创建要充当导航上下文的框架，并导航到第一页
                 rootFrame = new Frame();
 
@@ -67,7 +76,7 @@ namespace SimpleSongsPlayer
                 {
                     //TODO: 从之前挂起的应用程序加载状态
                 }
-                _logger.Info("为窗口应用页面框架");
+                Logger.Info("为窗口应用页面框架");
                 // 将框架放在当前窗口中
                 Window.Current.Content = rootFrame;
             }
@@ -76,17 +85,17 @@ namespace SimpleSongsPlayer
             {
                 if (rootFrame.Content == null)
                 {
-                    _logger.Info("跳转至主页面");
+                    Logger.Info("跳转至主页面");
                     // 当导航堆栈尚未还原时，导航到第一页，
                     // 并通过将所需信息作为导航参数传入来配置
                     // 参数
                     rootFrame.Navigate(typeof(FrameworkPage), e.Arguments);
                 }
-                _logger.Info("激活窗口");
+                Logger.Info("激活窗口");
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
 
-                _logger.Info("初始化音乐库服务的文件筛选器");
+                Logger.Info("初始化音乐库服务的文件筛选器");
                 MusicLibraryService<MusicFile, MusicFileFactory>.SetupFileTypeFilter("mp3", "aac", "wav", "flac", "alac", "m4a");
             }
         }

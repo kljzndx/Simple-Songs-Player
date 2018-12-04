@@ -9,9 +9,9 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <MediaPlayerElement x:Name="Root_MediaPlayerElement" AutoPlay="True" Source="ms-appx:///Assets/1.mp3" AreTransportControlsEnabled="True">
+    <MediaPlayerElement x:Name="Root_MediaPlayerElement" AutoPlay="True" AreTransportControlsEnabled="True">
         <MediaPlayerElement.TransportControls>
-            <local:CustomTransportControls IsCompact="True" IsFullWindowButtonVisible="False" IsFullWindowEnabled="False" IsFastForwardButtonVisible="True" IsFastForwardEnabled="True" IsFastRewindButtonVisible="True" IsFastRewindEnabled="True" IsZoomButtonVisible="False" IsZoomEnabled="False"/>
+            <local:CustomTransportControls x:Name="MyTransportControls" IsCompact="True" IsFastForwardButtonVisible="True" IsFastForwardEnabled="True" IsFastRewindButtonVisible="True" IsFastRewindEnabled="True" PositionSlider_PointerPressed="MyTransportControls_OnPositionSlider_PointerPressed" PositionSlider_PointerReleased="MyTransportControls_OnPositionSlider_PointerReleased" RewindButton_PointerPressed="MyTransportControls_OnRewindButton_PointerPressed" RewindButton_PointerReleased="MyTransportControls_OnRewindButton_PointerReleased" FastForwardButton_PointerPressed="MyTransportControls_OnFastForwardButton_PointerPressed" FastForwardButton_PointerReleased="MyTransportControls_OnFastForwardButton_PointerReleased" RepeatModeSelectionChanged="CustomTransportControls_OnRepeatModeSelectionChanged"/>
         </MediaPlayerElement.TransportControls>
     </MediaPlayerElement>
 </UserControl>

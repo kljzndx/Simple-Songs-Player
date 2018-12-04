@@ -10,6 +10,7 @@ namespace SimpleSongsPlayer.ViewModels.SettingProperties
 
         [SettingFieldByEnum(nameof(RepeatMode), typeof(PlaybackRepeatModeEnum), nameof(PlaybackRepeatModeEnum.List))] private PlaybackRepeatModeEnum repeatMode;
         [SettingFieldByNormal(nameof(Volume), 1D)] private double volume;
+        [SettingFieldByNormal(nameof(PlaybackRate), 1D)] private double playbackRate;
 
         private PlayerSettingProperties() : base(ApplicationData.Current.LocalSettings.CreateContainer("Player", ApplicationDataCreateDisposition.Always))
         {
@@ -25,6 +26,12 @@ namespace SimpleSongsPlayer.ViewModels.SettingProperties
         {
             get => volume;
             set => SetSetting(ref volume, value);
+        }
+
+        public double PlaybackRate
+        {
+            get => playbackRate;
+            set => SetSetting(ref playbackRate, value);
         }
     }
 }
