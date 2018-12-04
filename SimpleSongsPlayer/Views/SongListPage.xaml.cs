@@ -17,6 +17,7 @@ using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
+using SimpleSongsPlayer.Views.Templates;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -41,6 +42,15 @@ namespace SimpleSongsPlayer.Views
                 vm.SetUpDataSource(dtos);
             if (e.Parameter is ValueTuple<ObservableCollection<MusicFileDTO>, MusicFilterArgs> fullParameter)
                 vm.SetUpDataSource(fullParameter.Item1, fullParameter.Item2);
+        }
+
+        private async void MusicFileItemTemplate_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            var theTemplate = sender as MusicFileItemTemplate;
+            if (theTemplate is null)
+                return;
+            
+            await MusicPusher.Push(theTemplate.Source.Original);
         }
     }
 }

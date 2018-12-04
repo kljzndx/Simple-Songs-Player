@@ -13,7 +13,7 @@
         <ListView ItemsSource="{Binding DataSource}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <temp:MusicFileItemTemplate Source="{Binding}"/>
+                    <temp:MusicFileItemTemplate x:Name="MusicFileItemTemplate" Source="{Binding}" DoubleTapped="MusicFileItemTemplate_OnDoubleTapped"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>
