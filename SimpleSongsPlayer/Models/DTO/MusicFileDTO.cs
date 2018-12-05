@@ -60,7 +60,7 @@ namespace SimpleSongsPlayer.Models.DTO
         public bool FoundArtist { get; }
         public bool FoundAlbum { get; }
 
-        private async Task<StorageFile> GetFile()
+        public async Task<StorageFile> GetFile()
         {
             StorageFile file = null;
             if (_fileReference.TryGetTarget(out file))
