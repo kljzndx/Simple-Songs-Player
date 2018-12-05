@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Attributes;
+using SimpleSongsPlayer.ViewModels.Events;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
 using SimpleSongsPlayer.ViewModels.Factories.MusicGroupers;
+using SimpleSongsPlayer.Views.Controllers;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -32,6 +36,7 @@ namespace SimpleSongsPlayer.Views
             systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
 
             Main_CustomMediaPlayerElement.SetMediaPlayer(App.MediaPlayer);
+            CustomMediaPlayerElement.NowPlaybackItemChanged += CustomMediaPlayerElement_NowPlaybackItemChanged;
         }
 
         private void Main_Frame_OnNavigated(object sender, NavigationEventArgs e)
@@ -61,6 +66,20 @@ namespace SimpleSongsPlayer.Views
         private void Back_Button_OnClick(object sender, RoutedEventArgs e)
         {
             Main_Frame.GoBack();
+        }
+
+        private async void CustomMediaPlayerElement_NowPlaybackItemChanged(CustomMediaPlayerElement sender, PlayerNowPlaybackItemChangeEventArgs args)
+        {
+            if (args.NewItem is MediaPlaybackItem mpi)
+            {
+                var properties = mpi.GetDisplayProperties();
+                var bitmap = new BitmapImage();
+                bitmap.SetSource(await properties.Thumbnail.OpenReadAsync());
+                Cover_Image.Visibility = Visibility.Visible;
+                Cover_Image.Source = bitmap;
+            }
+            else
+                Cover_Image.Visibility = Visibility.Collapsed;
         }
     }
 }

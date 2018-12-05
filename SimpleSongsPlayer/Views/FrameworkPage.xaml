@@ -26,7 +26,19 @@
         </Grid>
 
         <Frame x:Name="Main_Frame" Grid.Row="1" Navigated="Main_Frame_OnNavigated"/>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-        <ctrl:CustomMediaPlayerElement x:Name="Main_CustomMediaPlayerElement" Grid.Row="2"/>
+            <Button Padding="0">
+                <Border Width="48" Height="48">
+                    <Image x:Name="Cover_Image"/>
+                </Border>
+            </Button>
+
+            <ctrl:CustomMediaPlayerElement x:Name="Main_CustomMediaPlayerElement" Grid.Column="1" VerticalAlignment="Center"/>
+        </Grid>
     </Grid>
 </Page>
