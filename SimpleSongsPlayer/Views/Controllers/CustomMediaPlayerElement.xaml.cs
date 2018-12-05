@@ -6,7 +6,9 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media;
 using Windows.Media.Playback;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,7 +17,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
+using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Events;
 using SimpleSongsPlayer.ViewModels.SettingProperties;
 
@@ -33,6 +37,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         private bool? isPressPositionControlButton = false;
         private bool isUserChangePositon;
 
+        private DataServer dataServer = DataServer.Current;
         private PlayerSettingProperties settings = PlayerSettingProperties.Current;
         private MediaPlayer player;
 
@@ -42,6 +47,7 @@ namespace SimpleSongsPlayer.Views.Controllers
             player = Root_MediaPlayerElement.MediaPlayer;
             MyTransportControls.RepeatMode_SelectedID = (int) settings.RepeatMode;
             Install(player);
+            NowPlaybackItemChanged += CustomMediaPlayerElement_NowPlaybackItemChanged;
         }
 
         public void SetMediaPlayer(MediaPlayer mediaPlayer)
@@ -207,7 +213,17 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private async void MediaPlayer_SourceChanged(MediaPlayer sender, object args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, SetupPlayer);
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if (sender.Source is null)
+                {
+                    NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(CurrentItem, null));
+                    CurrentItem = null;
+                    return;
+                }
+
+                SetupPlayer();
+            });
         }
 
         private async void MediaPlayer_MediaOpened(MediaPlayer sender, object args)
@@ -316,5 +332,26 @@ namespace SimpleSongsPlayer.Views.Controllers
         }
 
         #endregion
+
+        private async void CustomMediaPlayerElement_NowPlaybackItemChanged(CustomMediaPlayerElement sender, PlayerNowPlaybackItemChangeEventArgs args)
+        {
+            foreach (var fileDto in dataServer.MusicFilesList)
+            {
+                if (await fileDto.GetPlaybackItem() == args.NewItem)
+                {
+                    var mediaProperties = player.SystemMediaTransportControls.DisplayUpdater;
+                    mediaProperties.Type = MediaPlaybackType.Music;
+                    mediaProperties.Thumbnail = RandomAccessStreamReference.CreateFromStream(await fileDto.GetThumbnail());
+                    var musicProperties = mediaProperties.MusicProperties;
+
+                    musicProperties.Title = fileDto.Title;
+                    musicProperties.Artist = fileDto.Artist;
+                    musicProperties.AlbumTitle = fileDto.Album;
+                    mediaProperties.Update();
+                    break;
+                }
+            }
+
+        }
     }
 }
