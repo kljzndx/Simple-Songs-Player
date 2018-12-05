@@ -21,6 +21,7 @@ namespace SimpleSongsPlayer.Models.DTO
 
         private WeakReference<StorageFile> _fileReference = new WeakReference<StorageFile>(null);
         private WeakReference<StorageItemThumbnail> _thumbnail = new WeakReference<StorageItemThumbnail>(null);
+        private WeakReference<BitmapSource> _bitmap = new WeakReference<BitmapSource>(null);
         private MediaPlaybackItem _playbackItem;
 
         private bool isPlaying;
@@ -86,9 +87,14 @@ namespace SimpleSongsPlayer.Models.DTO
 
         public async Task<BitmapSource> GetAlbumCover()
         {
-            var file = await GetFile();
-            var bitmap = new BitmapImage();
+            BitmapSource bitmap = null;
+            if (_bitmap.TryGetTarget(out bitmap))
+                return bitmap;
+
+            bitmap = new BitmapImage();
             bitmap.SetSource(await GetThumbnail());
+            _bitmap.SetTarget(bitmap);
+
             return bitmap;
         }
 
