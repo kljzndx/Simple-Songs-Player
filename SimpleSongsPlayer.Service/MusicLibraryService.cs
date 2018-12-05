@@ -24,6 +24,7 @@ namespace SimpleSongsPlayer.Service
 
         public event EventHandler<IEnumerable<TFile>> FilesAdded;
         public event EventHandler<IEnumerable<TFile>> FilesRemoved;
+        public event EventHandler<IEnumerable<TFile>> FilesUpdated;
         
         private MusicLibraryService(StorageLibrary library, string[] fileTypeFilter)
         {
@@ -57,6 +58,7 @@ namespace SimpleSongsPlayer.Service
             this.LogByObject("准备 ‘操作集合’");
             List<TFile> addFiles = new List<TFile>();
             List<TFile> removeFiles = new List<TFile>();
+            List<TFile> updateFiles = new List<TFile>();
 
             this.LogByObject("检测数据库是否有数据");
             if (!musicFiles.Any())
@@ -114,15 +116,29 @@ namespace SimpleSongsPlayer.Service
                 this.LogByObject("将结果添加至 ‘添加操作’ 集合");
                 foreach (var filePath in needAddFiles)
                     addFiles.Add(await fileFactory.FromStorageFile(folder.Name, filePath));
+
+                this.LogByObject("正在检查文件是否有更新并更新文件");
+                foreach (var file in systemFiles)
+                {
+                    var prop = await file.GetBasicPropertiesAsync();
+                    var fileInDb = myFiles.First(f => f.Path == file.Path);
+
+                    if (fileInDb.ChangeDate != prop.DateModified.DateTime)
+                        updateFiles.Add(await fileFactory.FromStorageFile(folder.Name, file));
+                }
             }
 
             this.LogByObject("应用 ‘操作集合’");
+
+            if (updateFiles.Any())
+                await UpdateFileRange(updateFiles);
+
             if (addFiles.Any())
                 await AddFileRange(addFiles);
 
             if (removeFiles.Any())
                 await RemoveRange(removeFiles);
-
+            
             this.LogByObject("完成文件扫描");
         }
 
@@ -137,6 +153,25 @@ namespace SimpleSongsPlayer.Service
             musicFiles.AddRange(filesList);
             this.LogByObject("触发 ‘添加完成’ 事件");
             FilesAdded?.Invoke(this, filesList);
+        }
+
+        private async Task UpdateFileRange(IEnumerable<TFile> files)
+        {
+            this.LogByObject("正在接受数据");
+            List<TFile> filesList = new List<TFile>(files);
+
+            this.LogByObject("正在对数据库更新");
+            await helper.UpdateRange(filesList);
+            this.LogByObject("正在对列表更新");
+
+            var ids = filesList.Select(f => musicFiles.IndexOf(f)).ToList();
+            musicFiles.RemoveAll(filesList.Contains);
+
+            for (int i = 0; i < filesList.Count; i++)
+                musicFiles.Insert(ids[i], filesList[i]);
+
+            this.LogByObject("触发 ‘更新完成’ 事件");
+            FilesUpdated?.Invoke(this, filesList);
         }
 
         private async Task RemoveRange(IEnumerable<TFile> files)
