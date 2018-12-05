@@ -25,6 +25,11 @@ namespace SimpleSongsPlayer.Models.DTO
         private MediaPlaybackItem _playbackItem;
 
         private bool isPlaying;
+        private string title;
+        private string artist;
+        private string album;
+        private TimeSpan duration;
+        private DateTime changeDate;
 
         static MusicFileDTO()
         {
@@ -35,15 +40,16 @@ namespace SimpleSongsPlayer.Models.DTO
         
         public MusicFileDTO(MusicFile fileData)
         {
-            Title = fileData.Title;
-            Duration = fileData.Duration;
+            title = fileData.Title;
+            duration = fileData.Duration;
             FilePath = fileData.Path;
 
             FoundArtist = !String.IsNullOrWhiteSpace(fileData.Artist);
             FoundAlbum = !String.IsNullOrWhiteSpace(fileData.Album);
 
-            Artist = FoundArtist ? fileData.Artist : UnknownArtist;
-            Album = FoundAlbum ? fileData.Album : UnknownAlbum;
+            artist = FoundArtist ? fileData.Artist : UnknownArtist;
+            album = FoundAlbum ? fileData.Album : UnknownAlbum;
+            changeDate = fileData.ChangeDate;
         }
 
         public bool IsPlaying
@@ -51,11 +57,37 @@ namespace SimpleSongsPlayer.Models.DTO
             get => isPlaying;
             set => Set(ref isPlaying, value);
         }
+        
+        public string Title
+        {
+            get => title;
+            private set => Set(ref title, value);
+        }
 
-        public string Title { get; }
-        public string Artist { get; }
-        public string Album { get; }
-        public TimeSpan Duration { get; }
+        public string Artist
+        {
+            get => artist;
+            private set => Set(ref artist, value);
+        }
+
+        public string Album
+        {
+            get => album;
+            private set => Set(ref album, value);
+        }
+
+        public TimeSpan Duration
+        {
+            get => duration;
+            private set => Set(ref duration, value);
+        }
+
+        public DateTime ChangeDate
+        {
+            get => changeDate;
+            private set => Set(ref changeDate, value);
+        }
+        
         public string FilePath { get; }
 
         public bool FoundArtist { get; }
