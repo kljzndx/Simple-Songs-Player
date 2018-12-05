@@ -60,7 +60,7 @@ namespace SimpleSongsPlayer.Models.DTO
         public bool FoundArtist { get; }
         public bool FoundAlbum { get; }
 
-        public async Task<StorageFile> GetFile()
+        private async Task<StorageFile> GetFile()
         {
             StorageFile file = null;
             if (_fileReference.TryGetTarget(out file))
@@ -71,7 +71,7 @@ namespace SimpleSongsPlayer.Models.DTO
             return file;
         }
 
-        private async Task<StorageItemThumbnail> GetThumbnail()
+        public async Task<StorageItemThumbnail> GetThumbnail()
         {
             StorageItemThumbnail thumbnail = null;
             if (_thumbnail.TryGetTarget(out thumbnail))
