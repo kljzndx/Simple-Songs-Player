@@ -46,6 +46,7 @@ namespace SimpleSongsPlayer.ViewModels
             this.LogByObject("监听服务");
             musicFilesService.FilesAdded += MusicFilesService_FilesAdded;
             musicFilesService.FilesRemoved += MusicFilesService_FilesRemoved;
+            musicFilesService.FilesUpdated += MusicFilesService_FilesUpdated;
         }
 
         public async Task InitializeFavoritesService()
@@ -94,6 +95,14 @@ namespace SimpleSongsPlayer.ViewModels
             foreach (var musicFile in e)
                 if (MusicFilesList.Any(f => f.FilePath == musicFile.Path))
                     MusicFilesList.Remove(MusicFilesList.First(mf => mf.FilePath == musicFile.Path));
+        }
+
+        private void MusicFilesService_FilesUpdated(object sender, IEnumerable<MusicFile> e)
+        {
+            this.LogByObject("检测到有音乐文件被更新，正在同步更新操作");
+            foreach (var item in e)
+                if (MusicFilesList.FirstOrDefault(f => f.FilePath == item.Path) is MusicFileDTO dto)
+                    dto.Update(item);
         }
 
         private void UserFavoriteService_FilesAdded(object sender, IEnumerable<IGrouping<string, MusicFile>> e)
