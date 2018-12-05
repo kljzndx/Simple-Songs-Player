@@ -17,5 +17,6 @@ namespace SimpleSongsPlayer.DAL
         [Required(AllowEmptyStrings = false, ErrorMessage = "文件路径为空")]
         [Key]
         public string Path { get; set; }
+        public DateTime ChangeDate { get; set; }
     }
 }
