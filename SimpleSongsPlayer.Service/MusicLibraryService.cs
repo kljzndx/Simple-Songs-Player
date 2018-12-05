@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using NLog;
 using SimpleSongsPlayer.DAL;
@@ -117,15 +118,17 @@ namespace SimpleSongsPlayer.Service
                 foreach (var filePath in needAddFiles)
                     addFiles.Add(await fileFactory.FromStorageFile(folder.Name, filePath));
 
-                this.LogByObject("正在检查文件是否有更新并更新文件");
-                foreach (var file in systemFiles)
-                {
-                    var prop = await file.GetBasicPropertiesAsync();
-                    var fileInDb = myFiles.First(f => f.Path == file.Path);
+                if (!isGetFiles)
+                    continue;
 
-                    if (fileInDb.ChangeDate != prop.DateModified.DateTime)
-                        updateFiles.Add(await fileFactory.FromStorageFile(folder.Name, file));
-                }
+                this.LogByObject("正在检查文件是否有更新并更新文件");
+                Dictionary<StorageFile, DateTimeOffset> allProps = new Dictionary<StorageFile, DateTimeOffset>();
+                foreach (var file in systemFiles)
+                    allProps.Add(file, (await file.GetBasicPropertiesAsync()).DateModified);
+
+                // 从我的文件里选出所有更新时间里没有的项
+                foreach (var item in allProps.Where(d => myFiles.All(f => !f.ChangeDate.Equals(d.Value.DateTime))))
+                    updateFiles.Add(await fileFactory.FromStorageFile(folder.Name, item.Key));
             }
 
             this.LogByObject("应用 ‘操作集合’");
@@ -164,7 +167,7 @@ namespace SimpleSongsPlayer.Service
             await helper.UpdateRange(filesList);
             this.LogByObject("正在对列表更新");
 
-            var ids = filesList.Select(f => musicFiles.IndexOf(f)).ToList();
+            var ids = filesList.Select(nf => musicFiles.IndexOf(musicFiles.Find(of => of.Path == nf.Path))).ToList();
             musicFiles.RemoveAll(filesList.Contains);
 
             for (int i = 0; i < filesList.Count; i++)
