@@ -335,9 +335,10 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private async void CustomMediaPlayerElement_NowPlaybackItemChanged(CustomMediaPlayerElement sender, PlayerNowPlaybackItemChangeEventArgs args)
         {
+            bool isUpdated = false;
             foreach (var fileDto in dataServer.MusicFilesList)
             {
-                if (await fileDto.GetPlaybackItem() == args.NewItem)
+                if (!isUpdated && await fileDto.GetPlaybackItem() == args.NewItem)
                 {
                     var mediaProperties = player.SystemMediaTransportControls.DisplayUpdater;
                     mediaProperties.Type = MediaPlaybackType.Music;
@@ -348,10 +349,13 @@ namespace SimpleSongsPlayer.Views.Controllers
                     musicProperties.Artist = fileDto.Artist;
                     musicProperties.AlbumTitle = fileDto.Album;
                     mediaProperties.Update();
-                    break;
-                }
-            }
 
+                    fileDto.IsPlaying = true;
+                    isUpdated = true;
+                    continue;
+                }
+                fileDto.IsPlaying = false;
+            }
         }
     }
 }
