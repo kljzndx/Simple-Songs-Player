@@ -93,6 +93,15 @@ namespace SimpleSongsPlayer.Models.DTO
         public bool FoundArtist { get; }
         public bool FoundAlbum { get; }
 
+        public void Update(MusicFile newData)
+        {
+            Title = newData.Title;
+            Duration = newData.Duration;
+            Artist = newData.Artist;
+            Album = newData.Album;
+            ChangeDate = newData.ChangeDate;
+        }
+
         private async Task<StorageFile> GetFile()
         {
             StorageFile file = null;
