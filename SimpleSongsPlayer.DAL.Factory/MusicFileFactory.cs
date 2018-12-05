@@ -8,33 +8,21 @@ namespace SimpleSongsPlayer.DAL.Factory
     {
         public async Task<MusicFile> FromStorageFile(string libraryFolder, StorageFile file)
         {
-            var properties = await file.Properties.GetMusicPropertiesAsync();
+            var basicProperties = await file.GetBasicPropertiesAsync();
+            var musicProperties = await file.Properties.GetMusicPropertiesAsync();
 
             return new MusicFile
             {
-                Title = String.IsNullOrWhiteSpace(properties.Title) ? file.DisplayName : properties.Title,
-                Artist = properties.Artist,
-                Album = properties.Album,
+                Title = String.IsNullOrWhiteSpace(musicProperties.Title) ? file.DisplayName : musicProperties.Title,
+                Artist = musicProperties.Artist,
+                Album = musicProperties.Album,
                 Path = file.Path,
-                Duration = properties.Duration,
-                LibraryFolder = libraryFolder
+                Duration = musicProperties.Duration,
+                LibraryFolder = libraryFolder,
+                ChangeDate = basicProperties.DateModified.DateTime
             };
         }
 
-        public async Task<MusicFile> FromFilePath(string path)
-        {
-            var file = await StorageFile.GetFileFromPathAsync(path);
-            var properties = await file.Properties.GetMusicPropertiesAsync();
-
-            return new MusicFile
-            {
-                Title = String.IsNullOrWhiteSpace(properties.Title) ? file.DisplayName : properties.Title,
-                Artist = properties.Artist,
-                Album = properties.Album,
-                Path = file.Path,
-                Duration = properties.Duration,
-                LibraryFolder = ""
-            };
-        }
+        public async Task<MusicFile> FromFilePath(string libraryFolder, string path) => await FromStorageFile(libraryFolder, await StorageFile.GetFileFromPathAsync(path));
     }
 }

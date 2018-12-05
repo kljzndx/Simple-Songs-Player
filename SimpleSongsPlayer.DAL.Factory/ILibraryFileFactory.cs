@@ -6,6 +6,6 @@ namespace SimpleSongsPlayer.DAL.Factory
     public interface ILibraryFileFactory<TFile> where TFile : ILibraryFile
     {
         Task<TFile> FromStorageFile(string libraryFolder, StorageFile file);
-        Task<TFile> FromFilePath(string path);
+        Task<TFile> FromFilePath(string libraryFolder, string path);
     }
 }
