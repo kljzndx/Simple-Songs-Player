@@ -127,7 +127,7 @@ namespace SimpleSongsPlayer.Service
                     allProps.Add(file, (await file.GetBasicPropertiesAsync()).DateModified);
 
                 // 从我的文件里选出所有更新时间里没有的项
-                foreach (var item in allProps.Where(d => myFiles.All(f => !f.ChangeDate.Equals(d.Value.DateTime))))
+                foreach (var item in allProps.Where(d => myFiles.All(f => !f.ChangeDate.Equals(d.Value.DateTime)) && myFilePaths.Any(p => p == d.Key.Path)))
                     updateFiles.Add(await fileFactory.FromStorageFile(folder.Name, item.Key));
             }
 

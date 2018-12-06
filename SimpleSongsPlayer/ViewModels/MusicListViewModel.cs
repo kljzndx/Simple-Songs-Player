@@ -18,12 +18,13 @@ namespace SimpleSongsPlayer.ViewModels
         
         public ObservableCollection<MusicFileGroupDynamic> DataSource { get; } = new ObservableCollection<MusicFileGroupDynamic>();
 
-        public void GroupItems(IEnumerable<MusicFileDTO> fileDtos, bool needClear = false, IMusicGrouper grouper = null)
+        public void GroupItems(IEnumerable<MusicFileDTO> fileDtos = null, bool needClear = false, IMusicGrouper grouper = null)
         {
+            var source = fileDtos ?? original;
             if (needClear) DataSource.Clear();
             if (grouper != null) _grouper = grouper;
             
-            foreach (var item in _grouper.Group(fileDtos).Result)
+            foreach (var item in _grouper.Group(source).Result)
                 if (DataSource.FirstOrDefault(f => f.Name == item.Name) is MusicFileGroupDynamic groupDynamic)
                     groupDynamic.Join(item);
                 else
