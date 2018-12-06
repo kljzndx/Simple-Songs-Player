@@ -1,10 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using GalaSoft.MvvmLight;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.ViewModels.Factories;
+using SimpleSongsPlayer.ViewModels.Factories.MusicGroupers;
 
 namespace SimpleSongsPlayer.ViewModels
 {
@@ -12,16 +14,28 @@ namespace SimpleSongsPlayer.ViewModels
     {
         private ObservableCollection<MusicFileDTO> original;
         private MusicFilterArgs _filterArgs;
+        private IMusicGrouper _grouper = new SingleGrouper();
         
-        public ObservableCollection<MusicFileDynamic> DataSource { get; } = new ObservableCollection<MusicFileDynamic>();
+        public ObservableCollection<MusicFileGroupDynamic> DataSource { get; } = new ObservableCollection<MusicFileGroupDynamic>();
+
+        public void GroupItems(IEnumerable<MusicFileDTO> fileDtos, bool needClear = false, IMusicGrouper grouper = null)
+        {
+            if (needClear) DataSource.Clear();
+            if (grouper != null) _grouper = grouper;
+            
+            foreach (var item in _grouper.Group(fileDtos).Result)
+                if (DataSource.FirstOrDefault(f => f.Name == item.Name) is MusicFileGroupDynamic groupDynamic)
+                    groupDynamic.Join(item);
+                else
+                    DataSource.Add(new MusicFileGroupDynamic(item));
+        }
 
         public void SetUpDataSource(ObservableCollection<MusicFileDTO> dtos)
         {
             original = dtos;
-            
-            foreach (var fileDto in original)
-                DataSource.Add(new MusicFileDynamic(fileDto));
 
+            GroupItems(original);
+            
             original.CollectionChanged -= Original_Normal_CollectionChanged;
             original.CollectionChanged -= Original_Filter_CollectionChanged;
 
@@ -32,9 +46,8 @@ namespace SimpleSongsPlayer.ViewModels
         {
             original = dtos;
             _filterArgs = filterArgs;
-            
-            foreach (var fileDynamic in _filterArgs.Filter.Filter(original, _filterArgs.Args))
-                DataSource.Add(fileDynamic);
+
+            GroupItems(_filterArgs.Filter.Filter(original, filterArgs.Args));
 
             original.CollectionChanged -= Original_Normal_CollectionChanged;
             original.CollectionChanged -= Original_Filter_CollectionChanged;
@@ -42,17 +55,25 @@ namespace SimpleSongsPlayer.ViewModels
             original.CollectionChanged += Original_Filter_CollectionChanged;
         }
 
+        private void RemoveDtos(IEnumerable<MusicFileDTO> datas)
+        {
+            foreach (var data in datas)
+            {
+                var groupDynamic = DataSource.First(g => g.Items.Any(f => f.Original.FilePath == data.FilePath));
+                groupDynamic.Items.Remove(groupDynamic.Items.First(f => f.Original.FilePath == data.FilePath));
+            }
+        }
+
         private void Original_Normal_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (MusicFileDTO item in e.NewItems)
-                        DataSource.Add(new MusicFileDynamic(item));
+                    GroupItems(e.NewItems.Cast<MusicFileDTO>());
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (var item in DataSource.Where(d => e.OldItems.Contains(d.Original)))
-                        DataSource.Remove(item);
+                    var datas = e.OldItems.Cast<MusicFileDTO>();
+                    RemoveDtos(datas);
                     break;
             }
         }
@@ -62,12 +83,11 @@ namespace SimpleSongsPlayer.ViewModels
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (var item in _filterArgs.Filter.Filter(e.NewItems.Cast<MusicFileDTO>(), _filterArgs.Args))
-                        DataSource.Add(item);
+                    GroupItems(_filterArgs.Filter.Filter(e.NewItems.Cast<MusicFileDTO>(), _filterArgs.Args));
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (var item in DataSource.Where(d => e.OldItems.Contains(d.Original)))
-                        DataSource.Remove(item);
+                    var datas = e.OldItems.Cast<MusicFileDTO>();
+                    RemoveDtos(datas);
                     break;
             }
         }
