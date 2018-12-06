@@ -8,14 +8,10 @@ namespace SimpleSongsPlayer.ViewModels.Factories.MusicGroupers
 {
     public class MusicAlbumGrouper : IMusicGrouper
     {
-        public async Task<IEnumerable<MusicFileGroup>> Group(IEnumerable<MusicFileDTO> source)
+        public IEnumerable<MusicFileGroup> Group(IEnumerable<MusicFileDTO> source)
         {
-            List<MusicFileGroup> groups = new List<MusicFileGroup>();
-
             foreach (var group in source.GroupBy(f => f.Album))
-                 groups.Add(new MusicFileGroup(group.Key, group, f => f.GetAlbumCover()));
-
-            return groups;
+                yield return new MusicFileGroup(group.Key, group, f => f.GetAlbumCover());
         }
     }
 }

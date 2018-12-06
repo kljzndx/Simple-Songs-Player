@@ -24,7 +24,7 @@ namespace SimpleSongsPlayer.ViewModels
             if (needClear) DataSource.Clear();
             if (grouper != null) _grouper = grouper;
             
-            foreach (var item in _grouper.Group(source).Result)
+            foreach (var item in _grouper.Group(source))
                 if (DataSource.FirstOrDefault(f => f.Name == item.Name) is MusicFileGroupDynamic groupDynamic)
                     groupDynamic.Join(item);
                 else

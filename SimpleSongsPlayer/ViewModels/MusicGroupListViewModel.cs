@@ -31,23 +31,23 @@ namespace SimpleSongsPlayer.ViewModels
             DataSource = source;
         }
 
-        public async Task SetUp(ObservableCollection<MusicFileDTO> source, MusicGrouperArgs grouperArgs)
+        public void SetUp(ObservableCollection<MusicFileDTO> source, MusicGrouperArgs grouperArgs)
         {
             Original = source;
             _grouper = grouperArgs.Grouper;
             ItemFilter = grouperArgs.ItemFilter;
 
-            DataSource = new ObservableCollection<MusicFileGroup>(await _grouper.Group(Original));
+            DataSource = new ObservableCollection<MusicFileGroup>(_grouper.Group(Original));
 
             Original.CollectionChanged += Original_CollectionChanged;
         }
 
-        private async void Original_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void Original_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (var fileGroup in await _grouper.Group(e.NewItems.Cast<MusicFileDTO>()))
+                    foreach (var fileGroup in _grouper.Group(e.NewItems.Cast<MusicFileDTO>()))
                         if (dataSource.FirstOrDefault(g => g.Name == fileGroup.Name) is MusicFileGroup group)
                             group.Join(fileGroup);
                         else 

@@ -8,9 +8,9 @@ namespace SimpleSongsPlayer.ViewModels.Factories.MusicGroupers
 {
     public class SingleGrouper : IMusicGrouper
     {
-        public Task<IEnumerable<MusicFileGroup>> Group(IEnumerable<MusicFileDTO> source)
+        public IEnumerable<MusicFileGroup> Group(IEnumerable<MusicFileDTO> source)
         {
-            return Task.FromResult<IEnumerable<MusicFileGroup>>(new[] {new MusicFileGroup(String.Empty, source)});
+            yield return new MusicFileGroup(String.Empty, source);
         }
     }
 }

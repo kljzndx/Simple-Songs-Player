@@ -35,12 +35,12 @@ namespace SimpleSongsPlayer.Views
             vm = (MusicGroupListViewModel) DataContext;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is ObservableCollection<MusicFileGroup> list)
                 vm.SetUp(list);
             if (e.Parameter is ValueTuple<ObservableCollection<MusicFileDTO>, MusicGrouperArgs> tuple)
-                await vm.SetUp(tuple.Item1, tuple.Item2);
+                vm.SetUp(tuple.Item1, tuple.Item2);
         }
 
         private void Main_GridView_OnItemClick(object sender, ItemClickEventArgs e)

@@ -12,7 +12,7 @@ namespace SimpleSongsPlayer.ViewModels.Factories.MusicGroupers
     {
         private static readonly CharacterGroupings cgs = new CharacterGroupings();
 
-        public Task<IEnumerable<MusicFileGroup>> Group(IEnumerable<MusicFileDTO> source)
+        public IEnumerable<MusicFileGroup> Group(IEnumerable<MusicFileDTO> source)
         {
             var result = cgs.Where(c => !String.IsNullOrWhiteSpace(c.Label) && !c.Label.Contains("拼音")).Select(c => new MusicFileGroup(c.Label.Trim())).ToList();
 
@@ -31,7 +31,7 @@ namespace SimpleSongsPlayer.ViewModels.Factories.MusicGroupers
                 theGroup.Items.Add(fileDto);
             }
 
-            return Task.FromResult<IEnumerable<MusicFileGroup>>(result);
+            return result;
         }
     }
 }
