@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.ViewModels.Attributes;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
 using SimpleSongsPlayer.Views.Templates;
@@ -26,6 +27,7 @@ namespace SimpleSongsPlayer.Views
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
+    [PageTitle("MusicListPage", "Title")]
     public sealed partial class MusicListPage : Page
     {
         private MusicListViewModel vm;
