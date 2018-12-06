@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="SimpleSongsPlayer.Views.SongListPage"
+    x:Class="SimpleSongsPlayer.Views.MusicListPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:model="using:SimpleSongsPlayer.Models"
@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    DataContext="{Binding Source={StaticResource VmLocator}, Path=SongList}">
+    DataContext="{Binding Source={StaticResource VmLocator}, Path=MusicList}">
 
     <Grid>
         <ListView ItemsSource="{Binding DataSource}">

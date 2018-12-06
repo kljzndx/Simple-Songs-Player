@@ -120,7 +120,7 @@
     <Compile Include="ViewModels\SettingProperties\PlayerSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\PlaybackRepeatModeEnum.cs" />
     <Compile Include="ViewModels\SettingProperties\SettingLocator.cs" />
-    <Compile Include="ViewModels\SongListViewModel.cs" />
+    <Compile Include="ViewModels\MusicListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Controllers\CustomMediaPlayerElement.xaml.cs">
       <DependentUpon>CustomMediaPlayerElement.xaml</DependentUpon>
@@ -136,8 +136,8 @@
     <Compile Include="Views\MusicGroupListPage.xaml.cs">
       <DependentUpon>MusicGroupListPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SongListPage.xaml.cs">
-      <DependentUpon>SongListPage.xaml</DependentUpon>
+    <Compile Include="Views\MusicListPage.xaml.cs">
+      <DependentUpon>MusicListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Templates\MusicFileItemTemplate.xaml.cs">
       <DependentUpon>MusicFileItemTemplate.xaml</DependentUpon>
@@ -210,7 +210,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SongListPage.xaml">
+    <Page Include="Views\MusicListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

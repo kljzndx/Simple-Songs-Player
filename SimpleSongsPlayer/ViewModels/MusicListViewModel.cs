@@ -8,7 +8,7 @@ using SimpleSongsPlayer.ViewModels.Factories;
 
 namespace SimpleSongsPlayer.ViewModels
 {
-    public class SongListViewModel : ViewModelBase
+    public class MusicListViewModel : ViewModelBase
     {
         private ObservableCollection<MusicFileDTO> original;
         private MusicFilterArgs _filterArgs;

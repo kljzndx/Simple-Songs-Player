@@ -12,7 +12,7 @@ namespace SimpleSongsPlayer.ViewModels
         }
 
         public FrameworkViewModel Framework => SimpleIoc.Default.GetInstance<FrameworkViewModel>();
-        public SongListViewModel SongList => new SongListViewModel();
+        public MusicListViewModel MusicList => new MusicListViewModel();
         public MusicGroupListViewModel MusicGroupList => new MusicGroupListViewModel();
     }
 }

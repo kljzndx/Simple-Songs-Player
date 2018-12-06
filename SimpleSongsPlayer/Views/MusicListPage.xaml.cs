@@ -26,14 +26,14 @@ namespace SimpleSongsPlayer.Views
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class SongListPage : Page
+    public sealed partial class MusicListPage : Page
     {
-        private SongListViewModel vm;
+        private MusicListViewModel vm;
 
-        public SongListPage()
+        public MusicListPage()
         {
             this.InitializeComponent();
-            vm = (SongListViewModel) DataContext;
+            vm = (MusicListViewModel) DataContext;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

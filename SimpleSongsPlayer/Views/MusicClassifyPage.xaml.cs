@@ -27,7 +27,7 @@ namespace SimpleSongsPlayer.Views
     /// </summary>
     public sealed partial class MusicClassifyPage : Page
     {
-        private static readonly Type ListPageType = typeof(SongListPage);
+        private static readonly Type ListPageType = typeof(MusicListPage);
         private static readonly Type GroupPageType = typeof(MusicGroupListPage);
 
         public MusicClassifyPage()

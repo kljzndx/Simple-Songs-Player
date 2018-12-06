@@ -50,9 +50,9 @@ namespace SimpleSongsPlayer.Views
                 return;
 
             if (vm.ItemFilter != null)
-                Frame.Navigate(typeof(SongListPage), ValueTuple.Create(vm.Original, new MusicFilterArgs(vm.ItemFilter, item.Name)));
+                Frame.Navigate(typeof(MusicListPage), ValueTuple.Create(vm.Original, new MusicFilterArgs(vm.ItemFilter, item.Name)));
             else
-                Frame.Navigate(typeof(SongListPage), item.Items);
+                Frame.Navigate(typeof(MusicListPage), item.Items);
         }
     }
 }
