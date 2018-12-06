@@ -116,6 +116,7 @@
     <Compile Include="ViewModels\Factories\MusicGroupers\IMusicGrouper.cs" />
     <Compile Include="ViewModels\Factories\MusicGroupers\MusicAlbumGrouper.cs" />
     <Compile Include="ViewModels\Factories\MusicGroupers\MusicArtistGrouper.cs" />
+    <Compile Include="ViewModels\Factories\MusicGroupers\SingleGrouper.cs" />
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
     <Compile Include="ViewModels\MusicGroupListViewModel.cs" />
     <Compile Include="ViewModels\MusicPusher.cs" />
