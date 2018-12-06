@@ -111,6 +111,7 @@
     <Compile Include="ViewModels\Factories\MusicFilters\MusicArtistFilter.cs" />
     <Compile Include="ViewModels\Factories\MusicFilterArgs.cs" />
     <Compile Include="ViewModels\Factories\MusicGrouperArgs.cs" />
+    <Compile Include="ViewModels\Factories\MusicGroupers\CharacterGrouper.cs" />
     <Compile Include="ViewModels\Factories\MusicGroupers\IMusicGrouper.cs" />
     <Compile Include="ViewModels\Factories\MusicGroupers\MusicAlbumGrouper.cs" />
     <Compile Include="ViewModels\Factories\MusicGroupers\MusicArtistGrouper.cs" />

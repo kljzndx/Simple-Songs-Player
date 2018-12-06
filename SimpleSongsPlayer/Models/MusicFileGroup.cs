@@ -23,6 +23,12 @@ namespace SimpleSongsPlayer.Models
         private WeakReference<BitmapSource> coverReference = new WeakReference<BitmapSource>(null);
         private Func<MusicFileDTO, Task<BitmapSource>> _coverGetter;
 
+        public MusicFileGroup(string name)
+        {
+            this.name = name;
+            Items = new ObservableCollection<MusicFileDTO>();
+        }
+
         public MusicFileGroup(string name, IEnumerable<MusicFileDTO> items)
         {
             this.name = name;
