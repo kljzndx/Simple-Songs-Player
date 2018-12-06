@@ -2,7 +2,7 @@
     x:Class="SimpleSongsPlayer.Views.MusicListPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:model="using:SimpleSongsPlayer.Models"
+    xmlns:model="using:SimpleSongsPlayer.ViewModels.StyleSelectors"
     xmlns:temp="using:SimpleSongsPlayer.Views.Templates"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,6 +11,21 @@
 
     <Page.Resources>
         <CollectionViewSource x:Key="Data_CollectionViewSource" Source="{Binding DataSource}" IsSourceGrouped="True" ItemsPath="Items"/>
+        <GroupStyle x:Key="Normal_GroupStyle" HidesIfEmpty="True">
+            <GroupStyle.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </GroupStyle.HeaderTemplate>
+        </GroupStyle>
+        <GroupStyle x:Key="NoName_GroupStyle" HidesIfEmpty="True">
+            <GroupStyle.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </GroupStyle.HeaderTemplate>
+        </GroupStyle>
+        <model:MusicGroupDynamicStyleSelector x:Key="MusicGroupDynamicStyleSelector" Normal="{StaticResource Normal_GroupStyle}" NoName="{StaticResource NoName_GroupStyle}"/>
     </Page.Resources>
 
     <Grid>
@@ -19,15 +34,9 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Button x:Name="SwitchGrouper_Button" Content="切换分组器" Click="SwitchGrouper_Button_OnClick"/>
-        <ListView x:Name="Main_ListView" Grid.Row="1" ItemsSource="{Binding Source={StaticResource Data_CollectionViewSource}}">
+        <ListView x:Name="Main_ListView" Grid.Row="1" ItemsSource="{Binding Source={StaticResource Data_CollectionViewSource}}" GroupStyleSelector="{StaticResource MusicGroupDynamicStyleSelector}">
             <ListView.GroupStyle>
-                <GroupStyle HidesIfEmpty="True">
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}"/>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                </GroupStyle>
+                <GroupStyle/>
             </ListView.GroupStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
