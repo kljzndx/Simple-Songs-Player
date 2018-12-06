@@ -9,8 +9,26 @@
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource VmLocator}, Path=MusicList}">
 
+    <Page.Resources>
+        <CollectionViewSource x:Key="Data_CollectionViewSource" Source="{Binding DataSource}" IsSourceGrouped="True" ItemsPath="Items"/>
+    </Page.Resources>
+
     <Grid>
-        <ListView ItemsSource="{Binding DataSource}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Button x:Name="SwitchGrouper_Button" Content="切换分组器" Click="SwitchGrouper_Button_OnClick"/>
+        <ListView x:Name="Main_ListView" Grid.Row="1" ItemsSource="{Binding Source={StaticResource Data_CollectionViewSource}}">
+            <ListView.GroupStyle>
+                <GroupStyle HidesIfEmpty="True">
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <temp:MusicFileItemTemplate x:Name="MusicFileItemTemplate" Source="{Binding}" DoubleTapped="MusicFileItemTemplate_OnDoubleTapped"/>

@@ -18,6 +18,7 @@ using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Attributes;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
+using SimpleSongsPlayer.ViewModels.Factories.MusicGroupers;
 using SimpleSongsPlayer.Views.Templates;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -53,6 +54,11 @@ namespace SimpleSongsPlayer.Views
                 return;
             
             await MusicPusher.Push(theTemplate.Source.Original);
+        }
+
+        private void SwitchGrouper_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            vm.GroupItems(needClear: true, grouper: new CharacterGrouper());
         }
     }
 }
