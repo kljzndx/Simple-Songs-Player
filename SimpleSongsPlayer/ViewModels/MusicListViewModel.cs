@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
@@ -15,12 +16,12 @@ namespace SimpleSongsPlayer.ViewModels
         private ObservableCollection<MusicFileDTO> original;
         private MusicFilterArgs _filterArgs;
         private IMusicGrouper _grouper = new SingleGrouper();
-        
+
         public ObservableCollection<MusicFileGroupDynamic> DataSource { get; } = new ObservableCollection<MusicFileGroupDynamic>();
 
         public void GroupItems(IEnumerable<MusicFileDTO> fileDtos = null, bool needClear = false, IMusicGrouper grouper = null)
         {
-            var source = fileDtos ?? original;
+            var source = fileDtos ?? (_filterArgs != null ? _filterArgs.Filter.Filter(original, _filterArgs.Args) : original);
             if (needClear) DataSource.Clear();
             if (grouper != null) _grouper = grouper;
             
@@ -29,6 +30,12 @@ namespace SimpleSongsPlayer.ViewModels
                     groupDynamic.Join(item);
                 else
                     DataSource.Add(new MusicFileGroupDynamic(item));
+        }
+
+        public void SortItems(MusicDynamicSortKeySelector keySelector)
+        {
+            foreach (var groupDynamic in DataSource)
+               groupDynamic.OrderBy(keySelector);
         }
 
         public void SetUpDataSource(ObservableCollection<MusicFileDTO> dtos)

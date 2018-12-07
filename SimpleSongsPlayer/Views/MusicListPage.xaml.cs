@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -59,6 +60,11 @@ namespace SimpleSongsPlayer.Views
         private void SwitchGrouper_Button_OnClick(object sender, RoutedEventArgs e)
         {
             vm.GroupItems(needClear: true, grouper: new CharacterGrouper());
+        }
+
+        private void SwitchSorter_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            vm.SortItems((s, c) => s.Original.Album);
         }
     }
 }

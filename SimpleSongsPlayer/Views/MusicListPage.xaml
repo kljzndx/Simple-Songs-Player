@@ -21,7 +21,7 @@
         <GroupStyle x:Name="NoName_GroupStyle" HidesIfEmpty="True">
             <GroupStyle.HeaderTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
+                    <TextBlock Text="所有音乐"/>
                 </DataTemplate>
             </GroupStyle.HeaderTemplate>
             <GroupStyle.HeaderContainerStyle>
@@ -38,7 +38,10 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Button x:Name="SwitchGrouper_Button" Content="切换分组器" Click="SwitchGrouper_Button_OnClick"/>
+        <StackPanel Orientation="Horizontal">
+            <Button x:Name="SwitchGrouper_Button" Content="切换分组器" Click="SwitchGrouper_Button_OnClick"/>
+            <Button x:Name="SwitchSorter_Button" Content="切换排序" Click="SwitchSorter_Button_OnClick"/>
+        </StackPanel>
         <SemanticZoom Grid.Row="1">
             <SemanticZoom.ZoomedInView>
                 <ListView x:Name="Main_ListView" Background="Transparent" ItemsSource="{Binding Source={StaticResource Data_CollectionViewSource}}" GroupStyleSelector="{StaticResource MusicGroupDynamicStyleSelector}">
