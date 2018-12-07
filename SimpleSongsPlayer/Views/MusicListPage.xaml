@@ -18,12 +18,17 @@
                 </DataTemplate>
             </GroupStyle.HeaderTemplate>
         </GroupStyle>
-        <GroupStyle x:Key="NoName_GroupStyle" HidesIfEmpty="True">
+        <GroupStyle x:Name="NoName_GroupStyle" HidesIfEmpty="True">
             <GroupStyle.HeaderTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}"/>
                 </DataTemplate>
             </GroupStyle.HeaderTemplate>
+            <GroupStyle.HeaderContainerStyle>
+                <Style TargetType="ListViewHeaderItem">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </Style>
+            </GroupStyle.HeaderContainerStyle>
         </GroupStyle>
         <model:MusicGroupDynamicStyleSelector x:Key="MusicGroupDynamicStyleSelector" Normal="{StaticResource Normal_GroupStyle}" NoName="{StaticResource NoName_GroupStyle}"/>
     </Page.Resources>
@@ -34,20 +39,34 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Button x:Name="SwitchGrouper_Button" Content="切换分组器" Click="SwitchGrouper_Button_OnClick"/>
-        <ListView x:Name="Main_ListView" Grid.Row="1" ItemsSource="{Binding Source={StaticResource Data_CollectionViewSource}}" GroupStyleSelector="{StaticResource MusicGroupDynamicStyleSelector}">
-            <ListView.GroupStyle>
-                <GroupStyle/>
-            </ListView.GroupStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <temp:MusicFileItemTemplate x:Name="MusicFileItemTemplate" Source="{Binding}" DoubleTapped="MusicFileItemTemplate_OnDoubleTapped"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+        <SemanticZoom Grid.Row="1">
+            <SemanticZoom.ZoomedInView>
+                <ListView x:Name="Main_ListView" Background="Transparent" ItemsSource="{Binding Source={StaticResource Data_CollectionViewSource}}" GroupStyleSelector="{StaticResource MusicGroupDynamicStyleSelector}">
+                    <ListView.GroupStyle>
+                        <GroupStyle/>
+                    </ListView.GroupStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <temp:MusicFileItemTemplate x:Name="MusicFileItemTemplate" Source="{Binding}" DoubleTapped="MusicFileItemTemplate_OnDoubleTapped"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </SemanticZoom.ZoomedInView>
+
+            <SemanticZoom.ZoomedOutView>
+                <GridView ItemsSource="{Binding Source={StaticResource Data_CollectionViewSource}, Path=CollectionGroups}">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Group.Name}" FontSize="{ThemeResource TextStyleLargeFontSize}"/>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </SemanticZoom.ZoomedOutView>
+        </SemanticZoom>
     </Grid>
 </Page>
