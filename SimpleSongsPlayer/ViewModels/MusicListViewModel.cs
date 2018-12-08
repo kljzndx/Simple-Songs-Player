@@ -38,6 +38,12 @@ namespace SimpleSongsPlayer.ViewModels
                groupDynamic.OrderBy(keySelector);
         }
 
+        public void ReverseItems()
+        {
+            foreach (var musicFileGroupDynamic in DataSource)
+                musicFileGroupDynamic.ReverseItems();
+        }
+
         public void SetUpDataSource(ObservableCollection<MusicFileDTO> dtos)
         {
             original = dtos;

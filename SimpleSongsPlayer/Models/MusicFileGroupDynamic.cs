@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using Windows.Globalization.Collation;
 using GalaSoft.MvvmLight;
 
@@ -33,6 +34,12 @@ namespace SimpleSongsPlayer.Models
                 for (int j = 0; j < i; j++)
                     if (keySelector(Items[j], CharacterGroupings).CompareTo(keySelector(Items[j + 1], CharacterGroupings)) > 0)
                         Items.Move(j, j + 1);
+        }
+
+        public void ReverseItems()
+        {
+            for (int i = 0; i < Items.Count; i++)
+                Items.Move(0, Items.Count - i - 1);
         }
     }
 }
