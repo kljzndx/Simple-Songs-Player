@@ -6,11 +6,11 @@ namespace SimpleSongsPlayer.Models
 {
     public delegate IComparable MusicDynamicSortKeySelector(MusicFileDynamic fileDynamic, CharacterGroupings cgs);
 
-    public class MusicSorter
+    public class MusicSorterUi
     {
         private static readonly ResourceLoader ListStringResource = ResourceLoader.GetForCurrentView("MusicListPage");
 
-        public MusicSorter(string resourceKey, MusicDynamicSortKeySelector keySelector)
+        public MusicSorterUi(string resourceKey, MusicDynamicSortKeySelector keySelector)
         {
             Name = ListStringResource.GetString(resourceKey);
             KeySelector = keySelector;
