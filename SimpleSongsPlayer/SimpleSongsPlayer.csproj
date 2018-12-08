@@ -131,6 +131,12 @@
       <DependentUpon>CustomMediaPlayerElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controllers\CustomTransportControls.cs" />
+    <Compile Include="Views\Controllers\DropDownButton.xaml.cs">
+      <DependentUpon>DropDownButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controllers\SplitButton.xaml.cs">
+      <DependentUpon>SplitButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MusicClassifyPage.xaml.cs">
       <DependentUpon>MusicClassifyPage.xaml</DependentUpon>
     </Compile>
@@ -202,6 +208,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ViewModels\Converters\GlobalValueConverters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controllers\DropDownButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controllers\SplitButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

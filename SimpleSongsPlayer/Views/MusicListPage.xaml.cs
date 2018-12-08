@@ -66,5 +66,18 @@ namespace SimpleSongsPlayer.Views
         {
             vm.SortItems((s, c) => s.Original.Album);
         }
+        
+        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch (Grouper_ListBox.SelectedIndex)
+            {
+                case 0:
+                    vm.GroupItems(needClear:true, grouper:new SingleGrouper());
+                    break;
+                case 1:
+                    vm.GroupItems(needClear:true, grouper:new CharacterGrouper());
+                    break;
+            }
+        }
     }
 }

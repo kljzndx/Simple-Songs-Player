@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:model="using:SimpleSongsPlayer.ViewModels.StyleSelectors"
     xmlns:temp="using:SimpleSongsPlayer.Views.Templates"
+    xmlns:ctor="using:SimpleSongsPlayer.Views.Controllers"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -21,7 +22,7 @@
         <GroupStyle x:Name="NoName_GroupStyle" HidesIfEmpty="True">
             <GroupStyle.HeaderTemplate>
                 <DataTemplate>
-                    <TextBlock Text="所有音乐"/>
+                    <TextBlock  x:Uid="/MusicListPage/AllMusic_TextBlock"/>
                 </DataTemplate>
             </GroupStyle.HeaderTemplate>
             <GroupStyle.HeaderContainerStyle>
@@ -41,6 +42,16 @@
         <StackPanel Orientation="Horizontal">
             <Button x:Name="SwitchGrouper_Button" Content="切换分组器" Click="SwitchGrouper_Button_OnClick"/>
             <Button x:Name="SwitchSorter_Button" Content="切换排序" Click="SwitchSorter_Button_OnClick"/>
+            <ctor:DropDownButton Content="分组" Margin="8,0">
+                <ctor:DropDownButton.Flyout>
+                    <Flyout>
+                        <ListBox x:Name="Grouper_ListBox" SelectionChanged="Selector_OnSelectionChanged">
+                            <x:String>无</x:String>
+                            <x:String>首字母</x:String>
+                        </ListBox>
+                    </Flyout>
+                </ctor:DropDownButton.Flyout>
+            </ctor:DropDownButton>
         </StackPanel>
         <SemanticZoom Grid.Row="1">
             <SemanticZoom.ZoomedInView>
