@@ -10,8 +10,8 @@
     d:DesignWidth="400">
 
     <StackPanel x:Name="Root_StackPanel" FlyoutBase.AttachedFlyout="{x:Bind ExtendFlyout, Mode=OneWay}" Orientation="Horizontal">
-        <Button x:Name="Left_Button" MinWidth="32" MinHeight="32" Content="{x:Bind LeftContent, Mode=OneWay}" Padding="4" Click="Left_Button_OnClick"/>
-        <Button x:Name="Right_Button" Padding="4" MinWidth="32" MinHeight="32" Style="{x:Bind RightButtonStyle, Mode=OneWay}" Click="Right_Button_OnClick">
+        <Button x:Name="Left_Button" Background="Transparent" MinWidth="32" MinHeight="32" Content="{x:Bind LeftContent, Mode=OneWay}" Padding="4" Click="Left_Button_OnClick"/>
+        <Button x:Name="Right_Button" Background="Transparent" Padding="4" MinWidth="32" MinHeight="32" Style="{x:Bind RightButtonStyle, Mode=OneWay}" Click="Right_Button_OnClick">
             <FontIcon Glyph="&#xE0E5;"/>
         </Button>
     </StackPanel>
