@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -20,6 +21,7 @@ using SimpleSongsPlayer.ViewModels.Attributes;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
 using SimpleSongsPlayer.ViewModels.Factories.MusicGroupers;
+using SimpleSongsPlayer.ViewModels.SettingProperties;
 using SimpleSongsPlayer.Views.Templates;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -33,13 +35,17 @@ namespace SimpleSongsPlayer.Views
     public sealed partial class MusicListPage : Page
     {
         private MusicListViewModel vm;
+        private readonly MusicViewSettingProperties settings = MusicViewSettingProperties.Current;
 
         public MusicListPage()
         {
             this.InitializeComponent();
             vm = (MusicListViewModel) DataContext;
-        }
 
+            Grouper_ListBox.SelectedIndex = (int) settings.GroupMethod;
+            ListSorter_ListBox.SelectedIndex = (int) settings.SortMethod;
+        }
+        
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is ObservableCollection<MusicFileDTO> dtos)
@@ -56,28 +62,20 @@ namespace SimpleSongsPlayer.Views
             
             await MusicPusher.Push(theTemplate.Source.Original);
         }
-
-        private void SwitchGrouper_Button_OnClick(object sender, RoutedEventArgs e)
-        {
-            vm.GroupItems(needClear: true, grouper: new CharacterGrouper());
-        }
-
-        private void SwitchSorter_Button_OnClick(object sender, RoutedEventArgs e)
-        {
-            vm.SortItems((s, c) => s.Original.Album);
-        }
         
-        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Grouper_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            switch (Grouper_ListBox.SelectedIndex)
-            {
-                case 0:
-                    vm.GroupItems(needClear:true, grouper:new SingleGrouper());
-                    break;
-                case 1:
-                    vm.GroupItems(needClear:true, grouper:new CharacterGrouper());
-                    break;
-            }
+            settings.GroupMethod = (MusicGrouperMembers) Grouper_ListBox.SelectedIndex;
+        }
+
+        private void ListSortSelection_SplitButton_OnLeftButton_Click(object sender, RoutedEventArgs e)
+        {
+            settings.IsReverse = !settings.IsReverse;
+        }
+
+        private void ListSorter_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            settings.SortMethod = (MusicSorterMembers) ListSorter_ListBox.SelectedIndex;
         }
     }
 }

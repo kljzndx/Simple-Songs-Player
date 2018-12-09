@@ -126,6 +126,7 @@
     <Compile Include="ViewModels\SettingProperties\PlaybackRepeatModeEnum.cs" />
     <Compile Include="ViewModels\SettingProperties\SettingLocator.cs" />
     <Compile Include="ViewModels\MusicListViewModel.cs" />
+    <Compile Include="ViewModels\SettingProperties\MusicViewSettingProperties.cs" />
     <Compile Include="ViewModels\StyleSelectors\MusicGroupDynamicStyleSelector.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Controllers\CustomMediaPlayerElement.xaml.cs">
@@ -247,7 +248,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HappyStudio.UwpToolsLibrary.Auxiliarys">
-      <Version>1.2.2</Version>
+      <Version>1.2.3</Version>
     </PackageReference>
     <PackageReference Include="HappyStudio.UwpToolsLibrary.Information">
       <Version>1.0.3</Version>

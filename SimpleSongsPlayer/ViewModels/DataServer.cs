@@ -23,14 +23,16 @@ namespace SimpleSongsPlayer.ViewModels
         private MusicLibraryService<MusicFile, MusicFileFactory> musicFilesService;
         private UserFavoriteService userFavoriteService;
 
-        public ObservableCollection<MusicFileDTO> MusicFilesList { get; } = new ObservableCollection<MusicFileDTO>();
-        public ObservableCollection<MusicFileGroup> UserFavoritesList { get; } = new ObservableCollection<MusicFileGroup>();
-
         private DataServer()
         {
             UserFavoritesList.CollectionChanged += UserFavoritesList_CollectionChanged;
             CoreWindow.GetForCurrentThread().Activated += CoreWindow_Activated;
         }
+
+        public ObservableCollection<MusicFileDTO> MusicFilesList { get; } = new ObservableCollection<MusicFileDTO>();
+        public ObservableCollection<MusicFileGroup> UserFavoritesList { get; } = new ObservableCollection<MusicFileGroup>();
+
+        public event EventHandler<EventArgs> MusicFilesAdded;
 
         public async Task InitializeMusicService()
         {
@@ -42,6 +44,8 @@ namespace SimpleSongsPlayer.ViewModels
 
             this.LogByObject("获取音乐文件");
             (await musicFilesService.GetFiles()).ForEach(mf => MusicFilesList.Add(new MusicFileDTO(mf)));
+
+            MusicFilesAdded?.Invoke(this, EventArgs.Empty);
 
             this.LogByObject("监听服务");
             musicFilesService.FilesAdded += MusicFilesService_FilesAdded;
@@ -87,6 +91,8 @@ namespace SimpleSongsPlayer.ViewModels
             foreach (var musicFile in e)
                 if (MusicFilesList.All(f => f.FilePath != musicFile.Path))
                     MusicFilesList.Add(new MusicFileDTO(musicFile));
+
+            MusicFilesAdded?.Invoke(this, EventArgs.Empty);
         }
 
         private void MusicFilesService_FilesRemoved(object sender, IEnumerable<MusicFile> e)

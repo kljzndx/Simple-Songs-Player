@@ -10,13 +10,15 @@ namespace SimpleSongsPlayer.Models
     {
         private static readonly ResourceLoader ListStringResource = ResourceLoader.GetForCurrentView("MusicListPage");
 
-        public MusicSorterUi(string resourceKey, MusicDynamicSortKeySelector keySelector)
+        public MusicSorterUi(string resourceKey, MusicDynamicSortKeySelector keySelector, bool isReverse = false)
         {
             Name = ListStringResource.GetString(resourceKey);
             KeySelector = keySelector;
+            IsReverse = isReverse;
         }
 
         public string Name { get; }
         public MusicDynamicSortKeySelector KeySelector { get; }
+        public bool IsReverse { get; }
     }
 }
