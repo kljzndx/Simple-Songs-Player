@@ -64,7 +64,7 @@ namespace SimpleSongsPlayer.ViewModels
             }
         }
 
-        public void SortItems(MusicDynamicSortKeySelector keySelector)
+        private void SortItems(MusicDynamicSortKeySelector keySelector)
         {
             foreach (var groupDynamic in DataSource)
                 groupDynamic.OrderBy(keySelector);
