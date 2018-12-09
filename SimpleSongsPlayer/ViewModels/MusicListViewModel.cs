@@ -37,12 +37,6 @@ namespace SimpleSongsPlayer.ViewModels
             DataServer.Current.MusicFilesAdded += DataServer_MusicFilesAdded;
         }
 
-        private void DataServer_MusicFilesAdded(object sender, System.EventArgs e)
-        {
-            var sorter = SorterMembers[(int)settings.SortMethod];
-            SortItems(sorter.KeySelector);
-        }
-
         public List<MusicGrouperUi> GrouperMembers { get; }
         public List<MusicSorterUi> SorterMembers { get; }
         
@@ -70,17 +64,18 @@ namespace SimpleSongsPlayer.ViewModels
             }
         }
 
-        public void SortItems(MusicDynamicSortKeySelector keySelector, bool? isReverse = null)
+        public void SortItems(MusicDynamicSortKeySelector keySelector)
         {
-            bool r = isReverse ?? settings.IsReverse;
             foreach (var groupDynamic in DataSource)
-            {
                 groupDynamic.OrderBy(keySelector);
-                if (r)
-                    groupDynamic.ReverseItems();
-            }
         }
-        
+
+        private void ReverseItems()
+        {
+            foreach (var groupDynamic in DataSource)
+                groupDynamic.ReverseItems();
+        }
+
         public void SetUpDataSource(ObservableCollection<MusicFileDTO> dtos)
         {
             original = dtos;
@@ -141,6 +136,8 @@ namespace SimpleSongsPlayer.ViewModels
                 case nameof(settings.GroupMethod):
                     AddItems(needClear: true, grouper: GrouperMembers[(int)settings.GroupMethod].Grouper);
                     SortItems(SorterMembers[(int)settings.SortMethod].KeySelector);
+                    if (settings.IsReverse)
+                        ReverseItems();
                     break;
                 case nameof(settings.SortMethod):
                     var sorter = SorterMembers[(int)settings.SortMethod];
@@ -148,9 +145,21 @@ namespace SimpleSongsPlayer.ViewModels
                     settings.IsReverse = sorter.IsReverse;
                     break;
                 case nameof(settings.IsReverse):
-                    SortItems(SorterMembers[(int)settings.SortMethod].KeySelector, settings.IsReverse);
+                    if (settings.IsReverse)
+                        ReverseItems();
+                    else
+                        SortItems(SorterMembers[(int)settings.SortMethod].KeySelector);
+
                     break;
             }
+        }
+
+        private void DataServer_MusicFilesAdded(object sender, System.EventArgs e)
+        {
+            var sorter = SorterMembers[(int)settings.SortMethod];
+            SortItems(sorter.KeySelector);
+            if (settings.IsReverse)
+                ReverseItems();
         }
     }
 }
