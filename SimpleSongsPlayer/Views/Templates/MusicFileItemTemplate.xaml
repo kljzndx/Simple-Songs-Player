@@ -75,7 +75,19 @@
             </StackPanel>
 
             <StackPanel x:Name="ControllerButtons_StackPanel" Grid.Column="1" Orientation="Horizontal" Margin="8,0" Visibility="{x:Bind Source.IsSelected, Mode=OneWay}">
-
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Padding" Value="8"/>
+                        <Setter Property="Margin" Value="4,0"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button x:Name="Play_Button" Click="Play_Button_OnClick">
+                    <FontIcon Glyph="&#xE102;"/>
+                </Button>
+                <Button x:Name="More_Button" Flyout="{x:Bind MoreFlyout, Mode=OneWay}">
+                    <FontIcon Glyph="&#xE10C;"/>
+                </Button>
             </StackPanel>
         </Grid>
 

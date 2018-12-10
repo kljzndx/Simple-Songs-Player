@@ -23,6 +23,9 @@ namespace SimpleSongsPlayer.Views.Templates
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
             nameof(Source), typeof(MusicFileDynamic), typeof(MusicFileItemTemplate), new PropertyMetadata(null));
 
+        public static readonly DependencyProperty MoreFlyoutProperty = DependencyProperty.Register(
+            nameof(MoreFlyout), typeof(FlyoutBase), typeof(MusicFileItemTemplate), new PropertyMetadata(null));
+
         public MusicFileItemTemplate()
         {
             this.InitializeComponent();
@@ -32,6 +35,19 @@ namespace SimpleSongsPlayer.Views.Templates
         {
             get => (MusicFileDynamic) GetValue(SourceProperty);
             set => SetValue(SourceProperty, value);
+        }
+
+        public FlyoutBase MoreFlyout
+        {
+            get => (FlyoutBase) GetValue(MoreFlyoutProperty);
+            set => SetValue(MoreFlyoutProperty, value);
+        }
+
+        public event RoutedEventHandler PlayButton_Click;
+
+        private void Play_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            PlayButton_Click?.Invoke(this, e);
         }
     }
 }

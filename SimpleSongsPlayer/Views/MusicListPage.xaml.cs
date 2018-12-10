@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Attributes;
@@ -54,6 +55,29 @@ namespace SimpleSongsPlayer.Views
                 vm.SetUpDataSource(fullParameter.Item1, fullParameter.Item2);
         }
 
+        private void ListSortSelection_SplitButton_OnLeftButton_Click(object sender, RoutedEventArgs e)
+        {
+            settings.IsReverse = !settings.IsReverse;
+        }
+
+        private void ListSorter_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            settings.SortMethod = (MusicSorterMembers) ListSorter_ListBox.SelectedIndex;
+        }
+
+        private void Grouper_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            settings.GroupMethod = (MusicGrouperMembers) Grouper_ListBox.SelectedIndex;
+        }
+
+        private void Main_ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (MusicFileDynamic item in e.AddedItems)
+                item.IsSelected = true;
+            foreach (MusicFileDynamic item in e.RemovedItems)
+                item.IsSelected = false;
+        }
+
         private async void MusicFileItemTemplate_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             var theTemplate = sender as MusicFileItemTemplate;
@@ -63,19 +87,14 @@ namespace SimpleSongsPlayer.Views
             await MusicPusher.Push(theTemplate.Source.Original);
         }
         
-        private void Grouper_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void MusicFileItemTemplate_OnPlayButton_Click(object sender, RoutedEventArgs e)
         {
-            settings.GroupMethod = (MusicGrouperMembers) Grouper_ListBox.SelectedIndex;
-        }
-
-        private void ListSortSelection_SplitButton_OnLeftButton_Click(object sender, RoutedEventArgs e)
-        {
-            settings.IsReverse = !settings.IsReverse;
-        }
-
-        private void ListSorter_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            settings.SortMethod = (MusicSorterMembers) ListSorter_ListBox.SelectedIndex;
+            var theTemplate = sender as MusicFileItemTemplate;
+            if (theTemplate is null)
+                return;
+            
+            await MusicPusher.Push(theTemplate.Source.Original);
+            
         }
     }
 }
