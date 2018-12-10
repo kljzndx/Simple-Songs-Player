@@ -8,11 +8,9 @@ namespace SimpleSongsPlayer.Models
 
     public class MusicSorterUi
     {
-        private static readonly ResourceLoader ListStringResource = ResourceLoader.GetForCurrentView("MusicListPage");
-
         public MusicSorterUi(string resourceKey, MusicDynamicSortKeySelector keySelector, bool isReverse = false)
         {
-            Name = ListStringResource.GetString(resourceKey);
+            Name = StringResources.ListStringResource.GetString(resourceKey);
             KeySelector = keySelector;
             IsReverse = isReverse;
         }

@@ -97,7 +97,9 @@
     </Compile>
     <Compile Include="Models\MusicFileGroupDynamic.cs" />
     <Compile Include="Models\MusicGrouperUi.cs" />
+    <Compile Include="Models\MusicListMenuItem.cs" />
     <Compile Include="Models\MusicSorterUi.cs" />
+    <Compile Include="Models\StringResources.cs" />
     <Compile Include="ViewModels\Attributes\PageTitleAttribute.cs" />
     <Compile Include="Models\DTO\MusicFileDTO.cs" />
     <Compile Include="Models\MusicFileGroup.cs" />
