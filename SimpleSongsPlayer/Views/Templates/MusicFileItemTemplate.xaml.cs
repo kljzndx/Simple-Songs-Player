@@ -12,7 +12,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using GalaSoft.MvvmLight.Command;
 using SimpleSongsPlayer.Models;
+using SimpleSongsPlayer.Service;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -24,7 +26,7 @@ namespace SimpleSongsPlayer.Views.Templates
             nameof(Source), typeof(MusicFileDynamic), typeof(MusicFileItemTemplate), new PropertyMetadata(null));
 
         public static readonly DependencyProperty MoreFlyoutProperty = DependencyProperty.Register(
-            nameof(MoreFlyout), typeof(FlyoutBase), typeof(MusicFileItemTemplate), new PropertyMetadata(null));
+            nameof(MoreFlyout), typeof(MenuFlyout), typeof(MusicFileItemTemplate), new PropertyMetadata(null));
 
         public MusicFileItemTemplate()
         {
@@ -37,9 +39,9 @@ namespace SimpleSongsPlayer.Views.Templates
             set => SetValue(SourceProperty, value);
         }
 
-        public FlyoutBase MoreFlyout
+        public MenuFlyout MoreFlyout
         {
-            get => (FlyoutBase) GetValue(MoreFlyoutProperty);
+            get => (MenuFlyout) GetValue(MoreFlyoutProperty);
             set => SetValue(MoreFlyoutProperty, value);
         }
 
@@ -48,6 +50,18 @@ namespace SimpleSongsPlayer.Views.Templates
         private void Play_Button_OnClick(object sender, RoutedEventArgs e)
         {
             PlayButton_Click?.Invoke(this, e);
+        }
+
+        private void More_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (MoreFlyout != null)
+                foreach (var item in MoreFlyout.Items)
+                    if (item is MenuFlyoutItem mi && mi.Command is null)
+                        mi.Command = new RelayCommand(() =>
+                        {
+                            this.LogByObject($"点击 {mi.Text}");
+                            ((MusicListMenuItemAction) mi.Tag).Invoke(Source);
+                        });
         }
     }
 }

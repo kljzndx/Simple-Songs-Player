@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.ViewModels.Arguments;
 using SimpleSongsPlayer.ViewModels.Factories;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -50,9 +51,9 @@ namespace SimpleSongsPlayer.Views
                 return;
 
             if (vm.ItemFilter != null)
-                Frame.Navigate(typeof(MusicListPage), ValueTuple.Create(vm.Original, new MusicFilterArgs(vm.ItemFilter, item.Name)));
+                Frame.Navigate(typeof(MusicListPage), new MusicListArguments(vm.Original, new MusicFilterArgs(vm.ItemFilter, item.Name)));
             else
-                Frame.Navigate(typeof(MusicListPage), item.Items);
+                Frame.Navigate(typeof(MusicListPage), new MusicListArguments(item.Items));
         }
     }
 }

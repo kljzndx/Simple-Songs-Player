@@ -88,7 +88,7 @@
                     </ListView.GroupStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <temp:MusicFileItemTemplate x:Name="MusicFileItemTemplate" Source="{Binding}" PlayButton_Click="MusicFileItemTemplate_OnPlayButton_Click" DoubleTapped="MusicFileItemTemplate_OnDoubleTapped"/>
+                            <temp:MusicFileItemTemplate x:Name="MusicFileItemTemplate" Source="{Binding}" MoreFlyout="{StaticResource MusicItemMenuFlyout}" PlayButton_Click="MusicFileItemTemplate_OnPlayButton_Click" DoubleTapped="MusicFileItemTemplate_OnDoubleTapped"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                     <ListView.ItemContainerStyle>

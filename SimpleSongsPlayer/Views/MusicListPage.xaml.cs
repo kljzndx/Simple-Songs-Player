@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.ViewModels.Arguments;
 using SimpleSongsPlayer.ViewModels.Attributes;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
@@ -37,9 +38,16 @@ namespace SimpleSongsPlayer.Views
     {
         private MusicListViewModel vm;
         private readonly MusicViewSettingProperties settings = MusicViewSettingProperties.Current;
+        private MenuFlyout musicItemMenuFlyout;
 
         public MusicListPage()
         {
+            musicItemMenuFlyout = new MenuFlyout();
+            Resources["MusicItemMenuFlyout"] = musicItemMenuFlyout;
+
+            musicItemMenuFlyout.Items.Add(new MenuFlyoutItem
+                {Text = "下一首播放", Tag = new MusicListMenuItemAction(s => MusicPusher.PushToNext(s.Original))});
+
             this.InitializeComponent();
             vm = (MusicListViewModel) DataContext;
 
@@ -49,10 +57,27 @@ namespace SimpleSongsPlayer.Views
         
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is ObservableCollection<MusicFileDTO> dtos)
-                vm.SetUpDataSource(dtos);
-            if (e.Parameter is ValueTuple<ObservableCollection<MusicFileDTO>, MusicFilterArgs> fullParameter)
-                vm.SetUpDataSource(fullParameter.Item1, fullParameter.Item2);
+            if (e.Parameter is MusicListArguments args)
+            {
+                if (args.ArgsType.HasFlag(MusicListArgsType.Menu))
+                {
+                    foreach (var menuItem in args.ExtraMenu)
+                    {
+                        var item = new MenuFlyoutItem {Text = menuItem.Name, Tag = menuItem.Action};
+                        musicItemMenuFlyout.Items.Add(item);
+                    }
+                }
+
+                switch (args.ArgsType)
+                {
+                    case MusicListArgsType.Source:
+                        vm.SetUpDataSource(args.Source);
+                        break;
+                    case MusicListArgsType.Source | MusicListArgsType.Filter:
+                        vm.SetUpDataSource(args.Source, args.Filter);
+                        break;
+                }
+            }
         }
 
         private void ListSortSelection_SplitButton_OnLeftButton_Click(object sender, RoutedEventArgs e)

@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.ViewModels.Arguments;
 using SimpleSongsPlayer.ViewModels.Extensions;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
@@ -41,7 +42,7 @@ namespace SimpleSongsPlayer.Views
             switch (Root_Pivot.SelectedIndex)
             {
                 case 0:
-                    Song_Frame.NavigateEx(ListPageType, DataServer.Current.MusicFilesList);
+                    Song_Frame.NavigateEx(ListPageType, new MusicListArguments(DataServer.Current.MusicFilesList));
                     break;
                 case 1:
                     Artist_Frame.NavigateEx(GroupPageType,

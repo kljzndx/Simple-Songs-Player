@@ -85,7 +85,7 @@
                 <Button x:Name="Play_Button" Click="Play_Button_OnClick">
                     <FontIcon Glyph="&#xE102;"/>
                 </Button>
-                <Button x:Name="More_Button" Flyout="{x:Bind MoreFlyout, Mode=OneWay}">
+                <Button x:Name="More_Button" Flyout="{x:Bind MoreFlyout, Mode=OneWay}" Click="More_Button_OnClick">
                     <FontIcon Glyph="&#xE10C;"/>
                 </Button>
             </StackPanel>
