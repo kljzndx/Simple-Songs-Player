@@ -106,7 +106,8 @@
     <Compile Include="Models\MusicFileGroup.cs" />
     <Compile Include="Models\MusicFileDynamic.cs" />
     <Compile Include="ViewModels\Converters\TimeSpanToSongTimeString.cs" />
-    <Compile Include="ViewModels\DataServer.cs" />
+    <Compile Include="ViewModels\DataServers\FavoritesDataServer.cs" />
+    <Compile Include="ViewModels\DataServers\MusicLibraryDataServer.cs" />
     <Compile Include="ViewModels\Events\PlayerNowPlaybackItemChangeEventArgs.cs" />
     <Compile Include="ViewModels\Events\PlayerPositionChangeEventArgs.cs" />
     <Compile Include="ViewModels\Extensions\ExceptionExtensions.cs" />

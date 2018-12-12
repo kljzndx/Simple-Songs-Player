@@ -12,8 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Arguments;
+using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Extensions;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
@@ -42,16 +42,16 @@ namespace SimpleSongsPlayer.Views
             switch (Root_Pivot.SelectedIndex)
             {
                 case 0:
-                    Song_Frame.NavigateEx(ListPageType, new MusicListArguments(DataServer.Current.MusicFilesList));
+                    Song_Frame.NavigateEx(ListPageType, new MusicListArguments(MusicLibraryDataServer.Current.MusicFilesList));
                     break;
                 case 1:
                     Artist_Frame.NavigateEx(GroupPageType,
-                        ValueTuple.Create(DataServer.Current.MusicFilesList,
+                        ValueTuple.Create(MusicLibraryDataServer.Current.MusicFilesList,
                             new MusicGrouperArgs(new MusicArtistGrouper(), new MusicArtistFilter())));
                     break;
                 case 2:
                     Album_Frame.NavigateEx(GroupPageType,
-                        ValueTuple.Create(DataServer.Current.MusicFilesList,
+                        ValueTuple.Create(MusicLibraryDataServer.Current.MusicFilesList,
                             new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
                     break;
             }
@@ -59,7 +59,7 @@ namespace SimpleSongsPlayer.Views
 
         private void AllMusicClassifyPage_OnLoaded(object sender, RoutedEventArgs e)
         {
-            DataServer.Current.ScanMusicFiles();
+            MusicLibraryDataServer.Current.ScanMusicFiles();
         }
 
         private void MusicGroup_Frame_OnNavigating(object sender, NavigatingCancelEventArgs e)

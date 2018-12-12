@@ -17,9 +17,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
-using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Events;
 using SimpleSongsPlayer.ViewModels.SettingProperties;
 
@@ -37,7 +36,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         private bool? isPressPositionControlButton = false;
         private bool isUserChangePositon;
 
-        private DataServer dataServer = DataServer.Current;
+        private MusicLibraryDataServer dataServer = MusicLibraryDataServer.Current;
         private PlayerSettingProperties settings = PlayerSettingProperties.Current;
         private MediaPlayer player;
 

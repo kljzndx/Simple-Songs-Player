@@ -3,11 +3,10 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
+using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicGroupers;
 using SimpleSongsPlayer.ViewModels.SettingProperties;
@@ -35,7 +34,7 @@ namespace SimpleSongsPlayer.ViewModels
             SorterMembers.Add(new MusicSorterUi("SorterMember_ChangeDate", (s, c) => s.Original.ChangeDate, true));
 
             settings.PropertyChanged += Settings_PropertyChanged;
-            DataServer.Current.MusicFilesAdded += DataServer_MusicFilesAdded;
+            MusicLibraryDataServer.Current.MusicFilesAdded += DataServer_MusicFilesAdded;
         }
 
         public List<MusicGrouperUi> GrouperMembers { get; }
