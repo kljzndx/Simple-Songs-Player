@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -12,6 +13,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleSongsPlayer.Models;
+using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Arguments;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Extensions;
@@ -37,7 +40,7 @@ namespace SimpleSongsPlayer.Views
             NavigationCacheMode = NavigationCacheMode.Enabled;
         }
         
-        private void Root_Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void Root_Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch (Root_Pivot.SelectedIndex)
             {
@@ -54,12 +57,20 @@ namespace SimpleSongsPlayer.Views
                         ValueTuple.Create(MusicLibraryDataServer.Current.MusicFilesList,
                             new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
                     break;
+                case 3:
+                    await NowPlayingDataServer.Current.Initialize();
+                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.DataSource, new [] {new MusicListMenuItem("MoreMenu_Remove",
+                        async s =>
+                        {
+                            ((MediaPlaybackList) App.MediaPlayer.Source).Items.Remove(await s.Original.GetPlaybackItem());
+                        })}));
+                    break;
             }
         }
 
-        private void AllMusicClassifyPage_OnLoaded(object sender, RoutedEventArgs e)
+        private async void AllMusicClassifyPage_OnLoaded(object sender, RoutedEventArgs e)
         {
-            MusicLibraryDataServer.Current.ScanMusicFiles();
+            await MusicLibraryDataServer.Current.ScanMusicFiles();
         }
 
         private void MusicGroup_Frame_OnNavigating(object sender, NavigatingCancelEventArgs e)

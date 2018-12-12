@@ -18,5 +18,8 @@
         <PivotItem Header="专辑">
             <Frame x:Name="Album_Frame" Navigating="MusicGroup_Frame_OnNavigating"/>
         </PivotItem>
+        <PivotItem Header="正在播放">
+            <Frame x:Name="NowPlaying_Frame"/>
+        </PivotItem>
     </Pivot>
 </Page>

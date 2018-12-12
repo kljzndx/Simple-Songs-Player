@@ -80,10 +80,10 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                     dto.Update(item);
         }
 
-        private void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
+        private async void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
         {
             if (args.WindowActivationState != CoreWindowActivationState.Deactivated && musicFilesService != null)
-                musicFilesService.ScanFiles();
+                await musicFilesService.ScanFiles();
         }
     }
 }

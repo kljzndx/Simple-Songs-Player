@@ -129,6 +129,9 @@
   <data name="ListSort_TextBlock.Text" xml:space="preserve">
     <value>排序： </value>
   </data>
+  <data name="MoreMenu_Remove" xml:space="preserve">
+    <value>移除</value>
+  </data>
   <data name="SorterMember_Album" xml:space="preserve">
     <value>专辑</value>
   </data>

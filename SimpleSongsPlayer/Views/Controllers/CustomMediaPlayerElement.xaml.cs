@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.Service;
+using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Events;
 using SimpleSongsPlayer.ViewModels.SettingProperties;
@@ -212,7 +213,7 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private async void MediaPlayer_SourceChanged(MediaPlayer sender, object args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 if (sender.Source is null)
                 {
@@ -222,6 +223,9 @@ namespace SimpleSongsPlayer.Views.Controllers
                 }
 
                 SetupPlayer();
+
+                if (sender.Source is MediaPlaybackList mpl)
+                    await NowPlayingDataServer.Current.SetUpSource(mpl);
             });
         }
 
@@ -335,7 +339,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         private async void CustomMediaPlayerElement_NowPlaybackItemChanged(CustomMediaPlayerElement sender, PlayerNowPlaybackItemChangeEventArgs args)
         {
             bool isUpdated = false;
-            foreach (var fileDto in dataServer.MusicFilesList)
+            foreach (var fileDto in dataServer.MusicFilesList.Where(f => f.IsInitPlaybackItem))
             {
                 if (!isUpdated && await fileDto.GetPlaybackItem() == args.NewItem)
                 {

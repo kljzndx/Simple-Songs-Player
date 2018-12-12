@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Media.Playback;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Extensions;
@@ -18,13 +20,19 @@ namespace SimpleSongsPlayer.ViewModels
 
         private NowPlayingDataServer()
         {
-            App.MediaPlayer.SourceChanged += MediaPlayer_SourceChanged;
         }
 
         public ObservableCollection<MusicFileDTO> DataSource { get; } = new ObservableCollection<MusicFileDTO>();
 
-        public async Task InitializeNowPlayingService(MediaPlaybackList playbackList)
+        public async Task Initialize()
         {
+            if (App.MediaPlayer.Source is MediaPlaybackList mpl && currentPlaybackList != mpl)
+                await SetUpSource(mpl);
+        }
+
+        public async Task SetUpSource(MediaPlaybackList playbackList)
+        {
+            DataSource.Clear();
             if (currentPlaybackList != null)
                 currentPlaybackList.Items.VectorChanged -= PlaybackItems_VectorChanged;
             foreach (var playbackItem in playbackList.Items)
@@ -41,7 +49,7 @@ namespace SimpleSongsPlayer.ViewModels
             currentPlaybackList.Items.VectorChanged += PlaybackItems_VectorChanged;
         }
 
-        private static async Task<MusicFileDTO> GetFile(MediaPlaybackItem playbackItem)
+        private async Task<MusicFileDTO> GetFile(MediaPlaybackItem playbackItem)
         {
             MusicFileDTO dto = null;
             foreach (var currentDto in MusicLibraryDataServer.Current.MusicFilesList.Where(d => d.IsInitPlaybackItem))
@@ -56,13 +64,7 @@ namespace SimpleSongsPlayer.ViewModels
 
             return dto;
         }
-
-        private async void MediaPlayer_SourceChanged(MediaPlayer sender, object args)
-        {
-            if (sender.Source is MediaPlaybackList mpl)
-                await NowPlayingDataServer.Current.InitializeNowPlayingService(mpl);
-        }
-
+        
         private async void PlaybackItems_VectorChanged(IObservableVector<MediaPlaybackItem> sender, IVectorChangedEventArgs args)
         {
             switch (args.CollectionChange)

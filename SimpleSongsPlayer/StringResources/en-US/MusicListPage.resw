@@ -129,6 +129,9 @@
   <data name="ListSort_TextBlock.Text" xml:space="preserve">
     <value>Sort: </value>
   </data>
+  <data name="MoreMenu_Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
   <data name="SorterMember_Album" xml:space="preserve">
     <value>Album</value>
   </data>

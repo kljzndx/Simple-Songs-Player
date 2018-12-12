@@ -68,7 +68,7 @@ namespace SimpleSongsPlayer.Views
                     }
                 }
 
-                switch (args.ArgsType)
+                switch (args.ArgsType & (~MusicListArgsType.Menu))
                 {
                     case MusicListArgsType.Source:
                         vm.SetUpDataSource(args.Source);

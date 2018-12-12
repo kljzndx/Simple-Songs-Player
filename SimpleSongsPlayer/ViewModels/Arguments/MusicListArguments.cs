@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.ViewModels.Factories;
@@ -23,10 +24,10 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
             ArgsType = MusicListArgsType.Source;
         }
 
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, List<MusicListMenuItem> extraMenu)
+        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IEnumerable<MusicListMenuItem> extraMenu)
         {
             Source = source;
-            ExtraMenu = extraMenu;
+            ExtraMenu = extraMenu.ToList();
             ArgsType = MusicListArgsType.Source | MusicListArgsType.Menu;
         }
 
