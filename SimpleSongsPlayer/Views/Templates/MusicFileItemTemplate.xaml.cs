@@ -37,7 +37,7 @@ namespace SimpleSongsPlayer.Views.Templates
             set => SetValue(SourceProperty, value);
         }
 
-        public List<MusicListMenuItem> MoreFlyout { get; set; }
+        public List<MusicListMenuItem> MoreMenuItemList { get; set; }
 
         public event RoutedEventHandler PlayButton_Click;
 
@@ -48,9 +48,9 @@ namespace SimpleSongsPlayer.Views.Templates
 
         private void More_Button_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!More_MenuFlyout.Items.Any() && MoreFlyout != null)
+            if (!More_MenuFlyout.Items.Any() && MoreMenuItemList != null)
             {
-                foreach (var item in MoreFlyout)
+                foreach (var item in MoreMenuItemList)
                 {
                     var flyoutItem = new MenuFlyoutItem { Text = item.Name };
                     flyoutItem.Click += async (s, a) =>
