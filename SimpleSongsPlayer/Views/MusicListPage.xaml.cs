@@ -38,15 +38,14 @@ namespace SimpleSongsPlayer.Views
     {
         private MusicListViewModel vm;
         private readonly MusicViewSettingProperties settings = MusicViewSettingProperties.Current;
-        private MenuFlyout musicItemMenuFlyout;
+        private List<MusicListMenuItem> musicItemMenuFlyout;
 
         public MusicListPage()
         {
-            musicItemMenuFlyout = new MenuFlyout();
+            musicItemMenuFlyout = new List<MusicListMenuItem>();
             Resources["MusicItemMenuFlyout"] = musicItemMenuFlyout;
 
-            musicItemMenuFlyout.Items.Add(new MenuFlyoutItem
-                {Text = "下一首播放", Tag = new MusicListMenuItemAction(s => MusicPusher.PushToNext(s.Original))});
+            musicItemMenuFlyout.Add(new MusicListMenuItem("MoreMenu_PlayNext", s => MusicPusher.PushToNext(s.Original)));
 
             this.InitializeComponent();
             vm = (MusicListViewModel) DataContext;
@@ -60,13 +59,7 @@ namespace SimpleSongsPlayer.Views
             if (e.Parameter is MusicListArguments args)
             {
                 if (args.ArgsType.HasFlag(MusicListArgsType.Menu))
-                {
-                    foreach (var menuItem in args.ExtraMenu)
-                    {
-                        var item = new MenuFlyoutItem {Text = menuItem.Name, Tag = menuItem.Action};
-                        musicItemMenuFlyout.Items.Add(item);
-                    }
-                }
+                    musicItemMenuFlyout.AddRange(args.ExtraMenu);
 
                 switch (args.ArgsType & (~MusicListArgsType.Menu))
                 {

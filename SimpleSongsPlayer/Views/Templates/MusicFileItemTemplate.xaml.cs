@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -24,10 +25,7 @@ namespace SimpleSongsPlayer.Views.Templates
     {
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
             nameof(Source), typeof(MusicFileDynamic), typeof(MusicFileItemTemplate), new PropertyMetadata(null));
-
-        public static readonly DependencyProperty MoreFlyoutProperty = DependencyProperty.Register(
-            nameof(MoreFlyout), typeof(MenuFlyout), typeof(MusicFileItemTemplate), new PropertyMetadata(null));
-
+        
         public MusicFileItemTemplate()
         {
             this.InitializeComponent();
@@ -39,11 +37,7 @@ namespace SimpleSongsPlayer.Views.Templates
             set => SetValue(SourceProperty, value);
         }
 
-        public MenuFlyout MoreFlyout
-        {
-            get => (MenuFlyout) GetValue(MoreFlyoutProperty);
-            set => SetValue(MoreFlyoutProperty, value);
-        }
+        public List<MusicListMenuItem> MoreFlyout { get; set; }
 
         public event RoutedEventHandler PlayButton_Click;
 
@@ -54,14 +48,24 @@ namespace SimpleSongsPlayer.Views.Templates
 
         private void More_Button_OnClick(object sender, RoutedEventArgs e)
         {
-            if (MoreFlyout != null)
-                foreach (var item in MoreFlyout.Items)
-                    if (item is MenuFlyoutItem mi && mi.Command is null)
-                        mi.Command = new RelayCommand(() =>
-                        {
-                            this.LogByObject($"点击 {mi.Text}");
-                            ((MusicListMenuItemAction) mi.Tag).Invoke(Source);
-                        });
+            if (!More_MenuFlyout.Items.Any() && MoreFlyout != null)
+            {
+                foreach (var item in MoreFlyout)
+                {
+                    var flyoutItem = new MenuFlyoutItem { Text = item.Name };
+                    flyoutItem.Click += async (s, a) =>
+                    {
+                        var theItem = s as MenuFlyoutItem;
+                        if (theItem is null)
+                            return;
+
+                        this.LogByObject($"点击 {theItem.Text}");
+                        await item.Action(Source);
+                    };
+
+                    More_MenuFlyout.Items.Add(flyoutItem);
+                }
+            }
         }
     }
 }

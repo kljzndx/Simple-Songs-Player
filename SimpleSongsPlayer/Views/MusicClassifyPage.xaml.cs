@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Playback;
@@ -59,13 +60,15 @@ namespace SimpleSongsPlayer.Views
                     break;
                 case 3:
                     await NowPlayingDataServer.Current.Initialize();
-                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.DataSource, new [] {new MusicListMenuItem("MoreMenu_Remove",
-                        async s =>
-                        {
-                            ((MediaPlaybackList) App.MediaPlayer.Source).Items.Remove(await s.Original.GetPlaybackItem());
-                        })}));
+                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.DataSource, new [] {new MusicListMenuItem("MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
                     break;
             }
+        }
+
+        private async Task NowPlaying_RemoveItem_Click(MusicFileDynamic source)
+        {
+            if (App.MediaPlayer.Source is MediaPlaybackList mpl)
+                mpl.Items.Remove(await source.Original.GetPlaybackItem());
         }
 
         private async void AllMusicClassifyPage_OnLoaded(object sender, RoutedEventArgs e)
