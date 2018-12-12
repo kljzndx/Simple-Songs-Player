@@ -93,6 +93,8 @@ namespace SimpleSongsPlayer.Models.DTO
         public bool FoundArtist { get; }
         public bool FoundAlbum { get; }
 
+        public bool IsInitPlaybackItem => _playbackItem != null;
+
         public void Update(MusicFile newData)
         {
             Title = newData.Title;
