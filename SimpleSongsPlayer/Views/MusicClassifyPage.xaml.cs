@@ -22,6 +22,7 @@ using SimpleSongsPlayer.ViewModels.Extensions;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
 using SimpleSongsPlayer.ViewModels.Factories.MusicGroupers;
+using SimpleSongsPlayer.ViewModels.SettingProperties;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -67,6 +68,11 @@ namespace SimpleSongsPlayer.Views
         private async void AllMusicClassifyPage_OnLoaded(object sender, RoutedEventArgs e)
         {
             await MusicLibraryDataServer.Current.ScanMusicFiles();
+            if (!OtherSettingProperties.Current.IsMigratedOldFavorites)
+            {
+                await FavoritesDataServer.Current.MigrateOldFavorites();
+                OtherSettingProperties.Current.IsMigratedOldFavorites = true;
+            }
         }
 
         private void MusicGroup_Frame_OnNavigating(object sender, NavigatingCancelEventArgs e)

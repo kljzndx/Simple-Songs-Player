@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.Search;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
 using SimpleSongsPlayer.Models;
@@ -45,6 +48,30 @@ namespace SimpleSongsPlayer.ViewModels
             this.LogByObject("监听服务");
             userFavoriteService.FilesAdded += UserFavoriteService_FilesAdded;
             userFavoriteService.FilesRemoved += UserFavoriteService_FilesRemoved;
+        }
+
+        public async Task MigrateOldFavorites()
+        {
+            if (userFavoriteService is null)
+                await InitializeFavoritesService();
+
+            try
+            {
+                var options = new QueryOptions(CommonFileQuery.OrderByName, new[] {".plb"});
+                var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync("plbs");
+                var query = folder.CreateFileQueryWithOptions(options);
+                var files = await query.GetFilesAsync();
+                foreach (var file in files)
+                {
+                    var lines = await FileIO.ReadLinesAsync(file);
+                    await userFavoriteService.AddRange(file.DisplayName, lines);
+                }
+
+                await folder.DeleteAsync();
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void UserFavoriteService_FilesAdded(object sender, IEnumerable<IGrouping<string, MusicFile>> e)

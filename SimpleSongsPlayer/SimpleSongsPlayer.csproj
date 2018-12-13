@@ -127,6 +127,7 @@
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
     <Compile Include="ViewModels\MusicGroupListViewModel.cs" />
     <Compile Include="ViewModels\MusicPusher.cs" />
+    <Compile Include="ViewModels\SettingProperties\OtherSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\PlayerSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\PlaybackRepeatModeEnum.cs" />
     <Compile Include="ViewModels\SettingProperties\SettingLocator.cs" />
