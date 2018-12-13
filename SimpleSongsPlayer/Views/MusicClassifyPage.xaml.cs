@@ -64,12 +64,6 @@ namespace SimpleSongsPlayer.Views
             }
         }
 
-        private async Task NowPlaying_RemoveItem_Click(MusicFileDynamic source)
-        {
-            if (App.MediaPlayer.Source is MediaPlaybackList mpl)
-                mpl.Items.Remove(await source.Original.GetPlaybackItem());
-        }
-
         private async void AllMusicClassifyPage_OnLoaded(object sender, RoutedEventArgs e)
         {
             await MusicLibraryDataServer.Current.ScanMusicFiles();
@@ -82,6 +76,12 @@ namespace SimpleSongsPlayer.Views
 
             e.Cancel = true;
             Frame.Navigate(e.SourcePageType, e.Parameter);
+        }
+
+        private async Task NowPlaying_RemoveItem_Click(MusicFileDynamic source)
+        {
+            if (App.MediaPlayer.Source is MediaPlaybackList mpl)
+                mpl.Items.Remove(await source.Original.GetPlaybackItem());
         }
     }
 }
