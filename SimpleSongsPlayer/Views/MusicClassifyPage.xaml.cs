@@ -60,6 +60,9 @@ namespace SimpleSongsPlayer.Views
                             new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
                     break;
                 case 3:
+                    Favorites_Frame.NavigateEx(GroupPageType, FavoritesDataServer.Current.UserFavoritesList);
+                    break;
+                case 4:
                     NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.DataSource, new [] {new MusicListMenuItem("MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
                     break;
             }
