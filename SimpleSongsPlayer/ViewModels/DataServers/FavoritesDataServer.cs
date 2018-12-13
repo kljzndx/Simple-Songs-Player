@@ -11,6 +11,7 @@ using SimpleSongsPlayer.DAL.Factory;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
+using SimpleSongsPlayer.ViewModels.DataServers;
 
 namespace SimpleSongsPlayer.ViewModels
 {
@@ -18,11 +19,11 @@ namespace SimpleSongsPlayer.ViewModels
     {
         public static FavoritesDataServer Current = new FavoritesDataServer();
 
+        private ObservableCollection<MusicFileDTO> musicList = MusicLibraryDataServer.Current.MusicFilesList;
         private UserFavoriteService userFavoriteService;
 
         private FavoritesDataServer()
         {
-            UserFavoritesList.CollectionChanged += UserFavoritesList_CollectionChanged;
         }
 
         public ObservableCollection<MusicFileGroup> UserFavoritesList { get; } = new ObservableCollection<MusicFileGroup>();
@@ -39,8 +40,8 @@ namespace SimpleSongsPlayer.ViewModels
             foreach (var grouping in await userFavoriteService.GetFiles())
             {
                 List<MusicFileDTO> files = new List<MusicFileDTO>();
-                foreach (var file in grouping)
-                    files.Add(new MusicFileDTO(file));
+                foreach (var path in grouping)
+                    files.Add(GetFile(path));
 
                 UserFavoritesList.Add(new MusicFileGroup(grouping.Key, files, f => f.GetAlbumCover()));
             }
@@ -74,14 +75,30 @@ namespace SimpleSongsPlayer.ViewModels
             }
         }
 
-        private void UserFavoriteService_FilesAdded(object sender, IEnumerable<IGrouping<string, MusicFile>> e)
+        public MusicFileDTO GetFile(string path)
+        {
+            var result = musicList.FirstOrDefault(f => f.FilePath == path);
+            if (result != null)
+                return result;
+
+            foreach (var fileGroup in UserFavoritesList)
+            {
+                result = fileGroup.Items.FirstOrDefault(f => f.FilePath == path);
+                if (result != null)
+                    break;
+            }
+
+            return result;
+        }
+
+        private void UserFavoriteService_FilesAdded(object sender, IEnumerable<IGrouping<string, string>> e)
         {
             this.LogByObject("检测到有收藏的音乐添加，正在同步添加操作");
             foreach (var group in e)
             {
                 List<MusicFileDTO> files = new List<MusicFileDTO>();
-                foreach (var file in group)
-                    files.Add(new MusicFileDTO(file));
+                foreach (var path in group)
+                    files.Add(GetFile(path));
 
                 var fileGroup = UserFavoritesList.FirstOrDefault(uf => uf.Name == group.Key);
                 if (fileGroup != null)
@@ -92,7 +109,7 @@ namespace SimpleSongsPlayer.ViewModels
             }
         }
 
-        private void UserFavoriteService_FilesRemoved(object sender, IEnumerable<IGrouping<string, MusicFile>> e)
+        private void UserFavoriteService_FilesRemoved(object sender, IEnumerable<IGrouping<string, string>> e)
         {
             this.LogByObject("检测到有收藏的音乐被移除，正在同步移除操作");
             foreach (var group in e)
@@ -106,32 +123,11 @@ namespace SimpleSongsPlayer.ViewModels
                 else
                 {
                     List<MusicFileDTO> files = new List<MusicFileDTO>();
-                    foreach (var file in group)
-                        files.Add(new MusicFileDTO(file));
+                    foreach (var path in group)
+                        files.Add(GetFile(path));
 
                     files.ForEach(mf => fileGroup.Items.Remove(mf));
                 }
-            }
-        }
-
-        private async void UserFavoritesList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (userFavoriteService is null)
-                return;
-
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    foreach (MusicFileGroup item in e.NewItems)
-                    {
-                        await userFavoriteService.AddRange(item.Name, item.Items.Select(f => f.FilePath));
-                        item.SetUpService(userFavoriteService);
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    foreach (MusicFileGroup item in e.OldItems)
-                        await userFavoriteService.RemoveGroup(item.Name);
-                    break;
             }
         }
     }

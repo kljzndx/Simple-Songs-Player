@@ -16,7 +16,6 @@ namespace SimpleSongsPlayer.Models
 {
     public class MusicFileGroup : ObservableObject
     {
-        private IGroupServiceBasicOptions<string, MusicFile> service;
         private string name;
 
         private readonly string _defaultCoverUri;
@@ -92,36 +91,6 @@ namespace SimpleSongsPlayer.Models
 
             coverReference.SetTarget(bitmap);
             return bitmap;
-        }
-
-        public void SetUpService(IGroupServiceBasicOptions<string, MusicFile> service)
-        {
-            this.service = service;
-            Renamed += MusicFileGroup_Renamed;
-            Items.CollectionChanged += Items_CollectionChanged;
-        }
-
-        private async void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    await service.AddRange(name, e.NewItems.Cast<MusicFileDTO>().Select(f => f.FilePath));
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    if (Items.Any())
-                        await service.RemoveRange(name, e.NewItems.Cast<MusicFileDTO>().Select(f => f.FilePath));
-                    else
-                        await service.RemoveGroup(name);
-
-                    break;
-            }
-        }
-
-        private async void MusicFileGroup_Renamed(MusicFileGroup sender, KeyValuePair<string, string> args)
-        {
-            this.LogByObject("检测到 重命名音乐文件组 操作，正在同步至数据库");
-            await service.RenameGroup(args.Key, args.Value);
         }
     }
 }

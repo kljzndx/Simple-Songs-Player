@@ -71,6 +71,7 @@ namespace SimpleSongsPlayer.Views
         private async void AllMusicClassifyPage_OnLoaded(object sender, RoutedEventArgs e)
         {
             await MusicLibraryDataServer.Current.ScanMusicFiles();
+            await FavoritesDataServer.Current.InitializeFavoritesService();
             if (!OtherSettingProperties.Current.IsMigratedOldFavorites)
             {
                 await FavoritesDataServer.Current.MigrateOldFavorites();
