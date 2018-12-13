@@ -23,7 +23,7 @@ namespace SimpleSongsPlayer.Test.Service
             var libraryService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
             var favoriteService = UserFavoriteService.GetService(libraryService);
             List<MusicFile> allFiles = await libraryService.GetFiles();
-            await favoriteService.AddRange("test", allFiles.Select(a=>a.Path));
+            await favoriteService.AddRange("test", allFiles.Select(a => a.Path));
             List<IGrouping<string, string>> f = await favoriteService.GetFiles();
             Assert.IsTrue(f.Count > 0);
         }

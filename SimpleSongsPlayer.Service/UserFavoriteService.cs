@@ -44,6 +44,7 @@ namespace SimpleSongsPlayer.Service
                 foreach (var path in paths)
                     favorites.Add(new UserFavorite(name, path));
                 await db.UserFavorites.AddRangeAsync(favorites);
+                await db.SaveChangesAsync();
             }
 
             FilesAdded?.Invoke(this, CreateGroup(favorites));
