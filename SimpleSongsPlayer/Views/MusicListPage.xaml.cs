@@ -95,17 +95,8 @@ namespace SimpleSongsPlayer.Views
             foreach (MusicFileDynamic item in e.RemovedItems)
                 item.IsSelected = false;
         }
-
-        private async void MusicFileItemTemplate_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            var theTemplate = sender as MusicFileItemTemplate;
-            if (theTemplate is null)
-                return;
-            
-            await MusicPusher.Push(theTemplate.Source.Original);
-        }
         
-        private async void MusicFileItemTemplate_OnPlayButton_Click(object sender, RoutedEventArgs e)
+        private async void MusicFileItemTemplate_OnPlayRequested(object sender, RoutedEventArgs e)
         {
             var theTemplate = sender as MusicFileItemTemplate;
             if (theTemplate is null)
