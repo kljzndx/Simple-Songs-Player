@@ -41,7 +41,7 @@ namespace SimpleSongsPlayer.Views
             NavigationCacheMode = NavigationCacheMode.Enabled;
         }
         
-        private async void Root_Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Root_Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch (Root_Pivot.SelectedIndex)
             {
@@ -59,7 +59,6 @@ namespace SimpleSongsPlayer.Views
                             new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
                     break;
                 case 3:
-                    await NowPlayingDataServer.Current.Initialize();
                     NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.DataSource, new [] {new MusicListMenuItem("MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
                     break;
             }
