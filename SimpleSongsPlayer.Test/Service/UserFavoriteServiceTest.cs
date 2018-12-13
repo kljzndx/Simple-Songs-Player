@@ -11,7 +11,6 @@ namespace SimpleSongsPlayer.Test.Service
     [TestClass]
     public class UserFavoriteServiceTest
     {
-
         static UserFavoriteServiceTest()
         {
             MusicLibraryService<MusicFile, MusicFileFactory>.SetupFileTypeFilter("mp3", "aac", "wav", "flac", "alac", "m4a");
