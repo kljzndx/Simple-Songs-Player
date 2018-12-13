@@ -38,11 +38,11 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
             ArgsType = MusicListArgsType.Source | MusicListArgsType.Filter;
         }
 
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, MusicFilterArgs filter, List<MusicListMenuItem> extraMenu)
+        public MusicListArguments(ObservableCollection<MusicFileDTO> source, MusicFilterArgs filter, IEnumerable<MusicListMenuItem> extraMenu)
         {
             Source = source;
             Filter = filter;
-            ExtraMenu = extraMenu;
+            ExtraMenu = extraMenu.ToList();
             ArgsType = MusicListArgsType.Source | MusicListArgsType.Filter | MusicListArgsType.Menu;
         }
 
