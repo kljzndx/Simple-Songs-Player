@@ -51,6 +51,7 @@ namespace SimpleSongsPlayer.ViewModels
             this.LogByObject("监听服务");
             userFavoriteService.FilesAdded += UserFavoriteService_FilesAdded;
             userFavoriteService.FilesRemoved += UserFavoriteService_FilesRemoved;
+            userFavoriteService.GroupRenamed += UserFavoriteService_GroupRenamed;
         }
 
         public async Task MigrateOldFavorites()
@@ -131,6 +132,13 @@ namespace SimpleSongsPlayer.ViewModels
                     files.ForEach(mf => fileGroup.Items.Remove(mf));
                 }
             }
+        }
+
+        private void UserFavoriteService_GroupRenamed(object sender, KeyValuePair<string, string> e)
+        {
+            var group = UserFavoritesList.FirstOrDefault(g => g.Name == e.Key);
+            if (group != null)
+                group.Name = e.Value;
         }
     }
 }
