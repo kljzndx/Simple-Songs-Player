@@ -30,6 +30,9 @@ namespace SimpleSongsPlayer.Views
     {
         private MusicGroupListViewModel vm;
 
+        private List<MusicItemMenuItem<MusicFileDynamic>> itemExtraMenu;
+        private readonly List<MusicItemMenuItem<MusicFileGroupDynamic>> groupMenu = new List<MusicItemMenuItem<MusicFileGroupDynamic>>();
+
         public MusicGroupListPage()
         {
             this.InitializeComponent();
@@ -38,10 +41,24 @@ namespace SimpleSongsPlayer.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is ObservableCollection<MusicFileGroup> list)
-                vm.SetUp(list);
-            if (e.Parameter is ValueTuple<ObservableCollection<MusicFileDTO>, MusicGrouperArgs> tuple)
-                vm.SetUp(tuple.Item1, tuple.Item2);
+            if (e.Parameter is MusicGroupArguments args)
+            {
+                if (args.ArgsType.HasFlag(MusicGroupArgsType.Menu))
+                {
+                    groupMenu.AddRange(args.ExtraGroupMenu);
+                    itemExtraMenu = args.ExtraItemMenu;
+                }
+
+                switch (args.ArgsType & (~MusicGroupArgsType.Menu))
+                {
+                    case MusicGroupArgsType.GroupSource:
+                        vm.SetUp(args.GroupSource);
+                        break;
+                    case MusicGroupArgsType.ItemSource | MusicGroupArgsType.Grouper:
+                        vm.SetUp(args.ItemSource, args.GrouperArgs);
+                        break;
+                }
+            }
         }
 
         private void Main_GridView_OnItemClick(object sender, ItemClickEventArgs e)
@@ -51,7 +68,12 @@ namespace SimpleSongsPlayer.Views
                 return;
 
             if (vm.ItemFilter != null)
-                Frame.Navigate(typeof(MusicListPage), new MusicListArguments(vm.Original, new MusicFilterArgs(vm.ItemFilter, item.Name)));
+                if (itemExtraMenu != null)
+                    Frame.Navigate(typeof(MusicListPage), new MusicListArguments(vm.Original, new MusicFilterArgs(vm.ItemFilter, item.Name), itemExtraMenu));
+                else
+                    Frame.Navigate(typeof(MusicListPage), new MusicListArguments(vm.Original, new MusicFilterArgs(vm.ItemFilter, item.Name)));
+            else if (itemExtraMenu != null)
+                Frame.Navigate(typeof(MusicListPage), new MusicListArguments(item.Items, itemExtraMenu));
             else
                 Frame.Navigate(typeof(MusicListPage), new MusicListArguments(item.Items));
         }

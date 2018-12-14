@@ -50,17 +50,13 @@ namespace SimpleSongsPlayer.Views
                     Song_Frame.NavigateEx(ListPageType, new MusicListArguments(MusicLibraryDataServer.Current.MusicFilesList));
                     break;
                 case 1:
-                    Artist_Frame.NavigateEx(GroupPageType,
-                        ValueTuple.Create(MusicLibraryDataServer.Current.MusicFilesList,
-                            new MusicGrouperArgs(new MusicArtistGrouper(), new MusicArtistFilter())));
+                    Artist_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(MusicLibraryDataServer.Current.MusicFilesList, new MusicGrouperArgs(new MusicArtistGrouper(), new MusicArtistFilter())));
                     break;
                 case 2:
-                    Album_Frame.NavigateEx(GroupPageType,
-                        ValueTuple.Create(MusicLibraryDataServer.Current.MusicFilesList,
-                            new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
+                    Album_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(MusicLibraryDataServer.Current.MusicFilesList, new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
                     break;
                 case 3:
-                    Favorites_Frame.NavigateEx(GroupPageType, FavoritesDataServer.Current.UserFavoritesList);
+                    Favorites_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(FavoritesDataServer.Current.UserFavoritesList));
                     break;
                 case 4:
                     NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.DataSource, new [] {new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));

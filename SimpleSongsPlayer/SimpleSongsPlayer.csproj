@@ -100,6 +100,7 @@
     <Compile Include="Models\MusicItemMenuItem.cs" />
     <Compile Include="Models\MusicSorterUi.cs" />
     <Compile Include="Models\StringResources.cs" />
+    <Compile Include="ViewModels\Arguments\MusicGroupArguments.cs" />
     <Compile Include="ViewModels\Arguments\MusicListArguments.cs" />
     <Compile Include="ViewModels\Attributes\PageTitleAttribute.cs" />
     <Compile Include="Models\DTO\MusicFileDTO.cs" />
