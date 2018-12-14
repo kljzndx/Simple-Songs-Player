@@ -38,14 +38,14 @@ namespace SimpleSongsPlayer.Views
     {
         private MusicListViewModel vm;
         private readonly MusicViewSettingProperties settings = MusicViewSettingProperties.Current;
-        private readonly List<MusicListMenuItem> musicItemMenuList;
+        private readonly List<MusicItemMenuItem<MusicFileDynamic>> musicItemMenuList;
 
         public MusicListPage()
         {
-            musicItemMenuList = new List<MusicListMenuItem>();
+            musicItemMenuList = new List<MusicItemMenuItem<MusicFileDynamic>>();
             Resources["MusicItemMenuList"] = musicItemMenuList;
 
-            musicItemMenuList.Add(new MusicListMenuItem("MoreMenu_PlayNext", s => MusicPusher.PushToNext(s.Original)));
+            musicItemMenuList.Add(new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_PlayNext", s => MusicPusher.PushToNext(s.Original)));
 
             this.InitializeComponent();
             vm = (MusicListViewModel) DataContext;

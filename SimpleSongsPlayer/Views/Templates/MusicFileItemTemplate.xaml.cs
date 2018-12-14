@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Command;
 using SimpleSongsPlayer.Models;
+using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
@@ -37,7 +38,7 @@ namespace SimpleSongsPlayer.Views.Templates
             set => SetValue(SourceProperty, value);
         }
 
-        public List<MusicListMenuItem> MoreMenuItemList { get; set; }
+        public List<MusicItemMenuItem<MusicFileDynamic>> MoreMenuItemList { get; set; }
 
         public event RoutedEventHandler PlayRequested;
         

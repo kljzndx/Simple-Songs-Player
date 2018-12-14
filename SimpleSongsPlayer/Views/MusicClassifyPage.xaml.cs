@@ -63,7 +63,7 @@ namespace SimpleSongsPlayer.Views
                     Favorites_Frame.NavigateEx(GroupPageType, FavoritesDataServer.Current.UserFavoritesList);
                     break;
                 case 4:
-                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.DataSource, new [] {new MusicListMenuItem("MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
+                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.DataSource, new [] {new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
                     break;
             }
         }
