@@ -4,6 +4,13 @@ using HappyStudio.UwpToolsLibrary.Auxiliarys.Attributes;
 
 namespace SimpleSongsPlayer.ViewModels.SettingProperties
 {
+    public enum PlaybackRepeatModeEnum
+    {
+        Single,
+        List,
+        Random
+    }
+
     public class PlayerSettingProperties : SettingsBase
     {
         public static readonly PlayerSettingProperties Current = new PlayerSettingProperties();

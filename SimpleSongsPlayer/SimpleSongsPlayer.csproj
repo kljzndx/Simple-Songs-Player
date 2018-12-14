@@ -131,7 +131,6 @@
     <Compile Include="ViewModels\MusicPusher.cs" />
     <Compile Include="ViewModels\SettingProperties\OtherSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\PlayerSettingProperties.cs" />
-    <Compile Include="ViewModels\SettingProperties\PlaybackRepeatModeEnum.cs" />
     <Compile Include="ViewModels\SettingProperties\SettingLocator.cs" />
     <Compile Include="ViewModels\MusicListViewModel.cs" />
     <Compile Include="ViewModels\SettingProperties\MusicViewSettingProperties.cs" />
