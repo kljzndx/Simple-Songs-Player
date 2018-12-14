@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -21,11 +20,13 @@ namespace SimpleSongsPlayer.ViewModels
 
         private ObservableCollection<MusicFileDTO> musicList = MusicLibraryDataServer.Current.MusicFilesList;
         private UserFavoriteService userFavoriteService;
-
+        
         private FavoritesDataServer()
         {
         }
 
+        public IGroupServiceBasicOptions<string> FavoriteOption { get; private set; }
+        
         public ObservableCollection<MusicFileGroup> UserFavoritesList { get; } = new ObservableCollection<MusicFileGroup>();
 
         public async Task InitializeFavoritesService()
@@ -35,6 +36,7 @@ namespace SimpleSongsPlayer.ViewModels
 
             this.LogByObject("获取服务");
             userFavoriteService = UserFavoriteService.GetService(await MusicLibraryService<MusicFile, MusicFileFactory>.GetService());
+            FavoriteOption = userFavoriteService;
 
             this.LogByObject("获取用户收藏");
             foreach (var grouping in await userFavoriteService.GetFiles())
@@ -75,7 +77,7 @@ namespace SimpleSongsPlayer.ViewModels
             }
         }
 
-        public MusicFileDTO GetFile(string path)
+        private MusicFileDTO GetFile(string path)
         {
             var result = musicList.FirstOrDefault(f => f.FilePath == path);
             if (result != null)
@@ -90,7 +92,7 @@ namespace SimpleSongsPlayer.ViewModels
 
             return result;
         }
-
+        
         private void UserFavoriteService_FilesAdded(object sender, IEnumerable<IGrouping<string, string>> e)
         {
             this.LogByObject("检测到有收藏的音乐添加，正在同步添加操作");
