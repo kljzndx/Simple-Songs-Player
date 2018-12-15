@@ -111,6 +111,7 @@
     <Compile Include="ViewModels\DataServers\FavoritesDataServer.cs" />
     <Compile Include="ViewModels\DataServers\MusicLibraryDataServer.cs" />
     <Compile Include="ViewModels\DataServers\NowPlayingDataServer.cs" />
+    <Compile Include="ViewModels\Events\FavoriteAdditionNotification.cs" />
     <Compile Include="ViewModels\Events\PlayerNowPlaybackItemChangeEventArgs.cs" />
     <Compile Include="ViewModels\Events\PlayerPositionChangeEventArgs.cs" />
     <Compile Include="ViewModels\Extensions\ExceptionExtensions.cs" />

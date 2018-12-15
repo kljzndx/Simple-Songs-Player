@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Windows.Media.Playback;
@@ -7,6 +10,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using SimpleSongsPlayer.Models;
+using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Attributes;
@@ -28,6 +33,8 @@ namespace SimpleSongsPlayer.Views
         private static readonly Type ClassifyPageType = typeof(MusicClassifyPage);
 
         private readonly SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+        private IEnumerable<string> musicDtoPaths;
+        private ObservableCollection<MusicFileGroup> favorites = FavoritesDataServer.Current.UserFavoritesList;
 
         public FrameworkPage()
         {
@@ -37,6 +44,7 @@ namespace SimpleSongsPlayer.Views
 
             Main_CustomMediaPlayerElement.SetMediaPlayer(App.MediaPlayer);
             CustomMediaPlayerElement.NowPlaybackItemChanged += CustomMediaPlayerElement_NowPlaybackItemChanged;
+            FavoriteAdditionNotification.FavoriteAdditionRequested += FavoriteAdditionNotification_FavoriteAdditionRequested;
         }
 
         private void Main_Frame_OnNavigated(object sender, NavigationEventArgs e)
@@ -80,6 +88,32 @@ namespace SimpleSongsPlayer.Views
             }
             else
                 Cover_Image.Visibility = Visibility.Collapsed;
+        }
+
+        private void FavoriteAdditionNotification_FavoriteAdditionRequested(object sender, IEnumerable<MusicFileDTO> e)
+        {
+            musicDtoPaths = e.Select(f => f.FilePath);
+            My_FavoriteSelectorDialog.ShowAsync();
+        }
+
+        private void My_FavoriteSelectorDialog_OnFavoriteCreateRequested(object sender, EventArgs e)
+        {
+            FavoriteName_InputDialog.ShowAsync();
+        }
+
+        private async void My_FavoriteSelectorDialog_OnFavoriteSelected(object sender, string e)
+        {
+            await FavoritesDataServer.Current.FavoriteOption.AddRange(e, musicDtoPaths);
+        }
+
+        private async void FavoriteName_InputDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            await FavoritesDataServer.Current.FavoriteOption.AddRange(FavoriteName_InputDialog.Text, musicDtoPaths);
+        }
+
+        private void FavoriteName_InputDialog_OnSecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            My_FavoriteSelectorDialog.ShowAsync();
         }
     }
 }

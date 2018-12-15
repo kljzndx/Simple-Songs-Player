@@ -37,7 +37,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         }
 
         public event EventHandler<EventArgs> FavoriteCreateRequested;
-        public event EventHandler<MusicFileGroup> FavoriteSelected;
+        public event EventHandler<string> FavoriteSelected;
 
         private void CreateFavorite_ListViewItem_OnTapped(object sender, TappedRoutedEventArgs e)
         {
@@ -50,7 +50,7 @@ namespace SimpleSongsPlayer.Views.Controllers
             this.Hide();
             var click = e.ClickedItem as MusicFileGroup;
             if (click != null)
-                FavoriteSelected?.Invoke(this, click);
+                FavoriteSelected?.Invoke(this, click.Name);
         }
     }
 }

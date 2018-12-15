@@ -13,6 +13,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid x:Name="TitleBar_Grid" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
@@ -39,6 +40,11 @@
             </Button>
 
             <ctrl:CustomMediaPlayerElement x:Name="Main_CustomMediaPlayerElement" Grid.Column="1" VerticalAlignment="Center"/>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <ctrl:FavoriteSelectorDialog x:Name="My_FavoriteSelectorDialog" Source="{x:Bind favorites}" FavoriteCreateRequested="My_FavoriteSelectorDialog_OnFavoriteCreateRequested" FavoriteSelected="My_FavoriteSelectorDialog_OnFavoriteSelected"/>
+            <ctrl:InputDialog x:Name="FavoriteName_InputDialog" Label="名称" PrimaryButtonClick="FavoriteName_InputDialog_OnPrimaryButtonClick" SecondaryButtonClick="FavoriteName_InputDialog_OnSecondaryButtonClick"/>
         </Grid>
     </Grid>
 </Page>
