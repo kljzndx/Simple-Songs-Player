@@ -97,6 +97,7 @@ namespace SimpleSongsPlayer
 
                 Logger.Info("初始化音乐库服务的文件筛选器");
                 MusicLibraryService<MusicFile, MusicFileFactory>.SetupFileTypeFilter("mp3", "aac", "wav", "flac", "alac", "m4a");
+                MusicLibraryService<LyricFile, LyricFileFactory>.SetupFileTypeFilter("lrc");
             }
         }
 
