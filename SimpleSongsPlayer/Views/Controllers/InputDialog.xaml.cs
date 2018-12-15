@@ -24,6 +24,9 @@ namespace SimpleSongsPlayer.Views.Controllers
         public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
             nameof(Label), typeof(string), typeof(InputDialog), new PropertyMetadata(String.Empty));
 
+        public static readonly DependencyProperty NoInputsProperty = DependencyProperty.Register(
+            nameof(NoInputs), typeof(ObservableCollection<string>), typeof(InputDialog), new PropertyMetadata(new ObservableCollection<string> { "<", ">", "|", "\\", "/", "?", ";", ":", "'", "\"", "*" }));
+
         private string text = String.Empty;
 
         public InputDialog()
@@ -55,9 +58,6 @@ namespace SimpleSongsPlayer.Views.Controllers
             get => (string)GetValue(LabelProperty);
             set => SetValue(LabelProperty, value);
         }
-
-        public static readonly DependencyProperty NoInputsProperty = DependencyProperty.Register(
-            nameof(NoInputs), typeof(ObservableCollection<string>), typeof(InputDialog), new PropertyMetadata(new ObservableCollection<string> { "<", ">", "|", "\\", "/", "?", ";", ":", "'", "\"", "*" }));
 
         public ObservableCollection<string> NoInputs
         {
