@@ -107,6 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ILibraryFileFactory.cs" />
+    <Compile Include="LyricFileFactory.cs" />
     <Compile Include="MusicFileFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\SimpleSongsPlayer.DAL.Factory.rd.xml" />
