@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -17,6 +18,7 @@ using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Arguments;
+using SimpleSongsPlayer.ViewModels.Events;
 using SimpleSongsPlayer.ViewModels.Factories;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -35,6 +37,7 @@ namespace SimpleSongsPlayer.Views
 
         public MusicGroupListPage()
         {
+            groupMenu.Add(new MusicItemMenuItem<MusicFileGroupDynamic>("MusicGroupPage", "MoreMenu_Favorite", async g => FavoriteAdditionNotification.RequestFavoriteAddition(g.Items.Select(f => f.Original))));
             this.InitializeComponent();
             vm = (MusicGroupListViewModel) DataContext;
         }

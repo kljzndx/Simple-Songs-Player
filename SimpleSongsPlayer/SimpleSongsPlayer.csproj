@@ -188,6 +188,8 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="StringResources\en-US\MusicGroupPage.resw" />
+    <PRIResource Include="StringResources\zh-CN\MusicGroupPage.resw" />
     <PRIResource Include="StringResources\en-US\Controllers\FavoriteSelectorDialog.resw" />
     <PRIResource Include="StringResources\zh-CN\Controllers\FavoriteSelectorDialog.resw" />
     <PRIResource Include="StringResources\zh-CN\InputDialog.resw" />

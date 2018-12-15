@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
@@ -20,6 +21,7 @@ using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Arguments;
 using SimpleSongsPlayer.ViewModels.Attributes;
+using SimpleSongsPlayer.ViewModels.Events;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
 using SimpleSongsPlayer.ViewModels.Factories.MusicGroupers;
@@ -46,6 +48,7 @@ namespace SimpleSongsPlayer.Views
             Resources["MusicItemMenuList"] = musicItemMenuList;
 
             musicItemMenuList.Add(new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_PlayNext", s => MusicPusher.PushToNext(s.Original)));
+            musicItemMenuList.Add(new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Favorite", async f => FavoriteAdditionNotification.RequestFavoriteAddition(new[] {f.Original})));
 
             this.InitializeComponent();
             vm = (MusicListViewModel) DataContext;
