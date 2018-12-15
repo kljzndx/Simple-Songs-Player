@@ -143,6 +143,9 @@
     <Compile Include="Views\Controllers\DropDownButton.xaml.cs">
       <DependentUpon>DropDownButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controllers\FavoriteSelectorDialog.xaml.cs">
+      <DependentUpon>FavoriteSelectorDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controllers\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>
@@ -161,6 +164,9 @@
     </Compile>
     <Compile Include="Views\MusicListPage.xaml.cs">
       <DependentUpon>MusicListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Templates\FavoriteItemTemplate.xaml.cs">
+      <DependentUpon>FavoriteItemTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Templates\MusicFileItemTemplate.xaml.cs">
       <DependentUpon>MusicFileItemTemplate.xaml</DependentUpon>
@@ -181,6 +187,8 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="StringResources\en-US\Controllers\FavoriteSelectorDialog.resw" />
+    <PRIResource Include="StringResources\zh-CN\Controllers\FavoriteSelectorDialog.resw" />
     <PRIResource Include="StringResources\zh-CN\InputDialog.resw" />
     <PRIResource Include="StringResources\en-US\InputDialog.resw" />
     <PRIResource Include="StringResources\en-US\MusicListPage.resw" />
@@ -229,6 +237,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Controllers\FavoriteSelectorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Controllers\InputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -250,6 +262,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MusicListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Templates\FavoriteItemTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
