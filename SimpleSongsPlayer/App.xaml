@@ -9,8 +9,19 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ViewModels/Converters/GlobalValueConverters.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <SolidColorBrush x:Key="AppBackground" Color="#44000000"/>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="AppBackground" Color="#88000000"/>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
 
             <vm:ViewModelLocator x:Key="VmLocator"/>
+
+            <StaticResource x:Key="ContentDialogLightDismissOverlayBackground" ResourceKey="AppBackground"/>
+
             <!-- Default style for Windows.UI.Xaml.Controls.ContentDialog -->
             <Style x:Key="Adaptive_ContentDialog_Style" TargetType="ContentDialog">
                 <Setter Property="Foreground" Value="{ThemeResource ContentDialogForeground}" />
