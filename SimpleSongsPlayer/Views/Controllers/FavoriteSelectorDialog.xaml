@@ -27,7 +27,7 @@
                     <Rectangle Width="48" Height="48" Stroke="{StaticResource SystemControlForegroundBaseHighBrush}" StrokeThickness="2"/>
                     <SymbolIcon Symbol="Add" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
-                <TextBlock x:Uid="/FavoriteSelectorDialog/CreateFavorite_TextBlock" Grid.Column="1" Text="新建收藏夹" Margin="8,0"/>
+                <TextBlock x:Uid="/FavoriteSelectorDialog/CreateFavorite_TextBlock" Grid.Column="1" Text="新建收藏夹" VerticalAlignment="Center" Margin="8,0"/>
             </Grid>
         </ListViewItem>
 
