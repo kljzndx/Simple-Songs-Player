@@ -96,24 +96,18 @@ namespace SimpleSongsPlayer.Views
             My_FavoriteSelectorDialog.ShowAsync();
         }
 
-        private void My_FavoriteSelectorDialog_OnFavoriteCreateRequested(object sender, EventArgs e)
+        private async void My_FavoriteSelectorDialog_OnFavoriteCreateRequested(object sender, EventArgs e)
         {
-            FavoriteName_InputDialog.ShowAsync();
+            var operation = await FavoriteName_InputDialog.ShowAsync();
+            if (operation == ContentDialogResult.Primary)
+                await FavoritesDataServer.Current.FavoriteOption.AddRange(FavoriteName_InputDialog.Text, musicDtoPaths);
+            else
+                My_FavoriteSelectorDialog.ShowAsync();
         }
 
         private async void My_FavoriteSelectorDialog_OnFavoriteSelected(object sender, string e)
         {
             await FavoritesDataServer.Current.FavoriteOption.AddRange(e, musicDtoPaths);
-        }
-
-        private async void FavoriteName_InputDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            await FavoritesDataServer.Current.FavoriteOption.AddRange(FavoriteName_InputDialog.Text, musicDtoPaths);
-        }
-
-        private void FavoriteName_InputDialog_OnSecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            My_FavoriteSelectorDialog.ShowAsync();
         }
     }
 }

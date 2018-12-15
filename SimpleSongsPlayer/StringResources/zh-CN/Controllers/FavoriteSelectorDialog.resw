@@ -123,6 +123,9 @@
   <data name="Dialog.Title" xml:space="preserve">
     <value>收藏夹选择器</value>
   </data>
+  <data name="FavoriteName_InputDialog.Label" xml:space="preserve">
+    <value>名称</value>
+  </data>
   <data name="Songs_Run.Text" xml:space="preserve">
     <value> 首歌</value>
   </data>

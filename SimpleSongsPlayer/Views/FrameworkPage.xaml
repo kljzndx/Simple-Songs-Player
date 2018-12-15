@@ -44,7 +44,7 @@
 
         <Grid Grid.Row="3">
             <ctrl:FavoriteSelectorDialog x:Name="My_FavoriteSelectorDialog" Source="{x:Bind favorites}" FavoriteCreateRequested="My_FavoriteSelectorDialog_OnFavoriteCreateRequested" FavoriteSelected="My_FavoriteSelectorDialog_OnFavoriteSelected"/>
-            <ctrl:InputDialog x:Name="FavoriteName_InputDialog" Label="名称" PrimaryButtonClick="FavoriteName_InputDialog_OnPrimaryButtonClick" SecondaryButtonClick="FavoriteName_InputDialog_OnSecondaryButtonClick"/>
+            <ctrl:InputDialog x:Name="FavoriteName_InputDialog" x:Uid="/FavoriteSelectorDialog/FavoriteName_InputDialog"/>
         </Grid>
     </Grid>
 </Page>

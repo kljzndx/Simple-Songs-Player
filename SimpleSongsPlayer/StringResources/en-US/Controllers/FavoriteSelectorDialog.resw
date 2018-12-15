@@ -123,6 +123,9 @@
   <data name="Dialog.Title" xml:space="preserve">
     <value>Favorite selector</value>
   </data>
+  <data name="FavoriteName_InputDialog.Label" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="Songs_Run.Text" xml:space="preserve">
     <value> Songs</value>
   </data>
