@@ -30,15 +30,14 @@ namespace SimpleSongsPlayer.ViewModels
                 if (mpl.CurrentItem.Equals(playbackItem))
                     return;
 
-                if (mpl.Items.Contains(playbackItem))
+                if (!mpl.Items.Contains(playbackItem))
                 {
-                    CurrentType.LogByType("移除列表内相同播放项");
-                    mpl.Items.Remove(playbackItem);
+                    CurrentType.LogByType("将播放项插入至最顶端");
+                    mpl.Items.Insert(0, playbackItem);
                 }
 
-                CurrentType.LogByType("将播放项插入至最顶端，并同步移动磁头");
-                mpl.Items.Insert(0, playbackItem);
-                mpl.MoveTo(0);
+                CurrentType.LogByType("移动磁头");
+                mpl.MoveTo((uint) mpl.Items.IndexOf(playbackItem));
             }
             else
                 Push(new[] {playbackItem});
