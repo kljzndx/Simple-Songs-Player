@@ -141,6 +141,7 @@
     <Compile Include="ViewModels\SettingProperties\MusicViewSettingProperties.cs" />
     <Compile Include="ViewModels\StyleSelectors\MusicGroupDynamicStyleSelector.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\Controllers\Abstracts\LyricsPreviewControlBase.cs" />
     <Compile Include="Views\Controllers\CustomMediaPlayerElement.xaml.cs">
       <DependentUpon>CustomMediaPlayerElement.xaml</DependentUpon>
     </Compile>
