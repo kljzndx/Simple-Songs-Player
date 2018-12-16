@@ -1,10 +1,13 @@
 ﻿using System;
+using GalaSoft.MvvmLight;
 
 namespace SimpleSongsPlayer.Models.DTO.Lyric
 {
-    public class LyricLine : IComparable<LyricLine>
+    public class LyricLine : ObservableObject, IComparable<LyricLine>
     {
         public static readonly LyricLine Empty = new LyricLine(TimeSpan.Zero, String.Empty);
+
+        private bool isSelected;
 
         public LyricLine(TimeSpan time)
         {
@@ -14,6 +17,12 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
         public LyricLine(TimeSpan time, string content) : this(time)
         {
             Content = content;
+        }
+
+        public bool IsSelected
+        {
+            get => isSelected;
+            set => Set(ref isSelected, value);
         }
 
         public TimeSpan Time { get; }

@@ -139,6 +139,7 @@
     <Compile Include="ViewModels\SettingProperties\SettingLocator.cs" />
     <Compile Include="ViewModels\MusicListViewModel.cs" />
     <Compile Include="ViewModels\SettingProperties\MusicViewSettingProperties.cs" />
+    <Compile Include="ViewModels\SettingProperties\ViewSettingProperties.cs" />
     <Compile Include="ViewModels\StyleSelectors\MusicGroupDynamicStyleSelector.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Controllers\Abstracts\LyricsPreviewControlBase.cs" />
@@ -154,6 +155,9 @@
     </Compile>
     <Compile Include="Views\Controllers\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controllers\ScrollLyricsPreviewControl.xaml.cs">
+      <DependentUpon>ScrollLyricsPreviewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controllers\SplitButton.xaml.cs">
       <DependentUpon>SplitButton.xaml</DependentUpon>
@@ -179,6 +183,9 @@
     </Compile>
     <Compile Include="Views\Templates\MusicGroupItemTemplate.xaml.cs">
       <DependentUpon>MusicGroupItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Templates\ScrollLyricsPreviewItemTemplate.xaml.cs">
+      <DependentUpon>ScrollLyricsPreviewItemTemplate.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +260,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Controllers\ScrollLyricsPreviewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Controllers\SplitButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -282,6 +293,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Templates\MusicGroupItemTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Templates\ScrollLyricsPreviewItemTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
