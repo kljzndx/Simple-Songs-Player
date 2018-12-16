@@ -4,6 +4,8 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
 {
     public class LyricLine : IComparable<LyricLine>
     {
+        public static readonly LyricLine Empty = new LyricLine(TimeSpan.Zero, String.Empty);
+
         public LyricLine(TimeSpan time)
         {
             Time = time;
