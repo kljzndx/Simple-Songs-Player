@@ -526,6 +526,7 @@
                                     <StackPanel Orientation="Horizontal">
 
                                         <AppBarButton x:Name='Rewind_Button'
+                                                      x:Uid="/Player/Rewind_AppBarButton"
                                                       Style='{StaticResource AppBarButtonStyle}'
                                                       MediaTransportControlsHelper.DropoutOrder='1'
                                                       Visibility='{TemplateBinding IsFastRewindButtonVisible}'>
@@ -544,6 +545,7 @@
                                         </AppBarButton>
 
                                         <AppBarButton x:Name='FastForward_Button'
+                                                      x:Uid="/Player/FastForward_AppBarButton"
                                                       Style='{StaticResource AppBarButtonStyle}'
                                                       Visibility='{TemplateBinding IsFastForwardButtonVisible}'>
                                             <AppBarButton.Icon>
@@ -556,13 +558,13 @@
                                 <Border x:Name="MediaTransportControls_Command_Border" Grid.Column="1" Grid.Row="2">
                                     <CommandBar x:Name="MediaControlsCommandBar" Margin="0,0" Style="{StaticResource CommandBarStyle}" IsDynamicOverflowEnabled="False">
                                         <CommandBar.PrimaryCommands>
-                                            <AppBarButton Style="{StaticResource AppBarButtonStyle}">
+                                            <AppBarButton x:Uid="/Player/RepeatMode_AppBarButton" Style="{StaticResource AppBarButtonStyle}">
                                                 <AppBarButton.Flyout>
                                                     <Flyout>
                                                         <ListBox x:Name="RepeatMode_ListBox" SelectedIndex="{TemplateBinding RepeatMode_SelectedID}">
-                                                            <ListBoxItem Content="单曲循环"/>
-                                                            <ListBoxItem Content="列表循环"/>
-                                                            <ListBoxItem Content="随机播放"/>
+                                                            <ListBoxItem x:Uid="/Player/RepeatMode_Single_ListBoxItem"/>
+                                                            <ListBoxItem x:Uid="/Player/RepeatMode_List_ListBoxItem"/>
+                                                            <ListBoxItem x:Uid="/Player/RepeatMode_Random_ListBoxItem"/>
                                                         </ListBox>
                                                     </Flyout>
                                                 </AppBarButton.Flyout>

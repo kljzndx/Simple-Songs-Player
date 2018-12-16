@@ -126,6 +126,12 @@
   <data name="GrouperMember_None" xml:space="preserve">
     <value>None</value>
   </data>
+  <data name="Grouper_DropDownButton.Content" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Grouper_DropDownButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Group mode</value>
+  </data>
   <data name="ListSort_TextBlock.Text" xml:space="preserve">
     <value>Sort: </value>
   </data>
@@ -137,6 +143,12 @@
   </data>
   <data name="MoreMenu_Remove" xml:space="preserve">
     <value>Remove</value>
+  </data>
+  <data name="PlayAll_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Play all</value>
+  </data>
+  <data name="PlayAll_TextBlock.Text" xml:space="preserve">
+    <value>Play all</value>
   </data>
   <data name="SorterMember_Album" xml:space="preserve">
     <value>Album</value>

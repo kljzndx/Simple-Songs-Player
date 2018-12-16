@@ -108,5 +108,10 @@ namespace SimpleSongsPlayer.Views
             await MusicPusher.Push(theTemplate.Source.Original);
             
         }
+
+        private async void PlayAll_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            await MusicPusher.Push(vm.GetAllMusic().Select(f => f.Original));
+        }
     }
 }

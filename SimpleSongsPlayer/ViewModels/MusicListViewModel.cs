@@ -76,6 +76,17 @@ namespace SimpleSongsPlayer.ViewModels
                 groupDynamic.ReverseItems();
         }
 
+        public IEnumerable<MusicFileDynamic> GetAllMusic()
+        {
+            return DataSource.Select(g => g.Items).Aggregate((o, n) =>
+            {
+                var list = new ObservableCollection<MusicFileDynamic>(o);
+                foreach (var fileDynamic in n)
+                    list.Add(fileDynamic);
+                return list;
+            });
+        }
+
         public void SetUpDataSource(ObservableCollection<MusicFileDTO> dtos)
         {
             original = dtos;

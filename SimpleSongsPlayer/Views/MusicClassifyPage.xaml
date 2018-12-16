@@ -9,19 +9,19 @@
     Loaded="AllMusicClassifyPage_OnLoaded">
 
     <Pivot x:Name="Root_Pivot" SelectionChanged="Root_Pivot_OnSelectionChanged">
-        <PivotItem Header="歌曲">
+        <PivotItem x:Uid="/MusicClassifyPage/Song_PivotItem">
             <Frame x:Name="Song_Frame"/>
         </PivotItem>
-        <PivotItem Header="歌手">
+        <PivotItem x:Uid="/MusicClassifyPage/Artist_PivotItem">
             <Frame x:Name="Artist_Frame" Navigating="MusicGroup_Frame_OnNavigating"/>
         </PivotItem>
-        <PivotItem Header="专辑">
+        <PivotItem x:Uid="/MusicClassifyPage/Album_PivotItem">
             <Frame x:Name="Album_Frame" Navigating="MusicGroup_Frame_OnNavigating"/>
         </PivotItem>
-        <PivotItem Header="收藏">
+        <PivotItem x:Uid="/MusicClassifyPage/Favorites_PivotItem">
             <Frame x:Name="Favorites_Frame" Navigating="MusicGroup_Frame_OnNavigating"/>
         </PivotItem>
-        <PivotItem Header="正在播放">
+        <PivotItem x:Uid="/MusicClassifyPage/NowPlaying_PivotItem">
             <Frame x:Name="NowPlaying_Frame"/>
         </PivotItem>
     </Pivot>

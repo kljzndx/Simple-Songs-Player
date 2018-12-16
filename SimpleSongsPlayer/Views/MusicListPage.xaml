@@ -44,6 +44,17 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
+            <Button x:Name="PlayAll_Button" x:Uid="/MusicListPage/PlayAll_Button" Background="Transparent" Click="PlayAll_Button_OnClick">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <FontIcon Glyph="&#xE149;"/>
+                    <TextBlock x:Uid="/MusicListPage/PlayAll_TextBlock" Grid.Column="1" Margin="8,0,0,0"/>
+                </Grid>
+            </Button>
             <StackPanel x:Name="ViewOption_StackPanel" Grid.Column="1" Orientation="Horizontal">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock x:Uid="/MusicListPage/ListSort_TextBlock" VerticalAlignment="Center"/>
@@ -64,7 +75,7 @@
                         </ctor:SplitButton.LeftContent>
                     </ctor:SplitButton>
                 </StackPanel>
-                <ctor:DropDownButton Content="分组" Margin="8,0" Background="Transparent">
+                <ctor:DropDownButton x:Uid="/MusicListPage/Grouper_DropDownButton" Margin="8,0" Background="Transparent">
                     <ctor:DropDownButton.Flyout>
                         <Flyout>
                             <ListBox x:Name="Grouper_ListBox" ItemsSource="{Binding GrouperMembers}" SelectionChanged="Grouper_ListBox_OnSelectionChanged">
