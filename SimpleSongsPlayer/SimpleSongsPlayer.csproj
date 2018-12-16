@@ -95,6 +95,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\DTO\Lyric\Attributes\LyricsTagAttribute.cs" />
+    <Compile Include="Models\DTO\Lyric\LyricFileDTO.cs" />
+    <Compile Include="Models\DTO\Lyric\LyricLine.cs" />
+    <Compile Include="Models\DTO\Lyric\LyricProperties.cs" />
     <Compile Include="Models\MusicFileGroupDynamic.cs" />
     <Compile Include="Models\MusicGrouperUi.cs" />
     <Compile Include="Models\MusicItemMenuItem.cs" />
