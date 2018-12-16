@@ -16,7 +16,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ListViewItem x:Name="CreateFavorite_ListViewItem" HorizontalAlignment="Stretch" MinHeight="64" Tapped="CreateFavorite_ListViewItem_OnTapped">
+        <ListViewItem x:Name="CreateFavorite_ListViewItem" HorizontalAlignment="Stretch" MinHeight="68" Tapped="CreateFavorite_ListViewItem_OnTapped">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -37,6 +37,11 @@
                     <temp:FavoriteItemTemplate/>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="MinHeight" Value="68"/>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
     </Grid>
 </ContentDialog>
