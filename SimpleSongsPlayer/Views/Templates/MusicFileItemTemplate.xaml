@@ -86,7 +86,7 @@
                 <Button x:Name="Play_Button" Click="Play_Button_OnClick">
                     <FontIcon Glyph="&#xE102;"/>
                 </Button>
-                <Button x:Name="More_Button" Click="More_Button_OnClick">
+                <Button x:Name="More_Button" Visibility="{x:Bind IsShowMoreButton, Mode=OneWay}" Click="More_Button_OnClick">
                     <Button.Flyout>
                         <MenuFlyout x:Name="More_MenuFlyout"/>
                     </Button.Flyout>

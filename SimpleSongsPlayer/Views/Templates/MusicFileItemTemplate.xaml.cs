@@ -38,6 +38,15 @@ namespace SimpleSongsPlayer.Views.Templates
             set => SetValue(SourceProperty, value);
         }
 
+        public static readonly DependencyProperty IsShowMoreButtonProperty = DependencyProperty.Register(
+            nameof(IsShowMoreButton), typeof(bool), typeof(MusicFileItemTemplate), new PropertyMetadata(true));
+
+        public bool IsShowMoreButton
+        {
+            get => (bool) GetValue(IsShowMoreButtonProperty);
+            set => SetValue(IsShowMoreButtonProperty, value);
+        }
+
         public List<MusicItemMenuItem<MusicFileDynamic>> MoreMenuItemList { get; set; }
 
         public event RoutedEventHandler PlayRequested;
