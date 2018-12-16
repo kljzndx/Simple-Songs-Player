@@ -120,8 +120,11 @@ namespace SimpleSongsPlayer.ViewModels
                     AddItems(e.NewItems.Cast<MusicFileDTO>());
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    var datas = e.OldItems.Cast<MusicFileDTO>();
-                    RemoveDtos(datas);
+                    RemoveDtos(e.OldItems.Cast<MusicFileDTO>());
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    if (!original.Any())
+                        DataSource.Clear();
                     break;
             }
         }
@@ -136,6 +139,10 @@ namespace SimpleSongsPlayer.ViewModels
                 case NotifyCollectionChangedAction.Remove:
                     var datas = e.OldItems.Cast<MusicFileDTO>();
                     RemoveDtos(datas);
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    if (!original.Any())
+                        DataSource.Clear();
                     break;
             }
         }
