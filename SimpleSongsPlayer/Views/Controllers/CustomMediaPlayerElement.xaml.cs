@@ -62,6 +62,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         {
             mediaPlayer.SourceChanged += MediaPlayer_SourceChanged;
             mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
+            mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
             mediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
             mediaPlayer.VolumeChanged += MediaPlayer_VolumeChanged;
             var session = mediaPlayer.PlaybackSession;
@@ -73,6 +74,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         {
             mediaPlayer.SourceChanged -= MediaPlayer_SourceChanged;
             mediaPlayer.MediaOpened -= MediaPlayer_MediaOpened;
+            mediaPlayer.MediaEnded -= MediaPlayer_MediaEnded;
             mediaPlayer.MediaFailed -= MediaPlayer_MediaFailed;
             mediaPlayer.VolumeChanged -= MediaPlayer_VolumeChanged;
             var session = mediaPlayer.PlaybackSession;
@@ -239,6 +241,12 @@ namespace SimpleSongsPlayer.Views.Controllers
                     CurrentItem = mpi;
                 }
             });
+        }
+
+        private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () => PositionChanged?.Invoke(this, new PlayerPositionChangeEventArgs(true, TimeSpan.Zero)));
         }
 
         private async void MediaPlayer_MediaFailed(MediaPlayer sender, MediaPlayerFailedEventArgs args)
