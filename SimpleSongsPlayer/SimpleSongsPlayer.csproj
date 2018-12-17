@@ -205,6 +205,8 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="StringResources\en-US\App.resw" />
+    <PRIResource Include="StringResources\zh-CN\App.resw" />
     <PRIResource Include="StringResources\en-US\MusicInfoPage.resw" />
     <PRIResource Include="StringResources\zh-CN\MusicInfoPage.resw" />
     <PRIResource Include="StringResources\en-US\MusicClassifyPage.resw" />
