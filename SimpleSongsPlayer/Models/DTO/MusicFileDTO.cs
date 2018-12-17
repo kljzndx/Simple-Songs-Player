@@ -42,6 +42,7 @@ namespace SimpleSongsPlayer.Models.DTO
         {
             title = fileData.Title;
             duration = fileData.Duration;
+            FileName = fileData.FileName;
             FilePath = fileData.Path;
 
             FoundArtist = !String.IsNullOrWhiteSpace(fileData.Artist);
@@ -57,6 +58,7 @@ namespace SimpleSongsPlayer.Models.DTO
             get => isPlaying;
             set => Set(ref isPlaying, value);
         }
+
         
         public string Title
         {
@@ -88,6 +90,7 @@ namespace SimpleSongsPlayer.Models.DTO
             private set => Set(ref changeDate, value);
         }
         
+        public string FileName { get; }
         public string FilePath { get; }
 
         public bool FoundArtist { get; }

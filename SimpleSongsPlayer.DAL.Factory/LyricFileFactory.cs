@@ -11,6 +11,7 @@ namespace SimpleSongsPlayer.DAL.Factory
             var prop = await file.GetBasicPropertiesAsync();
             return new LyricFile
             {
+                FileName = file.DisplayName,
                 LibraryFolder = libraryFolder,
                 Path = file.Path,
                 ChangeDate = prop.DateModified.DateTime

@@ -19,9 +19,11 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
 
         public LyricFileDTO(LyricFile file)
         {
+            FileName = file.FileName;
             FilePath = file.Path;
         }
 
+        public string FileName { get; }
         public string FilePath { get; }
 
         public string Name

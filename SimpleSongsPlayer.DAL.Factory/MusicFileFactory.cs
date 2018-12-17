@@ -13,6 +13,7 @@ namespace SimpleSongsPlayer.DAL.Factory
 
             return new MusicFile
             {
+                FileName = file.DisplayName,
                 Title = String.IsNullOrWhiteSpace(musicProperties.Title) ? file.DisplayName : musicProperties.Title,
                 Artist = musicProperties.Artist,
                 Album = musicProperties.Album,

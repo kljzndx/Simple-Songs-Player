@@ -5,6 +5,8 @@ namespace SimpleSongsPlayer.DAL
 {
     public class MusicFile : ILibraryFile
     {
+        public string FileName { get; set; }
+
         [Required(AllowEmptyStrings = false, ErrorMessage = "库文件夹名称为空")]
         public string LibraryFolder { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "音乐标题为空")]
