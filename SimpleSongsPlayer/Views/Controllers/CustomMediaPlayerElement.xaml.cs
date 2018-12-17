@@ -29,6 +29,8 @@ namespace SimpleSongsPlayer.Views.Controllers
 {
     public sealed partial class CustomMediaPlayerElement : UserControl
     {
+        private static MediaPlayer player;
+
         public static MediaPlaybackItem CurrentItem { get; private set; }
 
         public static event TypedEventHandler<CustomMediaPlayerElement, PlayerPositionChangeEventArgs> PositionChanged;
@@ -39,7 +41,6 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private MusicLibraryDataServer dataServer = MusicLibraryDataServer.Current;
         private PlayerSettingProperties settings = PlayerSettingProperties.Current;
-        private MediaPlayer player;
 
         public CustomMediaPlayerElement()
         {
@@ -82,7 +83,7 @@ namespace SimpleSongsPlayer.Views.Controllers
             session.PositionChanged -= MediaPlayer_Session_PositionChanged;
         }
 
-        private bool TryGetSession(out MediaPlaybackSession session)
+        private static bool TryGetSession(out MediaPlaybackSession session)
         {
             session = player.PlaybackSession;
             return session != null;
@@ -189,7 +190,15 @@ namespace SimpleSongsPlayer.Views.Controllers
             }
             else
                 player.Play();
+        }
 
+        public static void SetPosition_Global(TimeSpan position)
+        {
+            if (TryGetSession(out var session))
+            {
+                session.Position = position;
+                PositionChanged?.Invoke(null, new PlayerPositionChangeEventArgs(true, position));
+            }
         }
 
         private void CustomTransportControls_OnRepeatModeSelectionChanged(CustomTransportControls sender, KeyValuePair<int, string> args)

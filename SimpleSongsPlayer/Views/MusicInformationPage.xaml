@@ -35,7 +35,7 @@
                 </TextBlock>
             </StackPanel>
             
-            <ctrl:ScrollLyricsPreviewControl x:Name="My_ScrollLyricsPreviewControl" Grid.Row="1" Source="{Binding LyricSource.Lines}"/>
+            <ctrl:ScrollLyricsPreviewControl x:Name="My_ScrollLyricsPreviewControl" Grid.Row="1" Source="{Binding LyricSource.Lines}" ItemClick="My_ScrollLyricsPreviewControl_OnItemClick"/>
         </Grid>
     </Grid>
 </Page>

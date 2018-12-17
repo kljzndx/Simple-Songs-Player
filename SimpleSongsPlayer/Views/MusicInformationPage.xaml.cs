@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleSongsPlayer.Models.DTO.Lyric;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Attributes;
 using SimpleSongsPlayer.ViewModels.Events;
@@ -47,6 +48,11 @@ namespace SimpleSongsPlayer.Views
                 My_ScrollLyricsPreviewControl.Reposition(args.Position);
             else
                 My_ScrollLyricsPreviewControl.RefreshLyric(args.Position);
+        }
+
+        private void My_ScrollLyricsPreviewControl_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            CustomMediaPlayerElement.SetPosition_Global(((LyricLine) e.ClickedItem).Time);
         }
     }
 }
