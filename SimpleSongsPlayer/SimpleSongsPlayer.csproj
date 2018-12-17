@@ -113,6 +113,7 @@
     <Compile Include="ViewModels\Converters\CollectionToString.cs" />
     <Compile Include="ViewModels\Converters\TimeSpanToSongTimeString.cs" />
     <Compile Include="ViewModels\DataServers\FavoritesDataServer.cs" />
+    <Compile Include="ViewModels\DataServers\LyricFileDataServer.cs" />
     <Compile Include="ViewModels\DataServers\MusicLibraryDataServer.cs" />
     <Compile Include="ViewModels\DataServers\NowPlayingDataServer.cs" />
     <Compile Include="ViewModels\Events\FavoriteAdditionNotification.cs" />
