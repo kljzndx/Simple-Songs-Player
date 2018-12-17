@@ -12,8 +12,7 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
     public class LyricFileDTO : ObservableObject
     {
         private static readonly Regex LyricLineRegex = new Regex(@"^\[(?<min>\d+)\:(?<ss>\d{2}).(?<ms>\d{1,3})\](?<content>.*)");
-
-        private string name;
+        
         private LyricProperties properties;
         private List<LyricLine> lines;
 
@@ -26,11 +25,6 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
         public string FileName { get; }
         public string FilePath { get; }
 
-        public string Name
-        {
-            get => name;
-            set => Set(ref name, value);
-        }
         public LyricProperties Properties
         {
             get => properties;
@@ -47,7 +41,6 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
         {
             StorageFile file = await StorageFile.GetFileFromPathAsync(FilePath);
             string content = await FileIO.ReadTextAsync(file);
-            Name = file.DisplayName;
             Properties = new LyricProperties(content);
             Lines = new List<LyricLine>();
             string[] strLines = content.Contains("\n") ? content.Split('\n') : content.Split('\r');
