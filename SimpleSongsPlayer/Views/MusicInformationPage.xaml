@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="SimpleSongsPlayer.Views.MusicInformationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctrl="using:SimpleSongsPlayer.Views.Controllers"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    DataContext="{Binding Source={StaticResource VmLocator}, Path=MusicInfo}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <RelativePanel>
+            <Image x:Name="Cover_Image" Source="{Binding Cover}" Stretch="UniformToFill" Margin="50" RelativePanel.AlignHorizontalCenterWithPanel="False" RelativePanel.AlignVerticalCenterWithPanel="False"/>
+        </RelativePanel>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <TextBlock Text="{Binding MusicSource.Title}" Style="{ThemeResource TitleTextBlockStyle}"/>
+                <TextBlock Style="{ThemeResource CaptionTextBlockStyle}">
+                    <Run Text="歌手： "/>
+                    <Run Text="{Binding MusicSource.Artist}"/>
+                    <LineBreak/>
+                    <Run Text="专辑： "/>
+                    <Run Text="{Binding MusicSource.Album}"/>
+                </TextBlock>
+            </StackPanel>
+            
+            <ctrl:ScrollLyricsPreviewControl x:Name="My_ScrollLyricsPreviewControl" Grid.Row="1" Source="{Binding LyricSource.Lines}"/>
+        </Grid>
+    </Grid>
+</Page>

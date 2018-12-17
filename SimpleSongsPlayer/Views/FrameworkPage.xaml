@@ -33,7 +33,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Button Padding="0">
+            <Button Padding="0" Click="ButtonBase_OnClick">
                 <Border Width="48" Height="48">
                     <Image x:Name="Cover_Image"/>
                 </Border>

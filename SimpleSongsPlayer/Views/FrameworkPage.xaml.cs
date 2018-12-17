@@ -16,6 +16,7 @@ using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Attributes;
 using SimpleSongsPlayer.ViewModels.Events;
+using SimpleSongsPlayer.ViewModels.Extensions;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
 using SimpleSongsPlayer.ViewModels.Factories.MusicGroupers;
@@ -108,6 +109,11 @@ namespace SimpleSongsPlayer.Views
         private async void My_FavoriteSelectorDialog_OnFavoriteSelected(object sender, string e)
         {
             await FavoritesDataServer.Current.FavoriteOption.AddRange(e, musicDtoPaths);
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            Main_Frame.NavigateEx(typeof(MusicInformationPage), null);
         }
     }
 }

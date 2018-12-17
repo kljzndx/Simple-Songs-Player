@@ -134,6 +134,7 @@
     <Compile Include="ViewModels\Factories\MusicGroupers\SingleGrouper.cs" />
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
     <Compile Include="ViewModels\MusicGroupListViewModel.cs" />
+    <Compile Include="ViewModels\MusicInfoViewModel.cs" />
     <Compile Include="ViewModels\MusicPusher.cs" />
     <Compile Include="ViewModels\SettingProperties\OtherSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\PlayerSettingProperties.cs" />
@@ -173,6 +174,9 @@
     <Compile Include="Views\MusicGroupListPage.xaml.cs">
       <DependentUpon>MusicGroupListPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MusicInformationPage.xaml.cs">
+      <DependentUpon>MusicInformationPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MusicListPage.xaml.cs">
       <DependentUpon>MusicListPage.xaml</DependentUpon>
     </Compile>
@@ -201,6 +205,8 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="StringResources\en-US\MusicInfoPage.resw" />
+    <PRIResource Include="StringResources\zh-CN\MusicInfoPage.resw" />
     <PRIResource Include="StringResources\en-US\MusicClassifyPage.resw" />
     <PRIResource Include="StringResources\zh-CN\MusicClassifyPage.resw" />
     <PRIResource Include="StringResources\en-US\Controllers\Player.resw" />
@@ -282,6 +288,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MusicGroupListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MusicInformationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
