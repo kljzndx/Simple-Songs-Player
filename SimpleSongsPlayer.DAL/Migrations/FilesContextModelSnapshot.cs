@@ -31,6 +31,19 @@ namespace SimpleSongsPlayer.DAL.Migrations
                     b.ToTable("LyricFiles");
                 });
 
+            modelBuilder.Entity("SimpleSongsPlayer.DAL.LyricIndex", b =>
+                {
+                    b.Property<string>("MusicPath")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("LyricPath")
+                        .IsRequired();
+
+                    b.HasKey("MusicPath");
+
+                    b.ToTable("LyricIndices");
+                });
+
             modelBuilder.Entity("SimpleSongsPlayer.DAL.MusicFile", b =>
                 {
                     b.Property<string>("Path")
