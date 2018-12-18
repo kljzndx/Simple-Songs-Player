@@ -15,13 +15,25 @@ namespace SimpleSongsPlayer.ViewModels.Attributes.Getters
             {
                 var attribute = pageType.GetTypeInfo().GetCustomAttribute<PageTitleAttribute>();
                 if (attribute is null)
-                    throw new Exception("No found title tag");
+                    throw new NullReferenceException("No found title tag");
                 string title = attribute.GetTitle();
 
                 AllTitle.Add(pageType.FullName, title);
             }
 
             return AllTitle[pageType.FullName];
+        }
+
+        public static string TryGetTitle(Type pageTitle)
+        {
+            try
+            {
+                return GetTitle(pageTitle);
+            }
+            catch (NullReferenceException)
+            {
+                return null;
+            }
         }
     }
 }

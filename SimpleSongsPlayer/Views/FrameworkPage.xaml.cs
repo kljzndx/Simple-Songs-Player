@@ -15,6 +15,7 @@ using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Attributes;
+using SimpleSongsPlayer.ViewModels.Attributes.Getters;
 using SimpleSongsPlayer.ViewModels.Events;
 using SimpleSongsPlayer.ViewModels.Extensions;
 using SimpleSongsPlayer.ViewModels.Factories;
@@ -50,11 +51,11 @@ namespace SimpleSongsPlayer.Views
 
         private void Main_Frame_OnNavigated(object sender, NavigationEventArgs e)
         {
-            var titleAttribute = e.SourcePageType.GetTypeInfo().GetCustomAttribute<PageTitleAttribute>();
-            if (titleAttribute != null)
+            var title = PageTitleGetter.TryGetTitle(e.SourcePageType);
+            if (!String.IsNullOrWhiteSpace(title))
             {
                 TitleBar_Grid.Visibility = Visibility.Visible;
-                Title_TextBlock.Text = titleAttribute.GetTitle();
+                Title_TextBlock.Text = title;
                 Back_Button.Visibility = Main_Frame.CanGoBack ? Visibility.Visible : Visibility.Collapsed;
             }
             else
