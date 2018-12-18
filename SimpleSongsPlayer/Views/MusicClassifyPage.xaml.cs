@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Playback;
@@ -17,6 +18,7 @@ using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Arguments;
+using SimpleSongsPlayer.ViewModels.Attributes.Getters;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Extensions;
 using SimpleSongsPlayer.ViewModels.Factories;
@@ -41,7 +43,22 @@ namespace SimpleSongsPlayer.Views
             this.InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Enabled;
         }
-        
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            foreach (var item in MoreButton_MenuFlyout.Items)
+            {
+                var menuItem = item as MenuFlyoutItem;
+                if (menuItem is null)
+                    continue;
+
+                string[] resourceInfo = menuItem.Tag.ToString().Split('/');
+                menuItem.Text = ResourceLoader.GetForCurrentView(resourceInfo[0]).GetString(resourceInfo[1]);
+            }
+        }
+
         private void Root_Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch (Root_Pivot.SelectedIndex)
@@ -88,6 +105,11 @@ namespace SimpleSongsPlayer.Views
         {
             if (App.MediaPlayer.Source is MediaPlaybackList mpl)
                 mpl.Items.Remove(await source.Original.GetPlaybackItem());
+        }
+
+        private void Beside_Frame_OnNavigated(object sender, NavigationEventArgs e)
+        {
+            Title_TextBlock.Text = PageTitleGetter.GetTitle(e.SourcePageType);
         }
     }
 }

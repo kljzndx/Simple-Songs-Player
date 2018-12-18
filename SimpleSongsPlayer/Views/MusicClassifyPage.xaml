@@ -8,21 +8,46 @@
     mc:Ignorable="d"
     Loaded="AllMusicClassifyPage_OnLoaded">
 
-    <Pivot x:Name="Root_Pivot" SelectionChanged="Root_Pivot_OnSelectionChanged">
-        <PivotItem x:Uid="/MusicClassifyPage/Song_PivotItem">
-            <Frame x:Name="Song_Frame"/>
-        </PivotItem>
-        <PivotItem x:Uid="/MusicClassifyPage/Artist_PivotItem">
-            <Frame x:Name="Artist_Frame" Navigating="MusicGroup_Frame_OnNavigating"/>
-        </PivotItem>
-        <PivotItem x:Uid="/MusicClassifyPage/Album_PivotItem">
-            <Frame x:Name="Album_Frame" Navigating="MusicGroup_Frame_OnNavigating"/>
-        </PivotItem>
-        <PivotItem x:Uid="/MusicClassifyPage/Favorites_PivotItem">
-            <Frame x:Name="Favorites_Frame" Navigating="MusicGroup_Frame_OnNavigating"/>
-        </PivotItem>
-        <PivotItem x:Uid="/MusicClassifyPage/NowPlaying_PivotItem">
-            <Frame x:Name="NowPlaying_Frame"/>
-        </PivotItem>
-    </Pivot>
+    <SplitView DisplayMode="Overlay">
+        <SplitView.Pane>
+            <StackPanel>
+                <Border BorderThickness="0,0,0,2" BorderBrush="{ThemeResource SystemControlBackgroundBaseHighBrush}" Padding="8">
+                    <TextBlock x:Name="Title_TextBlock" Style="{ThemeResource TitleTextBlockStyle}"/>
+                </Border>
+                <Frame x:Name="Beside_Frame" Navigated="Beside_Frame_OnNavigated"/>
+            </StackPanel>
+        </SplitView.Pane>
+        <Pivot x:Name="Root_Pivot" SelectionChanged="Root_Pivot_OnSelectionChanged">
+            <Pivot.RightHeader>
+                <StackPanel>
+                    <Button x:Name="More_Button" Background="Transparent" Padding="8">
+                        <Button.Flyout>
+                            <MenuFlyout x:Name="MoreButton_MenuFlyout">
+                                <MenuFlyoutItem x:Name="Settings_MenuFlyoutItem" Tag="SettingsPage/Title"/>
+                                <MenuFlyoutItem x:Name="About_MenuFlyoutItem" Tag="AboutPage/Title"/>
+                            </MenuFlyout>
+                        </Button.Flyout>
+
+                        <FontIcon Glyph="&#xE10C;"/>
+                    </Button>
+                </StackPanel>
+            </Pivot.RightHeader>
+
+            <PivotItem x:Uid="/MusicClassifyPage/Song_PivotItem">
+                <Frame x:Name="Song_Frame"/>
+            </PivotItem>
+            <PivotItem x:Uid="/MusicClassifyPage/Artist_PivotItem">
+                <Frame x:Name="Artist_Frame" Navigating="MusicGroup_Frame_OnNavigating"/>
+            </PivotItem>
+            <PivotItem x:Uid="/MusicClassifyPage/Album_PivotItem">
+                <Frame x:Name="Album_Frame" Navigating="MusicGroup_Frame_OnNavigating"/>
+            </PivotItem>
+            <PivotItem x:Uid="/MusicClassifyPage/Favorites_PivotItem">
+                <Frame x:Name="Favorites_Frame" Navigating="MusicGroup_Frame_OnNavigating"/>
+            </PivotItem>
+            <PivotItem x:Uid="/MusicClassifyPage/NowPlaying_PivotItem">
+                <Frame x:Name="NowPlaying_Frame"/>
+            </PivotItem>
+        </Pivot>
+    </SplitView>
 </Page>
