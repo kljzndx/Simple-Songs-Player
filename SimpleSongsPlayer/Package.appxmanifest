@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" IgnorableNamespaces="uap mp uap3">
-  <Identity Name="9c8c835f-5b52-4470-8b22-18f7b8b4b572" Publisher="CN=kljzn" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="9c8c835f-5b52-4470-8b22-18f7b8b4b572" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="22643.SimpleSongsPlayer" Publisher="CN=7A99FA60-940D-46A9-B3FA-D93317D891AB" Version="1.14.7.0" />
+  <mp:PhoneIdentity PhoneProductId="c6af434d-5060-4d7f-bf5b-60cef01d62bd" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>ms-resource:///App/Name</DisplayName>
-    <PublisherDisplayName>kljzn</PublisherDisplayName>
+    <PublisherDisplayName>快乐工作室</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
