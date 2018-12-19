@@ -69,7 +69,7 @@ namespace SimpleSongsPlayer.Service
                 {
                     var allFiles = await folder.CreateFileQueryWithOptions(scanOptions).GetFilesAsync();
                     foreach (var file in allFiles)
-                        addFiles.Add(await fileFactory.FromStorageFile(folder.Name, file));
+                        addFiles.Add(await fileFactory.FromStorageFile(folder.Path, file));
                 }
 
                 this.LogByObject("应用 ‘添加操作集合’");
@@ -96,7 +96,7 @@ namespace SimpleSongsPlayer.Service
             {
                 this.LogByObject("从数据库获取对应当前文件夹的数据");
                 List<TFile> myFiles;
-                bool isGetFiles = allGroup.TryGetValue(folder.Name, out myFiles);
+                bool isGetFiles = allGroup.TryGetValue(folder.Path, out myFiles);
                 var myFilePaths = myFiles?.Select(f => f.Path).ToList();
 
                 this.LogByObject("从音乐库获取对应当前文件夹的数据");
@@ -116,7 +116,7 @@ namespace SimpleSongsPlayer.Service
                 var needAddFiles = systemFiles.Where(sf => !isGetFiles || !myFilePaths.Contains(sf.Path));
                 this.LogByObject("将结果添加至 ‘添加操作’ 集合");
                 foreach (var filePath in needAddFiles)
-                    addFiles.Add(await fileFactory.FromStorageFile(folder.Name, filePath));
+                    addFiles.Add(await fileFactory.FromStorageFile(folder.Path, filePath));
 
                 if (!isGetFiles)
                     continue;
@@ -128,7 +128,7 @@ namespace SimpleSongsPlayer.Service
 
                 // 从我的文件里选出所有更新时间里没有的项
                 foreach (var item in allProps.Where(d => myFiles.All(f => !f.ChangeDate.Equals(d.Value.DateTime)) && myFilePaths.Any(p => p == d.Key.Path)))
-                    updateFiles.Add(await fileFactory.FromStorageFile(folder.Name, item.Key));
+                    updateFiles.Add(await fileFactory.FromStorageFile(folder.Path, item.Key));
             }
 
             this.LogByObject("应用 ‘操作集合’");
