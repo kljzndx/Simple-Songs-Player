@@ -175,7 +175,13 @@ namespace SimpleSongsPlayer.Service
         private async Task AddFileRange(IEnumerable<TFile> files)
         {
             this.LogByObject("正在接受数据");
-            List<TFile> filesList = new List<TFile>(files);
+            Stack<TFile> filesStack = new Stack<TFile>(files);
+            List<TFile> filesList = new List<TFile>();
+
+            for (int i = 0; i < 200; i++)
+                if (filesStack.Count > 0)
+                    filesList.Add(filesStack.Pop());
+                else break;
 
             this.LogByObject("正在添加到数据库");
             await helper.AddRange(filesList);
@@ -183,12 +189,21 @@ namespace SimpleSongsPlayer.Service
             musicFiles.AddRange(filesList);
             this.LogByObject("触发 ‘添加完成’ 事件");
             FilesAdded?.Invoke(this, filesList);
+
+            if (filesStack.Count > 0)
+                await AddFileRange(filesStack);
         }
 
         private async Task UpdateFileRange(IEnumerable<TFile> files)
         {
             this.LogByObject("正在接受数据");
-            List<TFile> filesList = new List<TFile>(files);
+            Stack<TFile> filesStack = new Stack<TFile>(files);
+            List<TFile> filesList = new List<TFile>();
+
+            for (int i = 0; i < 200; i++)
+                if (filesStack.Count > 0)
+                    filesList.Add(filesStack.Pop());
+                else break;
 
             this.LogByObject("正在对数据库更新");
             await helper.UpdateRange(filesList);
@@ -202,12 +217,21 @@ namespace SimpleSongsPlayer.Service
 
             this.LogByObject("触发 ‘更新完成’ 事件");
             FilesUpdated?.Invoke(this, filesList);
+
+            if (filesStack.Count > 0)
+                await UpdateFileRange(filesStack);
         }
 
         private async Task RemoveRange(IEnumerable<TFile> files)
         {
             this.LogByObject("正在接受数据");
-            List<TFile> filesList = new List<TFile>(files);
+            Stack<TFile> filesStack = new Stack<TFile>(files);
+            List<TFile> filesList = new List<TFile>();
+
+            for (int i = 0; i < 200; i++)
+                if (filesStack.Count > 0)
+                    filesList.Add(filesStack.Pop());
+                else break;
 
             this.LogByObject("正在从数据库移除");
             await helper.RemoveRange(filesList);
@@ -215,6 +239,9 @@ namespace SimpleSongsPlayer.Service
             musicFiles.RemoveAll(filesList.Contains);
             this.LogByObject("触发 ‘移除完成’ 事件");
             FilesRemoved?.Invoke(this, filesList);
+
+            if (filesStack.Count > 0)
+                await RemoveRange(filesStack);
         }
 
         public static void SetupFileTypeFilter(params string[] fileTypeFilter)
