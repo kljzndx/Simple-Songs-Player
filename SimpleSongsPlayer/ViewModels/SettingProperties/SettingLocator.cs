@@ -1,7 +1,16 @@
 ﻿namespace SimpleSongsPlayer.ViewModels.SettingProperties
 {
-    public static class SettingLocator
+    public class SettingLocator
     {
-        public static PlayerSettingProperties Player => PlayerSettingProperties.Current;
+        public static SettingLocator Current = new SettingLocator();
+
+        private SettingLocator()
+        {
+            
+        }
+
+        public PlayerSettingProperties Player => PlayerSettingProperties.Current;
+        public ViewSettingProperties View => ViewSettingProperties.Current;
+        public OtherSettingProperties Other => OtherSettingProperties.Current;
     }
 }
