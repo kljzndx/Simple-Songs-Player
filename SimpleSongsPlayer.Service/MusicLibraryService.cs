@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -17,7 +18,7 @@ namespace SimpleSongsPlayer.Service
         private static string[] _fileTypeFilter;
         private static MusicLibraryService<TFile, TFileFactory> Current;
 
-        private readonly QueryOptions scanOptions = new QueryOptions();
+        private readonly QueryOptions scanOptions;
         private readonly StorageLibrary musicLibrary;
         private readonly ContextHelper<FilesContext, TFile> helper = new ContextHelper<FilesContext, TFile>();
         private readonly TFileFactory fileFactory = new TFileFactory();
@@ -33,8 +34,11 @@ namespace SimpleSongsPlayer.Service
             musicLibrary = library;
 
             this.LogByObject("正在配置文件筛选器");
+            List<string> filters = new List<string>();
             foreach (var filter in fileTypeFilter)
-                scanOptions.FileTypeFilter.Add(filter[0] == '.' ? filter : $".{filter}");
+                filters.Add(filter[0] == '.' ? filter : $".{filter}");
+
+            scanOptions = new QueryOptions(CommonFileQuery.OrderByName, filters);
 
             this.LogByObject("构造完成");
         }
@@ -68,6 +72,7 @@ namespace SimpleSongsPlayer.Service
                 foreach (var folder in musicLibrary.Folders)
                 {
                     var allFiles = await folder.CreateFileQueryWithOptions(scanOptions).GetFilesAsync();
+                    Debug.WriteLine($"当前文件夹：{folder.Path}，文件数量：{allFiles.Count}");
                     foreach (var file in allFiles)
                         addFiles.Add(await fileFactory.FromStorageFile(folder.Path, file));
                 }
@@ -102,6 +107,7 @@ namespace SimpleSongsPlayer.Service
                 this.LogByObject("从音乐库获取对应当前文件夹的数据");
                 var systemFiles = await folder.CreateFileQueryWithOptions(scanOptions).GetFilesAsync();
                 var systemFilePaths = systemFiles.Select(f => f.Path).ToList();
+                Debug.WriteLine($"当前文件夹：{folder.Path}，文件数量：{systemFiles.Count}");
 
                 this.LogByObject("进入对比流程");
                 if (isGetFiles)
