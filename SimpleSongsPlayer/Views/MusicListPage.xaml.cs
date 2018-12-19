@@ -35,7 +35,7 @@ namespace SimpleSongsPlayer.Views
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    [PageTitle("MusicListPage", "Title")]
+    [PageTitle("MusicListPage")]
     public sealed partial class MusicListPage : Page
     {
         private MusicListViewModel vm;

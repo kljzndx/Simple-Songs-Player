@@ -12,7 +12,7 @@ namespace SimpleSongsPlayer.ViewModels.Attributes
             StringResourceKey = stringResourceKey;
         }
 
-        public PageTitleAttribute(string stringResourceKey) : this("PageTitles", stringResourceKey)
+        public PageTitleAttribute(string stringResourceName) : this(stringResourceName, "Title")
         {
         }
 
