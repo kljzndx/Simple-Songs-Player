@@ -107,9 +107,9 @@ namespace SimpleSongsPlayer.Service
                 return;
             }
 
-            this.LogByObject("检测到数据库里有数据，进入 ‘对比’ 模式，开始检测音乐库是否有文件夹被移除");
+            this.LogByObject("开始检测音乐库是否有文件夹被移除");
             foreach (var libraryGroups in musicFiles.GroupBy(f => f.LibraryFolder))
-                if (musicLibrary.Folders.All(d => d.Name != libraryGroups.Key))
+                if (musicLibrary.Folders.All(d => d.Path != libraryGroups.Key))
                 {
                     this.LogByObject($"已检测到有文件夹已被移除，正在同步至数据库");
                     await RemoveRange(libraryGroups);
