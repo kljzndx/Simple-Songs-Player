@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Core;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
@@ -22,6 +24,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             CoreWindow.GetForCurrentThread().Activated += CoreWindow_Activated;
         }
 
+        public IObservableVector<StorageFolder> Folders => musicFilesService.Folders;
         public ObservableCollection<MusicFileDTO> MusicFilesList { get; } = new ObservableCollection<MusicFileDTO>();
 
         public event EventHandler<EventArgs> MusicFilesAdded;
@@ -44,6 +47,9 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             musicFilesService.FilesRemoved += MusicFilesService_FilesRemoved;
             musicFilesService.FilesUpdated += MusicFilesService_FilesUpdated;
         }
+
+        public Task AddFolder() => musicFilesService.AddFolder();
+        public Task RemoveFolder(StorageFolder folder) => musicFilesService.RemoveFolder(folder);
 
         public async Task ScanMusicFiles()
         {

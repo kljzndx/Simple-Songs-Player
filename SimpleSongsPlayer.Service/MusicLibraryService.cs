@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -39,6 +40,32 @@ namespace SimpleSongsPlayer.Service
             this.LogByObject("构造完成");
         }
 
+        public IObservableVector<StorageFolder> Folders => musicLibrary.Folders;
+
+        public async Task AddFolder()
+        {
+            var folder = await musicLibrary.RequestAddFolderAsync();
+            if (folder is null)
+                return;
+
+            var files = await GetFiles();
+            if (files.All(f => f.LibraryFolder != folder.Path))
+            {
+                List<TFile> tFiles = new List<TFile>();
+                var allFiles = await folder.CreateFileQueryWithOptions(scanOptions).GetFilesAsync();
+                foreach (var file in allFiles)
+                    tFiles.Add(await fileFactory.FromStorageFile(folder.Path, file));
+                await AddFileRange(tFiles);
+            }
+        }
+
+        public async Task RemoveFolder(StorageFolder folder)
+        {
+            var isSucceed = await musicLibrary.RequestRemoveFolderAsync(folder);
+            if (isSucceed)
+                await RemoveRange((await GetFiles()).Where(f => f.LibraryFolder == folder.Path));
+        }
+
         public async Task<List<TFile>> GetFiles()
         {
             if (musicFiles is null)
@@ -69,7 +96,7 @@ namespace SimpleSongsPlayer.Service
                 {
                     var allFiles = await folder.CreateFileQueryWithOptions(scanOptions).GetFilesAsync();
                     foreach (var file in allFiles)
-                        addFiles.Add(await fileFactory.FromStorageFile(folder.Name, file));
+                        addFiles.Add(await fileFactory.FromStorageFile(folder.Path, file));
                 }
 
                 this.LogByObject("应用 ‘添加操作集合’");
@@ -96,7 +123,7 @@ namespace SimpleSongsPlayer.Service
             {
                 this.LogByObject("从数据库获取对应当前文件夹的数据");
                 List<TFile> myFiles;
-                bool isGetFiles = allGroup.TryGetValue(folder.Name, out myFiles);
+                bool isGetFiles = allGroup.TryGetValue(folder.Path, out myFiles);
                 var myFilePaths = myFiles?.Select(f => f.Path).ToList();
 
                 this.LogByObject("从音乐库获取对应当前文件夹的数据");
@@ -116,7 +143,7 @@ namespace SimpleSongsPlayer.Service
                 var needAddFiles = systemFiles.Where(sf => !isGetFiles || !myFilePaths.Contains(sf.Path));
                 this.LogByObject("将结果添加至 ‘添加操作’ 集合");
                 foreach (var filePath in needAddFiles)
-                    addFiles.Add(await fileFactory.FromStorageFile(folder.Name, filePath));
+                    addFiles.Add(await fileFactory.FromStorageFile(folder.Path, filePath));
 
                 if (!isGetFiles)
                     continue;
@@ -128,7 +155,7 @@ namespace SimpleSongsPlayer.Service
 
                 // 从我的文件里选出所有更新时间里没有的项
                 foreach (var item in allProps.Where(d => myFiles.All(f => !f.ChangeDate.Equals(d.Value.DateTime)) && myFilePaths.Any(p => p == d.Key.Path)))
-                    updateFiles.Add(await fileFactory.FromStorageFile(folder.Name, item.Key));
+                    updateFiles.Add(await fileFactory.FromStorageFile(folder.Path, item.Key));
             }
 
             this.LogByObject("应用 ‘操作集合’");
