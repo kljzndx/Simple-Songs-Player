@@ -39,6 +39,7 @@ namespace SimpleSongsPlayer.Service
                 filters.Add(filter[0] == '.' ? filter : $".{filter}");
 
             scanOptions = new QueryOptions(CommonFileQuery.OrderByName, filters);
+            scanOptions.FolderDepth = FolderDepth.Deep;
 
             this.LogByObject("构造完成");
         }
@@ -59,7 +60,7 @@ namespace SimpleSongsPlayer.Service
         {
             if (musicFiles is null)
                 await GetFiles();
-
+            
             this.LogByObject("准备 ‘操作集合’");
             List<TFile> addFiles = new List<TFile>();
             List<TFile> removeFiles = new List<TFile>();
@@ -72,7 +73,6 @@ namespace SimpleSongsPlayer.Service
                 foreach (var folder in musicLibrary.Folders)
                 {
                     var allFiles = await folder.CreateFileQueryWithOptions(scanOptions).GetFilesAsync();
-                    Debug.WriteLine($"当前文件夹：{folder.Path}，文件数量：{allFiles.Count}");
                     foreach (var file in allFiles)
                         addFiles.Add(await fileFactory.FromStorageFile(folder.Path, file));
                 }
@@ -107,7 +107,6 @@ namespace SimpleSongsPlayer.Service
                 this.LogByObject("从音乐库获取对应当前文件夹的数据");
                 var systemFiles = await folder.CreateFileQueryWithOptions(scanOptions).GetFilesAsync();
                 var systemFilePaths = systemFiles.Select(f => f.Path).ToList();
-                Debug.WriteLine($"当前文件夹：{folder.Path}，文件数量：{systemFiles.Count}");
 
                 this.LogByObject("进入对比流程");
                 if (isGetFiles)
