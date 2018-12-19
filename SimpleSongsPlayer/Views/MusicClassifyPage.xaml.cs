@@ -25,6 +25,7 @@ using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
 using SimpleSongsPlayer.ViewModels.Factories.MusicGroupers;
 using SimpleSongsPlayer.ViewModels.SettingProperties;
+using SimpleSongsPlayer.Views.SidePages;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -110,6 +111,12 @@ namespace SimpleSongsPlayer.Views
         private void Beside_Frame_OnNavigated(object sender, NavigationEventArgs e)
         {
             Title_TextBlock.Text = PageTitleGetter.GetTitle(e.SourcePageType);
+        }
+
+        private void Settings_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            Root_SplitView.IsPaneOpen = !Root_SplitView.IsPaneOpen;
+            Beside_Frame.NavigateEx(typeof(SettingsPage), null);
         }
     }
 }

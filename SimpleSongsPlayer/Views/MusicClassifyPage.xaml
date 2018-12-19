@@ -8,13 +8,15 @@
     mc:Ignorable="d"
     Loaded="AllMusicClassifyPage_OnLoaded">
 
-    <SplitView DisplayMode="Overlay">
+    <SplitView x:Name="Root_SplitView" DisplayMode="Overlay" PanePlacement="Right">
         <SplitView.Pane>
             <StackPanel>
                 <Border BorderThickness="0,0,0,2" BorderBrush="{ThemeResource SystemControlBackgroundBaseHighBrush}" Padding="8">
                     <TextBlock x:Name="Title_TextBlock" Style="{ThemeResource TitleTextBlockStyle}"/>
                 </Border>
-                <Frame x:Name="Beside_Frame" Navigated="Beside_Frame_OnNavigated"/>
+                <ScrollViewer>
+                    <Frame x:Name="Beside_Frame" Padding="8" Navigated="Beside_Frame_OnNavigated"/>
+                </ScrollViewer>
             </StackPanel>
         </SplitView.Pane>
         <Pivot x:Name="Root_Pivot" SelectionChanged="Root_Pivot_OnSelectionChanged">
@@ -23,7 +25,7 @@
                     <Button x:Name="More_Button" Background="Transparent" Padding="8">
                         <Button.Flyout>
                             <MenuFlyout x:Name="MoreButton_MenuFlyout">
-                                <MenuFlyoutItem x:Name="Settings_MenuFlyoutItem" Tag="SettingsPage/Title"/>
+                                <MenuFlyoutItem x:Name="Settings_MenuFlyoutItem" Tag="SettingsPage/Title" Click="Settings_MenuFlyoutItem_OnClick"/>
                                 <MenuFlyoutItem x:Name="About_MenuFlyoutItem" Tag="AboutPage/Title"/>
                             </MenuFlyout>
                         </Button.Flyout>

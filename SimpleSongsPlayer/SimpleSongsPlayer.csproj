@@ -150,6 +150,7 @@
     <Compile Include="ViewModels\MusicListViewModel.cs" />
     <Compile Include="ViewModels\SettingProperties\MusicViewSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\ViewSettingProperties.cs" />
+    <Compile Include="ViewModels\SideViews\SettingsViewModel.cs" />
     <Compile Include="ViewModels\StyleSelectors\MusicGroupDynamicStyleSelector.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Controllers\Abstracts\LyricsPreviewControlBase.cs" />
@@ -187,6 +188,9 @@
     </Compile>
     <Compile Include="Views\MusicListPage.xaml.cs">
       <DependentUpon>MusicListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SidePages\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Templates\FavoriteItemTemplate.xaml.cs">
       <DependentUpon>FavoriteItemTemplate.xaml</DependentUpon>
@@ -368,6 +372,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MusicListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SidePages\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
