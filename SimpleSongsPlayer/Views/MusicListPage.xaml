@@ -15,9 +15,36 @@
         <GroupStyle x:Key="Normal_GroupStyle" HidesIfEmpty="True">
             <GroupStyle.HeaderTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <StackPanel.Resources>
+                                <Style TargetType="Button">
+                                    <Setter Property="Padding" Value="8"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <Button x:Name="PlayGroup_Button" x:Uid="/MusicListPage/PlayGroup_Button" Tapped="PlayGroup_Button_OnTapped">
+                                <FontIcon Glyph="&#xE102;"/>
+                            </Button>
+                            <Button x:Name="AddGroup_Button" x:Uid="/MusicListPage/AddGroup_Button" Tapped="AddGroup_Button_OnTapped">
+                                <FontIcon Glyph="&#xE109;"/>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
                 </DataTemplate>
             </GroupStyle.HeaderTemplate>
+            <GroupStyle.HeaderContainerStyle>
+                <Style TargetType="ListViewHeaderItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </GroupStyle.HeaderContainerStyle>
         </GroupStyle>
         <GroupStyle x:Name="NoName_GroupStyle" HidesIfEmpty="True">
             <GroupStyle.HeaderTemplate>

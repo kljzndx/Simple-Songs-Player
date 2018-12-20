@@ -113,5 +113,27 @@ namespace SimpleSongsPlayer.Views
         {
             await MusicPusher.Push(vm.GetAllMusic().Select(f => f.Original));
         }
+        
+        private async void PlayGroup_Button_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var theButton = sender as Button;
+            if (theButton is null)
+                return;
+
+            e.Handled = true;
+            var source = theButton.DataContext as MusicFileGroupDynamic;
+            await MusicPusher.Push(source.Items.Select(f => f.Original));
+        }
+
+        private async void AddGroup_Button_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var theButton = sender as Button;
+            if (theButton is null)
+                return;
+
+            e.Handled = true;
+            var source = theButton.DataContext as MusicFileGroupDynamic;
+            await MusicPusher.Append(source.Items.Select(f => f.Original));
+        }
     }
 }
