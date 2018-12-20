@@ -118,5 +118,11 @@ namespace SimpleSongsPlayer.Views
             Root_SplitView.IsPaneOpen = !Root_SplitView.IsPaneOpen;
             Beside_Frame.NavigateEx(typeof(SettingsPage), null);
         }
+
+        private void About_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            Root_SplitView.IsPaneOpen = !Root_SplitView.IsPaneOpen;
+            Beside_Frame.NavigateEx(typeof(AboutPage), null);
+        }
     }
 }

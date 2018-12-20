@@ -31,7 +31,7 @@
                         <Button.Flyout>
                             <MenuFlyout x:Name="MoreButton_MenuFlyout">
                                 <MenuFlyoutItem x:Name="Settings_MenuFlyoutItem" Tag="SettingsPage/Title" Click="Settings_MenuFlyoutItem_OnClick"/>
-                                <MenuFlyoutItem x:Name="About_MenuFlyoutItem" Tag="AboutPage/Title"/>
+                                <MenuFlyoutItem x:Name="About_MenuFlyoutItem" Tag="AboutPage/Title" Click="About_MenuFlyoutItem_OnClick"/>
                             </MenuFlyout>
                         </Button.Flyout>
 
