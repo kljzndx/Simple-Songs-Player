@@ -9,22 +9,42 @@
     DataContext="{Binding Source={StaticResource VmLocator}, Path=MusicInfo}">
 
     <Grid>
-        <Grid.ColumnDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="PC">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+                <VisualState x:Name="Mobile">
+                    <VisualState.Setters>
+                        <Setter Target="LeftArea_RelativePanel.Visibility" Value="Collapsed"/>
+                        <Setter Target="RightArea_Grid.(Grid.Column)" Value="0"/>
+                        <Setter Target="RightArea_Grid.(Grid.ColumnSpan)" Value="2"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+            <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <RelativePanel>
+        <RelativePanel x:Name="LeftArea_RelativePanel">
             <Image x:Name="Cover_Image" Source="{Binding Cover}" Stretch="UniformToFill" Margin="50" RelativePanel.AlignHorizontalCenterWithPanel="False" RelativePanel.AlignVerticalCenterWithPanel="False"/>
         </RelativePanel>
 
-        <Grid Grid.Column="1">
+        <Grid x:Name="RightArea_Grid" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <StackPanel>
+            <StackPanel Padding="12,0">
                 <TextBlock Text="{Binding MusicSource.Title}" Style="{ThemeResource TitleTextBlockStyle}"/>
                 <TextBlock Style="{ThemeResource CaptionTextBlockStyle}">
                     <Run Text="歌手： "/>
