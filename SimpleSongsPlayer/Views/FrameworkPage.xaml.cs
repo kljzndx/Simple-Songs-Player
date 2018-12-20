@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using Windows.Media.Playback;
+using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -32,15 +31,17 @@ namespace SimpleSongsPlayer.Views
     /// </summary>
     public sealed partial class FrameworkPage : Page
     {
+        public static FrameworkPage Current;
         private static readonly Type ClassifyPageType = typeof(MusicClassifyPage);
-
+        
         private readonly SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
         private IEnumerable<string> musicDtoPaths;
-        private ObservableCollection<MusicFileGroup> favorites = FavoritesDataServer.Current.UserFavoritesList;
+        private readonly ObservableCollection<MusicFileGroup> favorites = FavoritesDataServer.Current.UserFavoritesList;
 
         public FrameworkPage()
         {
             this.InitializeComponent();
+            Current = this;
             Main_Frame.Navigate(ClassifyPageType);
             systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
 
@@ -48,6 +49,8 @@ namespace SimpleSongsPlayer.Views
             CustomMediaPlayerElement.NowPlaybackItemChanged += CustomMediaPlayerElement_NowPlaybackItemChanged;
             FavoriteAdditionNotification.FavoriteAdditionRequested += FavoriteAdditionNotification_FavoriteAdditionRequested;
         }
+
+        public ThreadPoolTimer TimedExitTimer { get; set; }
 
         private void Main_Frame_OnNavigated(object sender, NavigationEventArgs e)
         {

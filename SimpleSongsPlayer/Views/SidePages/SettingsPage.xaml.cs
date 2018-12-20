@@ -5,7 +5,9 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Playback;
 using Windows.Storage;
+using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -69,6 +71,34 @@ namespace SimpleSongsPlayer.Views.SidePages
         {
             var folder = (StorageFolder) e.ClickedItem;
             await vm.MusicLibrary.RequestRemoveFolderAsync(folder);
+        }
+
+        private void TimedExit_ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+        {
+            if (TimedExit_ToggleSwitch.IsOn)
+            {
+                if (locator.Other.TimedExitMinutes < 15)
+                    locator.Other.TimedExitMinutes = 15;
+
+                FrameworkPage.Current.TimedExitTimer = ThreadPoolTimer.CreatePeriodicTimer(
+                    async t =>
+                    {
+                        await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        {
+                            locator.Other.TimedExitMinutes -= 1;
+
+                            if ((int) locator.Other.TimedExitMinutes == 0)
+                            {
+                                t.Cancel();
+                                if (App.MediaPlayer.PlaybackSession is MediaPlaybackSession session && session.PlaybackState == MediaPlaybackState.Playing)
+                                    App.MediaPlayer.Pause();
+                                App.Current.Exit();
+                            }
+                        });
+                    }, TimeSpan.FromMinutes(1));
+            }
+            else
+                FrameworkPage.Current.TimedExitTimer?.Cancel();
         }
     }
 }
