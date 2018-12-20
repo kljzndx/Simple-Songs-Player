@@ -45,6 +45,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         public CustomMediaPlayerElement()
         {
             this.InitializeComponent();
+            settings.PropertyChanged += Settings_PropertyChanged;
             player = Root_MediaPlayerElement.MediaPlayer;
             MyTransportControls.RepeatMode_SelectedID = (int) settings.RepeatMode;
             Install(player);
@@ -198,6 +199,17 @@ namespace SimpleSongsPlayer.Views.Controllers
             {
                 session.Position = position;
                 PositionChanged?.Invoke(null, new PlayerPositionChangeEventArgs(true, position));
+            }
+        }
+
+        private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(settings.PlaybackRate):
+                    if (TryGetSession(out var session))
+                        session.PlaybackRate = settings.PlaybackRate;
+                    break;
             }
         }
 
