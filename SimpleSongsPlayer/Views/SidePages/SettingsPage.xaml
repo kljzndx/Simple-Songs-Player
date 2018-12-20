@@ -39,7 +39,7 @@
         </StackPanel>
 
         <StackPanel>
-            <Slider x:Name="PlaybackSpeed_Slider" x:Uid="/SettingsPage/PlaybackSpeed_Slider" Header="播放速度" Maximum="500" Value="{x:Bind locator.Player.PlaybackRate, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}"/>
+            <Slider x:Name="PlaybackSpeed_Slider" x:Uid="/SettingsPage/PlaybackSpeed_Slider" Header="播放速度" Maximum="500" Value="{x:Bind locator.Player.PlaybackRate, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}" StepFrequency="10"/>
         </StackPanel>
 
         <StackPanel>
