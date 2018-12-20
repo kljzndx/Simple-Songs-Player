@@ -90,6 +90,7 @@ namespace SimpleSongsPlayer.Views.SidePages
                             if ((int) locator.Other.TimedExitMinutes == 0)
                             {
                                 t.Cancel();
+                                locator.Other.IsTimedExitEnable = false;
                                 if (App.MediaPlayer.PlaybackSession is MediaPlaybackSession session && session.PlaybackState == MediaPlaybackState.Playing)
                                     App.MediaPlayer.Pause();
                                 App.Current.Exit();
