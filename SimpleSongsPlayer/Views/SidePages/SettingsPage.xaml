@@ -8,19 +8,25 @@
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource VmLocator}, Path=Settings}">
 
-    <Grid>
+    <StackPanel BorderThickness="0">
+        <StackPanel.Resources>
+            <Style TargetType="StackPanel">
+                <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseHighBrush}"/>
+                <Setter Property="Padding" Value="0,8"/>
+            </Style>
+        </StackPanel.Resources>
         <StackPanel>
-            <TextBlock Text="音乐管理" Style="{ThemeResource SubtitleTextBlockStyle}"/>
-            <Button x:Name="SetupLibrary_Button" Content="配置扫描位置" Margin="0,8" Click="SetupLibrary_Button_OnClick"/>
+            <Button x:Name="SetupLibrary_Button" x:Uid="/SettingsPage/SetupLibrary_Button" Content="配置扫描位置" Click="SetupLibrary_Button_OnClick"/>
 
-            <ContentDialog x:Name="SetupLibrary_ContentDialog" SecondaryButtonText="关闭" Style="{StaticResource Adaptive_ContentDialog_Style}" Opened="SetupLibrary_ContentDialog_OnOpened">
+            <ContentDialog x:Name="SetupLibrary_ContentDialog" x:Uid="/SettingsPage/SetupLibrary_ContentDialog" SecondaryButtonText="关闭" Style="{StaticResource Adaptive_ContentDialog_Style}" Opened="SetupLibrary_ContentDialog_OnOpened">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <Button x:Name="AddLibrary_Button" Content="添加文件夹" HorizontalAlignment="Stretch" Click="AddLibrary_Button_OnClick"/>
+                    <Button x:Name="AddLibrary_Button" x:Uid="/SettingsPage/AddLibrary_Button" Content="添加文件夹" HorizontalAlignment="Stretch" Click="AddLibrary_Button_OnClick"/>
                     <ListView Grid.Row="1" ItemsSource="{Binding MusicLibrary.Folders}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="LibraryFolders_ListView_OnItemClick">
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -31,5 +37,26 @@
                 </Grid>
             </ContentDialog>
         </StackPanel>
-    </Grid>
+
+        <StackPanel>
+            <Slider x:Name="PlaybackSpeed_Slider" x:Uid="/SettingsPage/PlaybackSpeed_Slider" Header="播放速度" Maximum="500" Value="{x:Bind locator.Player.PlaybackRate, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}"/>
+        </StackPanel>
+
+        <StackPanel>
+            <ToggleSwitch x:Name="TimedExit_ToggleSwitch" x:Uid="/SettingsPage/TimedExit_ToggleSwitch" Header="定时退出" IsOn="{x:Bind locator.Other.IsTimedExitEnable, Mode=TwoWay}"/>
+
+            <Grid Visibility="{x:Bind TimedExit_ToggleSwitch.IsOn, Mode=OneWay}">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Slider x:Name="Time_Slider" x:Uid="/SettingsPage/Time_Slider" Header="时间" Minimum="15" Maximum="60" Value="{x:Bind locator.Other.TimedExitMinutes, Mode=TwoWay}"/>
+                <TextBlock Grid.Row="1">
+                    <Run x:Uid="/SettingsPage/TimerExitInfo1_Run"/>
+                    <Run Text="{x:Bind locator.Other.TimedExitMinutes, Mode=OneWay}"/>
+                    <Run x:Uid="/SettingsPage/TimerExitInfo2_Run"/>
+                </TextBlock>
+            </Grid>
+        </StackPanel>
+    </StackPanel>
 </Page>

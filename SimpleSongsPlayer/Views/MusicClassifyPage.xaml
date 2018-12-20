@@ -10,14 +10,19 @@
 
     <SplitView x:Name="Root_SplitView" DisplayMode="Overlay" PanePlacement="Right">
         <SplitView.Pane>
-            <StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
                 <Border BorderThickness="0,0,0,2" BorderBrush="{ThemeResource SystemControlBackgroundBaseHighBrush}" Padding="8">
                     <TextBlock x:Name="Title_TextBlock" Style="{ThemeResource TitleTextBlockStyle}"/>
                 </Border>
-                <ScrollViewer>
+                <ScrollViewer Grid.Row="1">
                     <Frame x:Name="Beside_Frame" Padding="8" Navigated="Beside_Frame_OnNavigated"/>
                 </ScrollViewer>
-            </StackPanel>
+            </Grid>
         </SplitView.Pane>
         <Pivot x:Name="Root_Pivot" SelectionChanged="Root_Pivot_OnSelectionChanged">
             <Pivot.RightHeader>
