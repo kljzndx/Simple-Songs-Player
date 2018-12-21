@@ -8,7 +8,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    DataContext="{Binding Source={StaticResource VmLocator}, Path=MusicList}">
+    DataContext="{Binding Source={StaticResource VmLocator}, Path=MusicList}"
+    Loaded="MusicListPage_OnLoaded">
 
     <Page.Resources>
         <CollectionViewSource x:Key="Data_CollectionViewSource" Source="{Binding DataSource}" IsSourceGrouped="True" ItemsPath="Items"/>
@@ -88,7 +89,7 @@
                     <ctor:SplitButton x:Name="ListSortSelection_SplitButton" LeftButton_Click="ListSortSelection_SplitButton_OnLeftButton_Click">
                         <ctor:SplitButton.ExtendFlyout>
                             <Flyout Placement="Bottom">
-                                <ListBox x:Name="ListSorter_ListBox" ItemsSource="{Binding SorterMembers}" SelectionChanged="ListSorter_ListBox_OnSelectionChanged">
+                                <ListBox x:Name="ListSorter_ListBox" ItemsSource="{x:Bind vm.SorterMembers, Mode=OneWay}" SelectionChanged="ListSorter_ListBox_OnSelectionChanged">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Name}"/>
@@ -105,7 +106,7 @@
                 <ctor:DropDownButton x:Uid="/MusicListPage/Grouper_DropDownButton" Margin="8,0" Background="Transparent">
                     <ctor:DropDownButton.Flyout>
                         <Flyout>
-                            <ListBox x:Name="Grouper_ListBox" ItemsSource="{Binding GrouperMembers}" SelectionChanged="Grouper_ListBox_OnSelectionChanged">
+                            <ListBox x:Name="Grouper_ListBox" ItemsSource="{x:Bind vm.GrouperMembers, Mode=OneWay}" SelectionChanged="Grouper_ListBox_OnSelectionChanged">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Name}"/>

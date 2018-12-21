@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -52,9 +53,6 @@ namespace SimpleSongsPlayer.Views
 
             this.InitializeComponent();
             vm = (MusicListViewModel) DataContext;
-
-            Grouper_ListBox.SelectedIndex = (int) settings.GroupMethod;
-            ListSorter_ListBox.SelectedIndex = (int) settings.SortMethod;
         }
         
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -74,6 +72,12 @@ namespace SimpleSongsPlayer.Views
                         break;
                 }
             }
+        }
+
+        private void MusicListPage_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Grouper_ListBox.SelectedIndex = (int)settings.GroupMethod;
+            ListSorter_ListBox.SelectedIndex = (int)settings.SortMethod;
         }
 
         private void ListSortSelection_SplitButton_OnLeftButton_Click(object sender, RoutedEventArgs e)
