@@ -165,6 +165,9 @@
     <Compile Include="Views\Controllers\FavoriteSelectorDialog.xaml.cs">
       <DependentUpon>FavoriteSelectorDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controllers\FlyoutNotification.xaml.cs">
+      <DependentUpon>FlyoutNotification.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controllers\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>
@@ -344,6 +347,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controllers\FavoriteSelectorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controllers\FlyoutNotification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
