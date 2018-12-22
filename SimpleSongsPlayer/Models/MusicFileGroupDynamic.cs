@@ -28,16 +28,24 @@ namespace SimpleSongsPlayer.Models
 
         public void OrderBy(MusicDynamicSortKeySelector keySelector)
         {
-            for (var i = Items.Count - 1; i >= 0; i--)
-                for (int j = 0; j < i; j++)
-                    if (keySelector(Items[j]).CompareTo(keySelector(Items[j + 1])) > 0)
-                        Items.Move(j, j + 1);
+            var newItems = Items.OrderBy(keySelector.Invoke).ToList();
+            foreach (var item in newItems)
+            {
+                var oldId = Items.IndexOf(item);
+                var newId = newItems.IndexOf(item);
+                Items.Move(oldId, newId);
+            }
         }
 
         public void ReverseItems()
         {
-            for (int i = 0; i < Items.Count; i++)
-                Items.Move(0, Items.Count - i - 1);
+            var newItems = Items.Reverse().ToList();
+            foreach (var item in newItems)
+            {
+                var oldId = Items.IndexOf(item);
+                var newId = newItems.IndexOf(item);
+                Items.Move(oldId, newId);
+            }
         }
     }
 }
