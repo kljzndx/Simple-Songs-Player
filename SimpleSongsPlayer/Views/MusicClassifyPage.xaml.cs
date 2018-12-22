@@ -25,6 +25,7 @@ using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
 using SimpleSongsPlayer.ViewModels.Factories.MusicGroupers;
 using SimpleSongsPlayer.ViewModels.SettingProperties;
+using SimpleSongsPlayer.Views.Controllers;
 using SimpleSongsPlayer.Views.SidePages;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -84,13 +85,18 @@ namespace SimpleSongsPlayer.Views
 
         private async void AllMusicClassifyPage_OnLoaded(object sender, RoutedEventArgs e)
         {
+            FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("ScanMusicLibrary"));
             await MusicLibraryDataServer.Current.ScanMusicFiles();
+
+            FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("GetFavorites"));
             await FavoritesDataServer.Current.InitializeFavoritesService();
             if (!OtherSettingProperties.Current.IsMigratedOldFavorites)
             {
+                FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("MigrationOldFavorites"));
                 await FavoritesDataServer.Current.MigrateOldFavorites();
                 OtherSettingProperties.Current.IsMigratedOldFavorites = true;
             }
+            FlyoutNotification.Hide();
         }
 
         private void MusicGroup_Frame_OnNavigating(object sender, NavigatingCancelEventArgs e)

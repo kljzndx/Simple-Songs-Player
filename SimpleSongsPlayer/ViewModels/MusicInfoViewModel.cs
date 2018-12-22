@@ -7,6 +7,7 @@ using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
+using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Models.DTO.Lyric;
 using SimpleSongsPlayer.ViewModels.DataServers;
@@ -70,6 +71,7 @@ namespace SimpleSongsPlayer.ViewModels
         {
             if (musicSource != null)
             {
+                FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("SearchLyricFile"));
                 string musicName = musicSource.FileName.TrimExtensionName();
                 var lyricDto = lyrics.FirstOrDefault(lf => lf.FileName.TrimExtensionName() == musicName);
                 if (lyricDto != null)
@@ -77,6 +79,7 @@ namespace SimpleSongsPlayer.ViewModels
                     LyricSource = lyricDto;
                     await lyricDto.Init();
                 }
+                FlyoutNotification.Hide();
             }
         }
 
