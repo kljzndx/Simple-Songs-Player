@@ -11,6 +11,7 @@ using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Models.DTO.Lyric;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Events;
+using SimpleSongsPlayer.ViewModels.Extensions;
 using SimpleSongsPlayer.Views.Controllers;
 
 namespace SimpleSongsPlayer.ViewModels
@@ -69,8 +70,8 @@ namespace SimpleSongsPlayer.ViewModels
         {
             if (musicSource != null)
             {
-                string musicName = musicSource.FileName;
-                var lyricDto = lyrics.FirstOrDefault(lf => lf.FileName.Contains(musicName));
+                string musicName = musicSource.FileName.TrimExtensionName();
+                var lyricDto = lyrics.FirstOrDefault(lf => lf.FileName.TrimExtensionName() == musicName);
                 if (lyricDto != null)
                 {
                     LyricSource = lyricDto;
