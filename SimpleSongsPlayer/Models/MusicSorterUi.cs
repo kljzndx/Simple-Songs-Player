@@ -4,7 +4,7 @@ using Windows.Globalization.Collation;
 
 namespace SimpleSongsPlayer.Models
 {
-    public delegate IComparable MusicDynamicSortKeySelector(MusicFileDynamic fileDynamic, CharacterGroupings cgs);
+    public delegate IComparable MusicDynamicSortKeySelector(MusicFileDynamic fileDynamic);
 
     public class MusicSorterUi
     {

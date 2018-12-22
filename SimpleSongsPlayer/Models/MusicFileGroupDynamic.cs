@@ -9,8 +9,6 @@ namespace SimpleSongsPlayer.Models
 {
     public class MusicFileGroupDynamic : ObservableObject
     {
-        private static readonly CharacterGroupings CharacterGroupings = new CharacterGroupings();
-
         public MusicFileGroupDynamic(MusicFileGroup group)
         {
             Name = group.Name;
@@ -32,7 +30,7 @@ namespace SimpleSongsPlayer.Models
         {
             for (var i = Items.Count - 1; i >= 0; i--)
                 for (int j = 0; j < i; j++)
-                    if (keySelector(Items[j], CharacterGroupings).CompareTo(keySelector(Items[j + 1], CharacterGroupings)) > 0)
+                    if (keySelector(Items[j]).CompareTo(keySelector(Items[j + 1])) > 0)
                         Items.Move(j, j + 1);
         }
 
