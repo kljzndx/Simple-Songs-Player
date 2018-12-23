@@ -49,6 +49,7 @@ namespace SimpleSongsPlayer.Views
             Resources["MusicItemMenuList"] = musicItemMenuList;
 
             musicItemMenuList.Add(new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_PlayNext", s => MusicPusher.PushToNext(s.Original)));
+            musicItemMenuList.Add(new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_AddPlayList", s => MusicPusher.Append(s.Original)));
             musicItemMenuList.Add(new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Favorite", async f => FavoriteAdditionNotification.RequestFavoriteAddition(new[] {f.Original})));
 
             this.InitializeComponent();
@@ -110,14 +111,15 @@ namespace SimpleSongsPlayer.Views
                 return;
             
             await MusicPusher.Push(theTemplate.Source.Original);
-            
         }
 
         private async void PlayAll_Button_OnClick(object sender, RoutedEventArgs e)
         {
+            PlayAll_Button.IsEnabled = false;
             await MusicPusher.Push(vm.GetAllMusic().Select(f => f.Original));
+            PlayAll_Button.IsEnabled = true;
         }
-        
+
         private async void PlayGroup_Button_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             var theButton = sender as Button;
@@ -125,8 +127,10 @@ namespace SimpleSongsPlayer.Views
                 return;
 
             e.Handled = true;
+            theButton.IsEnabled = false;
             var source = theButton.DataContext as MusicFileGroupDynamic;
             await MusicPusher.Push(source.Items.Select(f => f.Original));
+            theButton.IsEnabled = true;
         }
 
         private async void AddGroup_Button_OnTapped(object sender, TappedRoutedEventArgs e)
@@ -136,8 +140,10 @@ namespace SimpleSongsPlayer.Views
                 return;
 
             e.Handled = true;
+            theButton.IsEnabled = false;
             var source = theButton.DataContext as MusicFileGroupDynamic;
             await MusicPusher.Append(source.Items.Select(f => f.Original));
+            theButton.IsEnabled = true;
         }
     }
 }

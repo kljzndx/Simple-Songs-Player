@@ -138,6 +138,9 @@
   <data name="ListSort_TextBlock.Text" xml:space="preserve">
     <value>排序： </value>
   </data>
+  <data name="MoreMenu_AddPlayList" xml:space="preserve">
+    <value>添加到播放列表</value>
+  </data>
   <data name="MoreMenu_Favorite" xml:space="preserve">
     <value>收藏</value>
   </data>
