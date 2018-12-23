@@ -8,8 +8,6 @@ namespace SimpleSongsPlayer.Service
     {
         event EventHandler<IEnumerable<TFile>> FilesAdded;
         event EventHandler<IEnumerable<TFile>> FilesRemoved;
-        event EventHandler<IEnumerable<TFile>> FilesUpdated;
-
 
         Task<List<TFile>> GetFiles();
     }

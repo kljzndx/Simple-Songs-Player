@@ -16,7 +16,6 @@ namespace SimpleSongsPlayer.Service
 
         public event EventHandler<IEnumerable<IGrouping<string, string>>> FilesAdded;
         public event EventHandler<IEnumerable<IGrouping<string, string>>> FilesRemoved;
-        public event EventHandler<IEnumerable<IGrouping<string, string>>> FilesUpdated;
         public event EventHandler<KeyValuePair<string, string>> GroupRenamed;
 
         private UserFavoriteService(MusicLibraryService<MusicFile, MusicFileFactory> libraryService)
