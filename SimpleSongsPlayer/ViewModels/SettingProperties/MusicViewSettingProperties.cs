@@ -6,7 +6,8 @@ namespace SimpleSongsPlayer.ViewModels.SettingProperties
     public enum MusicGrouperMembers
     {
         None,
-        FirstLetter
+        FirstLetter,
+        Path
     }
 
     public enum MusicSorterMembers

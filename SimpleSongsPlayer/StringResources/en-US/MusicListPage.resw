@@ -129,6 +129,9 @@
   <data name="GrouperMember_None" xml:space="preserve">
     <value>None</value>
   </data>
+  <data name="GrouperMember_Path" xml:space="preserve">
+    <value>Path</value>
+  </data>
   <data name="Grouper_DropDownButton.Content" xml:space="preserve">
     <value>Group</value>
   </data>

@@ -44,6 +44,7 @@ namespace SimpleSongsPlayer.Models.DTO
             duration = fileData.Duration;
             FileName = fileData.FileName;
             FilePath = fileData.Path;
+            LibraryFolderPath = fileData.LibraryFolder;
 
             FoundArtist = !String.IsNullOrWhiteSpace(fileData.Artist);
             FoundAlbum = !String.IsNullOrWhiteSpace(fileData.Album);
@@ -92,6 +93,7 @@ namespace SimpleSongsPlayer.Models.DTO
         
         public string FileName { get; }
         public string FilePath { get; }
+        public string LibraryFolderPath { get; }
 
         public bool FoundArtist { get; }
         public bool FoundAlbum { get; }
