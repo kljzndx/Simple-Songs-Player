@@ -63,7 +63,7 @@ namespace SimpleSongsPlayer.Views
                 if (args.ArgsType.HasFlag(MusicListArgsType.Menu))
                     musicItemMenuList.AddRange(args.ExtraMenu);
 
-                switch (args.ArgsType & (~MusicListArgsType.Menu))
+                switch (args.ArgsType & (~MusicListArgsType.Menu) & (~MusicListArgsType.DataServer))
                 {
                     case MusicListArgsType.Source:
                         vm.SetUpDataSource(args.Source);

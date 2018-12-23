@@ -66,7 +66,7 @@ namespace SimpleSongsPlayer.Views
             switch (Root_Pivot.SelectedIndex)
             {
                 case 0:
-                    Song_Frame.NavigateEx(ListPageType, new MusicListArguments(MusicFileDataServer.Current.Data));
+                    Song_Frame.NavigateEx(ListPageType, new MusicListArguments(MusicFileDataServer.Current.Data, MusicFileDataServer.Current));
                     break;
                 case 1:
                     Artist_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(MusicFileDataServer.Current.Data, new MusicGrouperArgs(new MusicArtistGrouper(), new MusicArtistFilter())));
@@ -78,7 +78,7 @@ namespace SimpleSongsPlayer.Views
                     Favorites_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(FavoritesDataServer.Current.UserFavoritesList));
                     break;
                 case 4:
-                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.Data, new [] {new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
+                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.Data, MusicFileDataServer.Current, new [] {new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
                     break;
             }
         }

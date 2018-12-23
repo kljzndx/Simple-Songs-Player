@@ -18,6 +18,7 @@ using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Arguments;
+using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Events;
 using SimpleSongsPlayer.ViewModels.Factories;
 
@@ -72,9 +73,9 @@ namespace SimpleSongsPlayer.Views
 
             if (vm.ItemFilter != null)
                 if (itemExtraMenu != null)
-                    Frame.Navigate(typeof(MusicListPage), new MusicListArguments(vm.Original, new MusicFilterArgs(vm.ItemFilter, item.Name), itemExtraMenu));
+                    Frame.Navigate(typeof(MusicListPage), new MusicListArguments(vm.Original, MusicFileDataServer.Current, new MusicFilterArgs(vm.ItemFilter, item.Name), itemExtraMenu));
                 else
-                    Frame.Navigate(typeof(MusicListPage), new MusicListArguments(vm.Original, new MusicFilterArgs(vm.ItemFilter, item.Name)));
+                    Frame.Navigate(typeof(MusicListPage), new MusicListArguments(vm.Original, MusicFileDataServer.Current, new MusicFilterArgs(vm.ItemFilter, item.Name)));
             else if (itemExtraMenu != null)
                 Frame.Navigate(typeof(MusicListPage), new MusicListArguments(item.Items, itemExtraMenu));
             else
