@@ -17,7 +17,7 @@
 
         <Image x:Name="Cover_Image" Width="98" Height="98"/>
         <StackPanel Grid.Row="1">
-            <TextBlock Text="{x:Bind Source.Name, Mode=OneWay}"/>
+            <TextBlock Text="{x:Bind Source.Name, Mode=OneWay}" MaxLines="2" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
             <TextBlock HorizontalAlignment="Right" Style="{ThemeResource CaptionTextBlockStyle}">
                 <Run Text="{x:Bind Source.Items.Count, Mode=OneWay}"/>
                 <Run Text=" 首歌"/>
