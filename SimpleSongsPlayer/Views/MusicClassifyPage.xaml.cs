@@ -66,19 +66,19 @@ namespace SimpleSongsPlayer.Views
             switch (Root_Pivot.SelectedIndex)
             {
                 case 0:
-                    Song_Frame.NavigateEx(ListPageType, new MusicListArguments(MusicLibraryDataServer.Current.MusicFilesList));
+                    Song_Frame.NavigateEx(ListPageType, new MusicListArguments(MusicFileDataServer.Current.Data));
                     break;
                 case 1:
-                    Artist_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(MusicLibraryDataServer.Current.MusicFilesList, new MusicGrouperArgs(new MusicArtistGrouper(), new MusicArtistFilter())));
+                    Artist_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(MusicFileDataServer.Current.Data, new MusicGrouperArgs(new MusicArtistGrouper(), new MusicArtistFilter())));
                     break;
                 case 2:
-                    Album_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(MusicLibraryDataServer.Current.MusicFilesList, new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
+                    Album_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(MusicFileDataServer.Current.Data, new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
                     break;
                 case 3:
                     Favorites_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(FavoritesDataServer.Current.UserFavoritesList));
                     break;
                 case 4:
-                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.DataSource, new [] {new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
+                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.Data, new [] {new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
                     break;
             }
         }
@@ -86,7 +86,7 @@ namespace SimpleSongsPlayer.Views
         private async void AllMusicClassifyPage_OnLoaded(object sender, RoutedEventArgs e)
         {
             FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("ScanMusicLibrary"));
-            await MusicLibraryDataServer.Current.ScanMusicFiles();
+            await MusicFileDataServer.Current.ScanMusicFiles();
 
             FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("GetFavorites"));
             await FavoritesDataServer.Current.InitializeFavoritesService();

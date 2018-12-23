@@ -19,7 +19,7 @@ namespace SimpleSongsPlayer.ViewModels
 {
     public class MusicInfoViewModel : ViewModelBase
     {
-        private readonly ObservableCollection<MusicFileDTO> musicFiles = MusicLibraryDataServer.Current.MusicFilesList;
+        private readonly ObservableCollection<MusicFileDTO> musicFiles = MusicFileDataServer.Current.Data;
         private readonly ObservableCollection<LyricFileDTO> lyrics = LyricFileDataServer.Current.Data;
 
         private MusicFileDTO musicSource;
@@ -64,7 +64,7 @@ namespace SimpleSongsPlayer.ViewModels
             await RefreshLyricSource();
 
             CustomMediaPlayerElement.NowPlaybackItemChanged += CustomMediaPlayerElement_NowPlaybackItemChanged;
-            LyricFileDataServer.Current.FilesAdded += LyricFileDataServer_FilesAdded;
+            LyricFileDataServer.Current.DataAdded += LyricDataDataServer_DataAdded;
         }
 
         private async Task RefreshLyricSource()
@@ -115,7 +115,7 @@ namespace SimpleSongsPlayer.ViewModels
             }
         }
 
-        private async void LyricFileDataServer_FilesAdded(object sender, IEnumerable<LyricFileDTO> e)
+        private async void LyricDataDataServer_DataAdded(object sender, IEnumerable<LyricFileDTO> e)
         {
             await RefreshLyricSource();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ using SimpleSongsPlayer.ViewModels.Extensions;
 
 namespace SimpleSongsPlayer.ViewModels
 {
-    public class NowPlayingDataServer
+    public class NowPlayingDataServer : IFileDataServer<MusicFileDTO>
     {
         public static  readonly NowPlayingDataServer Current = new NowPlayingDataServer();
 
@@ -22,7 +23,9 @@ namespace SimpleSongsPlayer.ViewModels
         {
         }
 
-        public ObservableCollection<MusicFileDTO> DataSource { get; } = new ObservableCollection<MusicFileDTO>();
+        public ObservableCollection<MusicFileDTO> Data { get; } = new ObservableCollection<MusicFileDTO>();
+        public event EventHandler<IEnumerable<MusicFileDTO>> DataAdded;
+        public event EventHandler<IEnumerable<MusicFileDTO>> DataRemoved;
 
         public async Task Initialize()
         {
@@ -32,7 +35,7 @@ namespace SimpleSongsPlayer.ViewModels
 
         public async Task SetUpSource(MediaPlaybackList playbackList)
         {
-            DataSource.Clear();
+            Data.Clear();
             if (currentPlaybackList != null)
                 currentPlaybackList.Items.VectorChanged -= PlaybackItems_VectorChanged;
             foreach (var playbackItem in playbackList.Items)
@@ -40,11 +43,12 @@ namespace SimpleSongsPlayer.ViewModels
                 var dto = await GetFile(playbackItem);
 
                 if (dto != null)
-                    DataSource.Add(dto);
-                else if (MusicLibraryDataServer.Current.MusicFilesList.Any())
+                    Data.Add(dto);
+                else if (MusicFileDataServer.Current.Data.Any())
                     new Exception("音乐库里找不到该歌曲").ShowErrorDialog();
             }
 
+            DataAdded?.Invoke(this, Data);
             currentPlaybackList = playbackList;
             currentPlaybackList.Items.VectorChanged += PlaybackItems_VectorChanged;
         }
@@ -52,7 +56,7 @@ namespace SimpleSongsPlayer.ViewModels
         private async Task<MusicFileDTO> GetFile(MediaPlaybackItem playbackItem)
         {
             MusicFileDTO dto = null;
-            foreach (var currentDto in MusicLibraryDataServer.Current.MusicFilesList.Where(d => d.IsInitPlaybackItem))
+            foreach (var currentDto in MusicFileDataServer.Current.Data.Where(d => d.IsInitPlaybackItem))
             {
                 var p = await currentDto.GetPlaybackItem();
                 if (p == playbackItem)
@@ -70,11 +74,19 @@ namespace SimpleSongsPlayer.ViewModels
             switch (args.CollectionChange)
             {
                 case CollectionChange.ItemInserted:
-                    DataSource.Insert((int)args.Index, await GetFile(sender[(int)args.Index]));
+                {
+                    var dto = await GetFile(sender[(int)args.Index]);
+                    Data.Insert((int)args.Index, dto);
+                    DataAdded?.Invoke(this, new[] {dto});
                     break;
+                }
                 case CollectionChange.ItemRemoved:
-                    DataSource.RemoveAt((int)args.Index);
+                {
+                    var dto = await GetFile(sender[(int)args.Index]);
+                    Data.Remove(dto);
+                    DataRemoved?.Invoke(this, new[] {dto});
                     break;
+                }
             }
         }
     }

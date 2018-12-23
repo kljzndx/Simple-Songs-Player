@@ -10,7 +10,7 @@ using SimpleSongsPlayer.Service;
 
 namespace SimpleSongsPlayer.ViewModels.DataServers
 {
-    public class LyricFileDataServer
+    public class LyricFileDataServer : IFileDataServer<LyricFileDTO>
     {
         public static readonly LyricFileDataServer Current = new LyricFileDataServer();
 
@@ -21,8 +21,8 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
         }
 
         public ObservableCollection<LyricFileDTO> Data { get; } = new ObservableCollection<LyricFileDTO>();
-        public event EventHandler<IEnumerable<LyricFileDTO>> FilesAdded;
-        public event EventHandler<IEnumerable<LyricFileDTO>> FilesRemoved;
+        public event EventHandler<IEnumerable<LyricFileDTO>> DataAdded;
+        public event EventHandler<IEnumerable<LyricFileDTO>> DataRemoved;
 
         public async Task Init()
         {
@@ -33,7 +33,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             var files = await service.GetFiles();
             foreach (var file in files)
                 Data.Add(new LyricFileDTO(file));
-            FilesAdded?.Invoke(this, Data);
+            DataAdded?.Invoke(this, Data);
 
             service.FilesAdded += Service_FilesAdded;
             service.FilesRemoved += Service_FilesRemoved;
@@ -57,7 +57,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                 options.Add(dto);
                 Data.Add(dto);
             }
-            FilesAdded?.Invoke(this, options);
+            DataAdded?.Invoke(this, options);
         }
 
         private void Service_FilesRemoved(object sender, IEnumerable<LyricFile> e)
@@ -71,7 +71,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                 Data.Remove(dto);
             }
 
-            FilesRemoved?.Invoke(this, options);
+            DataRemoved?.Invoke(this, options);
         }
     }
 }

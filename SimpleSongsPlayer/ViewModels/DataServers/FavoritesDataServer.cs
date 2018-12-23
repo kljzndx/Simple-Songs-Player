@@ -18,7 +18,7 @@ namespace SimpleSongsPlayer.ViewModels
     {
         public static FavoritesDataServer Current = new FavoritesDataServer();
 
-        private ObservableCollection<MusicFileDTO> musicList = MusicLibraryDataServer.Current.MusicFilesList;
+        private ObservableCollection<MusicFileDTO> musicList = MusicFileDataServer.Current.Data;
         private UserFavoriteService userFavoriteService;
         
         private FavoritesDataServer()

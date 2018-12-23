@@ -39,7 +39,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         private bool? isPressPositionControlButton = false;
         private bool isUserChangePositon;
 
-        private MusicLibraryDataServer dataServer = MusicLibraryDataServer.Current;
+        private MusicFileDataServer dataServer = MusicFileDataServer.Current;
         private PlayerSettingProperties settings = PlayerSettingProperties.Current;
 
         public CustomMediaPlayerElement()
@@ -368,7 +368,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         private async void CustomMediaPlayerElement_NowPlaybackItemChanged(CustomMediaPlayerElement sender, PlayerNowPlaybackItemChangeEventArgs args)
         {
             bool isUpdated = false;
-            foreach (var fileDto in dataServer.MusicFilesList.Where(f => f.IsInitPlaybackItem))
+            foreach (var fileDto in dataServer.Data.Where(f => f.IsInitPlaybackItem))
             {
                 if (!isUpdated && await fileDto.GetPlaybackItem() == args.NewItem)
                 {
