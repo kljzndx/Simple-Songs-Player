@@ -19,7 +19,7 @@ namespace SimpleSongsPlayer.ViewModels
         private MusicFilterArgs _filterArgs;
         private IMusicGrouper _grouper = new SingleGrouper();
         private readonly MusicViewSettingProperties settings = MusicViewSettingProperties.Current;
-
+        
         public MusicListViewModel()
         {
             GrouperMembers = new List<MusicGrouperUi>();
@@ -34,7 +34,6 @@ namespace SimpleSongsPlayer.ViewModels
             SorterMembers.Add(new MusicSorterUi("SorterMember_ChangeDate", s => s.Original.ChangeDate, true));
 
             settings.PropertyChanged += Settings_PropertyChanged;
-            MusicLibraryDataServer.Current.MusicFilesAdded += DataServer_MusicFilesAdded;
         }
 
         public List<MusicGrouperUi> GrouperMembers { get; }
@@ -64,18 +63,24 @@ namespace SimpleSongsPlayer.ViewModels
             }
         }
 
-        private void SortItems(MusicDynamicSortKeySelector keySelector)
+        public void SortItems(MusicSorterUi sorter)
         {
+            settings.IsReverse = false;
             foreach (var groupDynamic in DataSource)
-                groupDynamic.OrderBy(keySelector);
+            {
+                groupDynamic.OrderBy(sorter.KeySelector);
+                if (sorter.IsReverse)
+                    groupDynamic.ReverseItems();
+            }
         }
 
-        private void ReverseItems()
+        public void ReverseItems()
         {
+            settings.IsReverse = !settings.IsReverse;
             foreach (var groupDynamic in DataSource)
                 groupDynamic.ReverseItems();
         }
-
+        
         public IEnumerable<MusicFileDynamic> GetAllMusic()
         {
             return DataSource.Select(g => g.Items).Aggregate((o, n) =>
@@ -153,31 +158,11 @@ namespace SimpleSongsPlayer.ViewModels
             {
                 case nameof(settings.GroupMethod):
                     AddItems(needClear: true, grouper: GrouperMembers[(int)settings.GroupMethod].Grouper);
-                    SortItems(SorterMembers[(int)settings.SortMethod].KeySelector);
+                    SortItems(SorterMembers[(int)settings.SortMethod]);
                     if (settings.IsReverse)
                         ReverseItems();
-                    break;
-                case nameof(settings.SortMethod):
-                    var sorter = SorterMembers[(int)settings.SortMethod];
-                    SortItems(sorter.KeySelector);
-                    settings.IsReverse = sorter.IsReverse;
-                    break;
-                case nameof(settings.IsReverse):
-                    if (settings.IsReverse)
-                        ReverseItems();
-                    else
-                        SortItems(SorterMembers[(int)settings.SortMethod].KeySelector);
-
                     break;
             }
-        }
-
-        private void DataServer_MusicFilesAdded(object sender, System.EventArgs e)
-        {
-            var sorter = SorterMembers[(int)settings.SortMethod];
-            SortItems(sorter.KeySelector);
-            if (settings.IsReverse)
-                ReverseItems();
         }
     }
 }

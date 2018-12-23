@@ -63,6 +63,9 @@ namespace SimpleSongsPlayer.Views
                 if (args.ArgsType.HasFlag(MusicListArgsType.Menu))
                     musicItemMenuList.AddRange(args.ExtraMenu);
 
+                if (args.ArgsType.HasFlag(MusicListArgsType.DataServer))
+                    args.DataServer.DataAdded += DataServer_DataAdded;
+
                 switch (args.ArgsType & (~MusicListArgsType.Menu) & (~MusicListArgsType.DataServer))
                 {
                     case MusicListArgsType.Source:
@@ -83,12 +86,17 @@ namespace SimpleSongsPlayer.Views
 
         private void ListSortSelection_SplitButton_OnLeftButton_Click(object sender, RoutedEventArgs e)
         {
-            settings.IsReverse = !settings.IsReverse;
+            vm.ReverseItems();
         }
 
         private void ListSorter_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            settings.SortMethod = (MusicSorterMembers) ListSorter_ListBox.SelectedIndex;
+            var id = ListSorter_ListBox.SelectedIndex;
+            settings.SortMethod = (MusicSorterMembers) id;
+            var sorter = vm.SorterMembers[id];
+            vm.SortItems(sorter);
+            if (settings.IsReverse)
+                vm.ReverseItems();
         }
 
         private void Grouper_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -144,6 +152,16 @@ namespace SimpleSongsPlayer.Views
             var source = theButton.DataContext as MusicFileGroupDynamic;
             await MusicPusher.Append(source.Items.Select(f => f.Original));
             theButton.IsEnabled = true;
+        }
+
+        private async void DataServer_DataAdded(object sender, IEnumerable<MusicFileDTO> e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate
+            {
+                vm.SortItems(vm.SorterMembers[(int) settings.SortMethod]);
+                if (settings.IsReverse)
+                    vm.ReverseItems();
+            });
         }
     }
 }
