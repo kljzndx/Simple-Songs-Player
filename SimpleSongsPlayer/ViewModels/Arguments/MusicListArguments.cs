@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
+using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Factories;
 
 namespace SimpleSongsPlayer.ViewModels.Arguments
@@ -13,7 +14,8 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
     {
         Source = 1,
         Filter = 2,
-        Menu = 4
+        Menu = 4,
+        DataServer = 8
     }
 
     public class MusicListArguments
@@ -24,6 +26,13 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
             ArgsType = MusicListArgsType.Source;
         }
 
+        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer)
+        {
+            Source = source;
+            DataServer = dataServer;
+            ArgsType = MusicListArgsType.Source | MusicListArgsType.DataServer;
+        }
+
         public MusicListArguments(ObservableCollection<MusicFileDTO> source, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu)
         {
             Source = source;
@@ -31,11 +40,27 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
             ArgsType = MusicListArgsType.Source | MusicListArgsType.Menu;
         }
 
+        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu)
+        {
+            Source = source;
+            DataServer = dataServer;
+            ExtraMenu = extraMenu.ToList();
+            ArgsType = MusicListArgsType.Source | MusicListArgsType.DataServer | MusicListArgsType.Menu;
+        }
+
         public MusicListArguments(ObservableCollection<MusicFileDTO> source, MusicFilterArgs filter)
         {
             Source = source;
             Filter = filter;
             ArgsType = MusicListArgsType.Source | MusicListArgsType.Filter;
+        }
+
+        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer, MusicFilterArgs filter)
+        {
+            Source = source;
+            DataServer = dataServer;
+            Filter = filter;
+            ArgsType = MusicListArgsType.Source | MusicListArgsType.DataServer | MusicListArgsType.Filter;
         }
 
         public MusicListArguments(ObservableCollection<MusicFileDTO> source, MusicFilterArgs filter, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu)
@@ -46,7 +71,17 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
             ArgsType = MusicListArgsType.Source | MusicListArgsType.Filter | MusicListArgsType.Menu;
         }
 
+        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer, MusicFilterArgs filter, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu)
+        {
+            Source = source;
+            DataServer = dataServer;
+            Filter = filter;
+            ExtraMenu = extraMenu.ToList();
+            ArgsType = MusicListArgsType.Source | MusicListArgsType.DataServer | MusicListArgsType.Filter | MusicListArgsType.Menu;
+        }
+
         public MusicListArgsType ArgsType { get; }
+        public IFileDataServer<MusicFileDTO> DataServer { get; }
         public ObservableCollection<MusicFileDTO> Source { get; }
         public MusicFilterArgs Filter { get; }
         public List<MusicItemMenuItem<MusicFileDynamic>> ExtraMenu { get; }
