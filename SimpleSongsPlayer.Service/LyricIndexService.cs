@@ -68,10 +68,14 @@ namespace SimpleSongsPlayer.Service
                 var lyricTable = db.LyricFiles;
                 var lyricIndexTable = db.LyricIndices;
 
+                // 移除无效的项目
                 lyricIndexTable.RemoveRange(lyricIndexTable.Where(li => musicTable.All(mf => li.MusicPath != mf.Path)));
                 lyricIndexTable.RemoveRange(lyricIndexTable.Where(li => lyricTable.All(lf => li.MusicPath != lf.Path)));
 
-                var option = musicTable.Where(m => lyricTable.Any(l => TrimExtensionName(l.FileName) == TrimExtensionName(m.FileName))).ToList();
+                var option = musicTable.Where(m => lyricTable.Any(l => TrimExtensionName(l.FileName) == TrimExtensionName(m.FileName)))
+                            // 选取 “lyricIndex” 表里没有的项目
+                            .Where(o => lyricIndexTable.All(i => i.MusicPath != o.Path));
+
                 foreach (var musicFile in option)
                 {
                     LyricFile lyricFile = lyricTable.First(l => TrimExtensionName(l.FileName) == TrimExtensionName(musicFile.FileName));
@@ -79,7 +83,6 @@ namespace SimpleSongsPlayer.Service
                 }
 
                 await lyricIndexTable.AddRangeAsync(optionResult);
-
                 await db.SaveChangesAsync();
             }
 
