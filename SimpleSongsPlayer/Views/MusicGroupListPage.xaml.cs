@@ -47,13 +47,12 @@ namespace SimpleSongsPlayer.Views
         {
             if (e.Parameter is MusicGroupArguments args)
             {
-                if (args.ArgsType.HasFlag(MusicGroupArgsType.Menu))
-                {
+                if (args.ArgsType.HasFlag(MusicGroupArgsType.GroupMenu))
                     groupMenu.AddRange(args.ExtraGroupMenu);
+                if (args.ArgsType.HasFlag(MusicGroupArgsType.ItemMenu))
                     itemExtraMenu = args.ExtraItemMenu;
-                }
 
-                switch (args.ArgsType & (~MusicGroupArgsType.Menu))
+                switch (args.ArgsType & (~MusicGroupArgsType.GroupMenu) & (~MusicGroupArgsType.ItemMenu))
                 {
                     case MusicGroupArgsType.GroupSource:
                         vm.SetUp(args.GroupSource);

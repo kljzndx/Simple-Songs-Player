@@ -14,7 +14,8 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
         ItemSource = 1,
         GroupSource = 2,
         Grouper = 4,
-        Menu = 8
+        GroupMenu = 8,
+        ItemMenu = 16
     }
 
     public class MusicGroupArguments
@@ -30,7 +31,7 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
             GroupSource = source;
             ExtraGroupMenu = extraGroupMenu.ToList();
             ExtraItemMenu = extraItemMenu.ToList();
-            ArgsType = MusicGroupArgsType.GroupSource | MusicGroupArgsType.Menu;
+            ArgsType = MusicGroupArgsType.GroupSource | MusicGroupArgsType.GroupMenu;
         }
 
         public MusicGroupArguments(ObservableCollection<MusicFileDTO> source, MusicGrouperArgs grouperArgs)
@@ -40,13 +41,29 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
             ArgsType = MusicGroupArgsType.ItemSource | MusicGroupArgsType.Grouper;
         }
 
+        public MusicGroupArguments(ObservableCollection<MusicFileDTO> source, MusicGrouperArgs grouperArgs, IEnumerable<MusicItemMenuItem<MusicFileGroupDynamic>> extraGroupMenu)
+        {
+            ItemSource = source;
+            GrouperArgs = grouperArgs;
+            ExtraGroupMenu = extraGroupMenu.ToList();
+            ArgsType = MusicGroupArgsType.ItemSource | MusicGroupArgsType.Grouper | MusicGroupArgsType.GroupMenu;
+        }
+
+        public MusicGroupArguments(ObservableCollection<MusicFileDTO> source, MusicGrouperArgs grouperArgs, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraItemMenu)
+        {
+            ItemSource = source;
+            GrouperArgs = grouperArgs;
+            ExtraItemMenu = extraItemMenu.ToList();
+            ArgsType = MusicGroupArgsType.ItemSource | MusicGroupArgsType.Grouper | MusicGroupArgsType.ItemMenu;
+        }
+
         public MusicGroupArguments(ObservableCollection<MusicFileDTO> source, MusicGrouperArgs grouperArgs, IEnumerable<MusicItemMenuItem<MusicFileGroupDynamic>> extraGroupMenu, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraItemMenu)
         {
             ItemSource = source;
             GrouperArgs = grouperArgs;
             ExtraGroupMenu = extraGroupMenu.ToList();
             ExtraItemMenu = extraItemMenu.ToList();
-            ArgsType = MusicGroupArgsType.ItemSource | MusicGroupArgsType.Grouper | MusicGroupArgsType.Menu;
+            ArgsType = MusicGroupArgsType.ItemSource | MusicGroupArgsType.Grouper | MusicGroupArgsType.GroupMenu | MusicGroupArgsType.ItemMenu;
         }
 
         public MusicGroupArgsType ArgsType { get; }
