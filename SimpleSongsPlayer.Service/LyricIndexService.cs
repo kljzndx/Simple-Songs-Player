@@ -18,6 +18,7 @@ namespace SimpleSongsPlayer.Service
         
         public event EventHandler<IEnumerable<LyricIndex>> FilesAdded;
         public event EventHandler<IEnumerable<LyricIndex>> FilesRemoved;
+        public event EventHandler<IEnumerable<LyricIndex>> FilesUpdated;
 
         private LyricIndexService(MusicLibraryService<MusicFile, MusicFileFactory> musicFileService, MusicLibraryService<LyricFile, LyricFileFactory> lyricFileService)
         {
@@ -38,16 +39,23 @@ namespace SimpleSongsPlayer.Service
 
         public async Task SetIndex(string musicPath, string lyricPath)
         {
+            bool isUpdate = false;
             LyricIndex index = new LyricIndex(musicPath, lyricPath);
             await _helper.CustomOption(table =>
             {
                 if (table.Any(i => i.MusicPath == musicPath))
+                {
+                    isUpdate = true;
                     table.Update(index);
+                }
                 else
                     table.Add(index);
             });
 
-            FilesAdded?.Invoke(this, new[] {index});
+            if (isUpdate)
+                FilesUpdated?.Invoke(this, new[] {index});
+            else
+                FilesAdded?.Invoke(this, new[] {index});
         }
 
         public async Task ScanAsync()
