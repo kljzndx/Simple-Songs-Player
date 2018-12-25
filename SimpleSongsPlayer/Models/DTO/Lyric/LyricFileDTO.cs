@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
 {
     public class LyricFileDTO : ObservableObject
     {
+        private static readonly Encoding GbkEncoding = GetGbkEncoding();
         private static readonly Regex LyricLineRegex = new Regex(@"^\[(?<min>\d+)\:(?<ss>\d{2}).(?<ms>\d{1,3})\](?<content>.*)");
         
         private LyricProperties properties;
@@ -40,7 +42,7 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
         public async Task Init()
         {
             StorageFile file = await StorageFile.GetFileFromPathAsync(FilePath);
-            string content = await FileIO.ReadTextAsync(file);
+            string content = await ReadText(file);
             Properties = new LyricProperties(content);
             Lines = new List<LyricLine>();
             string[] strLines = content.Contains("\n") ? content.Split('\n') : content.Split('\r');
@@ -95,7 +97,26 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
 
             Lines.Sort();
         }
-        
+
+        private async Task<string> ReadText(IStorageFile file)
+        {
+            string result;
+
+            try
+            {
+                result = await FileIO.ReadTextAsync(file);
+            }
+            catch (Exception)
+            {
+                var buffer = await FileIO.ReadBufferAsync(file);
+                var bytes = buffer.ToArray();
+
+                result = GbkEncoding.GetString(bytes);
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// 半角转全角
         /// </summary>
@@ -137,6 +158,13 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
                     c[i] = (char)(c[i] - 65248);
             }
             return new String(c);
+        }
+
+        
+        private static Encoding GetGbkEncoding()
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            return Encoding.GetEncoding("GBK");
         }
     }
 }
