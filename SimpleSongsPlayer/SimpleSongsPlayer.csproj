@@ -113,6 +113,7 @@
     <Compile Include="Models\StringResources.cs" />
     <Compile Include="ViewModels\Arguments\MusicGroupArguments.cs" />
     <Compile Include="ViewModels\Arguments\MusicListArguments.cs" />
+    <Compile Include="ViewModels\Arguments\PageArgumentsBase.cs" />
     <Compile Include="ViewModels\Attributes\Getters\PageTitleGetter.cs" />
     <Compile Include="ViewModels\Attributes\PageTitleAttribute.cs" />
     <Compile Include="Models\DTO\MusicFileDTO.cs" />

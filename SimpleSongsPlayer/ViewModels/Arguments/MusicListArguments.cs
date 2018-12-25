@@ -18,29 +18,29 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
         DataServer = 8
     }
 
-    public class MusicListArguments
+    public class MusicListArguments : PageArgumentsBase
     {
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source)
+        public MusicListArguments(ObservableCollection<MusicFileDTO> source, string pageTitle = null) : base(pageTitle)
         {
             Source = source;
             ArgsType = MusicListArgsType.Source;
         }
 
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer)
+        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer, string pageTitle = null) : base(pageTitle)
         {
             Source = source;
             DataServer = dataServer;
             ArgsType = MusicListArgsType.Source | MusicListArgsType.DataServer;
         }
 
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu)
+        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu, string pageTitle = null) : base(pageTitle)
         {
             Source = source;
             ExtraMenu = extraMenu.ToList();
             ArgsType = MusicListArgsType.Source | MusicListArgsType.Menu;
         }
 
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu)
+        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu, string pageTitle = null) : base(pageTitle)
         {
             Source = source;
             DataServer = dataServer;
@@ -48,14 +48,14 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
             ArgsType = MusicListArgsType.Source | MusicListArgsType.DataServer | MusicListArgsType.Menu;
         }
 
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, MusicFilterArgs filter)
+        public MusicListArguments(ObservableCollection<MusicFileDTO> source, MusicFilterArgs filter, string pageTitle = null) : base(pageTitle)
         {
             Source = source;
             Filter = filter;
             ArgsType = MusicListArgsType.Source | MusicListArgsType.Filter;
         }
 
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer, MusicFilterArgs filter)
+        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer, MusicFilterArgs filter, string pageTitle = null) : base(pageTitle)
         {
             Source = source;
             DataServer = dataServer;
@@ -63,7 +63,7 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
             ArgsType = MusicListArgsType.Source | MusicListArgsType.DataServer | MusicListArgsType.Filter;
         }
 
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, MusicFilterArgs filter, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu)
+        public MusicListArguments(ObservableCollection<MusicFileDTO> source, MusicFilterArgs filter, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu, string pageTitle = null) : base(pageTitle)
         {
             Source = source;
             Filter = filter;
@@ -71,7 +71,7 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
             ArgsType = MusicListArgsType.Source | MusicListArgsType.Filter | MusicListArgsType.Menu;
         }
 
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer, MusicFilterArgs filter, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu)
+        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer, MusicFilterArgs filter, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu, string pageTitle = null) : base(pageTitle)
         {
             Source = source;
             DataServer = dataServer;
