@@ -117,13 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreateFavorite_TextBlock.Text" xml:space="preserve">
-    <value>新建收藏夹</value>
-  </data>
-  <data name="Dialog.Title" xml:space="preserve">
-    <value>收藏夹选择器</value>
-  </data>
-  <data name="FavoriteName_InputDialog.Label" xml:space="preserve">
-    <value>名称</value>
+  <data name="ItemCount_Run.Text" xml:space="preserve">
+    <value> Songs</value>
   </data>
 </root>

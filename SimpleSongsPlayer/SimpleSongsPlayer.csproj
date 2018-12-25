@@ -293,6 +293,8 @@
     </Content>
     <None Include="SimpleSongsPlayer_StoreKey.pfx" />
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="StringResources\zh-CN\MusicGroup.resw" />
+    <PRIResource Include="StringResources\en-US\MusicGroup.resw" />
     <PRIResource Include="StringResources\en-US\Notification.resw" />
     <PRIResource Include="StringResources\zh-CN\Notification.resw" />
     <PRIResource Include="StringResources\en-US\SettingsPage.resw" />

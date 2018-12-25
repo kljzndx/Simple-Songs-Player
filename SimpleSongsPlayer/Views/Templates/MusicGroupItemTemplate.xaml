@@ -17,10 +17,10 @@
 
         <Image x:Name="Cover_Image" Width="98" Height="98"/>
         <StackPanel Grid.Row="1">
-            <TextBlock Text="{x:Bind Source.Name, Mode=OneWay}" MaxLines="2" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
-            <TextBlock HorizontalAlignment="Right" Style="{ThemeResource CaptionTextBlockStyle}">
+            <TextBlock Text="{x:Bind Source.Name, Mode=OneWay}" MinHeight="42" MaxLines="2" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
+            <TextBlock HorizontalAlignment="Right" Margin="4" Opacity="0.6" Style="{ThemeResource CaptionTextBlockStyle}">
                 <Run Text="{x:Bind Source.Items.Count, Mode=OneWay}"/>
-                <Run Text=" 首歌"/>
+                <Run x:Uid="/MusicGroup/ItemCount_Run"/>
             </TextBlock>
         </StackPanel>
     </Grid>

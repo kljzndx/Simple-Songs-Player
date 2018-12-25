@@ -20,7 +20,7 @@
             <TextBlock Text="{Binding Path=Name}" Margin="0,4"/>
             <TextBlock Margin="0,4" Style="{ThemeResource CaptionTextBlockStyle}">
                 <Run Text="{Binding Path=Items.Count}"/>
-                <Run x:Uid="/FavoriteSelectorDialog/Songs_Run"/>
+                <Run x:Uid="/MusicGroup/ItemCount_Run"/>
             </TextBlock>
         </StackPanel>
     </Grid>
