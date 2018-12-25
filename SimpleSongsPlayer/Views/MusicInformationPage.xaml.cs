@@ -29,10 +29,13 @@ namespace SimpleSongsPlayer.Views
     public sealed partial class MusicInformationPage : Page
     {
         private MusicInfoViewModel vm;
+        private bool isRefreshLyric;
+
         public MusicInformationPage()
         {
             this.InitializeComponent();
             vm = DataContext as MusicInfoViewModel;
+            vm.PropertyChanged += Vm_PropertyChanged;
             CustomMediaPlayerElement.PositionChanged += CustomMediaPlayerElement_PositionChanged;
         }
 
@@ -44,8 +47,11 @@ namespace SimpleSongsPlayer.Views
 
         private void CustomMediaPlayerElement_PositionChanged(CustomMediaPlayerElement sender, PlayerPositionChangeEventArgs args)
         {
-            if (args.IsUser)
+            if (args.IsUser || isRefreshLyric)
+            {
+                isRefreshLyric = false;
                 My_ScrollLyricsPreviewControl.Reposition(args.Position);
+            }
             else
                 My_ScrollLyricsPreviewControl.RefreshLyric(args.Position);
         }
@@ -53,6 +59,16 @@ namespace SimpleSongsPlayer.Views
         private void My_ScrollLyricsPreviewControl_OnItemClick(object sender, ItemClickEventArgs e)
         {
             CustomMediaPlayerElement.SetPosition_Global(((LyricLine) e.ClickedItem).Time);
+        }
+
+        private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(vm.LyricSource):
+                    isRefreshLyric = true;
+                    break;
+            }
         }
     }
 }
