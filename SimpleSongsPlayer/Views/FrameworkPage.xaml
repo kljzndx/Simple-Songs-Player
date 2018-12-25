@@ -23,7 +23,7 @@
             </Grid.ColumnDefinitions>
 
             <Button x:Name="Back_Button" Style="{ThemeResource NavigationBackButtonNormalStyle}" Click="Back_Button_OnClick"/>
-            <TextBlock x:Name="Title_TextBlock" Grid.Column="1" Margin="8" Style="{ThemeResource TitleTextBlockStyle}"/>
+            <TextBlock x:Name="Title_TextBlock" Grid.Column="1" Margin="8" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource TitleTextBlockStyle}"/>
         </Grid>
 
         <Frame x:Name="Main_Frame" Grid.Row="1" Navigated="Main_Frame_OnNavigated"/>

@@ -13,6 +13,7 @@ using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.ViewModels.Arguments;
 using SimpleSongsPlayer.ViewModels.Attributes;
 using SimpleSongsPlayer.ViewModels.Attributes.Getters;
 using SimpleSongsPlayer.ViewModels.Events;
@@ -58,8 +59,12 @@ namespace SimpleSongsPlayer.Views
             if (!String.IsNullOrWhiteSpace(title))
             {
                 TitleBar_Grid.Visibility = Visibility.Visible;
-                Title_TextBlock.Text = title;
                 Back_Button.Visibility = Main_Frame.CanGoBack ? Visibility.Visible : Visibility.Collapsed;
+                var args = e.Parameter as PageArgumentsBase;
+                if (args != null)
+                    Title_TextBlock.Text = args.Title + " - " + title;
+                else
+                    Title_TextBlock.Text = title;
             }
             else
                 TitleBar_Grid.Visibility = Visibility.Collapsed;
