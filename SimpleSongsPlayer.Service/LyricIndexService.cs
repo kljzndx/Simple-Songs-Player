@@ -58,9 +58,14 @@ namespace SimpleSongsPlayer.Service
                 FilesAdded?.Invoke(this, new[] {index});
         }
 
-        public async Task RemoveIndex(LyricIndex index)
+        public async Task RemoveIndex(string musicPath)
         {
-            await _helper.Remove(index);
+            await _helper.CustomOption(table =>
+            {
+                var index = table.Find(musicPath);
+                if (index != null)
+                    table.Remove(index);
+            });
         }
 
         public async Task ScanAsync()
