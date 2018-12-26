@@ -78,13 +78,21 @@ namespace SimpleSongsPlayer.Service
                 var lyricTable = db.LyricFiles;
                 var lyricIndexTable = db.LyricIndices;
 
+                /*
+                 * 无效项定义：所记录的 音乐/歌词 路径不存在于 音乐/歌词 表中
+                 *
+                 * 需求：
+                 * 1. 找出在 音乐和歌词 表中具有相同名称项，同时还要排除索引表里已有的项
+                 * 2. 移除无效项
+                 */
+
                 // 移除无效的项目
-                lyricIndexTable.RemoveRange(lyricIndexTable.Where(li => musicTable.All(mf => li.MusicPath != mf.Path)));
-                lyricIndexTable.RemoveRange(lyricIndexTable.Where(li => lyricTable.All(lf => li.MusicPath != lf.Path)));
+                lyricIndexTable.RemoveRange(lyricIndexTable.Where(li => musicTable.All(mf => li.MusicPath != mf.Path) ||
+                                                                        lyricTable.All(lf => li.MusicPath != lf.Path)));
 
                 var option = musicTable.Where(m => lyricTable.Any(l => TrimExtensionName(l.FileName) == TrimExtensionName(m.FileName)))
                             // 选取 “lyricIndex” 表里没有的项目
-                            .Where(o => lyricIndexTable.All(i => i.MusicPath != o.Path));
+                            .ToList().Where(o => lyricIndexTable.All(i => i.MusicPath != o.Path));
 
                 foreach (var musicFile in option)
                 {
