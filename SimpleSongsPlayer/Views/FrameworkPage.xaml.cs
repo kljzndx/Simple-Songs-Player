@@ -60,11 +60,11 @@ namespace SimpleSongsPlayer.Views
             {
                 TitleBar_Grid.Visibility = Visibility.Visible;
                 Back_Button.Visibility = Main_Frame.CanGoBack ? Visibility.Visible : Visibility.Collapsed;
+                PageTitle_TextBlock.Text = title;
+
                 var args = e.Parameter as PageArgumentsBase;
-                if (args != null)
-                    Title_TextBlock.Text = args.Title + " - " + title;
-                else
-                    Title_TextBlock.Text = title;
+                PageInfo_TextBlock.Text = args?.Title ?? String.Empty;
+                PageInfo_TextBlock.Visibility = args != null ? Visibility.Visible : Visibility.Collapsed;
             }
             else
                 TitleBar_Grid.Visibility = Visibility.Collapsed;
