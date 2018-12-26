@@ -58,6 +58,14 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             _service.FilesUpdated += Service_FilesUpdated;
         }
 
+        public async Task ScanAsync()
+        {
+            if (_service == null)
+                await Init();
+
+            await _service.ScanAsync();
+        }
+
         public Task SetIndex(string musicPath, string lyricPath) => _service.SetIndex(musicPath, lyricPath);
 
         public Task RemoveIndex(string musicPath) => _service.RemoveIndex(musicPath);
