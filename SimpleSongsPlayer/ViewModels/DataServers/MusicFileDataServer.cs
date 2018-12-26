@@ -14,7 +14,6 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
     public class MusicFileDataServer : IFileDataServer<MusicFileDTO>
     {
         public static readonly MusicFileDataServer Current = new MusicFileDataServer();
-
         private MusicLibraryService<MusicFile, MusicFileFactory> musicFilesService;
 
         private MusicFileDataServer()
@@ -22,6 +21,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             CoreWindow.GetForCurrentThread().Activated += CoreWindow_Activated;
         }
 
+        public bool IsInit { get; private set; }
         public ObservableCollection<MusicFileDTO> Data { get; } = new ObservableCollection<MusicFileDTO>();
 
         public event EventHandler<IEnumerable<MusicFileDTO>> DataAdded;
@@ -30,9 +30,10 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
 
         public async Task InitializeMusicService()
         {
-            if (musicFilesService != null)
+            if (IsInit)
                 return;
 
+            IsInit = true;
             this.LogByObject("获取服务");
             musicFilesService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
 

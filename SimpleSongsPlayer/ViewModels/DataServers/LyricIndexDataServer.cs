@@ -25,6 +25,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             _queryFailed += LyricIndexDataServer_QueryFailed;
         }
 
+        public bool IsInit { get; private set; }
         public ObservableCollection<KeyValuePair<MusicFileDTO, LyricFileDTO>> Data { get; } = new ObservableCollection<KeyValuePair<MusicFileDTO, LyricFileDTO>>();
         public event EventHandler<IEnumerable<KeyValuePair<MusicFileDTO, LyricFileDTO>>> DataAdded;
         public event EventHandler<IEnumerable<KeyValuePair<MusicFileDTO, LyricFileDTO>>> DataRemoved;
@@ -32,6 +33,10 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
 
         public async Task Init()
         {
+            if (IsInit)
+                return;
+
+            IsInit = true;
             _service = await LyricIndexService.GetService();
 
             if (!_musicFiles.Any())

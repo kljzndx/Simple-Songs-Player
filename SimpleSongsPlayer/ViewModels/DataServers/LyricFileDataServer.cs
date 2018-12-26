@@ -20,15 +20,17 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
         {
         }
 
+        public bool IsInit { get; private set; }
         public ObservableCollection<LyricFileDTO> Data { get; } = new ObservableCollection<LyricFileDTO>();
         public event EventHandler<IEnumerable<LyricFileDTO>> DataAdded;
         public event EventHandler<IEnumerable<LyricFileDTO>> DataRemoved;
 
         public async Task Init()
         {
-            if (service != null)
+            if (IsInit)
                 return;
 
+            IsInit = true;
             service = await MusicLibraryService<LyricFile, LyricFileFactory>.GetService();
             var files = await service.GetFiles();
             foreach (var file in files)

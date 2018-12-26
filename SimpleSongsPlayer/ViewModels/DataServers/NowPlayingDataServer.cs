@@ -23,6 +23,7 @@ namespace SimpleSongsPlayer.ViewModels
         {
         }
 
+        public bool IsInit { get; } = true;
         public ObservableCollection<MusicFileDTO> Data { get; } = new ObservableCollection<MusicFileDTO>();
         public event EventHandler<IEnumerable<MusicFileDTO>> DataAdded;
         public event EventHandler<IEnumerable<MusicFileDTO>> DataRemoved;
