@@ -43,7 +43,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
 
         public async Task ScanFile()
         {
-            if (service is null)
+            if (!IsInit)
                 await Init();
 
             await service.ScanFiles();

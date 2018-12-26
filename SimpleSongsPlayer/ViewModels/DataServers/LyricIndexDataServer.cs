@@ -65,7 +65,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
 
         public async Task ScanAsync()
         {
-            if (_service == null)
+            if (!IsInit)
                 await Init();
 
             await _service.ScanAsync();

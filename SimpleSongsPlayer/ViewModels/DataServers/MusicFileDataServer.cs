@@ -50,7 +50,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
 
         public async Task ScanMusicFiles()
         {
-            if (musicFilesService is null)
+            if (!IsInit)
                 await InitializeMusicService();
 
             this.LogByObject("开始扫描音乐文件");
