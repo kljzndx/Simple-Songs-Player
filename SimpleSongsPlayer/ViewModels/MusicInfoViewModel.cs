@@ -20,7 +20,8 @@ namespace SimpleSongsPlayer.ViewModels
     public class MusicInfoViewModel : ViewModelBase
     {
         private readonly ObservableCollection<MusicFileDTO> musicFiles = MusicFileDataServer.Current.Data;
-        private readonly ObservableCollection<LyricFileDTO> lyrics = LyricFileDataServer.Current.Data;
+        private readonly ObservableCollection<KeyValuePair<MusicFileDTO, LyricFileDTO>> indexes =
+            LyricIndexDataServer.Current.Data;
 
         private MusicFileDTO musicSource;
         private LyricFileDTO lyricSource;
@@ -47,6 +48,7 @@ namespace SimpleSongsPlayer.ViewModels
             get => cover;
             set => Set(ref cover, value);
         }
+
         public async Task Init()
         {
             if (musicSource != null)
@@ -60,6 +62,7 @@ namespace SimpleSongsPlayer.ViewModels
             }
 
             await LyricFileDataServer.Current.ScanFile();
+            await LyricIndexDataServer.Current.ScanAsync();
 
             await RefreshLyricSource();
 
@@ -72,13 +75,14 @@ namespace SimpleSongsPlayer.ViewModels
             if (musicSource != null)
             {
                 FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("SearchLyricFile"));
-                string musicName = musicSource.FileName.TrimExtensionName();
-                var lyricDto = lyrics.FirstOrDefault(lf => lf.FileName.TrimExtensionName() == musicName);
-                if (lyricDto != null)
+
+                var pair = indexes.FirstOrDefault(i => i.Key.FilePath == musicSource.FilePath);
+                if (pair.Value != null)
                 {
-                    LyricSource = lyricDto;
-                    await lyricDto.Init();
+                    await pair.Value.Init();
+                    LyricSource = pair.Value;
                 }
+
                 FlyoutNotification.Hide();
             }
         }
