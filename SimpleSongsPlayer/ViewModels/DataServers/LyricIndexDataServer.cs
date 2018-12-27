@@ -18,11 +18,9 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
         private readonly ObservableCollection<LyricFileDTO> _lyricFiles = LyricFileDataServer.Current.Data;
 
         private LyricIndexService _service;
-        private event EventHandler<LyricIndex> _queryFailed;
 
         private LyricIndexDataServer()
         {
-            _queryFailed += LyricIndexDataServer_QueryFailed;
         }
 
         public bool IsInit { get; private set; }
@@ -52,8 +50,6 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                 var pair = GetPair(lyricIndex);
                 if (pair.HasValue)
                     Data.Add(pair.Value);
-                else
-                    await RemoveIndex(lyricIndex.MusicPath);
             }
 
             DataAdded?.Invoke(this, Data.ToList());
@@ -83,8 +79,6 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                     action.Invoke(pair.Value);
                     yield return pair.Value;
                 }
-                else
-                    _queryFailed?.Invoke(this, lyricIndex);
             }
         }
         
@@ -98,12 +92,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             var result = new KeyValuePair<MusicFileDTO, LyricFileDTO>(musicFile, lyricFile);
             return result;
         }
-
-        private async void LyricIndexDataServer_QueryFailed(object sender, LyricIndex e)
-        {
-            await RemoveIndex(e.MusicPath);
-        }
-
+        
         private void Service_FilesAdded(object sender, IEnumerable<LyricIndex> e)
         {
             var pairs = IntelligentOption(e, Data.Add);
