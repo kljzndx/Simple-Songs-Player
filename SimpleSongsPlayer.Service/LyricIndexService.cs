@@ -15,6 +15,8 @@ namespace SimpleSongsPlayer.Service
         private readonly ContextHelper<FilesContext, LyricIndex> _helper = new ContextHelper<FilesContext, LyricIndex>();
         private readonly MusicLibraryService<MusicFile, MusicFileFactory> _musicFileService;
         private readonly MusicLibraryService<LyricFile, LyricFileFactory> _lyricFileService;
+
+        private List<LyricIndex> _source;
         
         public event EventHandler<IEnumerable<LyricIndex>> FilesAdded;
         public event EventHandler<IEnumerable<LyricIndex>> FilesRemoved;
@@ -32,9 +34,12 @@ namespace SimpleSongsPlayer.Service
             _lyricFileService.FilesRemoved += LyricFileService_FilesRemoved;
         }
 
-        public Task<List<LyricIndex>> GetFiles()
+        public async Task<List<LyricIndex>> GetFiles()
         {
-            return _helper.ToList();
+            if (_source == null)
+                _source = await _helper.ToList();
+
+            return _source;
         }
 
         public async Task SetIndex(string musicPath, string lyricPath)
@@ -45,11 +50,17 @@ namespace SimpleSongsPlayer.Service
             {
                 if (table.Any(i => i.MusicPath == musicPath))
                 {
-                    isUpdate = true;
+                    var item = _source.Find(i => i.MusicPath == musicPath);
+                    item.LyricPath = lyricPath;
+
                     table.Update(index);
+                    isUpdate = true;
                 }
                 else
+                {
+                    _source.Add(index);
                     table.Add(index);
+                }
             });
 
             if (isUpdate)
@@ -57,17 +68,7 @@ namespace SimpleSongsPlayer.Service
             else
                 FilesAdded?.Invoke(this, new[] {index});
         }
-
-        public async Task RemoveIndex(string musicPath)
-        {
-            await _helper.CustomOption(table =>
-            {
-                var index = table.Find(musicPath);
-                if (index != null)
-                    table.Remove(index);
-            });
-        }
-
+        
         public async Task ScanAsync()
         {
             List<LyricIndex> optionResult = new List<LyricIndex>();
@@ -86,105 +87,74 @@ namespace SimpleSongsPlayer.Service
                  * 2. 移除无效项
                  */
 
-                // 移除无效的项目
-                lyricIndexTable.RemoveRange(lyricIndexTable.Where(li => musicTable.All(mf => li.MusicPath != mf.Path) ||
-                                                                        lyricTable.All(lf => li.MusicPath != lf.Path)));
 
+                this.LogByObject("移除无效项");
+                lyricIndexTable.RemoveRange(lyricIndexTable.Where(li =>
+                    musicTable.All(mf => mf.Path != li.MusicPath) || lyricTable.All(lf => lf.Path != li.LyricPath)));
+
+                this.LogByObject("过滤出在 音乐/歌词 表中名称一样的项，并筛选出索引表中没有的项");
                 var option = musicTable.Where(m => lyricTable.Any(l => TrimExtensionName(l.FileName) == TrimExtensionName(m.FileName)))
                             // 选取 “lyricIndex” 表里没有的项目
-                            .ToList().Where(o => lyricIndexTable.All(i => i.MusicPath != o.Path));
-
-                foreach (var musicFile in option)
+                            .ToList().Where(m => lyricIndexTable.All(i => i.MusicPath != m.Path)).ToList();
+                if (option.Any())
                 {
-                    LyricFile lyricFile = lyricTable.First(l => TrimExtensionName(l.FileName) == TrimExtensionName(musicFile.FileName));
-                    optionResult.Add(new LyricIndex(musicFile.Path, lyricFile.Path));
-                }
+                    this.LogByObject("开始建立索引");
+                    foreach (var musicFile in option)
+                    {
+                        LyricFile lyricFile = lyricTable.First(l => TrimExtensionName(l.FileName) == TrimExtensionName(musicFile.FileName));
+                        optionResult.Add(new LyricIndex(musicFile.Path, lyricFile.Path));
+                    }
 
-                await lyricIndexTable.AddRangeAsync(optionResult);
-                await db.SaveChangesAsync();
+                    this.LogByObject("将建立好的索引添加到数据库");
+                    await lyricIndexTable.AddRangeAsync(optionResult);
+                    await db.SaveChangesAsync();
+                }
+            }
+
+            if (optionResult.Any())
+            {
+                this.LogByObject("触发添加事件");
+                FilesAdded?.Invoke(this, optionResult);
+            }
+        }
+
+        private async Task IntelligentAdd<TRelativeTable>(IEnumerable<ILibraryFile> source, Func<FilesContext, DbSet<TRelativeTable>> tableGetter) where TRelativeTable : class, ILibraryFile
+        {
+            List<ILibraryFile> sourceList = source.ToList();
+            List<LyricIndex> optionResult = new List<LyricIndex>();
+
+            using (var db = new FilesContext())
+            {
+                var relativeTable = tableGetter.Invoke(db);
+                var lyricIndexTable = db.LyricIndices;
+
+                var option = relativeTable.Where(l => sourceList.Any(s => TrimExtensionName(s.FileName) == TrimExtensionName(l.FileName))).ToList();
+
+                if (option.Any())
+                {
+                    foreach (var relativeFile in option)
+                    {
+                        ILibraryFile sourceFile = sourceList.First(f => TrimExtensionName(f.FileName) == TrimExtensionName(relativeFile.FileName));
+                        optionResult.Add(new LyricIndex(sourceFile.Path, relativeFile.Path));
+                    }
+
+                    await lyricIndexTable.AddRangeAsync(optionResult);
+                    await db.SaveChangesAsync();
+                }
             }
 
             if (optionResult.Any())
                 FilesAdded?.Invoke(this, optionResult);
         }
 
-        private async Task IntelligentlyAdd(IEnumerable<MusicFile> source)
-        {
-            List<MusicFile> sourceList = source.ToList();
-            List<LyricIndex> optionResult = new List<LyricIndex>();
-
-            using (var db = new FilesContext())
-            {
-                var lyricTable = db.LyricFiles;
-                var lyricIndexTable = db.LyricIndices;
-
-                var option = lyricTable.Where(l => sourceList.Any(m => TrimExtensionName(m.FileName) == TrimExtensionName(l.FileName)));
-                foreach (var lyricFile in option)
-                {
-                    MusicFile musicFile = sourceList.First(f => TrimExtensionName(f.FileName) == TrimExtensionName(lyricFile.FileName));
-                    optionResult.Add(new LyricIndex(musicFile.Path, lyricFile.Path));
-                }
-
-                await lyricIndexTable.AddRangeAsync(optionResult);
-                await db.SaveChangesAsync();
-            }
-
-            if (optionResult.Any())
-            FilesAdded?.Invoke(this, optionResult);
-        }
-
-        private async Task IntelligentlyAdd(IEnumerable<LyricFile> source)
-        {
-            List<LyricFile> sourceList = source.ToList();
-            List<LyricIndex> optionResult = new List<LyricIndex>();
-
-            using (var db = new FilesContext())
-            {
-                var musicTable = db.MusicFiles;
-                var lyricIndexTable = db.LyricIndices;
-
-                var option = musicTable.Where(m => sourceList.Any(l => TrimExtensionName(l.FileName) == TrimExtensionName(m.FileName)));
-                foreach (var musicFile in option)
-                {
-                    LyricFile lyricFile = sourceList.First(f => TrimExtensionName(f.FileName) == TrimExtensionName(musicFile.FileName));
-                    optionResult.Add(new LyricIndex(musicFile.Path, lyricFile.Path));
-                }
-                
-                await lyricIndexTable.AddRangeAsync(optionResult);
-                await db.SaveChangesAsync();
-            }
-
-            if (optionResult.Any())
-                FilesAdded?.Invoke(this, optionResult);
-        }
-
-        private async Task IntelligentlyRemove(IEnumerable<MusicFile> source)
+        private async Task IntelligentRemove(IEnumerable<ILibraryFile> source, Func<LyricIndex, string> pathGetter)
         {
             var sourceList = source.ToList();
             List<LyricIndex> optionResult = new List<LyricIndex>();
 
             await _helper.CustomOption(table =>
             {
-                var options = table.Where(i => sourceList.Any(f => f.Path == i.MusicPath));
-                if (options.Any())
-                {
-                    optionResult.AddRange(options);
-                    table.RemoveRange(options);
-                }
-            });
-
-            if (optionResult.Any())
-                FilesRemoved?.Invoke(this, optionResult);
-        }
-
-        private async Task IntelligentlyRemove(IEnumerable<LyricFile> source)
-        {
-            var sourceList = source.ToList();
-            List<LyricIndex> optionResult = new List<LyricIndex>();
-
-            await _helper.CustomOption(table =>
-            {
-                var options = table.Where(i => sourceList.Any(f => f.Path == i.LyricPath));
+                var options = table.Where(i => sourceList.Any(f => f.Path == pathGetter.Invoke(i)));
                 if (options.Any())
                 {
                     optionResult.AddRange(options);
@@ -217,22 +187,26 @@ namespace SimpleSongsPlayer.Service
 
         private async void MusicFileService_FilesAdded(object sender, IEnumerable<MusicFile> e)
         {
-            await IntelligentlyAdd(e);
+            this.LogByObject("查询与新增的音乐匹配的歌词");
+            await IntelligentAdd(e, db => db.LyricFiles);
         }
 
         private async void MusicFileService_FilesRemoved(object sender, IEnumerable<MusicFile> e)
         {
-            await IntelligentlyRemove(e);
+            this.LogByObject("查询与删除的音乐匹配的索引");
+            await IntelligentRemove(e, i => i.MusicPath);
         }
 
         private async void LyricFileService_FilesAdded(object sender, IEnumerable<LyricFile> e)
         {
-            await IntelligentlyAdd(e);
+            this.LogByObject("查询与新增的歌词匹配的音乐");
+            await IntelligentAdd(e, db => db.MusicFiles);
         }
 
         private async void LyricFileService_FilesRemoved(object sender, IEnumerable<LyricFile> e)
         {
-            await IntelligentlyRemove(e);
+            this.LogByObject("查询与删除的歌词匹配的索引");
+            await IntelligentRemove(e, i => i.LyricPath);
         }
     }
 }

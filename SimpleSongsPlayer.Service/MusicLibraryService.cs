@@ -81,11 +81,9 @@ namespace SimpleSongsPlayer.Service
                 if (addFiles.Any())
                     await AddFileRange(addFiles);
 
-                this.LogByObject("完成 ‘添加操作集合’ 应用");
                 return;
             }
-
-            this.LogByObject("开始检测音乐库是否有文件夹被移除");
+            
             foreach (var libraryGroups in musicFiles.GroupBy(f => f.LibraryFolder))
                 if (musicLibrary.Folders.All(d => d.Path != libraryGroups.Key))
                 {
@@ -107,8 +105,7 @@ namespace SimpleSongsPlayer.Service
                 this.LogByObject("从音乐库获取对应当前文件夹的数据");
                 var systemFiles = await folder.CreateFileQueryWithOptions(scanOptions).GetFilesAsync();
                 var systemFilePaths = systemFiles.Select(f => f.Path).ToList();
-
-                this.LogByObject("进入对比流程");
+                
                 if (isGetFiles)
                 {
                     this.LogByObject("获取需要移除的文件");

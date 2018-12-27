@@ -72,9 +72,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
         }
 
         public Task SetIndex(string musicPath, string lyricPath) => _service.SetIndex(musicPath, lyricPath);
-
-        public Task RemoveIndex(string musicPath) => _service.RemoveIndex(musicPath);
-
+        
         private IEnumerable<KeyValuePair<MusicFileDTO, LyricFileDTO>> IntelligentOption(IEnumerable<LyricIndex> source, Action<KeyValuePair<MusicFileDTO, LyricFileDTO>> action)
         {
             foreach (var lyricIndex in source)
