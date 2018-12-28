@@ -89,7 +89,7 @@ namespace SimpleSongsPlayer.Service
 
             if (needRemoveFolders.Any())
             {
-                this.LogByObject($"正在移除 {needRemoveFolders.Count} 个文件夹");
+                this.LogByObject($"正在移除无效的音乐文件");
                 foreach (var libraryGroups in needRemoveFolders)
                     await RemoveRange(libraryGroups);
             }
@@ -113,7 +113,7 @@ namespace SimpleSongsPlayer.Service
                     var needRemoveFilePaths = myFilePaths.Where(mf => !systemFilePaths.Contains(mf)).ToList();
                     if (needRemoveFilePaths.Any())
                     {
-                        this.LogByObject($"正在移除 {needRemoveFolders.Count} 个文件");
+                        this.LogByObject($"正在移除无效的音乐文件");
                         removeFiles.AddRange(myFiles.Where(f => needRemoveFilePaths.Contains(f.Path)));
                     }
                 }
@@ -121,9 +121,9 @@ namespace SimpleSongsPlayer.Service
                 var needAddFiles = systemFiles.Where(sf => !isGetFiles || !myFilePaths.Contains(sf.Path)).ToList();
                 if (needAddFiles.Any())
                 {
-                    this.LogByObject($"正在添加 {needAddFiles.Count} 个文件");
-                    foreach (var filePath in needAddFiles)
-                        addFiles.Add(await fileFactory.FromStorageFile(folder.Path, filePath));
+                    this.LogByObject($"正在添加文件");
+                    foreach (var file in needAddFiles)
+                        addFiles.Add(await fileFactory.FromStorageFile(folder.Path, file));
                 }
 
                 if (!isGetFiles)
@@ -141,7 +141,7 @@ namespace SimpleSongsPlayer.Service
 
                 if (needUpdateFiles.Any())
                 {
-                    this.LogByObject($"正在更新 {needUpdateFiles.Count} 个项的信息");
+                    this.LogByObject($"正在更新音乐信息");
                     foreach (var item in needUpdateFiles)
                         updateFiles.Add(await fileFactory.FromStorageFile(folder.Path, item.Key));
                 }
