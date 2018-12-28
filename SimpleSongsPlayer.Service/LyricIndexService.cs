@@ -35,7 +35,10 @@ namespace SimpleSongsPlayer.Service
         public async Task<List<LyricIndex>> GetFiles()
         {
             if (_source == null)
+            {
+                this.LogByObject("提取数据库中的数据");
                 _source = await _helper.ToList();
+            }
 
             return _source.ToList();
         }
@@ -48,18 +51,27 @@ namespace SimpleSongsPlayer.Service
             {
                 if (table.Any(i => i.MusicPath == musicPath))
                 {
+                    this.LogByObject("更新歌词路径");
                     var item = _source.Find(i => i.MusicPath == musicPath);
                     item.LyricPath = lyricPath;
                     index = item;
+
+                    this.LogByObject("应用更新操作");
                     table.Update(index);
                     isUpdate = true;
                 }
             });
 
             if (isUpdate)
+            {
+                this.LogByObject("触发更新事件");
                 FilesUpdated?.Invoke(this, new[] {index});
+            }
             else
+            {
+                this.LogByObject("开始添加索引");
                 await AddRange(new[] {index});
+            }
         }
         
         public async Task ScanAsync()
@@ -75,24 +87,36 @@ namespace SimpleSongsPlayer.Service
             List<LyricIndex> addOption = new List<LyricIndex>();
             List<LyricIndex> removeOption = new List<LyricIndex>();
 
+            this.LogByObject("清理无效项");
             foreach (var lyricIndex in _source)
                 if (musicFiles.All(f => f.Path != lyricIndex.MusicPath) || lyricFiles.All(f => f.Path != lyricIndex.LyricPath))
                     removeOption.Add(lyricIndex);
 
+            this.LogByObject("提取出所有的文件名");
             var musicFileNames = musicFiles.ToDictionary(f => TrimExtensionName(f.FileName));
             var lyricFileNames = lyricFiles.ToDictionary(f => TrimExtensionName(f.FileName));
 
+            this.LogByObject("查询文件名一样的音乐和歌词项");
             var needMakeIndexes = musicFileNames.Where(md => lyricFileNames.ContainsKey(md.Key) && _source.All(i => i.MusicPath != md.Value.Path)).ToList();
+            if (needMakeIndexes.Any())
+            {
+                this.LogByObject("开始建立索引");
+                foreach (var musicNamePair in needMakeIndexes)
+                    addOption.Add(new LyricIndex(musicNamePair.Value.Path, lyricFileNames[musicNamePair.Key].Path));
+            }
 
-            foreach (var musicNamePair in needMakeIndexes)
-                addOption.Add(new LyricIndex(musicNamePair.Value.Path, lyricFileNames[musicNamePair.Key].Path));
 
             if (addOption.Any())
+            {
+                this.LogByObject("应用添加操作");
                 await AddRange(addOption);
+            }
 
             if (removeOption.Any())
+            {
+                this.LogByObject("应用移除操作");
                 await RemoveRange(removeOption);
-
+            }
         }
 
         private string TrimExtensionName(string input)
@@ -111,6 +135,7 @@ namespace SimpleSongsPlayer.Service
 
         private async Task AddRange(IEnumerable<LyricIndex> source)
         {
+            this.LogByObject("接收数据");
             Stack<LyricIndex> sourceStack = new Stack<LyricIndex>(source);
             List<LyricIndex> optionList = new List<LyricIndex>();
             for (int i = 0; i < 200; i++)
@@ -118,9 +143,12 @@ namespace SimpleSongsPlayer.Service
                     optionList.Add(sourceStack.Pop());
                 else break;
 
+            this.LogByObject("添加到数据库");
             await _helper.AddRange(optionList);
+            this.LogByObject("添加到私有列表");
             _source.AddRange(optionList);
 
+            this.LogByObject("触发添加事件");
             FilesAdded?.Invoke(this, optionList);
 
             if (sourceStack.Any())
@@ -129,6 +157,7 @@ namespace SimpleSongsPlayer.Service
 
         private async Task RemoveRange(IEnumerable<LyricIndex> source)
         {
+            this.LogByObject("接收数据");
             Stack<LyricIndex> sourceStack = new Stack<LyricIndex>(source);
             List<LyricIndex> optionList = new List<LyricIndex>();
             for (int i = 0; i < 200; i++)
@@ -136,9 +165,12 @@ namespace SimpleSongsPlayer.Service
                     optionList.Add(sourceStack.Pop());
                 else break;
 
+            this.LogByObject("从数据库移除数据");
             await _helper.RemoveRange(optionList);
+            this.LogByObject("从私有列表移除数据");
             _source.RemoveAll(optionList.Contains);
 
+            this.LogByObject("触发移除事件");
             FilesRemoved?.Invoke(this, optionList);
 
             if (sourceStack.Any())
