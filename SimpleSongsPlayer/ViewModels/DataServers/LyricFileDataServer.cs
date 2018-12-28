@@ -30,13 +30,23 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             if (IsInit)
                 return;
 
+            this.LogByObject("获取服务");
             IsInit = true;
             service = await MusicLibraryService<LyricFile, LyricFileFactory>.GetService();
-            var files = await service.GetFiles();
-            foreach (var file in files)
-                Data.Add(new LyricFileDTO(file));
-            DataAdded?.Invoke(this, Data);
 
+            this.LogByObject("提取数据库里的歌词文件");
+            var files = await service.GetFiles();
+
+            if (files.Any())
+            {
+                foreach (var file in files)
+                    Data.Add(new LyricFileDTO(file));
+
+                this.LogByObject("触发数据添加事件");
+                DataAdded?.Invoke(this, Data);
+            }
+
+            this.LogByObject("监听服务");
             service.FilesAdded += Service_FilesAdded;
             service.FilesRemoved += Service_FilesRemoved;
         }
@@ -51,6 +61,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
 
         private void Service_FilesAdded(object sender, IEnumerable<LyricFile> e)
         {
+            this.LogByObject("检测到有新的文件，正在同步");
             List<LyricFileDTO> options = new List<LyricFileDTO>();
 
             foreach (var file in e)
@@ -59,11 +70,13 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                 options.Add(dto);
                 Data.Add(dto);
             }
+
             DataAdded?.Invoke(this, options);
         }
 
         private void Service_FilesRemoved(object sender, IEnumerable<LyricFile> e)
         {
+            this.LogByObject("检测到有文件被移除，正在同步");
             List<LyricFileDTO> options = new List<LyricFileDTO>();
 
             foreach (var file in e)

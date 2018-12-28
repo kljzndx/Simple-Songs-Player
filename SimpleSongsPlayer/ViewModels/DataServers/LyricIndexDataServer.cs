@@ -34,6 +34,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             if (IsInit)
                 return;
 
+            this.LogByObject("初始化索引服务");
             IsInit = true;
             _service = await LyricIndexService.GetService();
 
@@ -45,15 +46,21 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                 return;
 
             var results = await _service.GetFiles();
-            foreach (var lyricIndex in results)
+            if (results.Any())
             {
-                var pair = GetPair(lyricIndex);
-                if (pair.HasValue)
-                    Data.Add(pair.Value);
+                this.LogByObject("正在解析索引数据");
+                foreach (var lyricIndex in results)
+                {
+                    var pair = GetPair(lyricIndex);
+                    if (pair.HasValue)
+                        Data.Add(pair.Value);
+                }
+
+                this.LogByObject("触发数据添加事件");
+                DataAdded?.Invoke(this, Data.ToList());
             }
 
-            DataAdded?.Invoke(this, Data.ToList());
-
+            this.LogByObject("监听服务");
             _service.FilesAdded += Service_FilesAdded;
             _service.FilesRemoved += Service_FilesRemoved;
             _service.FilesUpdated += Service_FilesUpdated;
@@ -95,24 +102,46 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
         
         private void Service_FilesAdded(object sender, IEnumerable<LyricIndex> e)
         {
-            var pairs = IntelligentOption(e, Data.Add);
-            DataAdded?.Invoke(this, pairs);
+            var pairs = IntelligentOption(e, Data.Add).ToList();
+            if (pairs.Any())
+            {
+                this.LogByObject("检测到有新的索引项，已成功同步");
+                DataAdded?.Invoke(this, pairs);
+            }
         }
 
         private void Service_FilesRemoved(object sender, IEnumerable<LyricIndex> e)
         {
-            var pairs = IntelligentOption(e, p => Data.Remove(p));
-            DataRemoved?.Invoke(this, pairs);
+            var pairs = IntelligentOption(e, p => Data.Remove(p)).ToList();
+            if (pairs.Any())
+            {
+                this.LogByObject("检测到有索引项被移除，已成功同步");
+                DataRemoved?.Invoke(this, pairs);
+            }
         }
 
         private void Service_FilesUpdated(object sender, IEnumerable<LyricIndex> e)
         {
             var pairs = IntelligentOption(e, p =>
             {
-                var id = Data.IndexOf(Data.First(op => op.Key.FilePath == p.Key.FilePath));
-                Data[id] = p;
-            });
-            DataUpdated?.Invoke(this, pairs);
+                try
+                {
+                    var d = Data.First(op => op.Key.FilePath == p.Key.FilePath);
+                    var id = Data.IndexOf(d);
+
+                    Data.Remove(d);
+                    Data.Insert(id, d);
+                }
+                catch (Exception)
+                {
+                }
+            }).ToList();
+
+            if (pairs.Any())
+            {
+                this.LogByObject("检测到有索引项被更新，已成功同步");
+                DataUpdated?.Invoke(this, pairs);
+            }
         }
     }
 }

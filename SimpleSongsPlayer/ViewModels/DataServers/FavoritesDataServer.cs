@@ -61,20 +61,30 @@ namespace SimpleSongsPlayer.ViewModels
 
             try
             {
+                this.LogByObject("获取播放列表文件夹");
                 var options = new QueryOptions(CommonFileQuery.OrderByName, new[] {".plb"});
                 var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync("plbs");
                 var query = folder.CreateFileQueryWithOptions(options);
+
+                this.LogByObject("提取全部播放列表文件");
                 var files = await query.GetFilesAsync();
-                foreach (var file in files)
+
+                if (files.Any())
                 {
-                    var lines = await FileIO.ReadLinesAsync(file);
-                    await userFavoriteService.AddRange(file.DisplayName, lines);
+                    this.LogByObject("开始迁移");
+                    foreach (var file in files)
+                    {
+                        var lines = await FileIO.ReadLinesAsync(file);
+                        await userFavoriteService.AddRange(file.DisplayName, lines);
+                    }
                 }
 
+                this.LogByObject("删除播放列表文件夹");
                 await folder.DeleteAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                this.LogByObject(ex, "迁移失败");
             }
         }
 
@@ -138,7 +148,10 @@ namespace SimpleSongsPlayer.ViewModels
         {
             var group = UserFavoritesList.FirstOrDefault(g => g.Name == e.Key);
             if (group != null)
+            {
+                this.LogByObject("应用重命名操作");
                 group.Name = e.Value;
+            }
         }
     }
 }

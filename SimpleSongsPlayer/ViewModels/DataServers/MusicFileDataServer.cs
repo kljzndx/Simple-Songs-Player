@@ -33,15 +33,21 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             if (IsInit)
                 return;
 
-            IsInit = true;
             this.LogByObject("获取服务");
+            IsInit = true;
             musicFilesService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
 
-            this.LogByObject("获取音乐文件");
-            (await musicFilesService.GetFiles()).ForEach(mf => Data.Add(new MusicFileDTO(mf)));
+            this.LogByObject("提取数据库里的音乐文件");
+            var musicData = await musicFilesService.GetFiles();
+            if (musicData.Any())
+            {
+                foreach (var musicFile in musicData)
+                    Data.Add(new MusicFileDTO(musicFile));
 
-            DataAdded?.Invoke(this, Data);
-
+                this.LogByObject("触发数据添加事件");
+                DataAdded?.Invoke(this, Data);
+            }
+            
             this.LogByObject("监听服务");
             musicFilesService.FilesAdded += MusicFilesService_FilesAdded;
             musicFilesService.FilesRemoved += MusicFilesService_FilesRemoved;
@@ -52,14 +58,13 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
         {
             if (!IsInit)
                 await InitializeMusicService();
-
-            this.LogByObject("开始扫描音乐文件");
+            
             await musicFilesService.ScanFiles();
         }
 
         private void MusicFilesService_FilesAdded(object sender, IEnumerable<MusicFile> e)
         {
-            this.LogByObject("检测到有音乐文件添加，正在同步添加操作");
+            this.LogByObject("检测到有新的文件，正在同步");
             List<MusicFileDTO> option = new List<MusicFileDTO>();
 
             foreach (var musicFile in e)
@@ -77,7 +82,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
 
         private void MusicFilesService_FilesRemoved(object sender, IEnumerable<MusicFile> e)
         {
-            this.LogByObject("检测到有音乐文件被移除，正在同步移除操作");
+            this.LogByObject("检测到有文件被移除，正在同步");
             List<MusicFileDTO> option = new List<MusicFileDTO>();
 
             foreach (var musicFile in e)
@@ -94,7 +99,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
 
         private void MusicFilesService_FilesUpdated(object sender, IEnumerable<MusicFile> e)
         {
-            this.LogByObject("检测到有音乐文件被更新，正在同步更新操作");
+            this.LogByObject("检测到有文件被更新，正在同步");
             List<MusicFileDTO> option = new List<MusicFileDTO>();
 
             foreach (var item in e)
