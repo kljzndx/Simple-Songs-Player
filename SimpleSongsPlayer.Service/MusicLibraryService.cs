@@ -48,11 +48,10 @@ namespace SimpleSongsPlayer.Service
         {
             if (musicFiles is null)
             {
-                this.LogByObject("正在获取文件");
+                this.LogByObject("提取数据库里的数据");
                 musicFiles = await helper.ToList();
             }
-
-            this.LogByObject("正在输出文件列表");
+            
             return musicFiles.ToList();
         }
 
@@ -61,37 +60,41 @@ namespace SimpleSongsPlayer.Service
             if (musicFiles is null)
                 await GetFiles();
             
-            this.LogByObject("准备 ‘操作集合’");
+            this.LogByObject("开始扫描");
             List<TFile> addFiles = new List<TFile>();
             List<TFile> removeFiles = new List<TFile>();
             List<TFile> updateFiles = new List<TFile>();
-
-            this.LogByObject("检测数据库是否有数据");
+            
             if (!musicFiles.Any())
             {
                 this.LogByObject("检测到数据库里没数据，进入收集模式，开始扫描音乐库");
                 foreach (var folder in musicLibrary.Folders)
                 {
                     var allFiles = await folder.CreateFileQueryWithOptions(scanOptions).GetFilesAsync();
+                    this.LogByObject($"正在添加 {allFiles.Count} 个文件");
                     foreach (var file in allFiles)
                         addFiles.Add(await fileFactory.FromStorageFile(folder.Path, file));
                 }
 
-                this.LogByObject("应用 ‘添加操作集合’");
                 if (addFiles.Any())
+                {
+                    this.LogByObject("应用添加操作");
                     await AddFileRange(addFiles);
+                }
 
                 return;
             }
-            
-            foreach (var libraryGroups in musicFiles.GroupBy(f => f.LibraryFolder))
-                if (musicLibrary.Folders.All(d => d.Path != libraryGroups.Key))
-                {
-                    this.LogByObject($"已检测到有文件夹已被移除，正在同步至数据库");
-                    await RemoveRange(libraryGroups);
-                    this.LogByObject("完成同步");
-                }
 
+            var needRemoveFolders = musicFiles.GroupBy(f => f.LibraryFolder)
+                .Where(lg => musicLibrary.Folders.All(d => d.Path != lg.Key)).ToList();
+
+            if (needRemoveFolders.Any())
+            {
+                this.LogByObject($"正在移除 {needRemoveFolders.Count} 个文件夹");
+                foreach (var libraryGroups in needRemoveFolders)
+                    await RemoveRange(libraryGroups);
+            }
+            
             this.LogByObject("将数据库里的数据分类");
             var allGroup = musicFiles.GroupBy(f => f.LibraryFolder).ToDictionary(g => g.Key, g => g.ToList());
 
@@ -108,41 +111,60 @@ namespace SimpleSongsPlayer.Service
                 
                 if (isGetFiles)
                 {
-                    this.LogByObject("获取需要移除的文件");
                     var needRemoveFilePaths = myFilePaths.Where(mf => !systemFilePaths.Contains(mf)).ToList();
-                    this.LogByObject("将结果添加至 ‘移除操作’ 集合");
-                    removeFiles.AddRange(myFiles.Where(f => needRemoveFilePaths.Contains(f.Path)));
+                    if (needRemoveFilePaths.Any())
+                    {
+                        this.LogByObject($"正在移除 {needRemoveFolders.Count} 个文件");
+                        removeFiles.AddRange(myFiles.Where(f => needRemoveFilePaths.Contains(f.Path)));
+                    }
                 }
-
-                this.LogByObject("获取需要添加的文件");
-                var needAddFiles = systemFiles.Where(sf => !isGetFiles || !myFilePaths.Contains(sf.Path));
-                this.LogByObject("将结果添加至 ‘添加操作’ 集合");
-                foreach (var filePath in needAddFiles)
-                    addFiles.Add(await fileFactory.FromStorageFile(folder.Path, filePath));
+                
+                var needAddFiles = systemFiles.Where(sf => !isGetFiles || !myFilePaths.Contains(sf.Path)).ToList();
+                if (needAddFiles.Any())
+                {
+                    this.LogByObject($"正在移除 {needAddFiles.Count} 个文件");
+                    foreach (var filePath in needAddFiles)
+                        addFiles.Add(await fileFactory.FromStorageFile(folder.Path, filePath));
+                }
 
                 if (!isGetFiles)
                     continue;
 
-                this.LogByObject("正在检查文件是否有更新并更新文件");
+                this.LogByObject("获取所有音乐库文件的更改日期");
                 Dictionary<StorageFile, DateTimeOffset> allProps = new Dictionary<StorageFile, DateTimeOffset>();
                 foreach (var file in systemFiles)
                     allProps.Add(file, (await file.GetBasicPropertiesAsync()).DateModified);
 
                 // 从我的文件里选出所有更新时间里没有的项
-                foreach (var item in allProps.Where(d => myFiles.All(f => !f.ChangeDate.Equals(d.Value.DateTime)) && myFilePaths.Any(p => p == d.Key.Path)))
-                    updateFiles.Add(await fileFactory.FromStorageFile(folder.Path, item.Key));
+                this.LogByObject("获取需要更新的项");
+                var needUpdateFiles = allProps.Where(d =>
+                    myFiles.All(f => !f.ChangeDate.Equals(d.Value.DateTime)) && myFilePaths.Any(p => p == d.Key.Path)).ToList();
+
+                if (needUpdateFiles.Any())
+                {
+                    this.LogByObject($"正在更新 {needUpdateFiles.Count} 个项的信息");
+                    foreach (var item in needUpdateFiles)
+                        updateFiles.Add(await fileFactory.FromStorageFile(folder.Path, item.Key));
+                }
             }
 
-            this.LogByObject("应用 ‘操作集合’");
-
             if (updateFiles.Any())
+            {
+                this.LogByObject("应用更新操作");
                 await UpdateFileRange(updateFiles);
+            }
 
             if (addFiles.Any())
+            {
+                this.LogByObject("应用添加操作");
                 await AddFileRange(addFiles);
+            }
 
             if (removeFiles.Any())
+            {
+                this.LogByObject("应用移除操作");
                 await RemoveRange(removeFiles);
+            }
             
             this.LogByObject("完成文件扫描");
         }
@@ -160,7 +182,7 @@ namespace SimpleSongsPlayer.Service
 
             this.LogByObject("正在添加到数据库");
             await helper.AddRange(filesList);
-            this.LogByObject("正在添加到列表");
+            this.LogByObject("正在添加到私有列表");
             musicFiles.AddRange(filesList);
             this.LogByObject("触发 ‘添加完成’ 事件");
             FilesAdded?.Invoke(this, filesList);
@@ -182,7 +204,7 @@ namespace SimpleSongsPlayer.Service
 
             this.LogByObject("正在对数据库更新");
             await helper.UpdateRange(filesList);
-            this.LogByObject("正在对列表更新");
+            this.LogByObject("正在对私有列表更新");
 
             var ids = filesList.Select(nf => musicFiles.IndexOf(musicFiles.Find(of => of.Path == nf.Path))).ToList();
             musicFiles.RemoveAll(filesList.Contains);
@@ -210,7 +232,7 @@ namespace SimpleSongsPlayer.Service
 
             this.LogByObject("正在从数据库移除");
             await helper.RemoveRange(filesList);
-            this.LogByObject("正在从列表移除");
+            this.LogByObject("正在从私有列表移除");
             musicFiles.RemoveAll(filesList.Contains);
             this.LogByObject("触发 ‘移除完成’ 事件");
             FilesRemoved?.Invoke(this, filesList);
@@ -222,17 +244,16 @@ namespace SimpleSongsPlayer.Service
         public static void SetupFileTypeFilter(params string[] fileTypeFilter)
         {
             var type = typeof(MusicLibraryService<TFile, TFileFactory>);
-            type.LogByType("设置文件筛选器");
             if (_fileTypeFilter is null)
+            {
+                type.LogByType("设置文件筛选器");
                 _fileTypeFilter = fileTypeFilter;
-            else
-                type.LogByType("已设置筛选器");
+            }
         }
 
         public static async Task<MusicLibraryService<TFile, TFileFactory>> GetService()
         {
             var type = typeof(MusicLibraryService<TFile, TFileFactory>);
-            type.LogByType("获取服务实例");
             if (_fileTypeFilter is null)
             {
                 var ex = new Exception("Filter has not set up. Please use 'SetupFileTypeFilter' method to set filter first");
@@ -241,7 +262,10 @@ namespace SimpleSongsPlayer.Service
             }
 
             if (Current is null)
+            {
+                type.LogByType("创建服务实例");
                 Current = new MusicLibraryService<TFile, TFileFactory>(await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music), _fileTypeFilter);
+            }
             return Current;
         }
     }
