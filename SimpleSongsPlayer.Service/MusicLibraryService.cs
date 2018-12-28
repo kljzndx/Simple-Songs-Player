@@ -67,7 +67,6 @@ namespace SimpleSongsPlayer.Service
             
             if (!musicFiles.Any())
             {
-                this.LogByObject("检测到数据库里没数据，进入收集模式，开始扫描音乐库");
                 foreach (var folder in musicLibrary.Folders)
                 {
                     var allFiles = await folder.CreateFileQueryWithOptions(scanOptions).GetFilesAsync();
