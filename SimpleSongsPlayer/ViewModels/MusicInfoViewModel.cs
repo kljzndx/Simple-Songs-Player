@@ -61,9 +61,6 @@ namespace SimpleSongsPlayer.ViewModels
                 await RefreshCover();
             }
 
-            await LyricFileDataServer.Current.ScanFile();
-            await LyricIndexDataServer.Current.ScanAsync();
-
             await RefreshLyricSource();
 
             CustomMediaPlayerElement.NowPlaybackItemChanged += CustomMediaPlayerElement_NowPlaybackItemChanged;

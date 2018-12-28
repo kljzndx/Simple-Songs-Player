@@ -18,7 +18,6 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
 
         private MusicFileDataServer()
         {
-            CoreWindow.GetForCurrentThread().Activated += CoreWindow_Activated;
         }
 
         public bool IsInit { get; private set; }
@@ -112,12 +111,6 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             }
 
             DataUpdated?.Invoke(this, option);
-        }
-
-        private async void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
-        {
-            if (args.WindowActivationState != CoreWindowActivationState.Deactivated && musicFilesService != null)
-                await musicFilesService.ScanFiles();
         }
     }
 }

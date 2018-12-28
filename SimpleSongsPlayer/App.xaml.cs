@@ -3,6 +3,7 @@ using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Media.Playback;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -10,10 +11,13 @@ using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using NLog;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
+using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.Service.Models;
+using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Extensions;
 using SimpleSongsPlayer.Views;
+using SimpleSongsPlayer.Views.Controllers;
 
 namespace SimpleSongsPlayer
 {
@@ -25,6 +29,8 @@ namespace SimpleSongsPlayer
         public static readonly MediaPlayer MediaPlayer;
 
         private static readonly Logger Logger;
+
+        private bool _canRefreshData = true;
 
         static App()
         {
@@ -42,7 +48,8 @@ namespace SimpleSongsPlayer
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             this.UnhandledException += App_UnhandledException;
-
+            this.Resuming += App_Resuming;
+            
             LogExtension.SetUpAssembly(typeof(App).GetTypeInfo().Assembly, LoggerMembers.Ui);
         }
 
@@ -79,6 +86,7 @@ namespace SimpleSongsPlayer
                 Logger.Info("为窗口应用页面框架");
                 // 将框架放在当前窗口中
                 Window.Current.Content = rootFrame;
+                Window.Current.Activated += Window_Activated;
             }
 
             if (e.PrelaunchActivated == false)
@@ -123,6 +131,34 @@ namespace SimpleSongsPlayer
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
             deferral.Complete();
+        }
+
+        private void App_Resuming(object sender, object e)
+        {
+            _canRefreshData = true;
+        }
+
+        private async void Window_Activated(object sender, WindowActivatedEventArgs e)
+        {
+            var window = sender as Window;
+            if (window == null)
+                return;
+
+            if (_canRefreshData && e.WindowActivationState != CoreWindowActivationState.Deactivated)
+            {
+                _canRefreshData = false;
+
+                await window.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("ScanMusicLibrary"));
+                    await MusicFileDataServer.Current.ScanMusicFiles();
+                    await LyricFileDataServer.Current.ScanFile();
+                    await LyricIndexDataServer.Current.ScanAsync();
+                    FlyoutNotification.Hide();
+                });
+                
+                _canRefreshData = true;
+            }
         }
     }
 }
