@@ -34,19 +34,29 @@ namespace SimpleSongsPlayer.Service
 
         public async Task AddRange(string name, IEnumerable<string> keys)
         {
+            this.LogByObject("接收数据");
             var sourcePaths = keys.ToList();
             List<UserFavorite> favorites = new List<UserFavorite>();
 
             using (var db = new FilesContext())
             {
+                this.LogByObject("筛选出有效的路径");
                 var paths = db.MusicFiles.Where(mf => sourcePaths.Contains(mf.Path)).Select(mf => mf.Path);
-                foreach (var path in paths)
-                    favorites.Add(new UserFavorite(name, path));
-                await db.UserFavorites.AddRangeAsync(favorites);
-                await db.SaveChangesAsync();
+                if (paths.Any())
+                {
+                    this.LogByObject("正在添加数据");
+                    foreach (var path in paths)
+                        favorites.Add(new UserFavorite(name, path));
+                    await db.UserFavorites.AddRangeAsync(favorites);
+                    await db.SaveChangesAsync();
+                }
             }
 
-            FilesAdded?.Invoke(this, CreateGroup(favorites));
+            if (favorites.Any())
+            {
+                this.LogByObject("触发数据添加事件");
+                FilesAdded?.Invoke(this, CreateGroup(favorites));
+            }
         }
 
         public async Task RemoveGroup(string name)
@@ -56,51 +66,89 @@ namespace SimpleSongsPlayer.Service
             await helper.CustomOption(table =>
             {
                 optionTarget = table.Where(g => g.GroupName == name).ToList();
-                table.RemoveRange(optionTarget);
+                if (optionTarget.Any())
+                {
+                    this.LogByObject("正在移除收藏组");
+                    table.RemoveRange(optionTarget);
+                }
             });
 
-            FilesRemoved?.Invoke(this, CreateGroup(optionTarget));
+            if (optionTarget.Any())
+            {
+                this.LogByObject("触发数据移除事件");
+                FilesRemoved?.Invoke(this, CreateGroup(optionTarget));
+            }
         }
 
         public async Task RemoveRange(string name, IEnumerable<string> keys)
         {
+            this.LogByObject("接收数据");
             var list = keys.ToList();
             List<UserFavorite> optionTarget = null;
 
             await helper.CustomOption(table =>
             {
+                this.LogByObject("提取出对应项目");
                 optionTarget = table.Where(g => g.GroupName == name && list.Contains(g.FilePath)).ToList();
-                table.RemoveRange(optionTarget);
+                if (optionTarget.Any())
+                {
+                    this.LogByObject("正在移除收藏项");
+                    table.RemoveRange(optionTarget);
+                }
             });
 
-            FilesRemoved?.Invoke(this, CreateGroup(optionTarget));
+            if (optionTarget.Any())
+            {
+                this.LogByObject("触发数据移除事件");
+                FilesRemoved?.Invoke(this, CreateGroup(optionTarget));
+            }
         }
 
         public async Task RemoveRangeInAllGroup(IEnumerable<string> keys)
         {
+            this.LogByObject("接收数据");
             var list = keys.ToList();
             List<UserFavorite> optionTarget = null;
 
             await helper.CustomOption(table =>
             {
+                this.LogByObject("提取出对应项目");
                 optionTarget = table.Where(g => list.Contains(g.FilePath)).ToList();
-                table.RemoveRange(optionTarget);
+                if (optionTarget.Any())
+                {
+                    this.LogByObject("正在移除收藏组");
+                    table.RemoveRange(optionTarget);
+                }
             });
 
-            FilesRemoved?.Invoke(this, CreateGroup(optionTarget));
+            if (optionTarget.Any())
+            {
+                this.LogByObject("触发数据移除事件");
+                FilesRemoved?.Invoke(this, CreateGroup(optionTarget));
+            }
         }
 
         public async Task RenameGroup(string oldName, string newName)
         {
+            bool isFound = false;
+
             await helper.CustomOption(table =>
             {
                 var fas = table.Where(fa => fa.GroupName == oldName).ToList();
-                foreach (var favorite in fas)
-                    favorite.GroupName = newName;
-                table.UpdateRange(fas);
+                if (fas.Any())
+                {
+                    this.LogByObject("正在重命名收藏组");
+                    isFound = true;
+                    foreach (var favorite in fas)
+                        favorite.GroupName = newName;
+                    table.UpdateRange(fas);
+                }
             });
-
-            GroupRenamed?.Invoke(this, new KeyValuePair<string, string>(oldName, newName));
+            if (isFound)
+            {
+                this.LogByObject("触发重命名事件");
+                GroupRenamed?.Invoke(this, new KeyValuePair<string, string>(oldName, newName));
+            }
         }
 
         private IEnumerable<IGrouping<string, string>> CreateGroup(IEnumerable<UserFavorite> favorites)
@@ -116,9 +164,11 @@ namespace SimpleSongsPlayer.Service
 
         public static UserFavoriteService GetService(MusicLibraryService<MusicFile, MusicFileFactory> libraryService)
         {
-            typeof(UserFavoriteService).LogByType("获取用户收藏服务");
             if (current is null)
+            {
+                typeof(UserFavoriteService).LogByType("创建收藏服务");
                 current = new UserFavoriteService(libraryService);
+            }
 
             return current;
         }
