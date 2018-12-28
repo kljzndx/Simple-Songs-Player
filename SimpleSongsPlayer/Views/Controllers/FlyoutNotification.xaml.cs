@@ -43,8 +43,9 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         public static void Show(string text)
         {
-            if (current.Visibility == Visibility.Visible)
+            if (current == null || current.Visibility == Visibility.Visible)
                 return;
+
             current.Visibility = Visibility.Visible;
             current.Text = text;
             current.FadeInTranslate_DoubleAnimation.From = current.ActualWidth;
@@ -53,7 +54,7 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         public static void Hide()
         {
-            if (current.Visibility == Visibility.Collapsed)
+            if (current == null || current.Visibility == Visibility.Collapsed)
                 return;
 
             current.FadeOutTranslate_DoubleAnimation.To = current.ActualWidth;
