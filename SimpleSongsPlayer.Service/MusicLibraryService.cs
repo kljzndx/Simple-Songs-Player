@@ -121,7 +121,7 @@ namespace SimpleSongsPlayer.Service
                 var needAddFiles = systemFiles.Where(sf => !isGetFiles || !myFilePaths.Contains(sf.Path)).ToList();
                 if (needAddFiles.Any())
                 {
-                    this.LogByObject($"正在移除 {needAddFiles.Count} 个文件");
+                    this.LogByObject($"正在添加 {needAddFiles.Count} 个文件");
                     foreach (var filePath in needAddFiles)
                         addFiles.Add(await fileFactory.FromStorageFile(folder.Path, filePath));
                 }
