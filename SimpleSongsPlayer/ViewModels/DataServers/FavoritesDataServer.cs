@@ -25,16 +25,18 @@ namespace SimpleSongsPlayer.ViewModels
         {
         }
 
+        public bool IsInit { get; private set; }
         public IGroupServiceBasicOptions<string> FavoriteOption { get; private set; }
         
         public ObservableCollection<MusicFileGroup> UserFavoritesList { get; } = new ObservableCollection<MusicFileGroup>();
 
         public async Task InitializeFavoritesService()
         {
-            if (userFavoriteService != null)
+            if (IsInit)
                 return;
 
             this.LogByObject("获取服务");
+            IsInit = true;
             userFavoriteService = UserFavoriteService.GetService(await MusicLibraryService<MusicFile, MusicFileFactory>.GetService());
             FavoriteOption = userFavoriteService;
 
@@ -56,7 +58,7 @@ namespace SimpleSongsPlayer.ViewModels
 
         public async Task MigrateOldFavorites()
         {
-            if (userFavoriteService is null)
+            if (IsInit)
                 await InitializeFavoritesService();
 
             try

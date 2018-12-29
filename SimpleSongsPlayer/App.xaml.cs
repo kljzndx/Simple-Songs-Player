@@ -14,8 +14,10 @@ using SimpleSongsPlayer.DAL.Factory;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.Service.Models;
+using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Extensions;
+using SimpleSongsPlayer.ViewModels.SettingProperties;
 using SimpleSongsPlayer.Views;
 using SimpleSongsPlayer.Views.Controllers;
 
@@ -154,6 +156,17 @@ namespace SimpleSongsPlayer
                     await MusicFileDataServer.Current.ScanMusicFiles();
                     await LyricFileDataServer.Current.ScanFile();
                     await LyricIndexDataServer.Current.ScanAsync();
+                    if (!FavoritesDataServer.Current.IsInit)
+                    {
+                        FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("GetFavorites"));
+                        await FavoritesDataServer.Current.InitializeFavoritesService();
+                    }
+                    if (!OtherSettingProperties.Current.IsMigratedOldFavorites)
+                    {
+                        FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("MigrationOldFavorites"));
+                        await FavoritesDataServer.Current.MigrateOldFavorites();
+                        OtherSettingProperties.Current.IsMigratedOldFavorites = true;
+                    }
                     FlyoutNotification.Hide();
                 });
                 

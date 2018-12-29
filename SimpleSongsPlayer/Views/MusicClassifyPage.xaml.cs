@@ -82,20 +82,7 @@ namespace SimpleSongsPlayer.Views
                     break;
             }
         }
-
-        private async void AllMusicClassifyPage_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("GetFavorites"));
-            await FavoritesDataServer.Current.InitializeFavoritesService();
-            if (!OtherSettingProperties.Current.IsMigratedOldFavorites)
-            {
-                FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("MigrationOldFavorites"));
-                await FavoritesDataServer.Current.MigrateOldFavorites();
-                OtherSettingProperties.Current.IsMigratedOldFavorites = true;
-            }
-            FlyoutNotification.Hide();
-        }
-
+        
         private void MusicGroup_Frame_OnNavigating(object sender, NavigatingCancelEventArgs e)
         {
             if (e.SourcePageType != ListPageType)
