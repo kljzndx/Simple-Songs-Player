@@ -114,7 +114,7 @@ namespace SimpleSongsPlayer.Service
 
                 foreach (var item in result)
                     if (!lyricPaths.ContainsKey(item))
-                        lyricPaths.Add(item, lyricFiles.Find(f => result.Contains(TrimExtensionName(f.FileName))).Path);
+                        lyricPaths.Add(item, lyricFiles.Find(f => TrimExtensionName(f.FileName) == item).Path);
                 
                 this.LogByObject("开始建立索引");
                 foreach (var musicPathGroup in musicPathGroups)
