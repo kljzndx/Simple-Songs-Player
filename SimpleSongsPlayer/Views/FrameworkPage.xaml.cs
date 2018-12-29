@@ -52,6 +52,7 @@ namespace SimpleSongsPlayer.Views
         }
 
         public ThreadPoolTimer TimedExitTimer { get; set; }
+        public string PageMoreInfo => PageInfo_TextBlock.Text;
 
         private void Main_Frame_OnNavigated(object sender, NavigationEventArgs e)
         {
