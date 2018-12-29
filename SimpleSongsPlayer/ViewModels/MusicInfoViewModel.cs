@@ -10,6 +10,7 @@ using GalaSoft.MvvmLight;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Models.DTO.Lyric;
+using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Events;
 using SimpleSongsPlayer.ViewModels.Extensions;
@@ -58,30 +59,26 @@ namespace SimpleSongsPlayer.ViewModels
             if (currentItem != null)
             {
                 await RefreshMusicSource(currentItem);
-                await RefreshCover();
+                await RefreshLyricSource();
             }
 
-            await RefreshLyricSource();
-
+            this.LogByObject("监听播放曲目更改事件");
             CustomMediaPlayerElement.NowPlaybackItemChanged += CustomMediaPlayerElement_NowPlaybackItemChanged;
-            LyricFileDataServer.Current.DataAdded += LyricDataDataServer_DataAdded;
         }
 
         private async Task RefreshLyricSource()
         {
-            if (musicSource != null)
+            FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("SearchLyricFile"));
+
+            var pair = indexes.FirstOrDefault(i => i.Key.FilePath == musicSource.FilePath);
+            if (pair.Value != null)
             {
-                FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("SearchLyricFile"));
-
-                var pair = indexes.FirstOrDefault(i => i.Key.FilePath == musicSource.FilePath);
-                if (pair.Value != null)
-                {
-                    await pair.Value.Init();
-                    LyricSource = pair.Value;
-                }
-
-                FlyoutNotification.Hide();
+                this.LogByObject("正在解析歌词");
+                LyricSource = pair.Value;
+                await pair.Value.Init();
             }
+
+            FlyoutNotification.Hide();
         }
 
         private async Task RefreshMusicSource(MediaPlaybackItem playbackItem)
@@ -91,34 +88,21 @@ namespace SimpleSongsPlayer.ViewModels
                 var item = await fileDto.GetPlaybackItem();
                 if (playbackItem == item)
                 {
+                    this.LogByObject("正在刷新音乐信息");
                     MusicSource = fileDto;
-
+                    Cover = await fileDto.GetAlbumCover();
                     break;
                 }
             }
         }
-
-        private async Task RefreshCover()
-        {
-            if (musicSource is null)
-                return;
-
-            Cover = await musicSource.GetAlbumCover();
-        }
-
+        
         private async void CustomMediaPlayerElement_NowPlaybackItemChanged(CustomMediaPlayerElement sender, PlayerNowPlaybackItemChangeEventArgs args)
         {
             if (args.NewItem != null)
             {
                 await RefreshMusicSource(args.NewItem);
-                await RefreshCover();
                 await RefreshLyricSource();
             }
-        }
-
-        private async void LyricDataDataServer_DataAdded(object sender, IEnumerable<LyricFileDTO> e)
-        {
-            await RefreshLyricSource();
         }
     }
 }
