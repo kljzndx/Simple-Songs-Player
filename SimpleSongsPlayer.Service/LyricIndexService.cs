@@ -93,24 +93,33 @@ namespace SimpleSongsPlayer.Service
                     removeOption.Add(lyricIndex);
 
             this.LogByObject("提取出所有的文件名");
-            var musicFileNames = new Dictionary<string, string>();
-            var lyricFileNames = new Dictionary<string, string>();
+            var musicFileNames = new List<string>();
+            var lyricFileNames = new List<string>();
 
             foreach (var musicFile in musicFiles)
-                if (!musicFileNames.ContainsKey(TrimExtensionName(musicFile.FileName)))
-                    musicFileNames.Add(TrimExtensionName(musicFile.FileName), musicFile.Path);
+                if (!musicFileNames.Contains(TrimExtensionName(musicFile.FileName)))
+                    musicFileNames.Add(TrimExtensionName(musicFile.FileName));
 
             foreach (var lyricFile in lyricFiles)
-                if (!lyricFileNames.ContainsKey(TrimExtensionName(lyricFile.FileName)))
-                    lyricFileNames.Add(TrimExtensionName(lyricFile.FileName), lyricFile.Path);
+                if (!lyricFileNames.Contains(TrimExtensionName(lyricFile.FileName)))
+                    lyricFileNames.Add(TrimExtensionName(lyricFile.FileName));
 
-            this.LogByObject("查询文件名一样的音乐和歌词项");
-            var needMakeIndexes = musicFileNames.Where(md => lyricFileNames.ContainsKey(md.Key) && _source.All(i => i.MusicPath != md.Value)).ToList();
-            if (needMakeIndexes.Any())
+            var result = musicFileNames.Where(lyricFileNames.Contains).ToList();
+
+            if (result.Any())
             {
+                this.LogByObject("查询文件名一样的音乐和歌词项");
+                var musicPathGroups = musicFiles.Where(f => result.Contains(TrimExtensionName(f.FileName))).GroupBy(f => f.FileName, f => f.Path).ToList();
+                var lyricPaths = new Dictionary<string, string>();
+
+                foreach (var item in result)
+                    if (!lyricFileNames.Contains(item))
+                        lyricPaths.Add(item, lyricFiles.Find(f => result.Contains(TrimExtensionName(f.FileName))).Path);
+                
                 this.LogByObject("开始建立索引");
-                foreach (var musicNamePair in needMakeIndexes)
-                    addOption.Add(new LyricIndex(musicNamePair.Value, lyricFileNames[musicNamePair.Key]));
+                foreach (var musicPathGroup in musicPathGroups)
+                    foreach (var musicPath in musicPathGroup)
+                        addOption.Add(new LyricIndex(musicPath, lyricPaths[musicPathGroup.Key]));
             }
 
             if (addOption.Any())
