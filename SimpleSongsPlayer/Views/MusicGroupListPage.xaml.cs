@@ -76,9 +76,9 @@ namespace SimpleSongsPlayer.Views
                 else
                     Frame.Navigate(typeof(MusicListPage), new MusicListArguments(vm.Original, MusicFileDataServer.Current, new MusicFilterArgs(vm.ItemFilter, item.Name), pageTitle: item.Name));
             else if (itemExtraMenu != null)
-                Frame.Navigate(typeof(MusicListPage), new MusicListArguments(item.Items, itemExtraMenu));
+                Frame.Navigate(typeof(MusicListPage), new MusicListArguments(item.Items, itemExtraMenu, item.Name));
             else
-                Frame.Navigate(typeof(MusicListPage), new MusicListArguments(item.Items));
+                Frame.Navigate(typeof(MusicListPage), new MusicListArguments(item.Items, item.Name));
         }
     }
 }

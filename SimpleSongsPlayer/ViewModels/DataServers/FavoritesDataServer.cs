@@ -132,9 +132,12 @@ namespace SimpleSongsPlayer.ViewModels
                 MusicFileGroup fileGroup = UserFavoritesList.FirstOrDefault(uf => uf.Name == group.Key);
                 if (fileGroup is null)
                     continue;
-                
-                if (fileGroup.Items.Count >= group.Count())
+
+                if (group.Count() >= fileGroup.Items.Count)
+                {
+                    fileGroup.Items.Clear();
                     UserFavoritesList.Remove(fileGroup);
+                }
                 else
                 {
                     List<MusicFileDTO> files = new List<MusicFileDTO>();
