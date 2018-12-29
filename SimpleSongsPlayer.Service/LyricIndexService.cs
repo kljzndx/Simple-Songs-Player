@@ -96,11 +96,11 @@ namespace SimpleSongsPlayer.Service
             var musicFileNames = new List<string>();
             var lyricFileNames = new List<string>();
 
-            foreach (var musicFile in musicFiles)
+            foreach (var musicFile in musicFiles.Where(f => _source.All(i => i.MusicPath != f.Path)))
                 if (!musicFileNames.Contains(TrimExtensionName(musicFile.FileName)))
                     musicFileNames.Add(TrimExtensionName(musicFile.FileName));
 
-            foreach (var lyricFile in lyricFiles)
+            foreach (var lyricFile in lyricFiles.Where(f => _source.All(i => i.LyricPath != f.Path)))
                 if (!lyricFileNames.Contains(TrimExtensionName(lyricFile.FileName)))
                     lyricFileNames.Add(TrimExtensionName(lyricFile.FileName));
 
