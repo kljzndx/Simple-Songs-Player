@@ -113,7 +113,7 @@ namespace SimpleSongsPlayer.Service
                 var lyricPaths = new Dictionary<string, string>();
 
                 foreach (var item in result)
-                    if (!lyricFileNames.Contains(item))
+                    if (!lyricPaths.ContainsKey(item))
                         lyricPaths.Add(item, lyricFiles.Find(f => result.Contains(TrimExtensionName(f.FileName))).Path);
                 
                 this.LogByObject("开始建立索引");
