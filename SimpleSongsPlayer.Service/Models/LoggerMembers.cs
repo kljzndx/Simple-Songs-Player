@@ -4,13 +4,13 @@ namespace SimpleSongsPlayer.Service.Models
 {
     public enum LoggerMembers
     {
-        [LoggerInfo("\\logs\\ui.log", "\\logs\\UI")]
+        [LoggerInfo("\\logs\\main.log", "\\logs\\Main")]
         App,
-        [LoggerInfo("\\logs\\ui.log", "\\logs\\UI")]
+        [LoggerInfo("\\logs\\main.log", "\\logs\\Main")]
         Ui,
-        [LoggerInfo("\\logs\\background.log", "\\logs\\Background")]
+        [LoggerInfo("\\logs\\main.log", "\\logs\\Main")]
         Service,
-        [LoggerInfo("\\logs\\ui.log", "\\logs\\UI")]
+        [LoggerInfo("\\logs\\main.log", "\\logs\\Main")]
         UnitTest
     }
 }
