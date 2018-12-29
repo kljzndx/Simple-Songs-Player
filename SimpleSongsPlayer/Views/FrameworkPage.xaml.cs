@@ -91,6 +91,7 @@ namespace SimpleSongsPlayer.Views
         {
             if (args.NewItem is MediaPlaybackItem mpi)
             {
+                this.LogByObject("刷新音乐信息按钮的专辑图");
                 var properties = mpi.GetDisplayProperties();
                 var bitmap = new BitmapImage();
                 bitmap.SetSource(await properties.Thumbnail.OpenReadAsync());
@@ -103,6 +104,7 @@ namespace SimpleSongsPlayer.Views
 
         private void FavoriteAdditionNotification_FavoriteAdditionRequested(object sender, IEnumerable<MusicFileDTO> e)
         {
+            this.LogByObject("提取出所有的文件路径");
             musicDtoPaths = e.Select(f => f.FilePath);
             My_FavoriteSelectorDialog.ShowAsync();
         }
@@ -111,13 +113,17 @@ namespace SimpleSongsPlayer.Views
         {
             var operation = await FavoriteName_InputDialog.ShowAsync();
             if (operation == ContentDialogResult.Primary)
+            {
+                this.LogByObject("正在创建收藏");
                 await FavoritesDataServer.Current.FavoriteOption.AddRange(FavoriteName_InputDialog.Text, musicDtoPaths);
+            }
             else
                 My_FavoriteSelectorDialog.ShowAsync();
         }
 
         private async void My_FavoriteSelectorDialog_OnFavoriteSelected(object sender, string e)
         {
+            this.LogByObject("正在添加进所选收藏夹");
             await FavoritesDataServer.Current.FavoriteOption.AddRange(e, musicDtoPaths);
         }
 
