@@ -93,18 +93,25 @@ namespace SimpleSongsPlayer.Service
                     removeOption.Add(lyricIndex);
 
             this.LogByObject("提取出所有的文件名");
-            var musicFileNames = musicFiles.ToDictionary(f => TrimExtensionName(f.FileName));
-            var lyricFileNames = lyricFiles.ToDictionary(f => TrimExtensionName(f.FileName));
+            var musicFileNames = new Dictionary<string, string>();
+            var lyricFileNames = new Dictionary<string, string>();
+
+            foreach (var musicFile in musicFiles)
+                if (!musicFileNames.ContainsKey(TrimExtensionName(musicFile.FileName)))
+                    musicFileNames.Add(TrimExtensionName(musicFile.FileName), musicFile.Path);
+
+            foreach (var lyricFile in lyricFiles)
+                if (!lyricFileNames.ContainsKey(TrimExtensionName(lyricFile.FileName)))
+                    lyricFileNames.Add(TrimExtensionName(lyricFile.FileName), lyricFile.Path);
 
             this.LogByObject("查询文件名一样的音乐和歌词项");
-            var needMakeIndexes = musicFileNames.Where(md => lyricFileNames.ContainsKey(md.Key) && _source.All(i => i.MusicPath != md.Value.Path)).ToList();
+            var needMakeIndexes = musicFileNames.Where(md => lyricFileNames.ContainsKey(md.Key) && _source.All(i => i.MusicPath != md.Value)).ToList();
             if (needMakeIndexes.Any())
             {
                 this.LogByObject("开始建立索引");
                 foreach (var musicNamePair in needMakeIndexes)
-                    addOption.Add(new LyricIndex(musicNamePair.Value.Path, lyricFileNames[musicNamePair.Key].Path));
+                    addOption.Add(new LyricIndex(musicNamePair.Value, lyricFileNames[musicNamePair.Key]));
             }
-
 
             if (addOption.Any())
             {
@@ -121,15 +128,10 @@ namespace SimpleSongsPlayer.Service
 
         private string TrimExtensionName(string input)
         {
-            this.LogByObject("用 '.' 分割文件名");
             var blocks = input.Split('.').ToList();
             if (blocks.Count > 1)
-            {
-                this.LogByObject("移除扩展名");
                 blocks.Remove(blocks.Last());
-            }
-
-            this.LogByObject("重组字符串");
+            
             return String.Join(".", blocks).Trim();
         }
 
