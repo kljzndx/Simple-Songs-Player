@@ -41,12 +41,16 @@ namespace SimpleSongsPlayer.Service
             using (var db = new FilesContext())
             {
                 this.LogByObject("筛选出有效的路径");
-                var paths = db.MusicFiles.Where(mf => sourcePaths.Contains(mf.Path)).Select(mf => mf.Path);
-                if (paths.Any())
+                var oldPaths = db.UserFavorites.Where(uf => uf.GroupName == name).Select(uf => uf.FilePath).ToList();
+                var newPaths = db.MusicFiles.Where(mf => sourcePaths.Contains(mf.Path)).Select(mf => mf.Path).ToList();
+                var optionPaths = newPaths.Where(np => !oldPaths.Contains(np)).ToList();
+
+                if (optionPaths.Any())
                 {
                     this.LogByObject("正在添加数据");
-                    foreach (var path in paths)
+                    foreach (var path in optionPaths)
                         favorites.Add(new UserFavorite(name, path));
+
                     await db.UserFavorites.AddRangeAsync(favorites);
                     await db.SaveChangesAsync();
                 }
