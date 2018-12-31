@@ -24,6 +24,8 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
             FilePath = file.Path;
         }
 
+        public bool IsInit { get; private set; }
+
         public string FileName { get; }
         public string FilePath { get; }
 
@@ -41,6 +43,10 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
 
         public async Task Init()
         {
+            if (IsInit)
+                return;
+
+            IsInit = true;
             StorageFile file = await StorageFile.GetFileFromPathAsync(FilePath);
             string content = await ReadText(file);
             Properties = new LyricProperties(content);
