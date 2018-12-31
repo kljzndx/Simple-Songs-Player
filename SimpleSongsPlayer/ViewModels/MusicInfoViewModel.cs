@@ -30,8 +30,10 @@ namespace SimpleSongsPlayer.ViewModels
 
         public MusicInfoViewModel()
         {
+            LyricIndexDataServer.Current.DataAdded += LyricIndexDataServer_DataAdded;
+            LyricIndexDataServer.Current.DataUpdated += LyricIndexDataServer_DataUpdated;
         }
-        
+
         public MusicFileDTO MusicSource
         {
             get => musicSource;
@@ -104,6 +106,34 @@ namespace SimpleSongsPlayer.ViewModels
             {
                 await RefreshMusicSource(args.NewItem);
                 await RefreshLyricSource();
+            }
+        }
+
+        private async void LyricIndexDataServer_DataAdded(object sender, IEnumerable<KeyValuePair<MusicFileDTO, LyricFileDTO>> e)
+        {
+            if (MusicSource == null)
+                return;
+
+            var isAny = e.Any(p => p.Key.FilePath == MusicSource.FilePath);
+            if (isAny)
+            {
+                var pair = e.First(p => p.Key.FilePath == MusicSource.FilePath);
+                LyricSource = pair.Value;
+                await LyricSource.Init();
+            }
+        }
+
+        private async void LyricIndexDataServer_DataUpdated(object sender, IEnumerable<KeyValuePair<MusicFileDTO, LyricFileDTO>> e)
+        {
+            if (MusicSource == null)
+                return;
+
+            var isAny = e.Any(p => p.Key.FilePath == MusicSource.FilePath);
+            if (isAny)
+            {
+                var pair = e.First(p => p.Key.FilePath == MusicSource.FilePath);
+                LyricSource = pair.Value;
+                await LyricSource.Init();
             }
         }
     }

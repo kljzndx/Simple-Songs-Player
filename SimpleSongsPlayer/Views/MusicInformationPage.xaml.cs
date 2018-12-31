@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.Models.DTO.Lyric;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Attributes;
+using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Events;
 using SimpleSongsPlayer.Views.Controllers;
 
@@ -43,6 +44,9 @@ namespace SimpleSongsPlayer.Views
         {
             base.OnNavigatedTo(e);
             await vm.Init();
+
+            LyricFileSelector_Grid.Visibility = Visibility.Collapsed;
+            SetUpLyricFile_Button.IsEnabled = vm.MusicSource != null;
         }
 
         private void CustomMediaPlayerElement_PositionChanged(CustomMediaPlayerElement sender, PlayerPositionChangeEventArgs args)
@@ -68,7 +72,41 @@ namespace SimpleSongsPlayer.Views
                 case nameof(vm.LyricSource):
                     isRefreshLyric = true;
                     break;
+                case nameof(vm.MusicSource):
+                    SetUpLyricFile_Button.IsEnabled = vm.MusicSource != null;
+                    break;
             }
+        }
+
+        private void SetUpLyricFile_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            LyricPreview_Grid.Visibility = Visibility.Collapsed;
+            LyricFileSelector_Grid.Visibility = Visibility.Visible;
+            Search_TextBox.Text = String.Empty;
+            LyricFile_ListView.ItemsSource = LyricFileDataServer.Current.Data;
+
+            Search_TextBox.Focus(FocusState.Keyboard);
+        }
+
+        private void Search_TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!String.IsNullOrWhiteSpace(Search_TextBox.Text))
+            {
+                var data = LyricFileDataServer.Current.Data.Where(f => f.FileName.Contains(Search_TextBox.Text)).ToList();
+                LyricFile_ListView.ItemsSource = data;
+            }
+            else
+                LyricFile_ListView.ItemsSource = LyricFileDataServer.Current.Data;
+        }
+
+        private void Submit_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            LyricFileDTO lyric = LyricFile_ListView.SelectedItem as LyricFileDTO;
+            if (vm.MusicSource != null && lyric != null)
+                LyricIndexDataServer.Current.SetIndex(vm.MusicSource.FilePath, lyric.FilePath);
+
+            LyricFileSelector_Grid.Visibility = Visibility.Collapsed;
+            LyricPreview_Grid.Visibility = Visibility.Visible;
         }
     }
 }

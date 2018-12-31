@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Album_Run.Text" xml:space="preserve">
+    <value>Album: </value>
+  </data>
+  <data name="Artist_Run.Text" xml:space="preserve">
+    <value>Artist: </value>
+  </data>
+  <data name="SetUpLyricFile_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Setup lyric file</value>
+  </data>
+  <data name="Submit_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Done</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Music info</value>
   </data>

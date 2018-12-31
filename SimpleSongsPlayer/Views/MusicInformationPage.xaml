@@ -47,15 +47,148 @@
             <StackPanel Padding="12,0">
                 <TextBlock Text="{Binding MusicSource.Title}" Style="{ThemeResource TitleTextBlockStyle}"/>
                 <TextBlock Style="{ThemeResource CaptionTextBlockStyle}">
-                    <Run Text="歌手： "/>
+                    <Run x:Uid="/MusicInfoPage/Artist_Run"/>
                     <Run Text="{Binding MusicSource.Artist}"/>
                     <LineBreak/>
-                    <Run Text="专辑： "/>
+                    <Run x:Uid="/MusicInfoPage/Album_Run"/>
                     <Run Text="{Binding MusicSource.Album}"/>
                 </TextBlock>
             </StackPanel>
-            
-            <ctrl:ScrollLyricsPreviewControl x:Name="My_ScrollLyricsPreviewControl" Grid.Row="1" Source="{Binding LyricSource.Lines}" ItemClick="My_ScrollLyricsPreviewControl_OnItemClick"/>
+
+            <Grid x:Name="LyricPreview_Grid" Grid.Row="1">
+                <ctrl:ScrollLyricsPreviewControl x:Name="My_ScrollLyricsPreviewControl" Source="{Binding LyricSource.Lines}" ItemClick="My_ScrollLyricsPreviewControl_OnItemClick"/>
+
+                <Button x:Name="SetUpLyricFile_Button" x:Uid="/MusicInfoPage/SetUpLyricFile_Button" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,56,36" Click="SetUpLyricFile_Button_OnClick">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid x:Name="RootGrid">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Light_Ellipse" Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.3"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Dark_Ellipse" Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.3"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Light_Ellipse" Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.4"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+
+                                <Grid.Resources>
+                                    <Style TargetType="Ellipse">
+                                        <Setter Property="Width" Value="48"/>
+                                        <Setter Property="Height" Value="48"/>
+                                    </Style>
+                                </Grid.Resources>
+
+                                <Ellipse Fill="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                                <Ellipse x:Name="Dark_Ellipse" Fill="Black" Opacity="0"/>
+                                <Ellipse x:Name="Light_Ellipse" Fill="White" Opacity="0"/>
+
+                                <TextBlock Text="&#xE115;" Foreground="White" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource TextStyleLargeFontSize}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
+            <Grid x:Name="LyricFileSelector_Grid" Grid.Row="1" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBox x:Name="Search_TextBox" TextChanged="Search_TextBox_OnTextChanged"/>
+                
+                <ListView x:Name="LyricFile_ListView" Grid.Row="1">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FileName}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+
+                <Button x:Name="Submit_Button" x:Uid="/MusicInfoPage/Submit_Button" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,56,36" Click="Submit_Button_OnClick">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid x:Name="RootGrid">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Light_Ellipse" Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.3"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Dark_Ellipse" Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.3"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Light_Ellipse" Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.4"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+
+                                <Grid.Resources>
+                                    <Style TargetType="Ellipse">
+                                        <Setter Property="Width" Value="48"/>
+                                        <Setter Property="Height" Value="48"/>
+                                    </Style>
+                                </Grid.Resources>
+
+                                <Ellipse Fill="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                                <Ellipse x:Name="Dark_Ellipse" Fill="Black" Opacity="0"/>
+                                <Ellipse x:Name="Light_Ellipse" Fill="White" Opacity="0"/>
+
+                                <TextBlock Text="&#xE0E7;" Foreground="White" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource TextStyleLargeFontSize}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
         </Grid>
     </Grid>
 </Page>
