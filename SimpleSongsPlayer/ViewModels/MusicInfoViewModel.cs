@@ -77,6 +77,8 @@ namespace SimpleSongsPlayer.ViewModels
                 LyricSource = pair.Value;
                 await pair.Value.Init();
             }
+            else
+                LyricSource = LyricFileDTO.Empty;
 
             FlyoutNotification.Hide();
         }
