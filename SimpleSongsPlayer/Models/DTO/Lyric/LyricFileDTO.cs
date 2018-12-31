@@ -14,9 +14,15 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
     {
         private static readonly Encoding GbkEncoding = GetGbkEncoding();
         private static readonly Regex LyricLineRegex = new Regex(@"^\[(?<min>\d+)\:(?<ss>\d{2}).(?<ms>\d{1,3})\](?<content>.*)");
-        
+
+        public static LyricFileDTO Empty { get; } = new LyricFileDTO { IsInit = true };
+
         private LyricProperties properties;
         private List<LyricLine> lines;
+
+        private LyricFileDTO()
+        {
+        }
 
         public LyricFileDTO(LyricFile file)
         {
