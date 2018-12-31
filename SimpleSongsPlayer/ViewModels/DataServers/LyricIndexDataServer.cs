@@ -112,7 +112,11 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
 
         private void Service_FilesRemoved(object sender, IEnumerable<LyricIndex> e)
         {
-            var pairs = IntelligentOption(e, p => Data.Remove(p)).ToList();
+            var pairs = IntelligentOption(e, p =>
+            {
+                if (!p.Value.IsInit)
+                    Data.Remove(p);
+            }).ToList();
             if (pairs.Any())
             {
                 this.LogByObject("检测到有索引项被移除，已成功同步");
