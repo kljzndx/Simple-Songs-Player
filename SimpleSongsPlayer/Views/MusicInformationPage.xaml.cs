@@ -46,6 +46,7 @@ namespace SimpleSongsPlayer.Views
             await vm.Init();
 
             LyricFileSelector_Grid.Visibility = Visibility.Collapsed;
+            SetUpLyricFile_Button.Visibility = LyricIndexDataServer.Current.Data.Any() ? Visibility.Visible : Visibility.Collapsed;
             SetUpLyricFile_Button.IsEnabled = vm.MusicSource != null;
         }
 
