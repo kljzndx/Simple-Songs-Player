@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -50,15 +51,18 @@ namespace SimpleSongsPlayer.Views
             SetUpLyricFile_Button.IsEnabled = vm.MusicSource != null;
         }
 
-        private void CustomMediaPlayerElement_PositionChanged(CustomMediaPlayerElement sender, PlayerPositionChangeEventArgs args)
+        private async void CustomMediaPlayerElement_PositionChanged(CustomMediaPlayerElement sender, PlayerPositionChangeEventArgs args)
         {
-            if (args.IsUser || isRefreshLyric)
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                isRefreshLyric = false;
-                My_ScrollLyricsPreviewControl.Reposition(args.Position);
-            }
-            else
-                My_ScrollLyricsPreviewControl.RefreshLyric(args.Position);
+                if (args.IsUser || isRefreshLyric)
+                {
+                    isRefreshLyric = false;
+                    My_ScrollLyricsPreviewControl.Reposition(args.Position);
+                }
+                else
+                    My_ScrollLyricsPreviewControl.RefreshLyric(args.Position);
+            });
         }
 
         private void My_ScrollLyricsPreviewControl_OnItemClick(object sender, ItemClickEventArgs e)
