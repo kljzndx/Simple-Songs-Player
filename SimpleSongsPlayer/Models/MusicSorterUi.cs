@@ -4,11 +4,11 @@ using Windows.Globalization.Collation;
 
 namespace SimpleSongsPlayer.Models
 {
-    public delegate IComparable MusicDynamicSortKeySelector(MusicFileDynamic fileDynamic);
+    public delegate IComparable MusicDynamicSortKeySelector<T>(T data);
 
-    public class MusicSorterUi
+    public class MusicSorterUi<T>
     {
-        public MusicSorterUi(string resourceKey, MusicDynamicSortKeySelector keySelector, bool isReverse = false)
+        public MusicSorterUi(string resourceKey, MusicDynamicSortKeySelector<T> keySelector, bool isReverse = false)
         {
             Name = StringResources.ListStringResource.GetString(resourceKey);
             KeySelector = keySelector;
@@ -16,7 +16,7 @@ namespace SimpleSongsPlayer.Models
         }
 
         public string Name { get; }
-        public MusicDynamicSortKeySelector KeySelector { get; }
+        public MusicDynamicSortKeySelector<T> KeySelector { get; }
         public bool IsReverse { get; }
     }
 }

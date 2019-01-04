@@ -26,7 +26,7 @@ namespace SimpleSongsPlayer.Models
                 Items.Add(new MusicFileDynamic(dto));
         }
 
-        public void OrderBy(MusicDynamicSortKeySelector keySelector)
+        public void OrderBy(MusicDynamicSortKeySelector<MusicFileDynamic> keySelector)
         {
             var newItems = Items.OrderBy(keySelector.Invoke).ToList();
             foreach (var item in newItems)

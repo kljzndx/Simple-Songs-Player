@@ -23,22 +23,22 @@ namespace SimpleSongsPlayer.ViewModels
         public MusicListViewModel()
         {
             GrouperMembers = new List<MusicGrouperUi>();
-            SorterMembers = new List<MusicSorterUi>();
+            SorterMembers = new List<MusicSorterUi<MusicFileDynamic>>();
 
             GrouperMembers.Add(new MusicGrouperUi("GrouperMember_None", new SingleGrouper()));
             GrouperMembers.Add(new MusicGrouperUi("GrouperMember_FirstLetter", new CharacterGrouper()));
             GrouperMembers.Add(new MusicGrouperUi("GrouperMember_Path", new MusicPathGrouper()));
 
-            SorterMembers.Add(new MusicSorterUi("SorterMember_Title", s => s.Original.Title));
-            SorterMembers.Add(new MusicSorterUi("SorterMember_Artist", s => s.Original.Artist));
-            SorterMembers.Add(new MusicSorterUi("SorterMember_Album", s => s.Original.Album));
-            SorterMembers.Add(new MusicSorterUi("SorterMember_ChangeDate", s => s.Original.ChangeDate, true));
+            SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("SorterMember_Title", s => s.Original.Title));
+            SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("SorterMember_Artist", s => s.Original.Artist));
+            SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("SorterMember_Album", s => s.Original.Album));
+            SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("SorterMember_ChangeDate", s => s.Original.ChangeDate, true));
 
             settings.PropertyChanged += Settings_PropertyChanged;
         }
 
         public List<MusicGrouperUi> GrouperMembers { get; }
-        public List<MusicSorterUi> SorterMembers { get; }
+        public List<MusicSorterUi<MusicFileDynamic>> SorterMembers { get; }
         
         public ObservableCollection<MusicFileGroupDynamic> DataSource { get; } = new ObservableCollection<MusicFileGroupDynamic>();
 
@@ -64,7 +64,7 @@ namespace SimpleSongsPlayer.ViewModels
             }
         }
 
-        public void SortItems(MusicSorterUi sorter)
+        public void SortItems(MusicSorterUi<MusicFileDynamic> sorter)
         {
             settings.IsReverse = false;
             foreach (var groupDynamic in DataSource)
