@@ -123,6 +123,7 @@
     <Compile Include="ViewModels\Converters\DoubleToPercentage.cs" />
     <Compile Include="ViewModels\Converters\TimeSpanToSongTimeString.cs" />
     <Compile Include="ViewModels\DataServers\FavoritesDataServer.cs" />
+    <Compile Include="ViewModels\DataServers\IDataServer.cs" />
     <Compile Include="ViewModels\DataServers\IFileDataServer.cs" />
     <Compile Include="ViewModels\DataServers\LyricFileDataServer.cs" />
     <Compile Include="ViewModels\DataServers\LyricIndexDataServer.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="ViewModels\MusicGroupListViewModel.cs" />
     <Compile Include="ViewModels\MusicInfoViewModel.cs" />
     <Compile Include="ViewModels\MusicPusher.cs" />
+    <Compile Include="ViewModels\SettingProperties\MusicGroupViewSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\OtherSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\PlayerSettingProperties.cs" />
     <Compile Include="ViewModels\SettingProperties\SettingLocator.cs" />
