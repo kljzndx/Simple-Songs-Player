@@ -29,10 +29,10 @@ namespace SimpleSongsPlayer.ViewModels
             GrouperMembers.Add(new MusicGrouperUi("GrouperMember_FirstLetter", new CharacterGrouper()));
             GrouperMembers.Add(new MusicGrouperUi("GrouperMember_Path", new MusicPathGrouper()));
 
-            SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("SorterMember_Title", s => s.Original.Title));
-            SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("SorterMember_Artist", s => s.Original.Artist));
-            SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("SorterMember_Album", s => s.Original.Album));
-            SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("SorterMember_ChangeDate", s => s.Original.ChangeDate, true));
+            SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("Title", s => s.Original.Title));
+            SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("Artist", s => s.Original.Artist));
+            SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("Album", s => s.Original.Album));
+            SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("ChangeDate", s => s.Original.ChangeDate, true));
 
             settings.PropertyChanged += Settings_PropertyChanged;
         }

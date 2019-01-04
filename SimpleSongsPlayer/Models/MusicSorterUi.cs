@@ -10,7 +10,7 @@ namespace SimpleSongsPlayer.Models
     {
         public MusicSorterUi(string resourceKey, MusicDynamicSortKeySelector<T> keySelector, bool isReverse = false)
         {
-            Name = StringResources.ListStringResource.GetString(resourceKey);
+            Name = StringResources.SorterMembersStringResource.GetString(resourceKey);
             KeySelector = keySelector;
             IsReverse = isReverse;
         }
