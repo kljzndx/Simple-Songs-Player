@@ -4,12 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace SimpleSongsPlayer.ViewModels.DataServers
 {
-    public interface IFileDataServer<T>
+    public interface IFileDataServer<T> : IDataServer<T, T>
     {
-        bool IsInit { get; }
-        ObservableCollection<T> Data { get; }
-
-        event EventHandler<IEnumerable<T>> DataAdded;
-        event EventHandler<IEnumerable<T>> DataRemoved;
     }
 }
