@@ -120,7 +120,7 @@
   <data name="GetFavorites" xml:space="preserve">
     <value>Getting favorites</value>
   </data>
-  <data name="MigrateOldFavorites" xml:space="preserve">
+  <data name="MigrationOldFavorites" xml:space="preserve">
     <value>Migrating old favorites</value>
   </data>
   <data name="ScanMusicLibrary" xml:space="preserve">
