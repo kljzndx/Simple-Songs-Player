@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
+using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Factories;
 
 namespace SimpleSongsPlayer.ViewModels.Arguments
@@ -15,76 +16,100 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
         GroupSource = 2,
         Grouper = 4,
         GroupMenu = 8,
-        ItemMenu = 16
+        ItemMenu = 16,
+        DataServer = 32
     }
 
     public class MusicGroupArguments : PageArgumentsBase
     {
-        public MusicGroupArguments(ObservableCollection<MusicFileGroup> source, string pageTitle = null) : base(pageTitle)
+        private ObservableCollection<MusicFileDTO> itemSource;
+        private ObservableCollection<MusicFileGroup> groupSource;
+        private MusicGrouperArgs grouperArgs;
+        private List<MusicItemMenuItem<MusicFileGroupDynamic>> extraGroupMenu;
+        private List<MusicItemMenuItem<MusicFileDynamic>> extraItemMenu;
+
+        public MusicGroupArguments(string title = null, IDataServer<MusicFileGroup, KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>> dataServer = null, ObservableCollection<MusicFileDTO> itemSource = null, ObservableCollection<MusicFileGroup> groupSource = null, MusicGrouperArgs grouperArgs = null, IEnumerable<MusicItemMenuItem<MusicFileGroupDynamic>> extraGroupMenu = null, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraItemMenu = null) : base(title)
         {
-            GroupSource = source;
-            ArgsType = MusicGroupArgsType.GroupSource;
+            if (dataServer != null)
+                DataServer = dataServer;
+            if (itemSource != null)
+                ItemSource = itemSource;
+            if (groupSource != null)
+                GroupSource = groupSource;
+            if (grouperArgs != null)
+                GrouperArgs = grouperArgs;
+            if (extraGroupMenu != null)
+                ExtraGroupMenu = extraGroupMenu.ToList();
+            if (extraItemMenu != null)
+                ExtraItemMenu = extraItemMenu.ToList();
         }
 
-        public MusicGroupArguments(ObservableCollection<MusicFileGroup> groupSource, IEnumerable<MusicItemMenuItem<MusicFileGroupDynamic>> extraGroupMenu, string pageTitle = null) : base(pageTitle)
+        public MusicGroupArgsType ArgsType { get; private set; }
+
+        private IDataServer<MusicFileGroup, KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>> dataServer;
+        public IDataServer<MusicFileGroup, KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>> DataServer
         {
-            GroupSource = groupSource;
-            ExtraGroupMenu = extraGroupMenu.ToList();
-            ArgsType = MusicGroupArgsType.GroupSource | MusicGroupArgsType.GroupMenu;
+            get => dataServer;
+            private set
+            {
+                dataServer = value;
+                SetArgsType(MusicGroupArgsType.DataServer);
+            }
         }
 
-        public MusicGroupArguments(ObservableCollection<MusicFileGroup> groupSource, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraItemMenu, string pageTitle = null) : base(pageTitle)
+        public ObservableCollection<MusicFileDTO> ItemSource
         {
-            GroupSource = groupSource;
-            ExtraItemMenu = extraItemMenu.ToList();
-            ArgsType = MusicGroupArgsType.GroupSource | MusicGroupArgsType.ItemMenu;
+            get => itemSource;
+            private set
+            {
+                itemSource = value;
+                SetArgsType(MusicGroupArgsType.ItemSource);
+            }
         }
 
-        public MusicGroupArguments(ObservableCollection<MusicFileGroup> source, IEnumerable<MusicItemMenuItem<MusicFileGroupDynamic>> extraGroupMenu, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraItemMenu, string pageTitle = null) : base(pageTitle)
+        public ObservableCollection<MusicFileGroup> GroupSource
         {
-            GroupSource = source;
-            ExtraGroupMenu = extraGroupMenu.ToList();
-            ExtraItemMenu = extraItemMenu.ToList();
-            ArgsType = MusicGroupArgsType.GroupSource | MusicGroupArgsType.GroupMenu | MusicGroupArgsType.ItemMenu;
+            get => groupSource;
+            private set
+            {
+                groupSource = value;
+                SetArgsType(MusicGroupArgsType.GroupSource);
+            }
         }
 
-        public MusicGroupArguments(ObservableCollection<MusicFileDTO> source, MusicGrouperArgs grouperArgs, string pageTitle = null) : base(pageTitle)
+        public MusicGrouperArgs GrouperArgs
         {
-            ItemSource = source;
-            GrouperArgs = grouperArgs;
-            ArgsType = MusicGroupArgsType.ItemSource | MusicGroupArgsType.Grouper;
+            get => grouperArgs;
+            private set
+            {
+                grouperArgs = value;
+                SetArgsType(MusicGroupArgsType.Grouper);
+            }
         }
 
-        public MusicGroupArguments(ObservableCollection<MusicFileDTO> source, MusicGrouperArgs grouperArgs, IEnumerable<MusicItemMenuItem<MusicFileGroupDynamic>> extraGroupMenu, string pageTitle = null) : base(pageTitle)
+        public List<MusicItemMenuItem<MusicFileGroupDynamic>> ExtraGroupMenu
         {
-            ItemSource = source;
-            GrouperArgs = grouperArgs;
-            ExtraGroupMenu = extraGroupMenu.ToList();
-            ArgsType = MusicGroupArgsType.ItemSource | MusicGroupArgsType.Grouper | MusicGroupArgsType.GroupMenu;
+            get => extraGroupMenu;
+            private set
+            {
+                extraGroupMenu = value;
+                SetArgsType(MusicGroupArgsType.GroupMenu);
+            }
         }
 
-        public MusicGroupArguments(ObservableCollection<MusicFileDTO> source, MusicGrouperArgs grouperArgs, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraItemMenu, string pageTitle = null) : base(pageTitle)
+        public List<MusicItemMenuItem<MusicFileDynamic>> ExtraItemMenu
         {
-            ItemSource = source;
-            GrouperArgs = grouperArgs;
-            ExtraItemMenu = extraItemMenu.ToList();
-            ArgsType = MusicGroupArgsType.ItemSource | MusicGroupArgsType.Grouper | MusicGroupArgsType.ItemMenu;
+            get => extraItemMenu;
+            private set
+            {
+                extraItemMenu = value;
+                SetArgsType(MusicGroupArgsType.ItemMenu);
+            }
         }
 
-        public MusicGroupArguments(ObservableCollection<MusicFileDTO> source, MusicGrouperArgs grouperArgs, IEnumerable<MusicItemMenuItem<MusicFileGroupDynamic>> extraGroupMenu, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraItemMenu, string pageTitle = null) : base(pageTitle)
+        private void SetArgsType(MusicGroupArgsType value)
         {
-            ItemSource = source;
-            GrouperArgs = grouperArgs;
-            ExtraGroupMenu = extraGroupMenu.ToList();
-            ExtraItemMenu = extraItemMenu.ToList();
-            ArgsType = MusicGroupArgsType.ItemSource | MusicGroupArgsType.Grouper | MusicGroupArgsType.GroupMenu | MusicGroupArgsType.ItemMenu;
+            ArgsType = ArgsType | value;
         }
-
-        public MusicGroupArgsType ArgsType { get; }
-        public ObservableCollection<MusicFileDTO> ItemSource { get; }
-        public ObservableCollection<MusicFileGroup> GroupSource { get; }
-        public MusicGrouperArgs GrouperArgs { get; }
-        public List<MusicItemMenuItem<MusicFileGroupDynamic>> ExtraGroupMenu { get; }
-        public List<MusicItemMenuItem<MusicFileDynamic>> ExtraItemMenu { get; }
     }
 }

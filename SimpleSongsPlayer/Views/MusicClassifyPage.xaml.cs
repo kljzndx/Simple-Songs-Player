@@ -69,13 +69,13 @@ namespace SimpleSongsPlayer.Views
                     Song_Frame.NavigateEx(ListPageType, new MusicListArguments(MusicFileDataServer.Current.Data, MusicFileDataServer.Current));
                     break;
                 case 1:
-                    Artist_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(MusicFileDataServer.Current.Data, new MusicGrouperArgs(new MusicArtistGrouper(), new MusicArtistFilter())));
+                    Artist_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(itemSource:MusicFileDataServer.Current.Data, grouperArgs:new MusicGrouperArgs(new MusicArtistGrouper(), new MusicArtistFilter())));
                     break;
                 case 2:
-                    Album_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(MusicFileDataServer.Current.Data, new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
+                    Album_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(itemSource:MusicFileDataServer.Current.Data, grouperArgs:new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
                     break;
                 case 3:
-                    Favorites_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(FavoritesDataServer.Current.UserFavoritesList, new[] {new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Remove", async mf => await FavoritesDataServer.Current.FavoriteOption.RemoveRange(FrameworkPage.Current.PageMoreInfo, new []{mf.Original.FilePath})), }));
+                    Favorites_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(dataServer:FavoritesDataServer.Current, groupSource:FavoritesDataServer.Current.Data, extraItemMenu:new[] {new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Remove", async mf => await FavoritesDataServer.Current.FavoriteOption.RemoveRange(FrameworkPage.Current.PageMoreInfo, new []{mf.Original.FilePath})), }));
                     break;
                 case 4:
                     NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.Data, MusicFileDataServer.Current, new [] {new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
