@@ -37,7 +37,7 @@ namespace SimpleSongsPlayer.Views
         
         private readonly SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
         private IEnumerable<string> musicDtoPaths;
-        private readonly ObservableCollection<MusicFileGroup> favorites = FavoritesDataServer.Current.UserFavoritesList;
+        private readonly ObservableCollection<MusicFileGroup> favorites = FavoritesDataServer.Current.Data;
 
         public FrameworkPage()
         {
