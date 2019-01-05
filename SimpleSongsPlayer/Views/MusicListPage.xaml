@@ -85,7 +85,7 @@
             </Button>
             <StackPanel x:Name="ViewOption_StackPanel" Grid.Column="1" Orientation="Horizontal">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Uid="/MusicListPage/ListSort_TextBlock" VerticalAlignment="Center"/>
+                    <TextBlock x:Uid="/SorterMembers/ListSort_TextBlock" VerticalAlignment="Center"/>
                     <ctor:SplitButton x:Name="ListSortSelection_SplitButton" LeftButton_Click="ListSortSelection_SplitButton_OnLeftButton_Click">
                         <ctor:SplitButton.ExtendFlyout>
                             <Flyout Placement="Bottom">

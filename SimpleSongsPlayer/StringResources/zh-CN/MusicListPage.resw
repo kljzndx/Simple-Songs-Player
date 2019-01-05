@@ -138,9 +138,6 @@
   <data name="Grouper_DropDownButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>分组模式</value>
   </data>
-  <data name="ListSort_TextBlock.Text" xml:space="preserve">
-    <value>排序： </value>
-  </data>
   <data name="MoreMenu_AddPlayList" xml:space="preserve">
     <value>添加到播放列表</value>
   </data>

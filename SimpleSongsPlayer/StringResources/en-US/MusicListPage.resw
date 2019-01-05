@@ -138,9 +138,6 @@
   <data name="Grouper_DropDownButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Group mode</value>
   </data>
-  <data name="ListSort_TextBlock.Text" xml:space="preserve">
-    <value>Sort: </value>
-  </data>
   <data name="MoreMenu_AddPlayList" xml:space="preserve">
     <value>Add to playback list</value>
   </data>
