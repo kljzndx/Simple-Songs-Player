@@ -128,10 +128,7 @@ namespace SimpleSongsPlayer.Views
             if (isEqual)
                 vm.AutoSort();
             else
-            {
                 vm.Sort(e.AddedItems.Cast<MusicSorterUi<MusicFileGroup>>().First());
-                settings.IsReverse = false;
-            }
         }
 
         private void Sort_SplitButton_OnLeftButton_Click(object sender, RoutedEventArgs e)

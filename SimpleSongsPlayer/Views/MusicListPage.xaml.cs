@@ -101,10 +101,7 @@ namespace SimpleSongsPlayer.Views
             if (isEqual)
                 vm.AutoSort();
             else
-            {
                 vm.SortItems(sorter);
-                settings.IsReverse = false;
-            }
         }
 
         private void Grouper_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
