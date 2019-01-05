@@ -14,7 +14,7 @@ using SimpleSongsPlayer.ViewModels.DataServers;
 
 namespace SimpleSongsPlayer.ViewModels
 {
-    public class FavoritesDataServer
+    public class FavoritesDataServer : IDataServer<MusicFileGroup, KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>>
     {
         public static FavoritesDataServer Current = new FavoritesDataServer();
 
@@ -28,7 +28,11 @@ namespace SimpleSongsPlayer.ViewModels
         public bool IsInit { get; private set; }
         public IGroupServiceBasicOptions<string> FavoriteOption { get; private set; }
         
-        public ObservableCollection<MusicFileGroup> UserFavoritesList { get; } = new ObservableCollection<MusicFileGroup>();
+        public ObservableCollection<MusicFileGroup> Data { get; } = new ObservableCollection<MusicFileGroup>();
+
+        public event EventHandler<IEnumerable<KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>>> DataAdded;
+        public event EventHandler<IEnumerable<KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>>> DataRemoved;
+        public event EventHandler<KeyValuePair<string, string>> GroupRenamed;
 
         public async Task InitializeFavoritesService()
         {
@@ -41,14 +45,19 @@ namespace SimpleSongsPlayer.ViewModels
             FavoriteOption = userFavoriteService;
 
             this.LogByObject("获取用户收藏");
+            var result = new List<KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>>();
             foreach (var grouping in await userFavoriteService.GetFiles())
             {
                 List<MusicFileDTO> files = new List<MusicFileDTO>();
                 foreach (var path in grouping)
                     files.Add(GetFile(path));
 
-                UserFavoritesList.Add(new MusicFileGroup(grouping.Key, files, f => f.GetAlbumCover()));
+                var dto = new MusicFileGroup(grouping.Key, files, f => f.GetAlbumCover());
+                Data.Add(dto);
+                result.Add(new KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>(dto, files));
             }
+
+            DataAdded?.Invoke(this, result);
 
             this.LogByObject("监听服务");
             userFavoriteService.FilesAdded += UserFavoriteService_FilesAdded;
@@ -96,7 +105,7 @@ namespace SimpleSongsPlayer.ViewModels
             if (result != null)
                 return result;
 
-            foreach (var fileGroup in UserFavoritesList)
+            foreach (var fileGroup in Data)
             {
                 result = fileGroup.Items.FirstOrDefault(f => f.FilePath == path);
                 if (result != null)
@@ -109,53 +118,70 @@ namespace SimpleSongsPlayer.ViewModels
         private void UserFavoriteService_FilesAdded(object sender, IEnumerable<IGrouping<string, string>> e)
         {
             this.LogByObject("检测到有收藏的音乐添加，正在同步添加操作");
+            var result = new List<KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>>();
             foreach (var group in e)
             {
                 List<MusicFileDTO> files = new List<MusicFileDTO>();
                 foreach (var path in group)
                     files.Add(GetFile(path));
 
-                var fileGroup = UserFavoritesList.FirstOrDefault(uf => uf.Name == group.Key);
+                var fileGroup = Data.FirstOrDefault(uf => uf.Name == group.Key);
                 if (fileGroup != null)
-                    foreach (var dto in files.Where(f => fileGroup.Items.All(i => i.FilePath != f.FilePath)))
+                {
+                    var g = files.Where(f => fileGroup.Items.All(i => i.FilePath != f.FilePath)).ToList();
+                    foreach (var dto in g)
                         fileGroup.Items.Add(dto);
+
+                    result.Add(new KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>(fileGroup, g));
+                }
                 else
-                    UserFavoritesList.Add(new MusicFileGroup(group.Key, files, f => f.GetAlbumCover()));
+                {
+                    var dto = new MusicFileGroup(group.Key, files, f => f.GetAlbumCover());
+                    Data.Add(dto);
+                    result.Add(new KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>(dto, files));
+                }
             }
+
+            DataAdded?.Invoke(this, result);
         }
 
         private void UserFavoriteService_FilesRemoved(object sender, IEnumerable<IGrouping<string, string>> e)
         {
             this.LogByObject("检测到有收藏的音乐被移除，正在同步移除操作");
+            var result = new List<KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>>();
             foreach (var group in e)
             {
-                MusicFileGroup fileGroup = UserFavoritesList.FirstOrDefault(uf => uf.Name == group.Key);
+                MusicFileGroup fileGroup = Data.FirstOrDefault(uf => uf.Name == group.Key);
                 if (fileGroup is null)
                     continue;
+
+                List<MusicFileDTO> files = new List<MusicFileDTO>();
+                foreach (var path in group)
+                    files.Add(GetFile(path));
 
                 if (group.Count() >= fileGroup.Items.Count)
                 {
                     fileGroup.Items.Clear();
-                    UserFavoritesList.Remove(fileGroup);
+                    Data.Remove(fileGroup);
                 }
                 else
-                {
-                    List<MusicFileDTO> files = new List<MusicFileDTO>();
-                    foreach (var path in group)
-                        files.Add(GetFile(path));
-
                     files.ForEach(mf => fileGroup.Items.Remove(mf));
-                }
+
+                result.Add(new KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>(fileGroup, files));
             }
+
+            DataRemoved?.Invoke(this, result);
         }
 
         private void UserFavoriteService_GroupRenamed(object sender, KeyValuePair<string, string> e)
         {
-            var group = UserFavoritesList.FirstOrDefault(g => g.Name == e.Key);
+            var group = Data.FirstOrDefault(g => g.Name == e.Key);
             if (group != null)
             {
                 this.LogByObject("应用重命名操作");
                 group.Name = e.Value;
+
+                GroupRenamed?.Invoke(this, e);
             }
         }
     }
