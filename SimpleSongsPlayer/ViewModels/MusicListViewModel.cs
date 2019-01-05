@@ -66,7 +66,6 @@ namespace SimpleSongsPlayer.ViewModels
 
         public void SortItems(MusicSorterUi<MusicFileDynamic> sorter)
         {
-            settings.IsReverse = false;
             foreach (var groupDynamic in DataSource)
             {
                 groupDynamic.OrderBy(sorter.KeySelector);
@@ -77,11 +76,17 @@ namespace SimpleSongsPlayer.ViewModels
 
         public void ReverseItems()
         {
-            settings.IsReverse = !settings.IsReverse;
             foreach (var groupDynamic in DataSource)
                 groupDynamic.ReverseItems();
         }
-        
+
+        public void AutoSort()
+        {
+            SortItems(SorterMembers[(int)settings.SortMethod]);
+            if (settings.IsReverse)
+                ReverseItems();
+        }
+
         public IEnumerable<MusicFileDynamic> GetAllMusic()
         {
             return DataSource.Select(g => g.Items).Aggregate((o, n) =>
@@ -159,9 +164,7 @@ namespace SimpleSongsPlayer.ViewModels
             {
                 case nameof(settings.GroupMethod):
                     AddItems(needClear: true, grouper: GrouperMembers[(int)settings.GroupMethod].Grouper);
-                    SortItems(SorterMembers[(int)settings.SortMethod]);
-                    if (settings.IsReverse)
-                        ReverseItems();
+                    AutoSort();
                     break;
             }
         }

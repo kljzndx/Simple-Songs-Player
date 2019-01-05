@@ -87,16 +87,24 @@ namespace SimpleSongsPlayer.Views
         private void ListSortSelection_SplitButton_OnLeftButton_Click(object sender, RoutedEventArgs e)
         {
             vm.ReverseItems();
+            settings.IsReverse = !settings.IsReverse;
         }
 
         private void ListSorter_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var id = ListSorter_ListBox.SelectedIndex;
+            bool isEqual = (int) settings.SortMethod == id;
+
             settings.SortMethod = (MusicSorterMembers) id;
             var sorter = vm.SorterMembers[id];
-            vm.SortItems(sorter);
-            if (settings.IsReverse)
-                vm.ReverseItems();
+
+            if (isEqual)
+                vm.AutoSort();
+            else
+            {
+                vm.SortItems(sorter);
+                settings.IsReverse = false;
+            }
         }
 
         private void Grouper_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -158,9 +166,7 @@ namespace SimpleSongsPlayer.Views
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate
             {
-                vm.SortItems(vm.SorterMembers[(int) settings.SortMethod]);
-                if (settings.IsReverse)
-                    vm.ReverseItems();
+                vm.AutoSort();
             });
         }
     }

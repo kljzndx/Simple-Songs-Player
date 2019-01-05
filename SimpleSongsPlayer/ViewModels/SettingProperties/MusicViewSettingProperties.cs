@@ -39,7 +39,15 @@ namespace SimpleSongsPlayer.ViewModels.SettingProperties
         public MusicSorterMembers SortMethod
         {
             get => sortMethod;
-            set => SetSetting(ref sortMethod, value, settingValue: value.ToString());
+            set
+            {
+                var before = sortMethod;
+
+                SetSetting(ref sortMethod, value, settingValue: value.ToString());
+
+                if (before != value)
+                    IsReverse = false;
+            }
         }
 
         public bool IsReverse
