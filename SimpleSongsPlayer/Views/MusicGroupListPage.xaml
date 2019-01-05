@@ -3,13 +3,65 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:temp="using:SimpleSongsPlayer.Views.Templates"
+    xmlns:ctol="using:SimpleSongsPlayer.Views.Controllers"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource VmLocator}, Path=MusicGroupList}">
 
     <Grid>
-        <GridView ItemsSource="{Binding DataSource}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="Main_GridView_OnItemClick">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="PlayAll_Button" x:Uid="/MusicListPage/PlayAll_Button" Background="Transparent" Click="PlayAll_Button_OnClick">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <FontIcon Glyph="&#xE149;"/>
+                    <TextBlock x:Uid="/MusicListPage/PlayAll_TextBlock" Grid.Column="1" Margin="8,0,0,0"/>
+                </Grid>
+            </Button>
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <TextBlock x:Uid="/SorterMembers/ListSort_TextBlock" VerticalAlignment="Center"/>
+                <ctol:SplitButton x:Name="Sort_SplitButton" LeftButton_Click="Sort_SplitButton_OnLeftButton_Click">
+                    <ctol:SplitButton.ExtendFlyout>
+                        <Flyout>
+                            <ListView x:Name="Sorter_ListView" ItemsSource="{x:Bind vm.SorterMembers, Mode=OneWay}" SelectionChanged="Sorter_ListView_OnSelectionChanged">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+                        </Flyout>
+                    </ctol:SplitButton.ExtendFlyout>
+
+                    <ctol:SplitButton.LeftContent>
+                        <FontIcon Glyph="&#xE174;"/>
+                    </ctol:SplitButton.LeftContent>
+                </ctol:SplitButton>
+            </StackPanel>
+        </Grid>
+
+        <GridView Grid.Row="1" ItemsSource="{Binding DataSource}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="Main_GridView_OnItemClick">
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <temp:MusicGroupItemTemplate Source="{Binding}"/>

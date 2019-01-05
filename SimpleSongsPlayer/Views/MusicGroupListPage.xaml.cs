@@ -16,11 +16,13 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
+using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Arguments;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Events;
 using SimpleSongsPlayer.ViewModels.Factories;
+using SimpleSongsPlayer.ViewModels.SettingProperties;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -32,6 +34,7 @@ namespace SimpleSongsPlayer.Views
     public sealed partial class MusicGroupListPage : Page
     {
         private MusicGroupListViewModel vm;
+        private MusicGroupViewSettingProperties settings = MusicGroupViewSettingProperties.Current;
 
         private List<MusicItemMenuItem<MusicFileDynamic>> itemExtraMenu;
         private readonly List<MusicItemMenuItem<MusicFileGroupDynamic>> groupMenu = new List<MusicItemMenuItem<MusicFileGroupDynamic>>();
@@ -51,8 +54,10 @@ namespace SimpleSongsPlayer.Views
                     groupMenu.AddRange(args.ExtraGroupMenu);
                 if (args.ArgsType.HasFlag(MusicGroupArgsType.ItemMenu))
                     itemExtraMenu = args.ExtraItemMenu;
+                if (args.ArgsType.HasFlag(MusicGroupArgsType.DataServer))
+                    args.DataServer.DataAdded += DataServer_DataAdded;
 
-                switch (args.ArgsType & (~MusicGroupArgsType.GroupMenu) & (~MusicGroupArgsType.ItemMenu))
+                switch (args.ArgsType & (~MusicGroupArgsType.GroupMenu) & (~MusicGroupArgsType.ItemMenu) & (~MusicGroupArgsType.DataServer))
                 {
                     case MusicGroupArgsType.GroupSource:
                         vm.SetUp(args.GroupSource);
@@ -62,6 +67,8 @@ namespace SimpleSongsPlayer.Views
                         break;
                 }
             }
+
+            Sorter_ListView.SelectedIndex = (int) settings.SortMethod;
         }
 
         private void Main_GridView_OnItemClick(object sender, ItemClickEventArgs e)
@@ -79,6 +86,58 @@ namespace SimpleSongsPlayer.Views
                 Frame.Navigate(typeof(MusicListPage), new MusicListArguments(item.Items, itemExtraMenu, item.Name));
             else
                 Frame.Navigate(typeof(MusicListPage), new MusicListArguments(item.Items, item.Name));
+        }
+
+        private async void PlayAll_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            PlayAll_Button.IsEnabled = false;
+
+            this.LogByObject("正在提取出所有的音乐");
+            var data = vm.DataSource.Select(g => g.Items).Aggregate((l, r) =>
+            {
+                var d = new ObservableCollection<MusicFileDTO>(l);
+                foreach (var musicFileDto in r)
+                    d.Add(musicFileDto);
+                return d;
+            });
+
+            if (data.Any())
+                await MusicPusher.Push(data);
+
+            PlayAll_Button.IsEnabled = true;
+        }
+
+        private void DataServer_DataAdded(object sender, IEnumerable<KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>> e)
+        {
+            foreach (var pair in e)
+            {
+                if (pair.Value.Count() >= pair.Key.Items.Count)
+                {
+                    vm.AutoSort();
+                    break;
+                }
+            }
+        }
+
+        private void Sorter_ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            bool isEqual = (int) settings.SortMethod == Sorter_ListView.SelectedIndex;
+            settings.SortMethod =
+                (MusicGroupSorterMembers) Sorter_ListView.SelectedIndex;
+
+            if (isEqual)
+                vm.AutoSort();
+            else
+            {
+                vm.Sort(e.AddedItems.Cast<MusicSorterUi<MusicFileGroup>>().First());
+                settings.IsReverse = false;
+            }
+        }
+
+        private void Sort_SplitButton_OnLeftButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.Reverse();
+            settings.IsReverse = !settings.IsReverse;
         }
     }
 }
