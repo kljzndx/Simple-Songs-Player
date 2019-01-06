@@ -26,7 +26,7 @@ namespace SimpleSongsPlayer.ViewModels
         }
 
         public bool IsInit { get; private set; }
-        public IGroupServiceBasicOptions<string> FavoriteOption { get; private set; }
+        public IGroupServiceBasicOptions<string> FavoriteOption => userFavoriteService;
         
         public ObservableCollection<MusicFileGroup> Data { get; } = new ObservableCollection<MusicFileGroup>();
 
@@ -42,7 +42,6 @@ namespace SimpleSongsPlayer.ViewModels
             this.LogByObject("获取服务");
             IsInit = true;
             userFavoriteService = UserFavoriteService.GetService(await MusicLibraryService<MusicFile, MusicFileFactory>.GetService());
-            FavoriteOption = userFavoriteService;
 
             this.LogByObject("获取用户收藏");
             var result = new List<KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>>();
