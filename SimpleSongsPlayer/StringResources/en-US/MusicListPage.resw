@@ -117,8 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddGroup_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Add current group to playback list</value>
+  <data name="AddToFavorites_MenuFlyoutItem.Text" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="AddToNowPlaying_MenuFlyoutItem.Text" xml:space="preserve">
+    <value>Now playing</value>
   </data>
   <data name="AllMusic_TextBlock.Text" xml:space="preserve">
     <value>All music</value>
@@ -138,8 +141,11 @@
   <data name="Grouper_DropDownButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Group mode</value>
   </data>
-  <data name="MoreMenu_AddPlayList" xml:space="preserve">
-    <value>Add to playback list</value>
+  <data name="GroupOption_Add_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Add the group to.....</value>
+  </data>
+  <data name="MoreMenu_AddNowPlaying" xml:space="preserve">
+    <value>Add to now playing</value>
   </data>
   <data name="MoreMenu_Favorite" xml:space="preserve">
     <value>Favorite</value>

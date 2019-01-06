@@ -49,7 +49,7 @@ namespace SimpleSongsPlayer.Views
             Resources["MusicItemMenuList"] = musicItemMenuList;
 
             musicItemMenuList.Add(new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_PlayNext", s => MusicPusher.PushToNext(s.Original)));
-            musicItemMenuList.Add(new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_AddPlayList", s => MusicPusher.Append(s.Original)));
+            musicItemMenuList.Add(new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_AddNowPlaying", s => MusicPusher.Append(s.Original)));
             musicItemMenuList.Add(new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Favorite", async f => FavoriteAdditionNotification.RequestFavoriteAddition(new[] {f.Original})));
 
             this.InitializeComponent();
@@ -146,25 +146,43 @@ namespace SimpleSongsPlayer.Views
             theButton.IsEnabled = true;
         }
 
-        private async void AddGroup_Button_OnTapped(object sender, TappedRoutedEventArgs e)
-        {
-            var theButton = sender as Button;
-            if (theButton is null)
-                return;
-
-            e.Handled = true;
-            theButton.IsEnabled = false;
-            var source = theButton.DataContext as MusicFileGroupDynamic;
-            await MusicPusher.Append(source.Items.Select(f => f.Original));
-            theButton.IsEnabled = true;
-        }
-
         private async void DataServer_DataAdded(object sender, IEnumerable<MusicFileDTO> e)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate
             {
                 vm.AutoSort();
             });
+        }
+
+        private void GroupOption_Add_Button_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private async void AddToNowPlaying_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var theMenu = sender as MenuFlyoutItem;
+            if (theMenu == null)
+                return;
+
+            var source = theMenu.DataContext as MusicFileGroupDynamic;
+            if (source == null)
+                return;
+            
+            await MusicPusher.Append(source.Items.Select(g => g.Original));
+        }
+
+        private void AddToFavorites_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var theMenu = sender as MenuFlyoutItem;
+            if (theMenu == null)
+                return;
+
+            var source = theMenu.DataContext as MusicFileGroupDynamic;
+            if (source == null)
+                return;
+
+            FavoriteAdditionNotification.RequestFavoriteAddition(source.Items.Select(g => g.Original));
         }
     }
 }

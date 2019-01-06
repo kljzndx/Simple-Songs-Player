@@ -34,7 +34,13 @@
                             <Button x:Name="PlayGroup_Button" x:Uid="/MusicListPage/PlayGroup_Button" Tapped="PlayGroup_Button_OnTapped">
                                 <FontIcon Glyph="&#xE102;"/>
                             </Button>
-                            <Button x:Name="AddGroup_Button" x:Uid="/MusicListPage/AddGroup_Button" Tapped="AddGroup_Button_OnTapped">
+                            <Button x:Name="GroupOption_Add_Button" x:Uid="/MusicListPage/GroupOption_Add_Button" Tapped="GroupOption_Add_Button_OnTapped">
+                                <Button.Flyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem x:Name="AddToNowPlaying_MenuFlyoutItem" x:Uid="/MusicListPage/AddToNowPlaying_MenuFlyoutItem" Click="AddToNowPlaying_MenuFlyoutItem_OnClick"/>
+                                        <MenuFlyoutItem x:Name="AddToFavorites_MenuFlyoutItem" x:Uid="/MusicListPage/AddToFavorites_MenuFlyoutItem" Click="AddToFavorites_MenuFlyoutItem_OnClick"/>
+                                    </MenuFlyout>
+                                </Button.Flyout>
                                 <FontIcon Glyph="&#xE109;"/>
                             </Button>
                         </StackPanel>
