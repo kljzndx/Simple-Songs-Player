@@ -67,8 +67,11 @@ namespace SimpleSongsPlayer.Views
                         break;
                 }
             }
+        }
 
-            Sorter_ListView.SelectedIndex = (int) settings.SortMethod;
+        private void MusicGroupListPage_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Sorter_ListView.SelectedIndex = (int)settings.SortMethod;
         }
 
         private void Main_GridView_OnItemClick(object sender, ItemClickEventArgs e)
