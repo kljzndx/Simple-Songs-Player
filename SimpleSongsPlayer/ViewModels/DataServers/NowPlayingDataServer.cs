@@ -5,8 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Media.Playback;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels.DataServers;

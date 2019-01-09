@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI.Core;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
 using SimpleSongsPlayer.Models.DTO;
