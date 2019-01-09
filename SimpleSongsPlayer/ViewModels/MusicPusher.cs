@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Media.Playback;
 using SimpleSongsPlayer.Models.DTO;
@@ -45,12 +46,14 @@ namespace SimpleSongsPlayer.ViewModels
 
         public static async Task Push(IEnumerable<MusicFileDTO> items)
         {
-            CurrentType.LogByType("正在提取播放项");
-            List<MediaPlaybackItem> list = new List<MediaPlaybackItem>();
-            foreach (var file in items)
-                list.Add(await file.GetPlaybackItem());
+            CurrentType.LogByType("正在创建播放列表");
+            var mpl = new MediaPlaybackList();
+            CurrentType.LogByType("正在配置播放模块");
+            App.MediaPlayer.Source = mpl;
             
-            Push(list);
+            CurrentType.LogByType("正在解析文件列表");
+            foreach (var file in items)
+                mpl.Items.Add(await file.GetPlaybackItem());
         }
 
         public static async Task PushToNext(MusicFileDTO file)
@@ -81,27 +84,28 @@ namespace SimpleSongsPlayer.ViewModels
 
         public static async Task Append(IEnumerable<MusicFileDTO> files)
         {
-            CurrentType.LogByType("正在提取播放项");
-            List<MediaPlaybackItem> items = new List<MediaPlaybackItem>();
-            foreach (var file in files)
-                items.Add(await file.GetPlaybackItem());
-
+            CurrentType.LogByType("正在接收参数");
+            var source = files.ToList();
             if (App.MediaPlayer.Source is MediaPlaybackList mpl)
-                foreach (var item in items)
-                    AddItem(mpl, item);
+            {
+                CurrentType.LogByType("正在解析文件列表");
+                foreach (var item in source)
+                    AddItem(mpl, await item.GetPlaybackItem());
+            }
             else
-                Push(items);
+                await Push(source);
         }
 
         private static void Push(IEnumerable<MediaPlaybackItem> items)
         {
             CurrentType.LogByType("正在创建播放列表");
             var mpl = new MediaPlaybackList();
-            foreach (var item in items)
-                AddItem(mpl, item);
-
             CurrentType.LogByType("正在配置播放模块");
             App.MediaPlayer.Source = mpl;
+
+            CurrentType.LogByType("正在解析传进来的播放项列表");
+            foreach (var item in items)
+                AddItem(mpl, item);
         }
     }
 }
