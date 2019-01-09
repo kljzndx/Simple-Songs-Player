@@ -24,6 +24,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
         public ObservableCollection<LyricFileDTO> Data { get; } = new ObservableCollection<LyricFileDTO>();
         public event EventHandler<IEnumerable<LyricFileDTO>> DataAdded;
         public event EventHandler<IEnumerable<LyricFileDTO>> DataRemoved;
+        public event EventHandler<IEnumerable<LyricFileDTO>> DataUpdated;
 
         public async Task Init()
         {
@@ -49,6 +50,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             this.LogByObject("监听服务");
             service.FilesAdded += Service_FilesAdded;
             service.FilesRemoved += Service_FilesRemoved;
+            service.FilesUpdated += Service_FilesUpdated;
         }
 
         public async Task ScanFile()
@@ -87,6 +89,24 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             }
 
             DataRemoved?.Invoke(this, options);
+        }
+
+        private async void Service_FilesUpdated(object sender, IEnumerable<LyricFile> e)
+        {
+            this.LogByObject("检测到有文件被更改，正在同步");
+            List<LyricFileDTO> options = new List<LyricFileDTO>();
+
+            foreach (var file in e)
+            {
+                var dto = Data.FirstOrDefault(d => d.FilePath == file.Path);
+                if (dto is null)
+                    continue;
+
+                options.Add(dto);
+                await dto.Update(file);
+            }
+
+            DataUpdated?.Invoke(this, options);
         }
     }
 }

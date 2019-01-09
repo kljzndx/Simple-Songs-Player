@@ -1,12 +1,12 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using SimpleSongsPlayer.DAL;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
-using GalaSoft.MvvmLight;
-using SimpleSongsPlayer.DAL;
 
 namespace SimpleSongsPlayer.Models.DTO.Lyric
 {
@@ -28,12 +28,14 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
         {
             FileName = file.FileName;
             FilePath = file.Path;
+            ModifyDate = file.ChangeDate;
         }
 
         public bool IsInit { get; private set; }
 
         public string FileName { get; }
         public string FilePath { get; }
+        public DateTime ModifyDate { get; private set; }
 
         public LyricProperties Properties
         {
@@ -45,6 +47,16 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
         {
             get => lines;
             private set => Set(ref lines, value);
+        }
+
+        public async Task Update(LyricFile file)
+        {
+            if (file.Path == FilePath && file.ChangeDate != ModifyDate)
+            {
+                IsInit = false;
+                ModifyDate = file.ChangeDate;
+                await Init();
+            }
         }
 
         public async Task Init()
