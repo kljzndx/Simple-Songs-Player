@@ -69,7 +69,7 @@ namespace SimpleSongsPlayer.Views
                         var appBarButton = new AppBarButton { Label = menuItem.Name };
                         appBarButton.Click += async (s, a) =>
                         {
-                            foreach (MusicFileDynamic item in Main_ListView.SelectedItems)
+                            foreach (MusicFileDynamic item in Main_ListView.SelectedItems.ToList())
                                 await menuItem.Action.Invoke(item);
                         };
 
