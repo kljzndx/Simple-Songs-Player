@@ -61,7 +61,21 @@ namespace SimpleSongsPlayer.Views
             if (e.Parameter is MusicListArguments args)
             {
                 if (args.ArgsType.HasFlag(MusicListArgsType.Menu))
+                {
                     musicItemMenuList.AddRange(args.ExtraMenu);
+
+                    foreach (var menuItem in args.ExtraMenu)
+                    {
+                        var appBarButton = new AppBarButton { Label = menuItem.Name };
+                        appBarButton.Click += async (s, a) =>
+                        {
+                            foreach (MusicFileDynamic item in Main_ListView.SelectedItems)
+                                await menuItem.Action.Invoke(item);
+                        };
+
+                        ListOption_CommandBar.SecondaryCommands.Add(appBarButton);
+                    }
+                }
 
                 if (args.ArgsType.HasFlag(MusicListArgsType.DataServer))
                     args.DataServer.DataAdded += DataServer_DataAdded;
@@ -183,6 +197,48 @@ namespace SimpleSongsPlayer.Views
                 return;
 
             FavoriteAdditionNotification.RequestFavoriteAddition(source.Items.Select(g => g.Original));
+        }
+
+        private void SwitchMultipleSelection_FloatingActionButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Main_ListView.SelectionMode = ListViewSelectionMode.Multiple;
+            ListOption_CommandBar.Visibility = Visibility.Visible;
+            SwitchSingleSelection_FloatingActionButton.Visibility = Visibility.Visible;
+            SwitchMultipleSelection_FloatingActionButton.Visibility = Visibility.Collapsed;
+        }
+
+        private void SwitchSingleSelection_FloatingActionButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Main_ListView.SelectionMode = ListViewSelectionMode.Single;
+            ListOption_CommandBar.Visibility = Visibility.Collapsed;
+            SwitchSingleSelection_FloatingActionButton.Visibility = Visibility.Collapsed;
+            SwitchMultipleSelection_FloatingActionButton.Visibility = Visibility.Visible;
+        }
+
+        private async void PlaySelectedItems_AppBarButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (!Main_ListView.SelectedItems.Any())
+                return;
+
+            PlaySelectedItems_AppBarButton.IsEnabled = false;
+            await MusicPusher.Push(Main_ListView.SelectedItems.Cast<MusicFileDynamic>().Select(d => d.Original));
+            PlaySelectedItems_AppBarButton.IsEnabled = true;
+        }
+
+        private async void AddSelectedItemsToNowPlaying_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (!Main_ListView.SelectedItems.Any())
+                return;
+
+            await MusicPusher.Append(Main_ListView.SelectedItems.Cast<MusicFileDynamic>().Select(d => d.Original));
+        }
+
+        private void AddSelectedItemsToFavorites_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (!Main_ListView.SelectedItems.Any())
+                return;
+
+            FavoriteAdditionNotification.RequestFavoriteAddition(Main_ListView.SelectedItems.Cast<MusicFileDynamic>().Select(d => d.Original));
         }
     }
 }

@@ -5,6 +5,7 @@
     xmlns:model="using:SimpleSongsPlayer.ViewModels.StyleSelectors"
     xmlns:temp="using:SimpleSongsPlayer.Views.Templates"
     xmlns:ctor="using:SimpleSongsPlayer.Views.Controllers"
+    xmlns:pctor="using:HappyStudio.UwpToolsLibrary.Control"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -37,8 +38,8 @@
                             <Button x:Name="GroupOption_Add_Button" x:Uid="/MusicListPage/GroupOption_Add_Button" Tapped="GroupOption_Add_Button_OnTapped">
                                 <Button.Flyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem x:Name="AddToNowPlaying_MenuFlyoutItem" x:Uid="/MusicListPage/AddToNowPlaying_MenuFlyoutItem" Click="AddToNowPlaying_MenuFlyoutItem_OnClick"/>
-                                        <MenuFlyoutItem x:Name="AddToFavorites_MenuFlyoutItem" x:Uid="/MusicListPage/AddToFavorites_MenuFlyoutItem" Click="AddToFavorites_MenuFlyoutItem_OnClick"/>
+                                        <MenuFlyoutItem x:Uid="/MusicListPage/AddToNowPlaying_MenuFlyoutItem" Click="AddToNowPlaying_MenuFlyoutItem_OnClick"/>
+                                        <MenuFlyoutItem x:Uid="/MusicListPage/AddToFavorites_MenuFlyoutItem" Click="AddToFavorites_MenuFlyoutItem_OnClick"/>
                                     </MenuFlyout>
                                 </Button.Flyout>
                                 <FontIcon Glyph="&#xE109;"/>
@@ -72,6 +73,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -154,5 +156,37 @@
                 </GridView>
             </SemanticZoom.ZoomedOutView>
         </SemanticZoom>
+
+        <Grid Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="50">
+            <Grid.Transitions>
+                <TransitionCollection>
+                    <RepositionThemeTransition/>
+                </TransitionCollection>
+            </Grid.Transitions>
+
+            <pctor:FloatingActionButton x:Name="SwitchMultipleSelection_FloatingActionButton" x:Uid="/MusicListPage/SwitchMultipleSelection_FloatingActionButton" Glyph="&#xE133;" Click="SwitchMultipleSelection_FloatingActionButton_OnClick"/>
+            <pctor:FloatingActionButton x:Name="SwitchSingleSelection_FloatingActionButton" x:Uid="/MusicListPage/SwitchSingleSelection_FloatingActionButton" Glyph="&#xE10B;" Visibility="Collapsed" Click="SwitchSingleSelection_FloatingActionButton_OnClick"/>
+        </Grid>
+
+        <CommandBar x:Name="ListOption_CommandBar" Grid.Row="2" Visibility="Collapsed">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton x:Name="PlaySelectedItems_AppBarButton" x:Uid="/MusicListPage/PlaySelectedItems_AppBarButton" Click="PlaySelectedItems_AppBarButton_OnClick">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE102;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton x:Name="AddSelectedItems_AppBarButton" x:Uid="/MusicListPage/AddSelectedItems_AppBarButton">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE109;"/>
+                    </AppBarButton.Icon>
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem x:Name="AddSelectedItemsToNowPlaying_MenuFlyoutItem" x:Uid="/MusicListPage/AddToNowPlaying_MenuFlyoutItem" Click="AddSelectedItemsToNowPlaying_MenuFlyoutItem_OnClick"/>
+                            <MenuFlyoutItem x:Name="AddSelectedItemsToFavorites_MenuFlyoutItem" x:Uid="/MusicListPage/AddToFavorites_MenuFlyoutItem" Click="AddSelectedItemsToFavorites_MenuFlyoutItem_OnClick"/>
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
     </Grid>
 </Page>
