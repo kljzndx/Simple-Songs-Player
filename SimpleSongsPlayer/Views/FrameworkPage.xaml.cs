@@ -98,7 +98,8 @@ namespace SimpleSongsPlayer.Views
                 Cover_Image.Visibility = Visibility.Visible;
                 Cover_Image.Source = bitmap;
             }
-            else
+
+            if (args.NewItem is null || !NowPlayingDataServer.Current.Data.Any())
                 Cover_Image.Visibility = Visibility.Collapsed;
         }
 
