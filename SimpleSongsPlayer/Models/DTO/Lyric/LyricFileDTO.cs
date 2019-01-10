@@ -70,8 +70,8 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
             string content = await ReadText(file);
 
             Properties = new LyricProperties(content);
-            var result = new List<LyricLine>();
 
+            var result = new List<LyricLine>();
             string[] strLines = content.Contains("\n") ? content.Split('\n') : content.Split('\r');
 
             StringBuilder builder = new StringBuilder();
