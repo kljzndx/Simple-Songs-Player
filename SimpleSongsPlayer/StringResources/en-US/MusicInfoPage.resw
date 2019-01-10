@@ -123,6 +123,9 @@
   <data name="Artist_Run.Text" xml:space="preserve">
     <value>Artist: </value>
   </data>
+  <data name="Pin_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Pin to screen</value>
+  </data>
   <data name="SetUpLyricFile_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Setup lyric file</value>
   </data>
@@ -131,5 +134,8 @@
   </data>
   <data name="Title" xml:space="preserve">
     <value>Music info</value>
+  </data>
+  <data name="UnPin_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Cancel pin</value>
   </data>
 </root>

@@ -5,7 +5,9 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -32,6 +34,7 @@ namespace SimpleSongsPlayer.Views
     {
         private MusicInfoViewModel vm;
         private bool isRefreshLyric;
+        private readonly ApplicationView _currentView = ApplicationView.GetForCurrentView();
 
         public MusicInformationPage()
         {
@@ -39,6 +42,19 @@ namespace SimpleSongsPlayer.Views
             vm = DataContext as MusicInfoViewModel;
             vm.PropertyChanged += Vm_PropertyChanged;
             CustomMediaPlayerElement.PositionChanged += CustomMediaPlayerElement_PositionChanged;
+            NavigationCacheMode = NavigationCacheMode.Enabled;
+
+            if (!ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationViewMode") ||
+                !ApiInformation.IsEnumNamedValuePresent(typeof(ApplicationViewMode).FullName, "CompactOverlay") ||
+                !_currentView.IsViewModeSupported(ApplicationViewMode.CompactOverlay))
+            {
+                PinOption_StackPanel.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void AutoScale()
+        {
+            MusicInfo_StackPanel.Visibility = ActualHeight > 500 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -47,8 +63,12 @@ namespace SimpleSongsPlayer.Views
             await vm.Init();
 
             LyricFileSelector_Grid.Visibility = Visibility.Collapsed;
+            LyricPreview_Grid.Visibility = Visibility.Visible;
+
             SetUpLyricFile_Button.Visibility = LyricIndexDataServer.Current.Data.Any() ? Visibility.Visible : Visibility.Collapsed;
             SetUpLyricFile_Button.IsEnabled = vm.MusicSource != null;
+
+            AutoScale();
         }
 
         private async void CustomMediaPlayerElement_PositionChanged(CustomMediaPlayerElement sender, PlayerPositionChangeEventArgs args)
@@ -112,6 +132,35 @@ namespace SimpleSongsPlayer.Views
 
             LyricFileSelector_Grid.Visibility = Visibility.Collapsed;
             LyricPreview_Grid.Visibility = Visibility.Visible;
+        }
+
+        private void MusicInformationPage_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            AutoScale();
+        }
+
+        private async void Pin_FloatingActionButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            ViewModePreferences preferences = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
+            preferences.CustomSize = new Size(500, 500);
+            preferences.ViewSizePreference = ViewSizePreference.Custom;
+            var isSuccess = await _currentView.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay, preferences);
+
+            if (!isSuccess)
+                throw new Exception("Can not pin to the screen");
+
+            Pin_FloatingActionButton.Visibility = Visibility.Collapsed;
+            UnPin_FloatingActionButton.Visibility = Visibility.Visible;
+            UnPin_FloatingActionButton.Focus(FocusState.Pointer);
+        }
+
+        private async void UnPin_FloatingActionButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            await _currentView.TryEnterViewModeAsync(ApplicationViewMode.Default);
+            
+            UnPin_FloatingActionButton.Visibility = Visibility.Collapsed;
+            Pin_FloatingActionButton.Visibility = Visibility.Visible;
+            Pin_FloatingActionButton.Focus(FocusState.Pointer);
         }
     }
 }
