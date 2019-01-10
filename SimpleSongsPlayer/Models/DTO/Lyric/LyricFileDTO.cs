@@ -51,7 +51,7 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
 
         public async Task Update(LyricFile file)
         {
-            if (file.Path == FilePath && file.ChangeDate != ModifyDate)
+            if (IsInit && file.Path == FilePath && file.ChangeDate != ModifyDate)
             {
                 IsInit = false;
                 ModifyDate = file.ChangeDate;
