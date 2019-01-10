@@ -104,6 +104,7 @@ namespace SimpleSongsPlayer.ViewModels
 
                     if (!sender.Any())
                     {
+                        this.LogByObject("清空播放源");
                         App.MediaPlayer.Source = null;
                         currentPlaybackList.Items.VectorChanged -= PlaybackItems_VectorChanged;
                         currentPlaybackList = null;
