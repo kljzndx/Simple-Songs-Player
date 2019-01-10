@@ -65,10 +65,13 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
                 return;
 
             IsInit = true;
+
             StorageFile file = await StorageFile.GetFileFromPathAsync(FilePath);
             string content = await ReadText(file);
+
             Properties = new LyricProperties(content);
-            Lines = new List<LyricLine>();
+            var result = new List<LyricLine>();
+
             string[] strLines = content.Contains("\n") ? content.Split('\n') : content.Split('\r');
 
             StringBuilder builder = new StringBuilder();
@@ -98,7 +101,7 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
                         if (currentLine != null)
                         {
                             currentLine.Content = builder.ToString().Trim();
-                            Lines.Add(currentLine);
+                            result.Add(currentLine);
                             builder.Clear();
                         }
 
@@ -117,9 +120,11 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
             }
 
             if (currentLine != null)
-                Lines.Add(currentLine);
+                result.Add(currentLine);
 
-            Lines.Sort();
+            result.Sort();
+
+            Lines = result;
         }
 
         private async Task<string> ReadText(IStorageFile file)
