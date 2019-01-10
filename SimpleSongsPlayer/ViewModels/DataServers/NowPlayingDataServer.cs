@@ -83,7 +83,7 @@ namespace SimpleSongsPlayer.ViewModels
             {
                 case CollectionChange.ItemInserted:
                 {
-                    var dto = await GetFile(sender[(int)args.Index]);
+                    var dto = await GetFile(sender[(int) args.Index]);
                     if (dto != null)
                     {
                         this.LogByObject("正在添加播放项");
@@ -94,12 +94,19 @@ namespace SimpleSongsPlayer.ViewModels
                 }
                 case CollectionChange.ItemRemoved:
                 {
-                    var dto = await GetFile(sender[(int)args.Index]);
+                    var dto = Data[(int) args.Index];
                     if (dto != null)
                     {
                         this.LogByObject("正在移除播放项");
                         Data.Remove(dto);
                         DataRemoved?.Invoke(this, new[] {dto});
+                    }
+
+                    if (!sender.Any())
+                    {
+                        App.MediaPlayer.Source = null;
+                        currentPlaybackList.Items.VectorChanged -= PlaybackItems_VectorChanged;
+                        currentPlaybackList = null;
                     }
                     break;
                 }
