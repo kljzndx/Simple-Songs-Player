@@ -76,8 +76,8 @@ namespace SimpleSongsPlayer.ViewModels
             if (pair.Value != null)
             {
                 this.LogByObject("正在解析歌词");
-                LyricSource = pair.Value;
                 await pair.Value.Init();
+                LyricSource = pair.Value;
             }
             else
                 LyricSource = LyricFileDTO.Empty;

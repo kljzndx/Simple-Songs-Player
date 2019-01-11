@@ -33,7 +33,7 @@ namespace SimpleSongsPlayer.Views
     public sealed partial class MusicInformationPage : Page
     {
         private MusicInfoViewModel vm;
-        private bool isRefreshLyric;
+        private bool needRefreshLyric;
         private readonly ApplicationView _currentView = ApplicationView.GetForCurrentView();
 
         public MusicInformationPage()
@@ -75,9 +75,9 @@ namespace SimpleSongsPlayer.Views
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (args.IsUser || isRefreshLyric)
+                if (args.IsUser || needRefreshLyric)
                 {
-                    isRefreshLyric = false;
+                    needRefreshLyric = false;
                     My_ScrollLyricsPreviewControl.Reposition(args.Position);
                 }
                 else
@@ -95,7 +95,7 @@ namespace SimpleSongsPlayer.Views
             switch (e.PropertyName)
             {
                 case nameof(vm.LyricSource):
-                    isRefreshLyric = true;
+                    needRefreshLyric = true;
                     break;
                 case nameof(vm.MusicSource):
                     SetUpLyricFile_Button.IsEnabled = vm.MusicSource != null;
