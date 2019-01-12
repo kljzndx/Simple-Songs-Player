@@ -5,6 +5,10 @@
     xmlns:temp="using:SimpleSongsPlayer.Views.Templates"
     xmlns:ctor="using:SimpleSongsPlayer.Views.Controllers"
     xmlns:pctor="using:HappyStudio.UwpToolsLibrary.Control"
+
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
+
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:selectors="using:SimpleSongsPlayer.ViewModels.Selectors"
@@ -14,6 +18,7 @@
 
     <Page.Resources>
         <CollectionViewSource x:Key="Data_CollectionViewSource" Source="{Binding DataSource}" IsSourceGrouped="True" ItemsPath="Items"/>
+
         <GroupStyle x:Key="Normal_GroupStyle" HidesIfEmpty="True">
             <GroupStyle.HeaderTemplate>
                 <DataTemplate>
@@ -156,7 +161,15 @@
 
                     <GridView.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Group.Name}" TextTrimming="CharacterEllipsis" FontSize="{ThemeResource TextStyleLargeFontSize}"/>
+                            <TextBlock x:Name="Main_TextBlock" Text="{Binding Group.Name}" TextTrimming="CharacterEllipsis" Opacity="0.4" FontSize="{ThemeResource TextStyleLargeFontSize}">
+                                <Interactivity:Interaction.Behaviors>
+                                    <Interactivity:BehaviorCollection>
+                                        <Interactions:DataTriggerBehavior Binding="{Binding Group.Items.Count}" ComparisonCondition="GreaterThan" Value="0">
+                                            <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=Main_TextBlock}" PropertyName="Opacity" Value="1"/>
+                                        </Interactions:DataTriggerBehavior>
+                                    </Interactivity:BehaviorCollection>
+                                </Interactivity:Interaction.Behaviors>
+                            </TextBlock>
                         </DataTemplate>
                     </GridView.ItemTemplate>
 
