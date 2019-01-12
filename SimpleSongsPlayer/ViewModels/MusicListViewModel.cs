@@ -6,7 +6,6 @@ using System.Linq;
 using GalaSoft.MvvmLight;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
-using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicGroupers;
 using SimpleSongsPlayer.ViewModels.SettingProperties;
