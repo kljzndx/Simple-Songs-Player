@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using SimpleSongsPlayer.Models;
 
-namespace SimpleSongsPlayer.ViewModels.StyleSelectors
+namespace SimpleSongsPlayer.ViewModels.Selectors
 {
     public class MusicGroupDynamicStyleSelector : GroupStyleSelector
     {
