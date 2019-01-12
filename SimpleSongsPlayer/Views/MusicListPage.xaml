@@ -148,11 +148,24 @@
 
             <SemanticZoom.ZoomedOutView>
                 <GridView ItemsSource="{Binding Source={StaticResource Data_CollectionViewSource}, Path=CollectionGroups}">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ctor:WarpPanel/>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+
                     <GridView.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Group.Name}" FontSize="{ThemeResource TextStyleLargeFontSize}"/>
+                            <TextBlock Text="{Binding Group.Name}" TextTrimming="CharacterEllipsis" FontSize="{ThemeResource TextStyleLargeFontSize}"/>
                         </DataTemplate>
                     </GridView.ItemTemplate>
+
+                    <GridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="Padding" Value="8"/>
+                            <Setter Property="MinHeight" Value="0"/>
+                        </Style>
+                    </GridView.ItemContainerStyle>
                 </GridView>
             </SemanticZoom.ZoomedOutView>
         </SemanticZoom>

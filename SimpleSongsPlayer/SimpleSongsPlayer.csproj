@@ -184,6 +184,7 @@
     <Compile Include="Views\Controllers\SplitButton.xaml.cs">
       <DependentUpon>SplitButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controllers\WarpPanel.cs" />
     <Compile Include="Views\MusicClassifyPage.xaml.cs">
       <DependentUpon>MusicClassifyPage.xaml</DependentUpon>
     </Compile>
