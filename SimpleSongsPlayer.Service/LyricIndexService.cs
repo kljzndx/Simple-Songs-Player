@@ -92,26 +92,29 @@ namespace SimpleSongsPlayer.Service
                 if (musicFiles.All(f => f.Path != lyricIndex.MusicPath) || lyricFiles.All(f => f.Path != lyricIndex.LyricPath))
                     removeOption.Add(lyricIndex);
 
-            this.LogByObject("提取出所有的文件名");
             var musicFileNames = new List<string>();
             var lyricFileNames = new List<string>();
 
-            foreach (var musicFile in musicFiles.Where(f => _source.All(i => i.MusicPath != f.Path)))
+            this.LogByObject("提取出所有的音乐文件名");
+            foreach (var musicFile in musicFiles.Where(f => _source.All(i => i.MusicPath != f.Path)).ToList())
                 if (!musicFileNames.Contains(TrimExtensionName(musicFile.FileName)))
                     musicFileNames.Add(TrimExtensionName(musicFile.FileName));
 
-            foreach (var lyricFile in lyricFiles.Where(f => _source.All(i => i.LyricPath != f.Path)))
+            this.LogByObject("提取出所有的歌词文件名");
+            foreach (var lyricFile in lyricFiles.Where(f => _source.All(i => i.LyricPath != f.Path)).ToList())
                 if (!lyricFileNames.Contains(TrimExtensionName(lyricFile.FileName)))
                     lyricFileNames.Add(TrimExtensionName(lyricFile.FileName));
 
+            this.LogByObject("提取出所有重合项目");
             var result = musicFileNames.Where(lyricFileNames.Contains).ToList();
 
             if (result.Any())
             {
-                this.LogByObject("查询文件名一样的音乐和歌词项");
+                this.LogByObject("查询文件名一样的音乐项");
                 var musicPathGroups = musicFiles.Where(f => result.Contains(TrimExtensionName(f.FileName))).GroupBy(f => TrimExtensionName(f.FileName), f => f.Path).ToList();
                 var lyricPaths = new Dictionary<string, string>();
 
+                this.LogByObject("查询文件名一样的歌词项");
                 foreach (var item in result)
                     if (!lyricPaths.ContainsKey(item))
                         lyricPaths.Add(item, lyricFiles.Find(f => TrimExtensionName(f.FileName) == item).Path);
