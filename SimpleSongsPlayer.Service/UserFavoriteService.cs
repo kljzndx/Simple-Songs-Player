@@ -18,7 +18,7 @@ namespace SimpleSongsPlayer.Service
         public event EventHandler<IEnumerable<IGrouping<string, string>>> FilesRemoved;
         public event EventHandler<KeyValuePair<string, string>> GroupRenamed;
 
-        private UserFavoriteService(MusicLibraryService<MusicFile, MusicFileFactory> libraryService)
+        private UserFavoriteService(IFileService<MusicFile> libraryService)
         {
             this.LogByObject("订阅音乐库的文件移除事件");
             libraryService.FilesRemoved += MusicLibraryService_FilesRemoved;
@@ -166,7 +166,7 @@ namespace SimpleSongsPlayer.Service
             await RemoveRangeInAllGroup(e.Select(f => f.Path));
         }
 
-        public static UserFavoriteService GetService(MusicLibraryService<MusicFile, MusicFileFactory> libraryService)
+        public static UserFavoriteService GetService(IFileService<MusicFile> libraryService)
         {
             if (current is null)
             {

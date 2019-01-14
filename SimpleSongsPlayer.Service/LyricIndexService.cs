@@ -13,8 +13,8 @@ namespace SimpleSongsPlayer.Service
         private static LyricIndexService current;
 
         private readonly ContextHelper<FilesContext, LyricIndex> _helper = new ContextHelper<FilesContext, LyricIndex>();
-        private readonly MusicLibraryService<MusicFile, MusicFileFactory> _musicFileService;
-        private readonly MusicLibraryService<LyricFile, LyricFileFactory> _lyricFileService;
+        private readonly IFileService<MusicFile> _musicFileService;
+        private readonly IFileService<LyricFile> _lyricFileService;
 
         private List<LyricIndex> _source;
         
@@ -22,7 +22,7 @@ namespace SimpleSongsPlayer.Service
         public event EventHandler<IEnumerable<LyricIndex>> FilesRemoved;
         public event EventHandler<IEnumerable<LyricIndex>> FilesUpdated;
 
-        private LyricIndexService(MusicLibraryService<MusicFile, MusicFileFactory> musicFileService, MusicLibraryService<LyricFile, LyricFileFactory> lyricFileService)
+        private LyricIndexService(IFileService<MusicFile> musicFileService, IFileService<LyricFile> lyricFileService)
         {
             _musicFileService = musicFileService;
             _lyricFileService = lyricFileService;
