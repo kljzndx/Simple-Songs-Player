@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using NLog;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
-using SimpleSongsPlayer.Service.Models;
 
 namespace SimpleSongsPlayer.Service
 {
