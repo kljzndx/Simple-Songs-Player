@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
+
 
 namespace SimpleSongsPlayer.Service
 {
@@ -192,6 +194,17 @@ namespace SimpleSongsPlayer.Service
                 typeof(LyricIndexService).LogByType("创建服务");
                 current = new LyricIndexService(await MusicLibraryService<MusicFile, MusicFileFactory>.GetService(),
                     await MusicLibraryService<LyricFile, LyricFileFactory>.GetService());
+            }
+
+            return current;
+        }
+
+        internal static LyricIndexService GetService(IFileService<MusicFile> musicService, IFileService<LyricFile> lyricService)
+        {
+            if (current == null)
+            {
+                typeof(LyricIndexService).LogByType("创建服务");
+                current = new LyricIndexService(musicService, lyricService);
             }
 
             return current;
