@@ -92,18 +92,12 @@ namespace SimpleSongsPlayer.Service
                 if (musicFiles.All(f => f.Path != lyricIndex.MusicPath) || lyricFiles.All(f => f.Path != lyricIndex.LyricPath))
                     removeOption.Add(lyricIndex);
 
-            var musicFileNames = new List<string>();
-            var lyricFileNames = new List<string>();
-
             this.LogByObject("提取出所有的音乐文件名");
-            foreach (var musicFile in musicFiles.Where(f => _source.All(i => i.MusicPath != f.Path)).ToList())
-                if (!musicFileNames.Contains(TrimExtensionName(musicFile.FileName)))
-                    musicFileNames.Add(TrimExtensionName(musicFile.FileName));
+            var musicFileNames = musicFiles.Where(f => _source.All(i => i.MusicPath != f.Path))
+                .Select(f => TrimExtensionName(f.FileName)).Distinct().ToList();
 
             this.LogByObject("提取出所有的歌词文件名");
-            foreach (var lyricFile in lyricFiles.Where(f => _source.All(i => i.LyricPath != f.Path)).ToList())
-                if (!lyricFileNames.Contains(TrimExtensionName(lyricFile.FileName)))
-                    lyricFileNames.Add(TrimExtensionName(lyricFile.FileName));
+            var lyricFileNames = lyricFiles.Select(f => TrimExtensionName(f.FileName)).Distinct().ToList();
 
             this.LogByObject("提取出所有重合项目");
             var result = musicFileNames.Where(lyricFileNames.Contains).ToList();
