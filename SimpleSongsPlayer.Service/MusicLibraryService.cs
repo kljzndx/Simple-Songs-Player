@@ -65,10 +65,21 @@ namespace SimpleSongsPlayer.Service
             {
                 foreach (var folder in musicLibrary.Folders)
                 {
-                    var allFiles = await folder.CreateFileQueryWithOptions(scanOptions).GetFilesAsync();
-                    this.LogByObject($"正在添加 {allFiles.Count} 个文件");
-                    foreach (var file in allFiles)
-                        addFiles.Add(await fileFactory.FromStorageFile(folder.Path, file));
+                    var query = folder.CreateFileQueryWithOptions(scanOptions);
+                    uint hasReadCount = 0, fileCount = await query.GetItemCountAsync();
+
+                    var allFilePaths = new List<string>();
+
+                    this.LogByObject($"正在添加 {fileCount} 个文件");
+                    while (hasReadCount < fileCount)
+                    {
+                        var files = await query.GetFilesAsync(hasReadCount, 100);
+                        hasReadCount += (uint) files.Count;
+                        allFilePaths.AddRange(files.Select(f => f.Path));
+                    }
+
+                    foreach (var filePath in allFilePaths)
+                        addFiles.Add(await fileFactory.FromFilePath(folder.Path, filePath));
                 }
 
                 if (addFiles.Any())
@@ -95,18 +106,31 @@ namespace SimpleSongsPlayer.Service
 
             foreach (var folder in musicLibrary.Folders)
             {
+                this.LogByObject("从音乐库获取对应当前文件夹的数据");
+                var systemFileQuery = folder.CreateFileQueryWithOptions(scanOptions);
+                uint hasReadCount = 0, fileCount = await systemFileQuery.GetItemCountAsync();
+
+                var systemFilePaths = new Dictionary<string, DateTimeOffset>();
+
+                while (hasReadCount < fileCount)
+                {
+                    var files = await systemFileQuery.GetFilesAsync(hasReadCount, 100);
+                    hasReadCount += (uint) files.Count;
+                    foreach (var file in files)
+                    {
+                        var changeDate = (await file.GetBasicPropertiesAsync()).DateModified;
+                        systemFilePaths.Add(file.Path, changeDate);
+                    }
+                }
+
                 this.LogByObject("从数据库获取对应当前文件夹的数据");
                 List<TFile> myFiles;
                 bool isGetFiles = allGroup.TryGetValue(folder.Path, out myFiles);
                 var myFilePaths = myFiles?.Select(f => f.Path).ToList();
 
-                this.LogByObject("从音乐库获取对应当前文件夹的数据");
-                var systemFiles = await folder.CreateFileQueryWithOptions(scanOptions).GetFilesAsync();
-                var systemFilePaths = systemFiles.Select(f => f.Path).ToList();
-                
                 if (isGetFiles)
                 {
-                    var needRemoveFilePaths = myFilePaths.Where(mf => !systemFilePaths.Contains(mf)).ToList();
+                    var needRemoveFilePaths = myFilePaths.Where(mf => !systemFilePaths.ContainsKey(mf)).ToList();
                     if (needRemoveFilePaths.Any())
                     {
                         this.LogByObject($"正在移除无效的音乐文件");
@@ -114,32 +138,27 @@ namespace SimpleSongsPlayer.Service
                     }
                 }
                 
-                var needAddFiles = systemFiles.Where(sf => !isGetFiles || !myFilePaths.Contains(sf.Path)).ToList();
+                var needAddFiles = systemFilePaths.Where(sf => !isGetFiles || !myFilePaths.Contains(sf.Key)).ToList();
                 if (needAddFiles.Any())
                 {
                     this.LogByObject($"正在添加文件");
-                    foreach (var file in needAddFiles)
-                        addFiles.Add(await fileFactory.FromStorageFile(folder.Path, file));
+                    foreach (var path in needAddFiles)
+                        addFiles.Add(await fileFactory.FromFilePath(folder.Path, path.Key));
                 }
 
                 if (!isGetFiles)
                     continue;
-
-                this.LogByObject("获取所有音乐库文件的更改日期");
-                Dictionary<StorageFile, DateTimeOffset> allProps = new Dictionary<StorageFile, DateTimeOffset>();
-                foreach (var file in systemFiles)
-                    allProps.Add(file, (await file.GetBasicPropertiesAsync()).DateModified);
-
+                
                 // 从我的文件里选出所有更新时间里没有的项
                 this.LogByObject("获取需要更新的项");
-                var needUpdateFiles = allProps.Where(d =>
-                    myFiles.All(f => !f.ChangeDate.Equals(d.Value.DateTime)) && myFilePaths.Any(p => p == d.Key.Path)).ToList();
+                var needUpdateFiles = systemFilePaths.Where(d =>
+                    myFiles.All(f => !f.ChangeDate.Equals(d.Value.DateTime)) && myFilePaths.Any(p => p == d.Key)).ToList();
 
                 if (needUpdateFiles.Any())
                 {
                     this.LogByObject($"正在更新音乐信息");
                     foreach (var item in needUpdateFiles)
-                        updateFiles.Add(await fileFactory.FromStorageFile(folder.Path, item.Key));
+                        updateFiles.Add(await fileFactory.FromFilePath(folder.Path, item.Key));
                 }
             }
 
