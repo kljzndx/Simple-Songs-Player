@@ -196,6 +196,11 @@
 
         <CommandBar x:Name="ListOption_CommandBar" Grid.Row="2" Visibility="Collapsed">
             <CommandBar.PrimaryCommands>
+                <AppBarButton x:Name="SelectAll_AppBarButton" x:Uid="/MusicListPage/SelectAll_AppBarButton" Click="SelectAll_AppBarButton_OnClick">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE179;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
                 <AppBarButton x:Name="PlaySelectedItems_AppBarButton" x:Uid="/MusicListPage/PlaySelectedItems_AppBarButton" Click="PlaySelectedItems_AppBarButton_OnClick">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE102;"/>

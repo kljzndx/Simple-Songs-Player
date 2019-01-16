@@ -180,4 +180,7 @@
   <data name="SwitchSingleSelection_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>切换到单选模式</value>
   </data>
+  <data name="SelectAll_AppBarButton.Label" xml:space="preserve">
+    <value>全选</value>
+  </data>
 </root>

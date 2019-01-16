@@ -180,4 +180,7 @@
   <data name="SwitchSingleSelection_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Switch to single-choice mode</value>
   </data>
+  <data name="SelectAll_AppBarButton.Label" xml:space="preserve">
+    <value>Select all</value>
+  </data>
 </root>

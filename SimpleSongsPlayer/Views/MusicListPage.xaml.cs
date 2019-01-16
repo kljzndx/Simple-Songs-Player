@@ -215,6 +215,11 @@ namespace SimpleSongsPlayer.Views
             SwitchMultipleSelection_FloatingActionButton.Visibility = Visibility.Visible;
         }
 
+        private void SelectAll_AppBarButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Main_ListView.SelectAll();
+        }
+
         private async void PlaySelectedItems_AppBarButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (!Main_ListView.SelectedItems.Any())
