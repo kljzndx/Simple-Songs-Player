@@ -12,10 +12,15 @@ namespace SimpleSongsPlayer.ViewModels.Factories.MusicGroupers
         {
             var groups = source.GroupBy(fileDto =>
             {
-                List<string> relativePaths = fileDto.FilePath.Replace(fileDto.LibraryFolderPath, String.Empty).Split('\\').ToList();
-                string folderName = fileDto.LibraryFolderPath.Split('\\').Last();
-                relativePaths.Remove(relativePaths.Last());
-                return String.Format("{0}{1}", folderName, String.Join("\\", relativePaths));
+                if (String.IsNullOrWhiteSpace(fileDto.ParentFolderPath))
+                {
+                    List<string> relativePaths = fileDto.FilePath.Replace(fileDto.LibraryFolderPath, String.Empty).Split('\\').ToList();
+                    relativePaths.Remove(relativePaths.Last());
+                    return String.Format("{0}{1}", fileDto.LibraryFolderName, String.Join("\\", relativePaths));
+                }
+
+                return String.Format("{0}{1}", fileDto.LibraryFolderName, fileDto.ParentFolderPath.Replace(fileDto.LibraryFolderPath, String.Empty));
+
             });
             foreach (var group in groups)
                 yield return new MusicFileGroup(group.Key, group);
