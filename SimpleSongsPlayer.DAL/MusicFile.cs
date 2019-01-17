@@ -9,6 +9,7 @@ namespace SimpleSongsPlayer.DAL
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "库文件夹名称为空")]
         public string LibraryFolder { get; set; }
+        public string ParentFolder { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "音乐标题为空")]
         public string Title { get; set; }
         public string Artist { get; set; }
@@ -20,5 +21,6 @@ namespace SimpleSongsPlayer.DAL
         [Key]
         public string Path { get; set; }
         public DateTime ChangeDate { get; set; }
+        public string DBVersion { get; set; }
     }
 }

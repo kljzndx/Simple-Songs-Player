@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Media.Core;
@@ -43,6 +44,7 @@ namespace SimpleSongsPlayer.Models.DTO
             title = fileData.Title;
             duration = fileData.Duration;
             FileName = fileData.FileName;
+            ParentFolderPath = fileData.ParentFolder;
             FilePath = fileData.Path;
             LibraryFolderPath = fileData.LibraryFolder;
 
@@ -92,8 +94,10 @@ namespace SimpleSongsPlayer.Models.DTO
         }
         
         public string FileName { get; }
+        public string ParentFolderPath { get; }
         public string FilePath { get; }
         public string LibraryFolderPath { get; }
+        public string LibraryFolderName => LibraryFolderPath.Split('\\').Last();
 
         public bool FoundArtist { get; }
         public bool FoundAlbum { get; }

@@ -11,6 +11,8 @@ namespace SimpleSongsPlayer.Service
 {
     public class MusicLibraryService<TFile, TFileFactory> : IFileService<TFile> where TFile : class, ILibraryFile where TFileFactory : ILibraryFileFactory<TFile>, new()
     {
+        private const string DBVersion = "V2";
+
         private static string[] _fileTypeFilter;
         private static MusicLibraryService<TFile, TFileFactory> Current;
 
@@ -79,7 +81,7 @@ namespace SimpleSongsPlayer.Service
                     }
 
                     foreach (var filePath in allFilePaths)
-                        addFiles.Add(await fileFactory.FromFilePath(folder.Path, filePath));
+                        addFiles.Add(await fileFactory.FromFilePath(folder, filePath, DBVersion));
                 }
 
                 if (addFiles.Any())
@@ -143,22 +145,30 @@ namespace SimpleSongsPlayer.Service
                 {
                     this.LogByObject($"正在添加文件");
                     foreach (var path in needAddFiles)
-                        addFiles.Add(await fileFactory.FromFilePath(folder.Path, path.Key));
+                        addFiles.Add(await fileFactory.FromFilePath(folder, path.Key, DBVersion));
                 }
 
                 if (!isGetFiles)
                     continue;
-                
+
+                if (myFiles.Any(f => f.DBVersion != DBVersion))
+                {
+                    this.LogByObject("正在更新数据");
+                    var oldData = myFiles.Where(f => f.DBVersion != DBVersion && removeFiles.All(rf => rf.Path != f.Path));
+                    foreach (var data in oldData)
+                        updateFiles.Add(await fileFactory.FromFilePath(folder, data.Path, DBVersion));
+                }
+
                 // 从我的文件里选出所有更新时间里没有的项
                 this.LogByObject("获取需要更新的项");
                 var needUpdateFiles = systemFilePaths.Where(d =>
-                    myFiles.All(f => !f.ChangeDate.Equals(d.Value.DateTime)) && myFilePaths.Any(p => p == d.Key)).ToList();
+                    myFiles.All(f => !f.ChangeDate.Equals(d.Value.DateTime)) && myFilePaths.Any(p => p == d.Key) && updateFiles.All(uf => uf.Path != d.Key)).ToList();
 
                 if (needUpdateFiles.Any())
                 {
                     this.LogByObject($"正在更新音乐信息");
                     foreach (var item in needUpdateFiles)
-                        updateFiles.Add(await fileFactory.FromFilePath(folder.Path, item.Key));
+                        updateFiles.Add(await fileFactory.FromFilePath(folder, item.Key, DBVersion));
                 }
             }
 
@@ -221,7 +231,7 @@ namespace SimpleSongsPlayer.Service
             this.LogByObject("正在对私有列表更新");
 
             var ids = filesList.Select(nf => musicFiles.IndexOf(musicFiles.Find(of => of.Path == nf.Path))).ToList();
-            musicFiles.RemoveAll(filesList.Contains);
+            musicFiles.RemoveAll(mf => filesList.Any(f => f.Path == mf.Path));
 
             for (int i = 0; i < filesList.Count; i++)
                 musicFiles.Insert(ids[i], filesList[i]);
