@@ -16,6 +16,7 @@
                     <VisualState.Setters>
                         <Setter Target="Cover_Image.Width" Value="64"/>
                         <Setter Target="Cover_Image.Height" Value="64"/>
+                        <Setter Target="Info_StackPanel.Width" Value="64"/>
                         <Setter Target="Title_TextBlock.FontSize" Value="13"/>
                         <Setter Target="Title_TextBlock.MinHeight" Value="32"/>
                     </VisualState.Setters>
@@ -37,7 +38,7 @@
         </Grid.RowDefinitions>
 
         <Image x:Name="Cover_Image" Width="98" Height="98"/>
-        <StackPanel Grid.Row="1">
+        <StackPanel x:Name="Info_StackPanel" Grid.Row="1" Width="98">
             <TextBlock x:Name="Title_TextBlock" Text="{x:Bind Source.Name, Mode=OneWay}" MinHeight="42" MaxLines="2" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
             <TextBlock HorizontalAlignment="Right" Margin="4" Opacity="0.6" Style="{ThemeResource CaptionTextBlockStyle}">
                 <Run Text="{x:Bind Source.Items.Count, Mode=OneWay}"/>
