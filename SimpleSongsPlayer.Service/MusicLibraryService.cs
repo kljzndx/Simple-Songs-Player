@@ -153,7 +153,7 @@ namespace SimpleSongsPlayer.Service
 
                 if (myFiles.Any(f => f.DBVersion != DBVersion))
                 {
-                    this.LogByObject("正在更新数据");
+                    this.LogByObject("正在更新数据库");
                     var oldData = myFiles.Where(f => f.DBVersion != DBVersion && removeFiles.All(rf => rf.Path != f.Path));
                     foreach (var data in oldData)
                         updateFiles.Add(await fileFactory.FromFilePath(folder, data.Path, DBVersion));
