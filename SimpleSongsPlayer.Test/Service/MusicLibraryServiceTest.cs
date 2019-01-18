@@ -13,15 +13,10 @@ namespace SimpleSongsPlayer.Test.Service
     [TestClass]
     public class MusicLibraryServiceTest
     {
-        static MusicLibraryServiceTest()
-        {
-            MusicLibraryService<MusicFile, MusicFileFactory>.SetupFileTypeFilter("mp3", "aac", "wav", "flac", "alac", "m4a");
-        }
-
         [TestMethod]
         public async Task Scan()
         {
-            var service = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
+            var service = (await MusicLibraryFileServiceManager.GetManager()).GetMusicFileService();
             await service.ScanFiles();
             var files = await service.GetFiles();
             Assert.IsTrue(files.Any());
@@ -30,7 +25,7 @@ namespace SimpleSongsPlayer.Test.Service
         [TestMethod]
         public async Task GetFiles()
         {
-            var service = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
+            var service = (await MusicLibraryFileServiceManager.GetManager()).GetMusicFileService();
             var files = await service.GetFiles();
             Assert.IsTrue(files.Count > 20);
         }

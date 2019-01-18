@@ -11,15 +11,10 @@ namespace SimpleSongsPlayer.Test.Service
     [TestClass]
     public class UserFavoriteServiceTest
     {
-        static UserFavoriteServiceTest()
-        {
-            MusicLibraryService<MusicFile, MusicFileFactory>.SetupFileTypeFilter("mp3", "aac", "wav", "flac", "alac", "m4a");
-        }
-
         [TestMethod]
         public async Task AddRange()
         {
-            var libraryService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
+            var libraryService = (await MusicLibraryFileServiceManager.GetManager()).GetMusicFileService();
             var favoriteService = UserFavoriteService.GetService(libraryService);
             List<MusicFile> allFiles = await libraryService.GetFiles();
             await favoriteService.AddRange("test", allFiles.Select(a => a.Path));
@@ -30,7 +25,7 @@ namespace SimpleSongsPlayer.Test.Service
         [TestMethod]
         public async Task RenameGroup()
         {
-            var libraryService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
+            var libraryService = (await MusicLibraryFileServiceManager.GetManager()).GetMusicFileService();
             var favoriteService = UserFavoriteService.GetService(libraryService);
             await favoriteService.RenameGroup("test", "newTest");
             List<IGrouping<string, string>> f = await favoriteService.GetFiles();
@@ -40,7 +35,7 @@ namespace SimpleSongsPlayer.Test.Service
         [TestMethod]
         public async Task RemoveRange()
         {
-            var libraryService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
+            var libraryService = (await MusicLibraryFileServiceManager.GetManager()).GetMusicFileService();
             var favoriteService = UserFavoriteService.GetService(libraryService);
             List<MusicFile> allFiles = await libraryService.GetFiles();
             await favoriteService.RemoveRange("newTest", allFiles.Select(a => a.Path));
