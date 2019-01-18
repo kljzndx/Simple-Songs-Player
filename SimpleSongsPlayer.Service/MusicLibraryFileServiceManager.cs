@@ -54,8 +54,8 @@ namespace SimpleSongsPlayer.Service
             await GetMusicFileService().ScanFiles(readBatch);
             await GetLyricFileService().ScanFiles(readBatch);
 
-            await GetMusicFileService().ScanFiles(_musicLibrary.Folders);
-            await GetLyricFileService().ScanFiles(_musicLibrary.Folders);
+            await GetMusicFileService().ScanFiles();
+            await GetLyricFileService().ScanFiles();
 
             await changeReader.AcceptChangesAsync();
         }

@@ -52,14 +52,17 @@ namespace SimpleSongsPlayer.Service
             return musicFiles.ToList();
         }
 
-        internal async Task ScanFiles(IEnumerable<StorageFolder> libraryFolders)
+        internal async Task ScanFiles()
         {
             if (musicFiles is null)
                 await GetFiles();
             
             this.LogByObject("开始扫描");
 
-            foreach (var folder in libraryFolders)
+            var folderPaths = library.Folders.Select(d => d.Path).ToList();
+            await RemoveRange(musicFiles.Where(f => !folderPaths.Contains(f.LibraryFolder)));
+
+            foreach (var folder in library.Folders)
             {
                 StorageFileQueryResult query = folder.CreateFileQueryWithOptions(scanOptions);
                 uint hasReadCount = 0, fileCount = await query.GetItemCountAsync();
