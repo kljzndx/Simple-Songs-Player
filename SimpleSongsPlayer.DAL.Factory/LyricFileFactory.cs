@@ -7,7 +7,7 @@ namespace SimpleSongsPlayer.DAL.Factory
 {
     public class LyricFileFactory : ILibraryFileFactory<LyricFile>
     {
-        public async Task<LyricFile> FromStorageFile(IStorageFolder libraryFolder, StorageFile file, string dbVersion)
+        public async Task<LyricFile> FromStorageFile(string libraryFolder, StorageFile file, string dbVersion)
         {
             var prop = await file.GetBasicPropertiesAsync();
             var paths = file.Path.Split('\\').ToList();
@@ -17,7 +17,7 @@ namespace SimpleSongsPlayer.DAL.Factory
             return new LyricFile
             {
                 FileName = file.Name,
-                LibraryFolder = libraryFolder.Path,
+                LibraryFolder = libraryFolder,
                 ParentFolder = parent,
                 Path = file.Path,
                 ChangeDate = prop.DateModified.DateTime,
@@ -25,7 +25,7 @@ namespace SimpleSongsPlayer.DAL.Factory
             };
         }
 
-        public async Task<LyricFile> FromFilePath(IStorageFolder libraryFolder, string path, string dbVersion) =>
+        public async Task<LyricFile> FromFilePath(string libraryFolder, string path, string dbVersion) =>
             await FromStorageFile(libraryFolder, await StorageFile.GetFileFromPathAsync(path), dbVersion);
     }
 }

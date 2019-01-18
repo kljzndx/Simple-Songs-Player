@@ -57,8 +57,7 @@ namespace SimpleSongsPlayer.Views.SidePages
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await MusicFileDataServer.Current.ScanMusicFiles();
-                await LyricFileDataServer.Current.ScanFile();
+                await MusicLibraryManagerHelper.ScanFiles();
             });
         }
 

@@ -14,7 +14,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
     {
         public static readonly LyricFileDataServer Current = new LyricFileDataServer();
 
-        private MusicLibraryService<LyricFile, LyricFileFactory> service;
+        private MusicLibraryFileService<LyricFile, LyricFileFactory> service;
 
         private LyricFileDataServer()
         {
@@ -33,7 +33,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
 
             this.LogByObject("获取服务");
             IsInit = true;
-            service = await MusicLibraryService<LyricFile, LyricFileFactory>.GetService();
+            service = (await MusicLibraryFileServiceManager.GetManager()).GetLyricFileService();
 
             this.LogByObject("提取数据库里的歌词文件");
             var files = await service.GetFiles();
@@ -51,14 +51,6 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             service.FilesAdded += Service_FilesAdded;
             service.FilesRemoved += Service_FilesRemoved;
             service.FilesUpdated += Service_FilesUpdated;
-        }
-
-        public async Task ScanFile()
-        {
-            if (!IsInit)
-                await Init();
-
-            await service.ScanFiles();
         }
 
         private void Service_FilesAdded(object sender, IEnumerable<LyricFile> e)

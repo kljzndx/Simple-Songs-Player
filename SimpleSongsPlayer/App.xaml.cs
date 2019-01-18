@@ -104,10 +104,6 @@ namespace SimpleSongsPlayer
                 Logger.Info("激活窗口");
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
-
-                Logger.Info("初始化音乐库服务的文件筛选器");
-                MusicLibraryService<MusicFile, MusicFileFactory>.SetupFileTypeFilter("mp3", "aac", "wav", "flac", "alac", "m4a");
-                MusicLibraryService<LyricFile, LyricFileFactory>.SetupFileTypeFilter("lrc");
             }
         }
 
@@ -153,8 +149,7 @@ namespace SimpleSongsPlayer
                 await window.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
                     FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("ScanMusicLibrary"));
-                    await MusicFileDataServer.Current.ScanMusicFiles();
-                    await LyricFileDataServer.Current.ScanFile();
+                    await MusicLibraryManagerHelper.ScanFiles();
                     await LyricIndexDataServer.Current.ScanAsync();
                     if (!FavoritesDataServer.Current.IsInit)
                     {

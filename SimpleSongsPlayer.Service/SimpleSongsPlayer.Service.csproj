@@ -112,7 +112,8 @@
     <Compile Include="LyricIndexService.cs" />
     <Compile Include="Models\Attributes\LoggerInfoAttribute.cs" />
     <Compile Include="Models\LoggerMembers.cs" />
-    <Compile Include="MusicLibraryService.cs" />
+    <Compile Include="MusicLibraryFileService.cs" />
+    <Compile Include="MusicLibraryFileServiceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LogExtension.cs" />
     <Compile Include="UserFavoriteService.cs" />

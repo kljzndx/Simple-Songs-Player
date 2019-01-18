@@ -13,7 +13,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
     public class MusicFileDataServer : IFileDataServer<MusicFileDTO>
     {
         public static readonly MusicFileDataServer Current = new MusicFileDataServer();
-        private MusicLibraryService<MusicFile, MusicFileFactory> musicFilesService;
+        private MusicLibraryFileService<MusicFile, MusicFileFactory> musicFilesService;
 
         private MusicFileDataServer()
         {
@@ -33,7 +33,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
 
             this.LogByObject("获取服务");
             IsInit = true;
-            musicFilesService = await MusicLibraryService<MusicFile, MusicFileFactory>.GetService();
+            musicFilesService = (await MusicLibraryFileServiceManager.GetManager()).GetMusicFileService();
 
             this.LogByObject("提取数据库里的音乐文件");
             var musicData = await musicFilesService.GetFiles();
@@ -50,14 +50,6 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             musicFilesService.FilesAdded += MusicFilesService_FilesAdded;
             musicFilesService.FilesRemoved += MusicFilesService_FilesRemoved;
             musicFilesService.FilesUpdated += MusicFilesService_FilesUpdated;
-        }
-
-        public async Task ScanMusicFiles()
-        {
-            if (!IsInit)
-                await InitializeMusicService();
-            
-            await musicFilesService.ScanFiles();
         }
 
         private void MusicFilesService_FilesAdded(object sender, IEnumerable<MusicFile> e)

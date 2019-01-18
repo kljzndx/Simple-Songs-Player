@@ -192,8 +192,8 @@ namespace SimpleSongsPlayer.Service
             if (current == null)
             {
                 typeof(LyricIndexService).LogByType("创建服务");
-                current = new LyricIndexService(await MusicLibraryService<MusicFile, MusicFileFactory>.GetService(),
-                    await MusicLibraryService<LyricFile, LyricFileFactory>.GetService());
+                current = new LyricIndexService((await MusicLibraryFileServiceManager.GetManager()).GetMusicFileService(),
+                    (await MusicLibraryFileServiceManager.GetManager()).GetLyricFileService());
             }
 
             return current;
