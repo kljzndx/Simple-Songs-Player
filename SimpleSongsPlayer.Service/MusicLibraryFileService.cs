@@ -94,14 +94,17 @@ namespace SimpleSongsPlayer.Service
                         this.LogByObject("筛选出需要更新数据的文件");
                         var needUpdate = new List<TFile>();
 
+                        foreach (var file in musicFiles.Where(f => f.DBVersion != DBVersion))
+                            needUpdate.Add(await fileFactory.FromFilePath(folder.Path, file.Path, DBVersion));
+
                         foreach (var file in files)
                         {
                             var myFile = musicFiles.FirstOrDefault(f => f.Path == file.Path);
-                            if (myFile is null)
+                            if (myFile is null || needUpdate.Any(f => f.Path == file.Path))
                                 continue;
 
                             var prop = await file.GetBasicPropertiesAsync();
-                            if (myFile.ChangeDate!=prop.DateModified.DateTime)
+                            if (myFile.ChangeDate != prop.DateModified.DateTime)
                                 needUpdate.Add(await fileFactory.FromStorageFile(folder.Path, file, DBVersion));
                         }
 
