@@ -45,18 +45,22 @@ namespace SimpleSongsPlayer.Service
 
         public async Task ScanFiles()
         {
+            this.LogByObject("初始化及获取 ChangeTracker");
             _musicLibrary.ChangeTracker.Enable();
             var changeReader = _musicLibrary.ChangeTracker.GetChangeReader();
             var readBatch = await changeReader.ReadBatchAsync();
             if (readBatch.Any(b => b.ChangeType == StorageLibraryChangeType.ChangeTrackingLost))
                 _musicLibrary.ChangeTracker.Reset();
 
+            this.LogByObject("开始扫描 ChangeTracker");
             await GetMusicFileService().ScanFiles(readBatch);
             await GetLyricFileService().ScanFiles(readBatch);
 
+            this.LogByObject("开始扫描音乐库");
             await GetMusicFileService().ScanFiles();
             await GetLyricFileService().ScanFiles();
 
+            this.LogByObject("向 ChangeTracker 报告已扫描项目");
             await changeReader.AcceptChangesAsync();
         }
 
