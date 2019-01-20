@@ -65,12 +65,12 @@ namespace SimpleSongsPlayer.Service
 
                 this.LogByObject("向 ChangeTracker 报告已扫描项目");
                 await changeReader.AcceptChangesAsync();
-            } 
+            }
             catch (Exception e)
             {
-                this.LogByObject("获取/扫描 ChangeTracker 失败");
-                if (!e.Message.Contains("HRESULT: 0x80080222"))
-                    throw;
+                this.LogByObject(e, "获取/扫描 ChangeTracker 失败");
+                //if (e.HResult != -2146958814)
+                //    throw;
             }
 
             this.LogByObject("开始扫描音乐库");
