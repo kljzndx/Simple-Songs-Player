@@ -47,7 +47,6 @@ namespace SimpleSongsPlayer.Views
             systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
 
             Main_CustomMediaPlayerElement.SetMediaPlayer(App.MediaPlayer);
-            CustomMediaPlayerElement.NowPlaybackItemChanged += CustomMediaPlayerElement_NowPlaybackItemChanged;
             FavoriteAdditionNotification.FavoriteAdditionRequested += FavoriteAdditionNotification_FavoriteAdditionRequested;
         }
 
@@ -87,21 +86,21 @@ namespace SimpleSongsPlayer.Views
             Main_Frame.GoBack();
         }
 
-        private async void CustomMediaPlayerElement_NowPlaybackItemChanged(CustomMediaPlayerElement sender, PlayerNowPlaybackItemChangeEventArgs args)
-        {
-            if (args.NewItem is MediaPlaybackItem mpi)
-            {
-                this.LogByObject("刷新音乐信息按钮的专辑图");
-                var properties = mpi.GetDisplayProperties();
-                var bitmap = new BitmapImage();
-                bitmap.SetSource(await properties.Thumbnail.OpenReadAsync());
-                Cover_Image.Visibility = Visibility.Visible;
-                Cover_Image.Source = bitmap;
-            }
+        //private async void CustomMediaPlayerElement_NowPlaybackItemChanged(CustomMediaPlayerElement sender, PlayerNowPlaybackItemChangeEventArgs args)
+        //{
+        //    if (args.NewItem is MediaPlaybackItem mpi)
+        //    {
+        //        this.LogByObject("刷新音乐信息按钮的专辑图");
+        //        var properties = mpi.GetDisplayProperties();
+        //        var bitmap = new BitmapImage();
+        //        bitmap.SetSource(await properties.Thumbnail.OpenReadAsync());
+        //        Cover_Image.Visibility = Visibility.Visible;
+        //        Cover_Image.Source = bitmap;
+        //    }
 
-            if (args.NewItem is null || !NowPlayingDataServer.Current.Data.Any())
-                Cover_Image.Visibility = Visibility.Collapsed;
-        }
+        //    if (args.NewItem is null || !NowPlayingDataServer.Current.Data.Any())
+        //        Cover_Image.Visibility = Visibility.Collapsed;
+        //}
 
         private void FavoriteAdditionNotification_FavoriteAdditionRequested(object sender, IEnumerable<MusicFileDTO> e)
         {
@@ -128,7 +127,7 @@ namespace SimpleSongsPlayer.Views
             await FavoritesDataServer.Current.FavoriteOption.AddRange(e, musicDtoPaths);
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private void Main_CustomMediaPlayerElement_OnCoverButton_Click(object sender, RoutedEventArgs e)
         {
             Main_Frame.NavigateEx(typeof(MusicInformationPage), null);
         }

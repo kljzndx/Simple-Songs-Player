@@ -33,6 +33,15 @@ namespace SimpleSongsPlayer.Views.Controllers
             get => (int) GetValue(RepeatMode_SelectedIDProperty);
             set => SetValue(RepeatMode_SelectedIDProperty, value);
         }
+
+        public static readonly DependencyProperty CoverSourceProperty = DependencyProperty.Register(
+            nameof(CoverSource), typeof(ImageSource), typeof(CustomTransportControls), new PropertyMetadata(null));
+
+        public ImageSource CoverSource
+        {
+            get => (ImageSource) GetValue(CoverSourceProperty);
+            set => SetValue(CoverSourceProperty, value);
+        }
         
         public event PointerEventHandler PositionSlider_PointerPressed;
         public event PointerEventHandler PositionSlider_PointerReleased;
@@ -42,6 +51,8 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         public event PointerEventHandler FastForwardButton_PointerPressed;
         public event PointerEventHandler FastForwardButton_PointerReleased;
+
+        public event RoutedEventHandler CoverButton_Click;
 
         public event TypedEventHandler<CustomTransportControls, KeyValuePair<int, string>> RepeatModeSelectionChanged;
 
@@ -85,6 +96,11 @@ namespace SimpleSongsPlayer.Views.Controllers
                     var sender = (ListBox) s;
                     RepeatModeSelectionChanged?.Invoke(this, new KeyValuePair<int, string>(sender.SelectedIndex, ((ListBoxItem)sender.SelectedItem).Content.ToString()));
                 };
+            }
+
+            {
+                var coverButton = (Button) GetTemplateChild("Cover_Button");
+                coverButton.Click += (s, e) => CoverButton_Click?.Invoke(this, e);
             }
         }
     }

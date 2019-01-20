@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels;
@@ -50,7 +51,10 @@ namespace SimpleSongsPlayer.Views.Controllers
             MyTransportControls.RepeatMode_SelectedID = (int) settings.RepeatMode;
             Install(player);
             NowPlaybackItemChanged += CustomMediaPlayerElement_NowPlaybackItemChanged;
+            MyTransportControls.CoverButton_Click += (s, e) => CoverButton_Click?.Invoke(this, e);
         }
+
+        public event RoutedEventHandler CoverButton_Click;
 
         public void SetMediaPlayer(MediaPlayer mediaPlayer)
         {
@@ -372,6 +376,8 @@ namespace SimpleSongsPlayer.Views.Controllers
             {
                 if (!isUpdated && await fileDto.GetPlaybackItem() == args.NewItem)
                 {
+                    MyTransportControls.CoverSource = await fileDto.GetAlbumCover();
+
                     var mediaProperties = player.SystemMediaTransportControls.DisplayUpdater;
                     mediaProperties.Type = MediaPlaybackType.Music;
                     mediaProperties.Thumbnail = RandomAccessStreamReference.CreateFromStream(await fileDto.GetThumbnail());
