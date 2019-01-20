@@ -120,7 +120,10 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
             }
 
             if (currentLine != null)
+            {
+                currentLine.Content = builder.ToString().Trim();
                 result.Add(currentLine);
+            }
 
             result.Sort();
 
