@@ -45,23 +45,37 @@ namespace SimpleSongsPlayer.Service
 
         public async Task ScanFiles()
         {
-            this.LogByObject("初始化及获取 ChangeTracker");
-            _musicLibrary.ChangeTracker.Enable();
-            var changeReader = _musicLibrary.ChangeTracker.GetChangeReader();
-            var readBatch = await changeReader.ReadBatchAsync();
-            if (readBatch.Any(b => b.ChangeType == StorageLibraryChangeType.ChangeTrackingLost))
-                _musicLibrary.ChangeTracker.Reset();
+            try
+            {
+                this.LogByObject("初始化 ChangeTracker");
+                _musicLibrary.ChangeTracker.Enable();
+                this.LogByObject("获取 ChangeReader");
+                var changeReader = _musicLibrary.ChangeTracker.GetChangeReader();
+                this.LogByObject("获取更改列表");
+                var readBatch = await changeReader.ReadBatchAsync();
+                if (readBatch.Any(b => b.ChangeType == StorageLibraryChangeType.ChangeTrackingLost))
+                {
+                    this.LogByObject("重置 ChangeTracker");
+                    _musicLibrary.ChangeTracker.Reset();
+                }
 
-            this.LogByObject("开始扫描 ChangeTracker");
-            await GetMusicFileService().ScanFiles(readBatch);
-            await GetLyricFileService().ScanFiles(readBatch);
+                this.LogByObject("开始扫描 ChangeTracker");
+                await GetMusicFileService().ScanFiles(readBatch);
+                await GetLyricFileService().ScanFiles(readBatch);
+
+                this.LogByObject("向 ChangeTracker 报告已扫描项目");
+                await changeReader.AcceptChangesAsync();
+            } 
+            catch (Exception e)
+            {
+                this.LogByObject("获取/扫描 ChangeTracker 失败");
+                if (!e.Message.Contains("HRESULT: 0x80080222"))
+                    throw;
+            }
 
             this.LogByObject("开始扫描音乐库");
             await GetMusicFileService().ScanFiles();
             await GetLyricFileService().ScanFiles();
-
-            this.LogByObject("向 ChangeTracker 报告已扫描项目");
-            await changeReader.AcceptChangesAsync();
         }
 
         public static async Task<MusicLibraryFileServiceManager> GetManager()
