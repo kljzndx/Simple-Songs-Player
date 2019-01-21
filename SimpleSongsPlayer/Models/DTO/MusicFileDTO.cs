@@ -137,7 +137,18 @@ namespace SimpleSongsPlayer.Models.DTO
                 return thumbnail;
 
             var file = await GetFile();
-            thumbnail = await file.GetThumbnailAsync(ThumbnailMode.SingleItem);
+            do
+            {
+                try
+                {
+                    thumbnail = await file.GetThumbnailAsync(ThumbnailMode.SingleItem);
+                }
+                catch (Exception)
+                {
+                    await Task.Delay(1000);
+                }
+            } while (thumbnail is null);
+
             _thumbnail.SetTarget(thumbnail);
 
             return thumbnail;
