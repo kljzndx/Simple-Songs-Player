@@ -43,18 +43,17 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         public static void Show(string text)
         {
-            if (current == null || current.Visibility == Visibility.Visible)
+            if (current == null)
                 return;
 
-            current.Visibility = Visibility.Visible;
             current.Text = text;
-            current.FadeInTranslate_DoubleAnimation.From = current.ActualWidth;
+            current.Visibility = Visibility.Visible;
             current.FadeIn_Storyboard.Begin();
         }
 
         public static void Hide()
         {
-            if (current == null || current.Visibility == Visibility.Collapsed)
+            if (current == null)
                 return;
 
             current.FadeOutTranslate_DoubleAnimation.To = current.ActualWidth;
