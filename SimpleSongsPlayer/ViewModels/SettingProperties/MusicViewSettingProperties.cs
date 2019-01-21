@@ -12,6 +12,7 @@ namespace SimpleSongsPlayer.ViewModels.SettingProperties
 
     public enum MusicSorterMembers
     {
+        TrackNumber,
         Title,
         Artist,
         Album,

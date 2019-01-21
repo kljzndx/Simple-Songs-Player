@@ -28,6 +28,7 @@ namespace SimpleSongsPlayer.ViewModels
             GrouperMembers.Add(new MusicGrouperUi("GrouperMember_FirstLetter", new CharacterGrouper()));
             GrouperMembers.Add(new MusicGrouperUi("GrouperMember_Path", new MusicPathGrouper()));
 
+            SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("TrackNumber", s => s.Original.TrackNumber));
             SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("Title", s => s.Original.Title));
             SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("Artist", s => s.Original.Artist));
             SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("Album", s => s.Original.Album));
