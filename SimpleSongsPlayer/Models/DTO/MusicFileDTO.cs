@@ -26,6 +26,8 @@ namespace SimpleSongsPlayer.Models.DTO
         private MediaPlaybackItem _playbackItem;
 
         private bool isPlaying;
+
+        private uint trackNumber;
         private string title;
         private string artist;
         private string album;
@@ -63,8 +65,6 @@ namespace SimpleSongsPlayer.Models.DTO
             set => Set(ref isPlaying, value);
         }
 
-
-        private uint trackNumber;
 
         public uint TrackNumber
         {
