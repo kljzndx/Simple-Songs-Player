@@ -57,22 +57,9 @@ namespace SimpleSongsPlayer.Service
             if (musicFiles is null)
                 await GetFiles();
             
-            var needUpdate = new List<TFile>();
-
             this.LogByObject("移除垃圾数据");
             var folderPaths = library.Folders.Select(d => d.Path).ToList();
             await RemoveRange(musicFiles.Where(f => !folderPaths.Contains(f.LibraryFolder)));
-
-            this.LogByObject("扫描陈旧数据");
-            foreach (var file in musicFiles.Where(f => f.DBVersion != DBVersion))
-                needUpdate.Add(await fileFactory.FromFilePath(file.LibraryFolder, file.Path, DBVersion));
-
-            if (needUpdate.Any())
-            {
-                this.LogByObject("更新陈旧数据");
-                await UpdateFileRange(needUpdate);
-                needUpdate = new List<TFile>();
-            }
 
             foreach (var folder in library.Folders)
             {
@@ -104,6 +91,7 @@ namespace SimpleSongsPlayer.Service
                         }
                     }
                     {
+                        var needUpdate = new List<TFile>();
                         this.LogByObject("筛选出需要更新数据的文件");
                         foreach (var file in files)
                         {
@@ -133,6 +121,17 @@ namespace SimpleSongsPlayer.Service
                     this.LogByObject("应用移除操作");
                     await RemoveRange(needRemove);
                 }
+            }
+
+            var needUpdateOfOldData = new List<TFile>();
+            this.LogByObject("扫描陈旧数据");
+            foreach (var file in musicFiles.Where(f => f.DBVersion != DBVersion))
+                needUpdateOfOldData.Add(await fileFactory.FromFilePath(file.LibraryFolder, file.Path, DBVersion));
+
+            if (needUpdateOfOldData.Any())
+            {
+                this.LogByObject("更新陈旧数据");
+                await UpdateFileRange(needUpdateOfOldData);
             }
         }
 
