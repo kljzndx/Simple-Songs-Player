@@ -8,9 +8,10 @@ using SimpleSongsPlayer.DAL;
 namespace SimpleSongsPlayer.DAL.Migrations
 {
     [DbContext(typeof(FilesContext))]
-    partial class FilesContextModelSnapshot : ModelSnapshot
+    [Migration("20190121001855_Add_TrackNumber_Column")]
+    partial class Add_TrackNumber_Column
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.6");

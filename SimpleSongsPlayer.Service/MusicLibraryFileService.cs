@@ -11,7 +11,7 @@ namespace SimpleSongsPlayer.Service
 {
     public class MusicLibraryFileService<TFile, TFileFactory> : IFileService<TFile> where TFile : class, ILibraryFile where TFileFactory : ILibraryFileFactory<TFile>, new()
     {
-        private const string DBVersion = "V2";
+        private const string DBVersion = "V3";
 
         private static string[] _fileTypeFilter;
         private static MusicLibraryFileService<TFile, TFileFactory> Current;

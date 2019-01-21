@@ -18,14 +18,17 @@ namespace SimpleSongsPlayer.DAL.Factory
             return new MusicFile
             {
                 FileName = file.Name,
+                LibraryFolder = libraryFolder,
+                ChangeDate = basicProperties.DateModified.DateTime,
+                ParentFolder = parent,
+                Path = file.Path,
+
+                TrackNumber = musicProperties.TrackNumber,
                 Title = String.IsNullOrWhiteSpace(musicProperties.Title) ? file.DisplayName : musicProperties.Title,
                 Artist = musicProperties.Artist,
                 Album = musicProperties.Album,
-                ParentFolder = parent,
-                Path = file.Path,
                 Duration = musicProperties.Duration,
-                LibraryFolder = libraryFolder,
-                ChangeDate = basicProperties.DateModified.DateTime,
+
                 DBVersion = dbVersion
             };
         }

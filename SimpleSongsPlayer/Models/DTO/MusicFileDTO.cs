@@ -41,19 +41,20 @@ namespace SimpleSongsPlayer.Models.DTO
         
         public MusicFileDTO(MusicFile fileData)
         {
-            title = fileData.Title;
-            duration = fileData.Duration;
             FileName = fileData.FileName;
             ParentFolderPath = fileData.ParentFolder;
             FilePath = fileData.Path;
             LibraryFolderPath = fileData.LibraryFolder;
+            changeDate = fileData.ChangeDate;
 
             FoundArtist = !String.IsNullOrWhiteSpace(fileData.Artist);
             FoundAlbum = !String.IsNullOrWhiteSpace(fileData.Album);
 
+            trackNumber = fileData.TrackNumber;
+            title = fileData.Title;
             artist = FoundArtist ? fileData.Artist : UnknownArtist;
             album = FoundAlbum ? fileData.Album : UnknownAlbum;
-            changeDate = fileData.ChangeDate;
+            duration = fileData.Duration;
         }
 
         public bool IsPlaying
@@ -62,7 +63,15 @@ namespace SimpleSongsPlayer.Models.DTO
             set => Set(ref isPlaying, value);
         }
 
-        
+
+        private uint trackNumber;
+
+        public uint TrackNumber
+        {
+            get => trackNumber;
+            set => Set(ref trackNumber, value);
+        }
+
         public string Title
         {
             get => title;
