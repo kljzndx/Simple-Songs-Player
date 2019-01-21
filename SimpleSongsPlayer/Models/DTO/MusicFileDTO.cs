@@ -48,14 +48,11 @@ namespace SimpleSongsPlayer.Models.DTO
             FilePath = fileData.Path;
             LibraryFolderPath = fileData.LibraryFolder;
             changeDate = fileData.ChangeDate;
-
-            FoundArtist = !String.IsNullOrWhiteSpace(fileData.Artist);
-            FoundAlbum = !String.IsNullOrWhiteSpace(fileData.Album);
-
+            
             trackNumber = fileData.TrackNumber;
             title = fileData.Title;
-            artist = FoundArtist ? fileData.Artist : UnknownArtist;
-            album = FoundAlbum ? fileData.Album : UnknownAlbum;
+            artist = fileData.Artist;
+            album = fileData.Album;
             duration = fileData.Duration;
         }
 
@@ -80,13 +77,13 @@ namespace SimpleSongsPlayer.Models.DTO
 
         public string Artist
         {
-            get => artist;
+            get => FoundArtist ? artist : UnknownArtist;
             private set => Set(ref artist, value);
         }
 
         public string Album
         {
-            get => album;
+            get => FoundAlbum ? album : UnknownAlbum;
             private set => Set(ref album, value);
         }
 
@@ -108,8 +105,8 @@ namespace SimpleSongsPlayer.Models.DTO
         public string LibraryFolderPath { get; }
         public string LibraryFolderName => LibraryFolderPath.Split('\\').Last();
 
-        public bool FoundArtist { get; }
-        public bool FoundAlbum { get; }
+        public bool FoundArtist => !String.IsNullOrWhiteSpace(artist);
+        public bool FoundAlbum => !String.IsNullOrWhiteSpace(album);
 
         public bool IsInitPlaybackItem => _playbackItem != null;
 
