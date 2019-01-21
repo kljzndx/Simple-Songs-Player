@@ -16,7 +16,7 @@ namespace SimpleSongsPlayer.Test.Service
         [TestMethod]
         public async Task Scan()
         {
-            var service = (await MusicLibraryFileServiceManager.GetManager()).GetMusicFileService();
+            var service = await MusicLibraryFileServiceManager.Current.GetMusicFileService();
             await service.ScanFiles();
             var files = await service.GetFiles();
             Assert.IsTrue(files.Any());
@@ -25,7 +25,7 @@ namespace SimpleSongsPlayer.Test.Service
         [TestMethod]
         public async Task GetFiles()
         {
-            var service = (await MusicLibraryFileServiceManager.GetManager()).GetMusicFileService();
+            var service = await MusicLibraryFileServiceManager.Current.GetMusicFileService();
             var files = await service.GetFiles();
             Assert.IsTrue(files.Count > 20);
         }

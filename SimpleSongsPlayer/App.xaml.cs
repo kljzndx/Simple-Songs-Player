@@ -148,8 +148,12 @@ namespace SimpleSongsPlayer
 
                 await window.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
+                    FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("LoadData"));
+                    await MusicFileDataServer.Current.InitializeMusicService();
+                    await LyricFileDataServer.Current.Init();
+
                     FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("ScanMusicLibrary"));
-                    await MusicLibraryManagerHelper.ScanFiles();
+                    await MusicLibraryFileServiceManager.Current.ScanFiles();
                     await LyricIndexDataServer.Current.ScanAsync();
                     if (!FavoritesDataServer.Current.IsInit)
                     {

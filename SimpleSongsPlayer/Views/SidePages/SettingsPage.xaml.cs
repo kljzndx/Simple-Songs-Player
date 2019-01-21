@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels.Attributes;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.SettingProperties;
@@ -56,9 +57,9 @@ namespace SimpleSongsPlayer.Views.SidePages
         private async void MusicLibrary_DefinitionChanged(StorageLibrary sender, object args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                await MusicLibraryManagerHelper.ScanFiles();
-            });
+                {
+                    await MusicLibraryFileServiceManager.Current.ScanFiles();
+                });
         }
 
         private async void AddLibrary_Button_OnClick(object sender, RoutedEventArgs e)

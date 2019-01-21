@@ -41,7 +41,7 @@ namespace SimpleSongsPlayer.ViewModels
 
             this.LogByObject("获取服务");
             IsInit = true;
-            userFavoriteService = UserFavoriteService.GetService((await MusicLibraryFileServiceManager.GetManager()).GetMusicFileService());
+            userFavoriteService = UserFavoriteService.GetService(await MusicLibraryFileServiceManager.Current.GetMusicFileService());
 
             this.LogByObject("获取用户收藏");
             var result = new List<KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>>();

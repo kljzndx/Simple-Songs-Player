@@ -128,7 +128,6 @@
     <Compile Include="ViewModels\DataServers\LyricFileDataServer.cs" />
     <Compile Include="ViewModels\DataServers\LyricIndexDataServer.cs" />
     <Compile Include="ViewModels\DataServers\MusicFileDataServer.cs" />
-    <Compile Include="ViewModels\DataServers\MusicLibraryManagerHelper.cs" />
     <Compile Include="ViewModels\DataServers\NowPlayingDataServer.cs" />
     <Compile Include="ViewModels\Events\FavoriteAdditionNotification.cs" />
     <Compile Include="ViewModels\Events\PlayerNowPlaybackItemChangeEventArgs.cs" />

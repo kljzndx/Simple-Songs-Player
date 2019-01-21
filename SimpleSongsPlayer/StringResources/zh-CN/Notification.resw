@@ -120,6 +120,9 @@
   <data name="GetFavorites" xml:space="preserve">
     <value>正在获取收藏夹</value>
   </data>
+  <data name="LoadData" xml:space="preserve">
+    <value>正在加载数据中</value>
+  </data>
   <data name="MigrationOldFavorites" xml:space="preserve">
     <value>正在迁移旧收藏夹</value>
   </data>

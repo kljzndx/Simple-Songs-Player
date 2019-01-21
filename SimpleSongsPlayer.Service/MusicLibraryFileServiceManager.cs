@@ -10,19 +10,29 @@ namespace SimpleSongsPlayer.Service
 {
     public class MusicLibraryFileServiceManager
     {
-        private static MusicLibraryFileServiceManager _current;
+        public static readonly MusicLibraryFileServiceManager Current = new MusicLibraryFileServiceManager();
         private StorageLibrary _musicLibrary;
 
         private MusicLibraryFileService<MusicFile, MusicFileFactory> _musicFilesService;
         private MusicLibraryFileService<LyricFile, LyricFileFactory> _lyricFilesService;
 
-        private MusicLibraryFileServiceManager(StorageLibrary musicLibrary)
+        private MusicLibraryFileServiceManager()
         {
-            _musicLibrary = musicLibrary;
         }
 
-        public MusicLibraryFileService<MusicFile, MusicFileFactory> GetMusicFileService()
+        private async Task InitLibrary()
         {
+            if (_musicLibrary is null)
+            {
+                this.LogByObject("正在获取音乐库引用");
+                _musicLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
+            }
+        }
+
+        public async Task<MusicLibraryFileService<MusicFile, MusicFileFactory>> GetMusicFileService()
+        {
+            await InitLibrary();
+
             if (_musicFilesService is null)
             {
                 MusicLibraryFileService<MusicFile, MusicFileFactory>.SetupFileTypeFilter("mp3", "aac", "wav", "flac", "alac", "m4a");
@@ -32,8 +42,10 @@ namespace SimpleSongsPlayer.Service
             return _musicFilesService;
         }
 
-        public MusicLibraryFileService<LyricFile, LyricFileFactory> GetLyricFileService()
+        public async Task<MusicLibraryFileService<LyricFile, LyricFileFactory>> GetLyricFileService()
         {
+            await InitLibrary();
+
             if (_lyricFilesService is null)
             {
                 MusicLibraryFileService<LyricFile, LyricFileFactory>.SetupFileTypeFilter("lrc");
@@ -60,8 +72,8 @@ namespace SimpleSongsPlayer.Service
                 }
 
                 this.LogByObject("开始扫描 ChangeTracker");
-                await GetMusicFileService().ScanFiles(readBatch);
-                await GetLyricFileService().ScanFiles(readBatch);
+                await (await GetMusicFileService()).ScanFiles(readBatch);
+                await (await GetLyricFileService()).ScanFiles(readBatch);
 
                 this.LogByObject("向 ChangeTracker 报告已扫描项目");
                 await changeReader.AcceptChangesAsync();
@@ -74,19 +86,8 @@ namespace SimpleSongsPlayer.Service
             }
 
             this.LogByObject("开始扫描音乐库");
-            await GetMusicFileService().ScanFiles();
-            await GetLyricFileService().ScanFiles();
-        }
-
-        public static async Task<MusicLibraryFileServiceManager> GetManager()
-        {
-            if (_current is null)
-            {
-                typeof(MusicLibraryFileServiceManager).LogByType("正在构造服务，正在获取音乐库引用");
-                _current = new MusicLibraryFileServiceManager(await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music));
-            }
-
-            return _current;
+            await (await GetMusicFileService()).ScanFiles();
+            await (await GetLyricFileService()).ScanFiles();
         }
     }
 }

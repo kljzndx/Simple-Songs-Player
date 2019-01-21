@@ -33,7 +33,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
 
             this.LogByObject("获取服务");
             IsInit = true;
-            musicFilesService = (await MusicLibraryFileServiceManager.GetManager()).GetMusicFileService();
+            musicFilesService = await MusicLibraryFileServiceManager.Current.GetMusicFileService();
 
             this.LogByObject("提取数据库里的音乐文件");
             var musicData = await musicFilesService.GetFiles();
