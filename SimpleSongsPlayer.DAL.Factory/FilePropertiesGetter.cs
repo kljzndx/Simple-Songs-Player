@@ -29,7 +29,7 @@ namespace SimpleSongsPlayer.DAL.Factory
                 {
                     typeof(FilePropertiesGetter).LogByType("文件属性获取失败");
                     if (++errorTimes == 10)
-                        throw new Exception($"{file.Path} 文件属性获取失败", e);
+                        throw new Exception($"{file.Path} \r\n File cannot read", e);
 
                     typeof(FilePropertiesGetter).LogByType("将在1秒后重新获取");
                     await Task.Delay(1000);
