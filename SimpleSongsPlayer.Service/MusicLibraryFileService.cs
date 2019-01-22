@@ -7,6 +7,7 @@ using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
+using SimpleSongsPlayer.Log;
 
 namespace SimpleSongsPlayer.Service
 {

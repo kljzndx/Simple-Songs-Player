@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Service;
 
 // The Templated Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234235

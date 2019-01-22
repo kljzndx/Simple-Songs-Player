@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
+using SimpleSongsPlayer.Log;
 
 
 namespace SimpleSongsPlayer.Service

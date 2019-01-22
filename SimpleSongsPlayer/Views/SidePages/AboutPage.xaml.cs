@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using HappyStudio.UwpToolsLibrary.Information;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels.Attributes;
 

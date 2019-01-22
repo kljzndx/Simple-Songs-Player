@@ -6,8 +6,9 @@ using Windows.UI.Popups;
 using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using HappyStudio.UwpToolsLibrary.Information;
 using NLog;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Service;
-using SimpleSongsPlayer.Service.Models;
+using SimpleSongsPlayer.Log.Models;
 
 namespace SimpleSongsPlayer.ViewModels.Extensions
 {

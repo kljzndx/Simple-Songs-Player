@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using SimpleSongsPlayer.DAL;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Models.DTO.Lyric;
 using SimpleSongsPlayer.Service;

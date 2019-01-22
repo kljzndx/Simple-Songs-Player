@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
 

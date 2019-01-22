@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
+using SimpleSongsPlayer.Log;
 
 namespace SimpleSongsPlayer.Service
 {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
+using SimpleSongsPlayer.Log;
 
 namespace SimpleSongsPlayer.Service
 {

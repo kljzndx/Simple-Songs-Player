@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Media.Playback;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
 
