@@ -9,7 +9,7 @@ namespace SimpleSongsPlayer.DAL.Factory
     {
         public async Task<LyricFile> FromStorageFile(string libraryFolder, StorageFile file, string dbVersion)
         {
-            var prop = await file.GetBasicPropertiesAsync();
+            var prop = await file.GetProperties(async f => await f.GetBasicPropertiesAsync());
             var paths = file.Path.Split('\\').ToList();
             paths.Remove(paths.Last());
             string parent = String.Join("\\", paths);

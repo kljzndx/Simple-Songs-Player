@@ -12,6 +12,8 @@ using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using SimpleSongsPlayer.DAL;
+using SimpleSongsPlayer.DAL.Factory;
+using SimpleSongsPlayer.Service;
 
 namespace SimpleSongsPlayer.Models.DTO
 {
@@ -137,18 +139,7 @@ namespace SimpleSongsPlayer.Models.DTO
                 return thumbnail;
 
             var file = await GetFile();
-            do
-            {
-                try
-                {
-                    thumbnail = await file.GetThumbnailAsync(ThumbnailMode.SingleItem);
-                }
-                catch (Exception)
-                {
-                    await Task.Delay(1000);
-                }
-            } while (thumbnail is null);
-
+            thumbnail = await file.GetProperties(async f => await f.GetThumbnailAsync(ThumbnailMode.SingleItem));
             _thumbnail.SetTarget(thumbnail);
 
             return thumbnail;

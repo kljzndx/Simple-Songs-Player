@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
@@ -99,7 +100,7 @@ namespace SimpleSongsPlayer.Service
                             if (myFile is null || needUpdate.Any(f => f.Path == file.Path))
                                 continue;
 
-                            var prop = await file.GetBasicPropertiesAsync();
+                            var prop = await file.GetProperties(async f => await f.GetBasicPropertiesAsync());
                             if (myFile.ChangeDate != prop.DateModified.DateTime)
                                 needUpdate.Add(await fileFactory.FromStorageFile(folder.Path, file, DBVersion));
                         }

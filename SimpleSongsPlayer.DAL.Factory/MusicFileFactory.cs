@@ -9,8 +9,8 @@ namespace SimpleSongsPlayer.DAL.Factory
     {
         public async Task<MusicFile> FromStorageFile(string libraryFolder, StorageFile file, string dbVersion)
         {
-            var basicProperties = await file.GetBasicPropertiesAsync();
-            var musicProperties = await file.Properties.GetMusicPropertiesAsync();
+            var basicProperties = await file.GetProperties(async f => await f.GetBasicPropertiesAsync());
+            var musicProperties = await file.GetProperties(async f => await f.Properties.GetMusicPropertiesAsync());
             var paths = file.Path.Split('\\').ToList();
             paths.Remove(paths.Last());
             string parent = String.Join("\\", paths);
