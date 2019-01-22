@@ -28,7 +28,7 @@ namespace SimpleSongsPlayer.DAL.Factory
                 }
                 catch
                 {
-                    typeof(FilePropertiesGetter).LogByType("获取属性失败");
+                    typeof(FilePropertiesGetter).LogByType($"{file.Path} 文件的属性获取失败");
                     if (++errorTimes == 10)
                         throw;
 
