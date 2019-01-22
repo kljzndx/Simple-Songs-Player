@@ -23,14 +23,13 @@ namespace SimpleSongsPlayer.DAL.Factory
             {
                 try
                 {
-                    typeof(FilePropertiesGetter).LogByType("获取属性");
                     result = await getter.Invoke(file);
                 }
-                catch
+                catch (Exception e)
                 {
-                    typeof(FilePropertiesGetter).LogByType($"{file.Path} 文件的属性获取失败");
+                    typeof(FilePropertiesGetter).LogByType("文件属性获取失败");
                     if (++errorTimes == 10)
-                        throw;
+                        throw new Exception($"{file.Path} 文件属性获取失败", e);
 
                     typeof(FilePropertiesGetter).LogByType("将在1秒后重新获取");
                     await Task.Delay(1000);
