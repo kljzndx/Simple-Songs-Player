@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SimpleSongsPlayer.Service;
-using SimpleSongsPlayer.Service.Models;
+using SimpleSongsPlayer.Log;
+using SimpleSongsPlayer.Log.Models;
 
 namespace SimpleSongsPlayer.Test.Service
 {

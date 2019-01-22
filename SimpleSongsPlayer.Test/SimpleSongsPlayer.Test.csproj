@@ -155,6 +155,10 @@
       <Project>{2127e56d-cbcf-4b6a-bb52-7b1148a948e1}</Project>
       <Name>SimpleSongsPlayer.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SimpleSongsPlayer.Log\SimpleSongsPlayer.Log.csproj">
+      <Project>{1271d080-49c8-4760-b3d8-bcd122a9b0ba}</Project>
+      <Name>SimpleSongsPlayer.Log</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimpleSongsPlayer.Service\SimpleSongsPlayer.Service.csproj">
       <Project>{d0cbc51c-8d5a-4b2b-b0b1-f718b5261a2c}</Project>
       <Name>SimpleSongsPlayer.Service</Name>
