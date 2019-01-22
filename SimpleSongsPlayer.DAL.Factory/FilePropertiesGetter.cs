@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.Storage;
+using SimpleSongsPlayer.Log;
 
 namespace SimpleSongsPlayer.DAL.Factory
 {
@@ -15,13 +16,16 @@ namespace SimpleSongsPlayer.DAL.Factory
             {
                 try
                 {
+                    typeof(FilePropertiesGetter).LogByType("获取属性");
                     result = await getter.Invoke(file);
                 }
                 catch
                 {
+                    typeof(FilePropertiesGetter).LogByType("获取属性失败");
                     if (++errorTimes == 10)
                         throw;
 
+                    typeof(FilePropertiesGetter).LogByType("将在1秒后重新获取");
                     await Task.Delay(1000);
                 }
             } while (result is null);

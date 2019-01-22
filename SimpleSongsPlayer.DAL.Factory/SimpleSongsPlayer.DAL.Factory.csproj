@@ -123,6 +123,10 @@
       <Project>{2127e56d-cbcf-4b6a-bb52-7b1148a948e1}</Project>
       <Name>SimpleSongsPlayer.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SimpleSongsPlayer.Log\SimpleSongsPlayer.Log.csproj">
+      <Project>{1271d080-49c8-4760-b3d8-bcd122a9b0ba}</Project>
+      <Name>SimpleSongsPlayer.Log</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
