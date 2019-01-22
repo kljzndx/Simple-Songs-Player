@@ -11,6 +11,8 @@ namespace SimpleSongsPlayer.Log.Models
         [LoggerInfo("\\logs\\main.log", "\\logs\\Main")]
         Service,
         [LoggerInfo("\\logs\\main.log", "\\logs\\Main")]
-        UnitTest
+        UnitTest,
+        [LoggerInfo("\\logs\\main.log", "\\logs\\Main")]
+        Other
     }
 }

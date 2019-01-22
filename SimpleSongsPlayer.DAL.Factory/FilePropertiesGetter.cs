@@ -1,12 +1,19 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.Storage;
 using SimpleSongsPlayer.Log;
+using SimpleSongsPlayer.Log.Models;
 
 namespace SimpleSongsPlayer.DAL.Factory
 {
     public static class FilePropertiesGetter
     {
+        static FilePropertiesGetter()
+        {
+            LogExtension.SetUpAssembly(typeof (FilePropertiesGetter).GetTypeInfo().Assembly, LoggerMembers.Other);
+        }
+
         public static async Task<T> GetProperties<T>(this StorageFile file, Func<StorageFile, Task<T>> getter) where T : class
         {
             T result = null;
