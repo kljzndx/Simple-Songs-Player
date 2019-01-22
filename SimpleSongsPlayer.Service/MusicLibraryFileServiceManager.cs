@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.Storage;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
 using SimpleSongsPlayer.Log;
+using SimpleSongsPlayer.Log.Models;
 
 namespace SimpleSongsPlayer.Service
 {
@@ -16,6 +18,11 @@ namespace SimpleSongsPlayer.Service
 
         private MusicLibraryFileService<MusicFile, MusicFileFactory> _musicFilesService;
         private MusicLibraryFileService<LyricFile, LyricFileFactory> _lyricFilesService;
+
+        static MusicLibraryFileServiceManager()
+        {
+            LogExtension.SetUpAssembly(typeof(MusicLibraryFileServiceManager).GetTypeInfo().Assembly, LoggerMembers.Service);
+        }
 
         private MusicLibraryFileServiceManager()
         {

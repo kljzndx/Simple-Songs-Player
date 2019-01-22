@@ -12,11 +12,6 @@ namespace SimpleSongsPlayer.Log
     {
         private static readonly Dictionary<string, Logger> AllAssembly = new Dictionary<string, Logger>();
 
-        static LogExtension()
-        {
-            SetUpAssembly(typeof(LogExtension).GetTypeInfo().Assembly, LoggerMembers.Service);
-        }
-        
         public static void SetUpAssembly(Assembly assembly, LoggerMembers member)
         {
             AllAssembly[assembly.FullName.Split(',')[0].Trim()] = LoggerService.GetLogger(member);
