@@ -614,7 +614,7 @@
                                                             </Grid.ColumnDefinitions>
 
                                                             <Slider x:Name="PlaybackRate_Slider" Width="250" IsThumbToolTipEnabled="False" Minimum="0.1" Maximum="5" StepFrequency="0.1"/>
-                                                            <TextBlock Grid.Column="1" Width="24" VerticalAlignment="Center" Text="{Binding ElementName=PlaybackRate_Slider, Path=Value, Converter={StaticResource DoubleToPercentage}}" Margin="8,0"/>
+                                                            <TextBlock Grid.Column="1" Width="36" VerticalAlignment="Center" Text="{Binding ElementName=PlaybackRate_Slider, Path=Value, Converter={StaticResource DoubleToPercentage}}" Margin="8,0"/>
                                                         </Grid>
                                                     </Flyout>
                                                 </AppBarButton.Flyout>
