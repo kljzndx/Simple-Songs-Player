@@ -24,6 +24,8 @@ namespace SimpleSongsPlayer.Views.Controllers
         public static readonly DependencyProperty RepeatMode_SelectedIDProperty = DependencyProperty.Register(
             nameof(RepeatMode_SelectedID), typeof(int), typeof(CustomTransportControls), new PropertyMetadata(-1));
 
+        private Slider playbackRateSlider;
+
         public CustomTransportControls()
         {
             this.DefaultStyleKey = typeof(CustomTransportControls);
@@ -43,7 +45,13 @@ namespace SimpleSongsPlayer.Views.Controllers
             get => (ImageSource) GetValue(CoverSourceProperty);
             set => SetValue(CoverSourceProperty, value);
         }
-        
+
+        public double PlaybackRate
+        {
+            get => playbackRateSlider.Value;
+            set => playbackRateSlider.Value = value;
+        }
+
         public event PointerEventHandler PositionSlider_PointerPressed;
         public event PointerEventHandler PositionSlider_PointerReleased;
 
@@ -54,6 +62,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         public event PointerEventHandler FastForwardButton_PointerReleased;
 
         public event RoutedEventHandler CoverButton_Click;
+        public event RangeBaseValueChangedEventHandler RateValueChanged;
 
         public event TypedEventHandler<CustomTransportControls, KeyValuePair<int, string>> RepeatModeSelectionChanged;
 
@@ -102,6 +111,12 @@ namespace SimpleSongsPlayer.Views.Controllers
             {
                 var coverButton = (Button) GetTemplateChild("Cover_Button");
                 coverButton.Click += (s, e) => CoverButton_Click?.Invoke(this, e);
+            }
+
+            {
+                playbackRateSlider = (Slider) GetTemplateChild("PlaybackRate_Slider");
+                playbackRateSlider.Value = 1;
+                playbackRateSlider.ValueChanged += (s, e) => RateValueChanged?.Invoke(this, e);
             }
         }
     }

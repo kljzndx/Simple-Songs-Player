@@ -49,10 +49,12 @@ namespace SimpleSongsPlayer.Views.Controllers
             this.InitializeComponent();
             settings.PropertyChanged += Settings_PropertyChanged;
             player = Root_MediaPlayerElement.MediaPlayer;
-            MyTransportControls.RepeatMode_SelectedID = (int) settings.RepeatMode;
             Install(player);
-            NowPlaybackItemChanged += CustomMediaPlayerElement_NowPlaybackItemChanged;
+
+            MyTransportControls.RepeatMode_SelectedID = (int) settings.RepeatMode;
             MyTransportControls.CoverButton_Click += (s, e) => CoverButton_Click?.Invoke(this, e);
+
+            NowPlaybackItemChanged += CustomMediaPlayerElement_NowPlaybackItemChanged;
         }
 
         public event RoutedEventHandler CoverButton_Click;
@@ -72,9 +74,11 @@ namespace SimpleSongsPlayer.Views.Controllers
             mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
             mediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
             mediaPlayer.VolumeChanged += MediaPlayer_VolumeChanged;
+            
             var session = mediaPlayer.PlaybackSession;
             session.PlaybackStateChanged += MediaPlayer_Session_PlaybackStateChanged;
             session.PositionChanged += MediaPlayer_Session_PositionChanged;
+            session.PlaybackRateChanged += Session_PlaybackRateChanged;
         }
 
         private void Uninstall(MediaPlayer mediaPlayer)
@@ -87,6 +91,7 @@ namespace SimpleSongsPlayer.Views.Controllers
             var session = mediaPlayer.PlaybackSession;
             session.PlaybackStateChanged -= MediaPlayer_Session_PlaybackStateChanged;
             session.PositionChanged -= MediaPlayer_Session_PositionChanged;
+            session.PlaybackRateChanged -= Session_PlaybackRateChanged;
         }
 
         private static bool TryGetSession(out MediaPlaybackSession session)
@@ -97,7 +102,6 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private void SetupPlayer()
         {
-            MediaPlaybackSession session = null;
             var source = player.Source as MediaPlaybackList;
             // 循环模式
             {
@@ -122,11 +126,6 @@ namespace SimpleSongsPlayer.Views.Controllers
             // 音量
             {
                 player.Volume = settings.Volume;
-            }
-            // 播放速率
-            {
-                if (TryGetSession(out session))
-                    session.PlaybackRate = settings.PlaybackRate;
             }
 
             {
@@ -317,11 +316,23 @@ namespace SimpleSongsPlayer.Views.Controllers
             {
                 NowPlaybackItemChanged?.Invoke(this, new PlayerNowPlaybackItemChangeEventArgs(CurrentItem, args.NewItem));
                 CurrentItem = args.NewItem;
+
+                if (TryGetSession(out var session))
+                    session.PlaybackRate = settings.PlaybackRate;
             });
         }
 
+        private async void Session_PlaybackRateChanged(MediaPlaybackSession sender, object args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () =>
+                {
+                    MyTransportControls.PlaybackRate = sender.PlaybackRate;
+                });
+        }
+
         #region Position
-        
+
         private async void MediaPlayer_Session_PositionChanged(MediaPlaybackSession sender, object args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -395,6 +406,11 @@ namespace SimpleSongsPlayer.Views.Controllers
                 }
                 fileDto.IsPlaying = false;
             }
+        }
+
+        private void MyTransportControls_OnRateValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            settings.PlaybackRate = e.NewValue;
         }
     }
 }
