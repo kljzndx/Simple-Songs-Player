@@ -120,6 +120,9 @@
   <data name="FastForward_AppBarButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Fast forward / Next song</value>
   </data>
+  <data name="PlaybackRate_AppBarButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Playback rate</value>
+  </data>
   <data name="RepeatMode_AppBarButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Loop mode</value>
   </data>

@@ -599,7 +599,7 @@
                                                 </AppBarButton.Icon>
                                             </AppBarButton>
 
-                                            <AppBarButton x:Name='PlaybackRate_AppBarButton'
+                                            <AppBarButton x:Name='PlaybackRate_AppBarButton' x:Uid="/Player/PlaybackRate_AppBarButton"
                                                           Style='{StaticResource AppBarButtonStyle}'>
                                                 <AppBarButton.Icon>
                                                     <FontIcon Glyph="&#xE805;"/>

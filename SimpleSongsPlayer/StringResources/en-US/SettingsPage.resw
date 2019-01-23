@@ -120,9 +120,6 @@
   <data name="AddLibrary_Button.Content" xml:space="preserve">
     <value>Add folder</value>
   </data>
-  <data name="PlaybackSpeed_Slider.Header" xml:space="preserve">
-    <value>Playback speed</value>
-  </data>
   <data name="SetupLibrary_Button.Content" xml:space="preserve">
     <value>Setup scan location</value>
   </data>
