@@ -435,9 +435,6 @@
     <PackageReference Include="HappyStudio.UwpToolsLibrary.Information">
       <Version>1.0.3</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore">
-      <Version>1.1.6</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.9</Version>
     </PackageReference>
