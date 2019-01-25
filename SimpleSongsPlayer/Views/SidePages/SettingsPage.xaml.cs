@@ -76,7 +76,7 @@ namespace SimpleSongsPlayer.Views.SidePages
             }
 
             builder.SetTrigger(new TimeTrigger(minutes, true));
-            builder.Register().Completed += async (s, e) => await MessageBox.ShowAsync("任务已完成", "Close");
+            builder.Register();
 
             return true;
         }
