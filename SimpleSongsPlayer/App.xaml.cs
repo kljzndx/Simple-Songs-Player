@@ -7,10 +7,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using NLog;
-using SimpleSongsPlayer.DAL;
-using SimpleSongsPlayer.DAL.Factory;
 using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Service;
@@ -21,6 +18,7 @@ using SimpleSongsPlayer.ViewModels.Extensions;
 using SimpleSongsPlayer.ViewModels.SettingProperties;
 using SimpleSongsPlayer.Views;
 using SimpleSongsPlayer.Views.Controllers;
+using SimpleSongsPlayer.Views.SidePages;
 
 namespace SimpleSongsPlayer
 {
@@ -52,7 +50,7 @@ namespace SimpleSongsPlayer
             this.Suspending += OnSuspending;
             this.UnhandledException += App_UnhandledException;
             this.Resuming += App_Resuming;
-            
+
             LogExtension.SetUpAssembly(typeof(App).GetTypeInfo().Assembly, LoggerMembers.Ui);
         }
 
@@ -61,6 +59,18 @@ namespace SimpleSongsPlayer
             e.Handled = true;
 
             await e.Exception.ShowErrorDialog(Logger);
+        }
+
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            if (args.TaskInstance.Task.Name == SettingsPage.timedExitTaskName)
+            {
+                if (MediaPlayer.PlaybackSession != null &&
+                    MediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Paused)
+                    MediaPlayer.Pause();
+
+                Exit();
+            }
         }
 
         /// <summary>

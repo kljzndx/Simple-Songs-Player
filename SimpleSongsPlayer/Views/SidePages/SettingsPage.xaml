@@ -3,6 +3,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SimpleSongsPlayer.Views.SidePages"
+    
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
+
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -39,20 +43,50 @@
         </StackPanel>
 
         <StackPanel>
-            <ToggleSwitch x:Name="TimedExit_ToggleSwitch" x:Uid="/SettingsPage/TimedExit_ToggleSwitch" Header="定时退出" IsOn="{x:Bind locator.Other.IsTimedExitEnable, Mode=TwoWay}" Toggled="TimedExit_ToggleSwitch_OnToggled"/>
+            <ComboBox x:Name="TimedExitMinutes_ComboBox" x:Uid="/SettingsPage/TimedExitMinutes_ComboBox" SelectedIndex="0" SelectionChanged="TimedExitMinutes_ComboBox_OnSelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="x:Int32">
+                        <TextBlock x:Name="Main_TextBlock">
+                            <Interactivity:Interaction.Behaviors>
+                                <Interactions:DataTriggerBehavior Binding="{Binding}" Value="0" ComparisonCondition="Equal">
+                                    <Interactions:ChangePropertyAction x:Uid="/SettingsPage/Close_ChangePropertyAction" TargetObject="{Binding ElementName=Main_TextBlock}" PropertyName="Text"/>
+                                </Interactions:DataTriggerBehavior>
+                            </Interactivity:Interaction.Behaviors>
 
-            <Grid Visibility="{x:Bind TimedExit_ToggleSwitch.IsOn, Mode=OneWay}">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Slider x:Name="Time_Slider" x:Uid="/SettingsPage/Time_Slider" Header="时间" Minimum="15" Maximum="60" Value="{x:Bind locator.Other.TimedExitMinutes, Mode=TwoWay}"/>
-                <TextBlock Grid.Row="1">
-                    <Run x:Uid="/SettingsPage/TimerExitInfo1_Run"/>
-                    <Run Text="{x:Bind locator.Other.TimedExitMinutes, Mode=OneWay}"/>
-                    <Run x:Uid="/SettingsPage/TimerExitInfo2_Run"/>
-                </TextBlock>
-            </Grid>
+                            <Run Text="{x:Bind}"/>
+                            <Run Text=" "/>
+                            <Run x:Uid="/SettingsPage/TimedExitMinutes_Info_Run"/>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+
+                <x:Int32>0</x:Int32>
+                <x:Int32>15</x:Int32>
+                <x:Int32>20</x:Int32>
+                <x:Int32>25</x:Int32>
+                <x:Int32>30</x:Int32>
+                <x:Int32>35</x:Int32>
+                <x:Int32>40</x:Int32>
+                <x:Int32>45</x:Int32>
+                <x:Int32>50</x:Int32>
+                <x:Int32>55</x:Int32>
+                <x:Int32>60</x:Int32>
+            </ComboBox>
+
+            <TextBlock x:Name="TimedExitResult_TextBlock">
+                <Interactivity:Interaction.Behaviors>
+                    <Interactions:DataTriggerBehavior Binding="{Binding ElementName=TimedExitMinutes_ComboBox, Path=SelectedIndex}" Value="0" ComparisonCondition="NotEqual">
+                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=TimedExitResult_TextBlock}" PropertyName="Visibility" Value="Visible"/>
+                    </Interactions:DataTriggerBehavior>
+                    <Interactions:DataTriggerBehavior Binding="{Binding ElementName=TimedExitMinutes_ComboBox, Path=SelectedIndex}" Value="0" ComparisonCondition="Equal">
+                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=TimedExitResult_TextBlock}" PropertyName="Visibility" Value="Collapsed"/>
+                    </Interactions:DataTriggerBehavior>
+                </Interactivity:Interaction.Behaviors>
+
+                <Run x:Uid="/SettingsPage/TimedExitTimeInfo1_Run"/>
+                <Run x:Name="TimedExitTime_Run"/>
+                <Run x:Uid="/SettingsPage/TimedExitTimeInfo2_Run"/>
+            </TextBlock>
         </StackPanel>
     </StackPanel>
 </Page>

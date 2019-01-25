@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Background;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Playback;
 using Windows.Storage;
+using Windows.System;
 using Windows.System.Threading;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -16,6 +20,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using HappyStudio.UwpToolsLibrary.Auxiliarys;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels.Attributes;
 using SimpleSongsPlayer.ViewModels.DataServers;
@@ -32,6 +37,8 @@ namespace SimpleSongsPlayer.Views.SidePages
     [PageTitle("SettingsPage")]
     public sealed partial class SettingsPage : Page
     {
+        public const string timedExitTaskName = "TimedExitTask";
+
         private SettingLocator locator = SettingLocator.Current;
         private SettingsViewModel vm;
 
@@ -39,6 +46,39 @@ namespace SimpleSongsPlayer.Views.SidePages
         {
             this.InitializeComponent();
             vm = (SettingsViewModel) DataContext;
+        }
+
+        private async Task<bool> StartTimer(uint minutes)
+        {
+            var task = BackgroundTaskRegistration.AllTasks.Values.FirstOrDefault(t => t.Name is timedExitTaskName);
+            task?.Unregister(true);
+
+            BackgroundTaskBuilder builder = new BackgroundTaskBuilder
+            {
+                Name = timedExitTaskName,
+            };
+
+            var b = await BackgroundExecutionManager.RequestAccessAsync();
+            if (b == BackgroundAccessStatus.Unspecified)
+            {
+                await MessageBox.ShowAsync("Cannot create timed Task", "Please Open Background permissions for this app in the Windows Settings --> privacy --> Background App",
+                    new Dictionary<string, UICommandInvokedHandler>
+                    {
+                        { "Open Settings", async u => await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-backgroundapps")) }
+                    }, "Close");
+                return false;
+            }
+
+            if (b == BackgroundAccessStatus.DeniedBySystemPolicy || b == BackgroundAccessStatus.DeniedByUser)
+            {
+                await MessageBox.ShowAsync("Cannot create background task", "Close");
+                return false;
+            }
+
+            builder.SetTrigger(new TimeTrigger(minutes, true));
+            builder.Register().Completed += async (s, e) => await MessageBox.ShowAsync("任务已完成", "Close");
+
+            return true;
         }
         
         private void SetupLibrary_Button_OnClick(object sender, RoutedEventArgs e)
@@ -73,33 +113,20 @@ namespace SimpleSongsPlayer.Views.SidePages
             await vm.MusicLibrary.RequestRemoveFolderAsync(folder);
         }
 
-        private void TimedExit_ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+        private async void TimedExitMinutes_ComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (TimedExit_ToggleSwitch.IsOn)
+            int minutes = (int) e.AddedItems.First();
+            if (minutes == 0)
             {
-                if (locator.Other.TimedExitMinutes < 15)
-                    locator.Other.TimedExitMinutes = 15;
-
-                FrameworkPage.Current.TimedExitTimer = ThreadPoolTimer.CreatePeriodicTimer(
-                    async t =>
-                    {
-                        await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                        {
-                            locator.Other.TimedExitMinutes -= 1;
-
-                            if ((int) locator.Other.TimedExitMinutes == 0)
-                            {
-                                t.Cancel();
-                                locator.Other.IsTimedExitEnable = false;
-                                if (App.MediaPlayer.PlaybackSession is MediaPlaybackSession session && session.PlaybackState == MediaPlaybackState.Playing)
-                                    App.MediaPlayer.Pause();
-                                App.Current.Exit();
-                            }
-                        });
-                    }, TimeSpan.FromMinutes(1));
+                var task = BackgroundTaskRegistration.AllTasks.Values.FirstOrDefault(t => t.Name is timedExitTaskName);
+                task?.Unregister(true);
+                return;
             }
-            else
-                FrameworkPage.Current.TimedExitTimer?.Cancel();
+
+            var dateTime = DateTime.Now.AddMinutes(minutes);
+            TimedExitTime_Run.Text = dateTime.ToString("hh:mm:ss");
+            
+            await StartTimer((uint) minutes);
         }
     }
 }
