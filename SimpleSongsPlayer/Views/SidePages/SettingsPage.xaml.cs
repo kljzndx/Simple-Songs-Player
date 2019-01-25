@@ -125,8 +125,10 @@ namespace SimpleSongsPlayer.Views.SidePages
 
             var dateTime = DateTime.Now.AddMinutes(minutes);
             TimedExitTime_Run.Text = dateTime.ToString("hh:mm:ss");
-            
-            await StartTimer((uint) minutes);
+
+            var success = await StartTimer((uint) minutes);
+            if (!success)
+                TimedExitMinutes_ComboBox.SelectedIndex = 0;
         }
     }
 }
