@@ -21,6 +21,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using HappyStudio.UwpToolsLibrary.Auxiliarys;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels.Attributes;
 using SimpleSongsPlayer.ViewModels.DataServers;
@@ -50,17 +51,24 @@ namespace SimpleSongsPlayer.Views.SidePages
 
         private async Task<bool> StartTimer(uint minutes)
         {
+            this.LogByObject("开始创建定时退出任务");
             var task = BackgroundTaskRegistration.AllTasks.Values.FirstOrDefault(t => t.Name is timedExitTaskName);
-            task?.Unregister(true);
+            if (task != null)
+            {
+                this.LogByObject("取消之前创建的定时退出任务");
+                task.Unregister(true);
+            }
 
             BackgroundTaskBuilder builder = new BackgroundTaskBuilder
             {
                 Name = timedExitTaskName,
             };
 
+            this.LogByObject("申请注册任务");
             var b = await BackgroundExecutionManager.RequestAccessAsync();
             if (b == BackgroundAccessStatus.Unspecified)
             {
+                this.LogByObject("申请失败，原因：没权限");
                 await MessageBox.ShowAsync("Cannot create timed Task", "Please Open Background permissions for this app in the Windows Settings --> privacy --> Background App",
                     new Dictionary<string, UICommandInvokedHandler>
                     {
@@ -71,13 +79,17 @@ namespace SimpleSongsPlayer.Views.SidePages
 
             if (b == BackgroundAccessStatus.DeniedBySystemPolicy || b == BackgroundAccessStatus.DeniedByUser)
             {
+                this.LogByObject("申请失败，原因：省电方案");
                 await MessageBox.ShowAsync("Cannot create background task", "Close");
                 return false;
             }
 
+            this.LogByObject($"申请成功，设置 {minutes} 分钟定时");
             builder.SetTrigger(new TimeTrigger(minutes, true));
+            this.LogByObject("注册定时退出任务");
             builder.Register();
 
+            this.LogByObject("注册完成");
             return true;
         }
         
@@ -119,7 +131,11 @@ namespace SimpleSongsPlayer.Views.SidePages
             if (minutes == 0)
             {
                 var task = BackgroundTaskRegistration.AllTasks.Values.FirstOrDefault(t => t.Name is timedExitTaskName);
-                task?.Unregister(true);
+                if (task != null)
+                {
+                    this.LogByObject("取消定时退出任务");
+                    task.Unregister(true);
+                }
                 return;
             }
 

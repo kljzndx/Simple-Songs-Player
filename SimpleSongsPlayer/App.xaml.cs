@@ -65,10 +65,11 @@ namespace SimpleSongsPlayer
         {
             if (args.TaskInstance.Task.Name == SettingsPage.timedExitTaskName)
             {
-                if (MediaPlayer.PlaybackSession != null &&
-                    MediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Paused)
+                Logger.Info("定时退出任务已触发，正在停止播放");
+                if (MediaPlayer.PlaybackSession != null && MediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Paused)
                     MediaPlayer.Pause();
 
+                Logger.Info("正在退出应用");
                 Exit();
             }
         }
