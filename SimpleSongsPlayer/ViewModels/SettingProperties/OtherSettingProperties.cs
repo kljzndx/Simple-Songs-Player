@@ -18,21 +18,5 @@ namespace SimpleSongsPlayer.ViewModels.SettingProperties
             get => isMigratedOldFavorites;
             set => SetSetting(ref isMigratedOldFavorites, value);
         }
-
-        [SettingFieldByNormal(nameof(IsTimedExitEnable), false)] private bool isTimedExitEnable;
-
-        public bool IsTimedExitEnable
-        {
-            get => isTimedExitEnable;
-            set => SetSetting(ref isTimedExitEnable, value);
-        }
-
-        [SettingFieldByNormal(nameof(TimedExitMinutes), 15D)] private double timedExitMinutes;
-
-        public double TimedExitMinutes
-        {
-            get => timedExitMinutes;
-            set => SetSetting(ref timedExitMinutes, value);
-        }
     }
 }
