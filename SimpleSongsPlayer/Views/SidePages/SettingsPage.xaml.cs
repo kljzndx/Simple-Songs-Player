@@ -66,6 +66,7 @@ namespace SimpleSongsPlayer.Views.SidePages
             BackgroundTaskBuilder builder = new BackgroundTaskBuilder
             {
                 Name = timedExitTaskName,
+                TaskEntryPoint = "SimpleSongsPlayer.Background.TimedExitTask",
             };
 
             this.LogByObject("申请注册任务");
@@ -90,8 +91,14 @@ namespace SimpleSongsPlayer.Views.SidePages
 
             this.LogByObject($"申请成功，设置 {minutes} 分钟定时");
             builder.SetTrigger(new TimeTrigger(minutes, true));
+
             this.LogByObject("注册定时退出任务");
-            builder.Register();
+            builder.Register().Completed += async (s, e) =>
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    this.LogByObject("定时退出任务已触发，正在退出应用");
+                    Application.Current.Exit();
+                });
 
             this.LogByObject("注册完成");
             return true;

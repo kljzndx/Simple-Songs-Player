@@ -444,11 +444,18 @@
     <PackageReference Include="MvvmLight">
       <Version>5.4.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.1</Version>
+    </PackageReference>
     <PackageReference Include="System.ValueTuple">
       <Version>4.3.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SimpleSongsPlayer.Background\SimpleSongsPlayer.Background.csproj">
+      <Project>{dbce0d6c-ca08-43e5-b352-3087988bc8ee}</Project>
+      <Name>SimpleSongsPlayer.Background</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimpleSongsPlayer.DAL.Factory\SimpleSongsPlayer.DAL.Factory.csproj">
       <Project>{e9066de6-9977-4d1e-9a0b-bb029ba7a94d}</Project>
       <Name>SimpleSongsPlayer.DAL.Factory</Name>
