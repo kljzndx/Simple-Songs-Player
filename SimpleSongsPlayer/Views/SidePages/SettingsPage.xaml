@@ -88,5 +88,10 @@
                 <Run x:Uid="/SettingsPage/TimedExitTimeInfo2_Run"/>
             </TextBlock>
         </StackPanel>
+
+        <StackPanel>
+            <Button x:Name="LeadingInFavorites_Button" x:Uid="/SettingsPage/LeadingInFavorites_Button" Click="LeadingInFavorites_Button_OnClick"/>
+            <Button x:Name="LeadingOutFavorites_Button" x:Uid="/SettingsPage/LeadingOutFavorites_Button" Click="LeadingOutFavorites_Button_OnClick"/>
+        </StackPanel>
     </StackPanel>
 </Page>

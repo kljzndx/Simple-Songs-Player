@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
+using Newtonsoft.Json;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.DAL.Factory;
 using SimpleSongsPlayer.Log;
@@ -97,6 +98,12 @@ namespace SimpleSongsPlayer.ViewModels
             {
                 this.LogByObject(ex, "迁移失败");
             }
+        }
+        
+        public string ToJson()
+        {
+            var data = Data.Select(d => new {Name = d.Name, Paths = d.Items.Select(f => f.FilePath)});
+            return JsonConvert.SerializeObject(data);
         }
 
         private MusicFileDTO GetFile(string path)

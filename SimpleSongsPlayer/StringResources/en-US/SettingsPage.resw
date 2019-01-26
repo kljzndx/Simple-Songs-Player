@@ -147,4 +147,13 @@
   <data name="TimedExitTimeInfo2_Run.Text" xml:space="preserve">
     <value />
   </data>
+  <data name="LeadingInFavorites_Button.Content" xml:space="preserve">
+    <value>Leading-in favorites list</value>
+  </data>
+  <data name="LeadingOutFavorites_Button.Content" xml:space="preserve">
+    <value>Leading-out favorites list</value>
+  </data>
+  <data name="LeadingOutFavorites_ErrorInfo" xml:space="preserve">
+    <value>Favorites list is empty now</value>
+  </data>
 </root>

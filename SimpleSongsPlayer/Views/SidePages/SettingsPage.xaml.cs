@@ -5,10 +5,12 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Playback;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.System.Threading;
 using Windows.UI.Core;
@@ -21,8 +23,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using HappyStudio.UwpToolsLibrary.Auxiliarys;
+using Newtonsoft.Json.Linq;
 using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Service;
+using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Attributes;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.SettingProperties;
@@ -145,6 +149,54 @@ namespace SimpleSongsPlayer.Views.SidePages
             var success = await StartTimer((uint) minutes);
             if (!success)
                 TimedExitMinutes_ComboBox.SelectedIndex = 0;
+        }
+
+        private async void LeadingOutFavorites_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (FavoritesDataServer.Current.Data.Count <= 0)
+                await MessageBox.ShowAsync(ResourceLoader.GetForCurrentView("SettingsPage").GetString("LeadingOutFavorites_ErrorInfo"), "OK");
+
+            var picker = new FileSavePicker();
+            picker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
+            picker.FileTypeChoices.Add("Json file", new List<string>{".json"});
+            var file = await picker.PickSaveFileAsync();
+            if (file is null)
+                return;
+
+            string json = FavoritesDataServer.Current.ToJson();
+
+            await FileIO.WriteTextAsync(file, json);
+        }
+
+        private async void LeadingInFavorites_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            var picker = new FileOpenPicker();
+            picker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
+            picker.FileTypeFilter.Add(".json");
+            var file = await picker.PickSingleFileAsync();
+            if (file is null)
+                return;
+            string content = await FileIO.ReadTextAsync(file);
+            JArray root = JArray.Parse(content);
+            foreach (var token in root)
+            {
+                var favorites = token.Value<JObject>();
+                string name = null;
+                List<string> paths = null;
+
+                {
+                    if (favorites.TryGetValue("Name", out var nameToken))
+                        name = nameToken.Value<string>();
+
+                    if (favorites.TryGetValue("Paths", out var pathsToken))
+                        paths = pathsToken.Values<string>().ToList();
+                }
+
+                if (name != null && paths != null)
+                    await FavoritesDataServer.Current.FavoriteOption.AddRange(name, paths);
+                else
+                    throw new Exception("Cannot parse this file");
+            }
         }
     }
 }

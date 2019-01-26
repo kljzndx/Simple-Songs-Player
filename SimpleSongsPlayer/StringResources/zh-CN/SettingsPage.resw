@@ -147,4 +147,13 @@
   <data name="TimedExitTimeInfo2_Run.Text" xml:space="preserve">
     <value> 退出</value>
   </data>
+  <data name="LeadingInFavorites_Button.Content" xml:space="preserve">
+    <value>导入收藏列表</value>
+  </data>
+  <data name="LeadingOutFavorites_Button.Content" xml:space="preserve">
+    <value>导出收藏列表</value>
+  </data>
+  <data name="LeadingOutFavorites_ErrorInfo" xml:space="preserve">
+    <value>收藏列表为空</value>
+  </data>
 </root>
