@@ -43,6 +43,7 @@ namespace SimpleSongsPlayer.Views.SidePages
     public sealed partial class SettingsPage : Page
     {
         public const string timedExitTaskName = "TimedExitTask";
+        public static DateTimeOffset ExitTime;
 
         private SettingLocator locator = SettingLocator.Current;
         private SettingsViewModel vm;
@@ -53,16 +54,16 @@ namespace SimpleSongsPlayer.Views.SidePages
             vm = (SettingsViewModel) DataContext;
         }
 
-        private async Task<bool> StartTimer(uint minutes)
+        private async Task<bool> StartTimer()
         {
-            this.LogByObject("开始创建定时退出任务");
             var task = BackgroundTaskRegistration.AllTasks.Values.FirstOrDefault(t => t.Name is timedExitTaskName);
             if (task != null)
             {
-                this.LogByObject("取消之前创建的定时退出任务");
-                task.Unregister(true);
+                this.LogByObject("定时退出任务已创建");
+                return true;
             }
 
+            this.LogByObject("开始创建定时退出任务");
             BackgroundTaskBuilder builder = new BackgroundTaskBuilder
             {
                 Name = timedExitTaskName,
@@ -88,8 +89,8 @@ namespace SimpleSongsPlayer.Views.SidePages
                 return false;
             }
 
-            this.LogByObject($"申请成功，设置 {minutes} 分钟定时");
-            builder.SetTrigger(new TimeTrigger(minutes, true));
+            this.LogByObject($"申请成功，正在设置 15 分钟循环定时");
+            builder.SetTrigger(new TimeTrigger(15, false));
             this.LogByObject("注册定时退出任务");
             builder.Register();
 
@@ -143,10 +144,10 @@ namespace SimpleSongsPlayer.Views.SidePages
                 return;
             }
 
-            var dateTime = DateTime.Now.AddMinutes(minutes);
-            TimedExitTime_Run.Text = dateTime.ToString("hh:mm:ss");
+            ExitTime = DateTime.Now.AddMinutes(minutes - 1);
+            TimedExitTime_Run.Text = ExitTime.AddMinutes(1).ToString("hh:mm:ss");
 
-            var success = await StartTimer((uint) minutes);
+            var success = await StartTimer();
             if (!success)
                 TimedExitMinutes_ComboBox.SelectedIndex = 0;
         }

@@ -63,8 +63,11 @@ namespace SimpleSongsPlayer
 
         protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
-            if (args.TaskInstance.Task.Name == SettingsPage.timedExitTaskName)
+            if (args.TaskInstance.Task.Name == SettingsPage.timedExitTaskName
+                && DateTime.Now > SettingsPage.ExitTime)
             {
+                args.TaskInstance.Task.Unregister(true);
+
                 Logger.Info("定时退出任务已触发，正在停止播放");
                 if (MediaPlayer.PlaybackSession != null && MediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Paused)
                     MediaPlayer.Pause();
