@@ -62,15 +62,13 @@
 
                 <x:Int32>0</x:Int32>
                 <x:Int32>15</x:Int32>
-                <x:Int32>20</x:Int32>
-                <x:Int32>25</x:Int32>
                 <x:Int32>30</x:Int32>
-                <x:Int32>35</x:Int32>
-                <x:Int32>40</x:Int32>
                 <x:Int32>45</x:Int32>
-                <x:Int32>50</x:Int32>
-                <x:Int32>55</x:Int32>
                 <x:Int32>60</x:Int32>
+                <x:Int32>75</x:Int32>
+                <x:Int32>90</x:Int32>
+                <x:Int32>105</x:Int32>
+                <x:Int32>120</x:Int32>
             </ComboBox>
 
             <TextBlock x:Name="TimedExitResult_TextBlock">
