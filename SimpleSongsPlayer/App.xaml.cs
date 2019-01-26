@@ -18,6 +18,7 @@ using SimpleSongsPlayer.ViewModels.Extensions;
 using SimpleSongsPlayer.ViewModels.SettingProperties;
 using SimpleSongsPlayer.Views;
 using SimpleSongsPlayer.Views.Controllers;
+using SimpleSongsPlayer.Views.SidePages;
 
 namespace SimpleSongsPlayer
 {
@@ -59,7 +60,20 @@ namespace SimpleSongsPlayer
 
             await e.Exception.ShowErrorDialog(Logger);
         }
-        
+
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            if (args.TaskInstance.Task.Name == SettingsPage.timedExitTaskName)
+            {
+                Logger.Info("定时退出任务已触发，正在停止播放");
+                if (MediaPlayer.PlaybackSession != null && MediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Paused)
+                    MediaPlayer.Pause();
+
+                Logger.Info("正在退出应用");
+                Exit();
+            }
+        }
+
         /// <summary>
         /// 在应用程序由最终用户正常启动时进行调用。
         /// 将在启动应用程序以打开特定文件等情况下使用。
