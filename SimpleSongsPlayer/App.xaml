@@ -16,7 +16,7 @@
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="AppBackground" Color="#88000000"/>
-                    <SolidColorBrush x:Key="Layer_Brush" Opacity="0.1" Color="#ffffffff"/>
+                    <SolidColorBrush x:Key="Layer_Brush" Opacity="0.12" Color="#ffffffff"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
