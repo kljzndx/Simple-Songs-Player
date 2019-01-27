@@ -155,7 +155,10 @@ namespace SimpleSongsPlayer.Views.SidePages
         private async void LeadingOutFavorites_Button_OnClick(object sender, RoutedEventArgs e)
         {
             if (FavoritesDataServer.Current.Data.Count <= 0)
+            {
                 await MessageBox.ShowAsync(ResourceLoader.GetForCurrentView("SettingsPage").GetString("LeadingOutFavorites_ErrorInfo"), "OK");
+                return;
+            }
 
             var picker = new FileSavePicker();
             picker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
