@@ -25,10 +25,10 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
         private ObservableCollection<MusicFileDTO> itemSource;
         private ObservableCollection<MusicFileGroup> groupSource;
         private MusicGrouperArgs grouperArgs;
-        private List<MusicItemMenuItem<MusicFileGroupDynamic>> extraGroupMenu;
+        private List<MusicItemMenuItem<MusicFileGroup>> extraGroupMenu;
         private List<MusicItemMenuItem<MusicFileDynamic>> extraItemMenu;
 
-        public MusicGroupArguments(string title = null, IDataServer<MusicFileGroup, KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>> dataServer = null, ObservableCollection<MusicFileDTO> itemSource = null, ObservableCollection<MusicFileGroup> groupSource = null, MusicGrouperArgs grouperArgs = null, IEnumerable<MusicItemMenuItem<MusicFileGroupDynamic>> extraGroupMenu = null, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraItemMenu = null) : base(title)
+        public MusicGroupArguments(string title = null, IDataServer<MusicFileGroup, KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>> dataServer = null, ObservableCollection<MusicFileDTO> itemSource = null, ObservableCollection<MusicFileGroup> groupSource = null, MusicGrouperArgs grouperArgs = null, IEnumerable<MusicItemMenuItem<MusicFileGroup>> extraGroupMenu = null, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraItemMenu = null) : base(title)
         {
             if (dataServer != null)
                 DataServer = dataServer;
@@ -87,7 +87,7 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
             }
         }
 
-        public List<MusicItemMenuItem<MusicFileGroupDynamic>> ExtraGroupMenu
+        public List<MusicItemMenuItem<MusicFileGroup>> ExtraGroupMenu
         {
             get => extraGroupMenu;
             private set
