@@ -19,6 +19,15 @@
     <Page.Resources>
         <CollectionViewSource x:Key="Data_CollectionViewSource" Source="{Binding DataSource}" IsSourceGrouped="True" ItemsPath="Items"/>
 
+        <Style x:Key="Global_ListViewHeaderItemStyle" TargetType="ListViewHeaderItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Opacity="0.07" Color="{ThemeResource SystemBaseHighColor}"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <GroupStyle x:Key="Normal_GroupStyle" HidesIfEmpty="True">
             <GroupStyle.HeaderTemplate>
                 <DataTemplate>
@@ -54,9 +63,7 @@
                 </DataTemplate>
             </GroupStyle.HeaderTemplate>
             <GroupStyle.HeaderContainerStyle>
-                <Style TargetType="ListViewHeaderItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                </Style>
+                <Style TargetType="ListViewHeaderItem" BasedOn="{StaticResource Global_ListViewHeaderItemStyle}"/>
             </GroupStyle.HeaderContainerStyle>
         </GroupStyle>
         <GroupStyle x:Name="NoName_GroupStyle" HidesIfEmpty="True">
@@ -66,7 +73,7 @@
                 </DataTemplate>
             </GroupStyle.HeaderTemplate>
             <GroupStyle.HeaderContainerStyle>
-                <Style TargetType="ListViewHeaderItem">
+                <Style TargetType="ListViewHeaderItem" BasedOn="{StaticResource Global_ListViewHeaderItemStyle}">
                     <Setter Property="IsEnabled" Value="False"/>
                 </Style>
             </GroupStyle.HeaderContainerStyle>
@@ -177,6 +184,11 @@
                         <Style TargetType="GridViewItem">
                             <Setter Property="Padding" Value="8"/>
                             <Setter Property="MinHeight" Value="0"/>
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Opacity="0.07" Color="{ThemeResource SystemBaseHighColor}"/>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </GridView.ItemContainerStyle>
                 </GridView>
