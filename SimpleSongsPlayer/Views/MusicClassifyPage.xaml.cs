@@ -75,7 +75,20 @@ namespace SimpleSongsPlayer.Views
                     Album_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(itemSource:MusicFileDataServer.Current.Data, grouperArgs:new MusicGrouperArgs(new MusicAlbumGrouper(), new MusicAlbumFilter())));
                     break;
                 case 3:
-                    Favorites_Frame.NavigateEx(GroupPageType, new MusicGroupArguments(dataServer:FavoritesDataServer.Current, groupSource:FavoritesDataServer.Current.Data, extraItemMenu:new[] {new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Remove", async mf => await FavoritesDataServer.Current.FavoriteOption.RemoveRange(FrameworkPage.Current.PageMoreInfo, new []{mf.Original.FilePath})), }));
+                    Favorites_Frame.NavigateEx(GroupPageType,
+                        new MusicGroupArguments(dataServer: FavoritesDataServer.Current,
+                            groupSource: FavoritesDataServer.Current.Data,
+                            extraGroupMenu: new[]
+                            {
+                                new MusicItemMenuItem<MusicFileGroupDynamic>("MusicListPage", "MoreMenu_Remove",
+                                    async g => await FavoritesDataServer.Current.FavoriteOption.RemoveGroup(g.Name)),
+                            },
+                            extraItemMenu: new[]
+                            {
+                                new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Remove",
+                                    async mf => await FavoritesDataServer.Current.FavoriteOption.RemoveRange(
+                                        FrameworkPage.Current.PageMoreInfo, new[] {mf.Original.FilePath})),
+                            }));
                     break;
                 case 4:
                     NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.Data, MusicFileDataServer.Current, new [] {new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
