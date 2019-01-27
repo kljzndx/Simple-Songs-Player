@@ -296,6 +296,8 @@
     </Content>
     <None Include="SimpleSongsPlayer_StoreKey.pfx" />
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="StringResources\en-US\Pages\MusicPage.resw" />
+    <PRIResource Include="StringResources\zh-CN\Pages\MusicPage.resw" />
     <PRIResource Include="StringResources\zh-CN\Members\MusicItemsOptions.resw" />
     <PRIResource Include="StringResources\en-US\Members\MusicItemsOptions.resw" />
     <PRIResource Include="StringResources\en-US\Members\MoreMenu.resw" />
