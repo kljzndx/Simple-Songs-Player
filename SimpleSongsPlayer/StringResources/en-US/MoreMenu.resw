@@ -117,4 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="MoreMenu_AddNowPlaying" xml:space="preserve">
+    <value>Add to now playing</value>
+  </data>
+  <data name="MoreMenu_Favorite" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
+  <data name="MoreMenu_PlayNext" xml:space="preserve">
+    <value>Play next</value>
+  </data>
+  <data name="MoreMenu_Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
 </root>

@@ -80,18 +80,18 @@ namespace SimpleSongsPlayer.Views
                             groupSource: FavoritesDataServer.Current.Data,
                             extraGroupMenu: new[]
                             {
-                                new MusicItemMenuItem<MusicFileGroupDynamic>("MusicListPage", "MoreMenu_Remove",
+                                new MusicItemMenuItem<MusicFileGroup>("MoreMenu_Remove",
                                     async g => await FavoritesDataServer.Current.FavoriteOption.RemoveGroup(g.Name)),
                             },
                             extraItemMenu: new[]
                             {
-                                new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Remove",
+                                new MusicItemMenuItem<MusicFileDynamic>("MoreMenu_Remove",
                                     async mf => await FavoritesDataServer.Current.FavoriteOption.RemoveRange(
                                         FrameworkPage.Current.PageMoreInfo, new[] {mf.Original.FilePath})),
                             }));
                     break;
                 case 4:
-                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.Data, MusicFileDataServer.Current, new [] {new MusicItemMenuItem<MusicFileDynamic>("MusicListPage", "MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
+                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.Data, MusicFileDataServer.Current, new [] {new MusicItemMenuItem<MusicFileDynamic>("MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
                     break;
             }
         }

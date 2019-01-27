@@ -10,12 +10,13 @@ namespace SimpleSongsPlayer.Models
     public class MusicItemMenuItem<TOption>
     {
         private static readonly Dictionary<string, string> AllName = new Dictionary<string, string>();
+        private static readonly ResourceLoader StringResource = ResourceLoader.GetForCurrentView("MoreMenu");
 
-        public MusicItemMenuItem(string resourceName, string resourceKey, MusicItemMenuItemAction<TOption> action)
+        public MusicItemMenuItem(string resourceKey, MusicItemMenuItemAction<TOption> action)
         {
-            string target = String.Format("{0}/{1}", resourceName, resourceKey);
+            string target = resourceKey;
             if (!AllName.ContainsKey(target))
-                AllName[target] = ResourceLoader.GetForCurrentView(resourceName).GetString(resourceKey);
+                AllName[target] = StringResource.GetString(resourceKey);
 
             Name = AllName[target];
             Action = action;
