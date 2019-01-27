@@ -117,12 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddToFavorites_MenuFlyoutItem.Text" xml:space="preserve">
-    <value>Favorites</value>
-  </data>
-  <data name="AddToNowPlaying_MenuFlyoutItem.Text" xml:space="preserve">
-    <value>Now playing</value>
-  </data>
   <data name="AllMusic_TextBlock.Text" xml:space="preserve">
     <value>All music</value>
   </data>
@@ -156,19 +150,10 @@
   <data name="Title" xml:space="preserve">
     <value>Music list</value>
   </data>
-  <data name="PlaySelectedItems_AppBarButton.Label" xml:space="preserve">
-    <value>Play</value>
-  </data>
-  <data name="AddSelectedItems_AppBarButton.Label" xml:space="preserve">
-    <value>Add to...</value>
-  </data>
   <data name="SwitchMultipleSelection_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Switch to multi-select mode</value>
   </data>
   <data name="SwitchSingleSelection_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Switch to single-choice mode</value>
-  </data>
-  <data name="SelectAll_AppBarButton.Label" xml:space="preserve">
-    <value>Select all</value>
   </data>
 </root>

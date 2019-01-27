@@ -200,24 +200,24 @@
 
         <CommandBar x:Name="ListOption_CommandBar" Grid.Row="2" Visibility="Collapsed">
             <CommandBar.PrimaryCommands>
-                <AppBarButton x:Name="SelectAll_AppBarButton" x:Uid="/MusicListPage/SelectAll_AppBarButton" Click="SelectAll_AppBarButton_OnClick">
+                <AppBarButton x:Name="SelectAll_AppBarButton" x:Uid="/MusicItemsOptions/SelectAll_AppBarButton" Click="SelectAll_AppBarButton_OnClick">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE179;"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton x:Name="PlaySelectedItems_AppBarButton" x:Uid="/MusicListPage/PlaySelectedItems_AppBarButton" Click="PlaySelectedItems_AppBarButton_OnClick">
+                <AppBarButton x:Name="PlaySelectedItems_AppBarButton" x:Uid="/MusicItemsOptions/PlaySelectedItems_AppBarButton" Click="PlaySelectedItems_AppBarButton_OnClick">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE102;"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton x:Name="AddSelectedItems_AppBarButton" x:Uid="/MusicListPage/AddSelectedItems_AppBarButton">
+                <AppBarButton x:Name="AddSelectedItems_AppBarButton" x:Uid="/MusicItemsOptions/AddSelectedItems_AppBarButton">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE109;"/>
                     </AppBarButton.Icon>
                     <AppBarButton.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem x:Name="AddSelectedItemsToNowPlaying_MenuFlyoutItem" x:Uid="/MusicListPage/AddToNowPlaying_MenuFlyoutItem" Click="AddSelectedItemsToNowPlaying_MenuFlyoutItem_OnClick"/>
-                            <MenuFlyoutItem x:Name="AddSelectedItemsToFavorites_MenuFlyoutItem" x:Uid="/MusicListPage/AddToFavorites_MenuFlyoutItem" Click="AddSelectedItemsToFavorites_MenuFlyoutItem_OnClick"/>
+                            <MenuFlyoutItem x:Name="AddSelectedItemsToNowPlaying_MenuFlyoutItem" x:Uid="/MusicItemsOptions/AddToNowPlaying_MenuFlyoutItem" Click="AddSelectedItemsToNowPlaying_MenuFlyoutItem_OnClick"/>
+                            <MenuFlyoutItem x:Name="AddSelectedItemsToFavorites_MenuFlyoutItem" x:Uid="/MusicItemsOptions/AddToFavorites_MenuFlyoutItem" Click="AddSelectedItemsToFavorites_MenuFlyoutItem_OnClick"/>
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
