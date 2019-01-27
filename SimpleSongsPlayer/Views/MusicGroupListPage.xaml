@@ -4,6 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:temp="using:SimpleSongsPlayer.Views.Templates"
     xmlns:ctol="using:SimpleSongsPlayer.Views.Controllers"
+    xmlns:pctol="using:HappyStudio.UwpToolsLibrary.Control"
+
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
+
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -14,6 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid Margin="0,4">
@@ -23,7 +29,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="PlayAll_Button" x:Uid="/MusicListPage/PlayAll_Button" Background="Transparent" Click="PlayAll_Button_OnClick">
+            <Button x:Name="PlayAll_Button" x:Uid="/MusicPage/PlayAll_Button" Background="Transparent" Click="PlayAll_Button_OnClick">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -31,12 +37,12 @@
                     </Grid.ColumnDefinitions>
 
                     <FontIcon Glyph="&#xE149;"/>
-                    <TextBlock x:Uid="/MusicListPage/PlayAll_TextBlock" Grid.Column="1" Margin="8,0,0,0"/>
+                    <TextBlock x:Uid="/MusicPage/PlayAll_TextBlock" Grid.Column="1" Margin="8,0,0,0"/>
                 </Grid>
             </Button>
 
             <StackPanel Grid.Column="2" Orientation="Horizontal">
-                <TextBlock x:Uid="/SorterMembers/ListSort_TextBlock" VerticalAlignment="Center"/>
+                <TextBlock x:Uid="/MusicPage/ListSort_TextBlock" VerticalAlignment="Center"/>
                 <ctol:SplitButton x:Name="Sort_SplitButton" LeftButton_Click="Sort_SplitButton_OnLeftButton_Click">
                     <ctol:SplitButton.ExtendFlyout>
                         <Flyout>
@@ -62,12 +68,76 @@
             </StackPanel>
         </Grid>
 
-        <GridView Grid.Row="1" ItemsSource="{Binding DataSource}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="Main_GridView_OnItemClick">
+        <GridView x:Name="Main_GridView" Grid.Row="1" ItemsSource="{Binding DataSource}" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="Main_GridView_OnItemClick">
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <temp:MusicGroupItemTemplate Source="{Binding}" MoreMenuItemList="{StaticResource GroupMoreMenu}"/>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="50">
+            <StackPanel.Transitions>
+                <TransitionCollection>
+                    <RepositionThemeTransition/>
+                </TransitionCollection>
+            </StackPanel.Transitions>
+
+            <pctol:FloatingActionButton x:Name="SwitchMultipleSelection_FloatingActionButton" x:Uid="/MusicPage/SwitchMultipleSelection_FloatingActionButton" Glyph="&#xE133;" Click="SwitchMultipleSelection_FloatingActionButton_OnClick">
+                <Interactivity:Interaction.Behaviors>
+                    <Interactions:DataTriggerBehavior Binding="{Binding ElementName=Main_GridView, Path=SelectionMode}" Value="Single" ComparisonCondition="Equal">
+                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=SwitchMultipleSelection_FloatingActionButton}" PropertyName="Visibility" Value="Visible"/>
+                    </Interactions:DataTriggerBehavior>
+                    <Interactions:DataTriggerBehavior Binding="{Binding ElementName=Main_GridView, Path=SelectionMode}" Value="Multiple" ComparisonCondition="Equal">
+                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=SwitchMultipleSelection_FloatingActionButton}" PropertyName="Visibility" Value="Collapsed"/>
+                    </Interactions:DataTriggerBehavior>
+                </Interactivity:Interaction.Behaviors>
+            </pctol:FloatingActionButton>
+            <pctol:FloatingActionButton x:Name="SwitchSingleSelection_FloatingActionButton" x:Uid="/MusicPage/SwitchSingleSelection_FloatingActionButton" Glyph="&#xE10B;" Click="SwitchSingleSelection_FloatingActionButton_OnClick">
+                <Interactivity:Interaction.Behaviors>
+                    <Interactions:DataTriggerBehavior Binding="{Binding ElementName=Main_GridView, Path=SelectionMode}" Value="Single" ComparisonCondition="Equal">
+                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=SwitchSingleSelection_FloatingActionButton}" PropertyName="Visibility" Value="Collapsed"/>
+                    </Interactions:DataTriggerBehavior>
+                    <Interactions:DataTriggerBehavior Binding="{Binding ElementName=Main_GridView, Path=SelectionMode}" Value="Multiple" ComparisonCondition="Equal">
+                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=SwitchSingleSelection_FloatingActionButton}" PropertyName="Visibility" Value="Visible"/>
+                    </Interactions:DataTriggerBehavior>
+                </Interactivity:Interaction.Behaviors>
+            </pctol:FloatingActionButton>
+        </StackPanel>
+
+        <CommandBar x:Name="GroupsOptions_CommandBar" Grid.Row="2" Visibility="Visible">
+            <Interactivity:Interaction.Behaviors>
+                <Interactions:DataTriggerBehavior Binding="{Binding ElementName=Main_GridView, Path=SelectionMode}" Value="Single" ComparisonCondition="Equal">
+                    <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=GroupsOptions_CommandBar}" PropertyName="Visibility" Value="Collapsed"/>
+                </Interactions:DataTriggerBehavior>
+                <Interactions:DataTriggerBehavior Binding="{Binding ElementName=Main_GridView, Path=SelectionMode}" Value="Multiple" ComparisonCondition="Equal">
+                    <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=GroupsOptions_CommandBar}" PropertyName="Visibility" Value="Visible"/>
+                </Interactions:DataTriggerBehavior>
+            </Interactivity:Interaction.Behaviors>
+
+            <CommandBar.PrimaryCommands>
+                <AppBarButton x:Name="SelectAll_AppBarButton" x:Uid="/MusicItemsOptions/SelectAll_AppBarButton" Click="SelectAll_AppBarButton_OnClick">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE179;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton x:Name="PlaySelectedItems_AppBarButton" x:Uid="/MusicItemsOptions/PlaySelectedItems_AppBarButton" Click="PlaySelectedItems_AppBarButton_OnClick">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE102;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton x:Name="AddSelectedItems_AppBarButton" x:Uid="/MusicItemsOptions/AddSelectedItems_AppBarButton">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE109;"/>
+                    </AppBarButton.Icon>
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem x:Name="AddSelectedItemsToNowPlaying_MenuFlyoutItem" x:Uid="/MusicItemsOptions/AddToNowPlaying_MenuFlyoutItem" Click="AddSelectedItemsToNowPlaying_MenuFlyoutItem_OnClick"/>
+                            <MenuFlyoutItem x:Name="AddSelectedItemsToFavorites_MenuFlyoutItem" x:Uid="/MusicItemsOptions/AddToFavorites_MenuFlyoutItem" Click="AddSelectedItemsToFavorites_MenuFlyoutItem_OnClick"/>
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
     </Grid>
 </Page>

@@ -49,12 +49,43 @@ namespace SimpleSongsPlayer.Views
             vm = (MusicGroupListViewModel) DataContext;
         }
 
+        private IEnumerable<MusicFileDTO> GetSongItems(IEnumerable<MusicFileGroup> groups)
+        {
+            this.LogByObject("正在提取出所有的音乐");
+            var data = groups.Select(g => g.Items).Aggregate((l, r) =>
+            {
+                var d = new ObservableCollection<MusicFileDTO>(l);
+                foreach (var musicFileDto in r)
+                    d.Add(musicFileDto);
+                return d;
+            });
+            return data;
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is MusicGroupArguments args)
             {
                 if (args.ArgsType.HasFlag(MusicGroupArgsType.GroupMenu))
+                {
                     groupMenu.AddRange(args.ExtraGroupMenu);
+
+                    {
+                        foreach (var menuItem in args.ExtraGroupMenu)
+                        {
+                            AppBarButton more = new AppBarButton();
+                            more.Label = menuItem.Name;
+                            more.Click += async (s, ea) =>
+                            {
+                                foreach (MusicFileGroup item in Main_GridView.SelectedItems.ToList())
+                                    if (menuItem.Action != null)
+                                        await menuItem.Action.Invoke(item);
+                            };
+
+                            GroupsOptions_CommandBar.SecondaryCommands.Add(more);
+                        }
+                    }
+                }
                 if (args.ArgsType.HasFlag(MusicGroupArgsType.ItemMenu))
                     itemExtraMenu = args.ExtraItemMenu;
                 if (args.ArgsType.HasFlag(MusicGroupArgsType.DataServer))
@@ -80,7 +111,7 @@ namespace SimpleSongsPlayer.Views
         private void Main_GridView_OnItemClick(object sender, ItemClickEventArgs e)
         {
             var item = e.ClickedItem as MusicFileGroup;
-            if (item is null)
+            if (item is null || Main_GridView.SelectionMode == ListViewSelectionMode.Multiple)
                 return;
 
             if (vm.ItemFilter != null)
@@ -96,21 +127,10 @@ namespace SimpleSongsPlayer.Views
 
         private async void PlayAll_Button_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!vm.DataSource.Any())
-                return;
-
             PlayAll_Button.IsEnabled = false;
 
-            this.LogByObject("正在提取出所有的音乐");
-            var data = vm.DataSource.Select(g => g.Items).Aggregate((l, r) =>
-            {
-                var d = new ObservableCollection<MusicFileDTO>(l);
-                foreach (var musicFileDto in r)
-                    d.Add(musicFileDto);
-                return d;
-            });
-
-            await MusicPusher.Push(data);
+            if (vm.DataSource.Any())
+                await MusicPusher.Push(GetSongItems(vm.DataSource));
 
             PlayAll_Button.IsEnabled = true;
         }
@@ -143,6 +163,36 @@ namespace SimpleSongsPlayer.Views
         {
             vm.Reverse();
             settings.IsReverse = !settings.IsReverse;
+        }
+
+        private void SwitchMultipleSelection_FloatingActionButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Main_GridView.SelectionMode = ListViewSelectionMode.Multiple;
+        }
+
+        private void SwitchSingleSelection_FloatingActionButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Main_GridView.SelectionMode = ListViewSelectionMode.Single;
+        }
+
+        private void SelectAll_AppBarButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Main_GridView.SelectAll();
+        }
+
+        private async void PlaySelectedItems_AppBarButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            await MusicPusher.Push(GetSongItems(Main_GridView.SelectedItems.Cast<MusicFileGroup>()));
+        }
+
+        private async void AddSelectedItemsToNowPlaying_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            await MusicPusher.Append(GetSongItems(Main_GridView.SelectedItems.Cast<MusicFileGroup>()));
+        }
+
+        private void AddSelectedItemsToFavorites_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            FavoriteAdditionNotification.RequestFavoriteAddition(GetSongItems(Main_GridView.SelectedItems.Cast<MusicFileGroup>()));
         }
     }
 }
