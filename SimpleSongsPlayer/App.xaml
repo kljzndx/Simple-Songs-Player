@@ -10,11 +10,13 @@
                 <ResourceDictionary Source="ViewModels/Converters/GlobalValueConverters.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Default">
+                <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="AppBackground" Color="#44000000"/>
+                    <SolidColorBrush x:Key="Layer_Brush" Opacity="0.05" Color="#ff000000"/>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="AppBackground" Color="#88000000"/>
+                    <SolidColorBrush x:Key="Layer_Brush" Opacity="0.1" Color="#ffffffff"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 

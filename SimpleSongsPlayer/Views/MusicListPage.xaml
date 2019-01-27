@@ -21,11 +21,7 @@
 
         <Style x:Key="Global_ListViewHeaderItemStyle" TargetType="ListViewHeaderItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="Background">
-                <Setter.Value>
-                    <SolidColorBrush Opacity="0.07" Color="{ThemeResource SystemBaseHighColor}"/>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Background" Value="{StaticResource Layer_Brush}"/>
         </Style>
 
         <GroupStyle x:Key="Normal_GroupStyle" HidesIfEmpty="True">
@@ -184,11 +180,7 @@
                         <Style TargetType="GridViewItem">
                             <Setter Property="Padding" Value="8"/>
                             <Setter Property="MinHeight" Value="0"/>
-                            <Setter Property="Background">
-                                <Setter.Value>
-                                    <SolidColorBrush Opacity="0.07" Color="{ThemeResource SystemBaseHighColor}"/>
-                                </Setter.Value>
-                            </Setter>
+                            <Setter Property="Background" Value="{StaticResource Layer_Brush}"/>
                         </Style>
                     </GridView.ItemContainerStyle>
                 </GridView>
