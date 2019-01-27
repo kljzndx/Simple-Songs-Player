@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    RightTapped="MusicGroupItemTemplate_OnRightTapped">
 
     <Grid>
         <VisualStateManager.VisualStateGroups>
@@ -36,8 +37,12 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <Grid.ContextFlyout>
+            <MenuFlyout x:Name="More_MenuFlyout"/>
+        </Grid.ContextFlyout>
 
         <Image x:Name="Cover_Image" Width="98" Height="98"/>
+
         <StackPanel x:Name="Info_StackPanel" Grid.Row="1" Width="98">
             <TextBlock x:Name="Title_TextBlock" Text="{x:Bind Source.Name, Mode=OneWay}" MinHeight="42" MaxLines="2" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
             <TextBlock HorizontalAlignment="Right" Margin="4" Opacity="0.6" Style="{ThemeResource CaptionTextBlockStyle}">

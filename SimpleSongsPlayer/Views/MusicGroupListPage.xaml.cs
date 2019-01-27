@@ -37,11 +37,12 @@ namespace SimpleSongsPlayer.Views
         private MusicGroupViewSettingProperties settings = MusicGroupViewSettingProperties.Current;
 
         private List<MusicItemMenuItem<MusicFileDynamic>> itemExtraMenu;
-        private readonly List<MusicItemMenuItem<MusicFileGroupDynamic>> groupMenu = new List<MusicItemMenuItem<MusicFileGroupDynamic>>();
+        private readonly List<MusicItemMenuItem<MusicFileGroup>> groupMenu = new List<MusicItemMenuItem<MusicFileGroup>>();
 
         public MusicGroupListPage()
         {
-            groupMenu.Add(new MusicItemMenuItem<MusicFileGroupDynamic>("MusicGroupPage", "MoreMenu_Favorite", async g => FavoriteAdditionNotification.RequestFavoriteAddition(g.Items.Select(f => f.Original))));
+            groupMenu.Add(new MusicItemMenuItem<MusicFileGroup>("MoreMenu_AddNowPlaying", async g => await MusicPusher.Append(g.Items)));
+            groupMenu.Add(new MusicItemMenuItem<MusicFileGroup>("MoreMenu_Favorite", async g => FavoriteAdditionNotification.RequestFavoriteAddition(g.Items)));
             Resources["GroupMoreMenu"] = groupMenu;
 
             this.InitializeComponent();

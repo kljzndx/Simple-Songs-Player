@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
@@ -34,11 +35,43 @@ namespace SimpleSongsPlayer.Views.Templates
             get => (MusicFileGroup) GetValue(SourceProperty);
             set => SetValue(SourceProperty, value);
         }
-        
+
+        public List<MusicItemMenuItem<MusicFileGroup>> MoreMenuItemList { get; set; }
+
+        public event RoutedEventHandler PlayRequested;
+
+        private void SetUpMenu()
+        {
+            if (!More_MenuFlyout.Items.Any() && MoreMenuItemList != null)
+            {
+                foreach (var item in MoreMenuItemList)
+                {
+                    var flyoutItem = new MenuFlyoutItem { Text = item.Name };
+                    flyoutItem.Click += async (s, a) =>
+                    {
+                        var theItem = s as MenuFlyoutItem;
+                        if (theItem is null)
+                            return;
+
+                        this.LogByObject($"点击 {theItem.Text}");
+                        await item.Action(Source);
+                    };
+
+                    More_MenuFlyout.Items.Add(flyoutItem);
+                }
+            }
+        }
+
         private async void MusicGroupItemTemplate_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
             if (Source != null)
                 Cover_Image.Source = await Source.GetCover();
+        }
+
+        private void MusicGroupItemTemplate_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            SetUpMenu();
+            More_MenuFlyout.ShowAt(this, e.GetPosition(this));
         }
     }
 }

@@ -65,7 +65,7 @@
         <GridView Grid.Row="1" ItemsSource="{Binding DataSource}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="Main_GridView_OnItemClick">
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <temp:MusicGroupItemTemplate Source="{Binding}"/>
+                    <temp:MusicGroupItemTemplate Source="{Binding}" MoreMenuItemList="{StaticResource GroupMoreMenu}"/>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
