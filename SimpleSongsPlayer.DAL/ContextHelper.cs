@@ -55,17 +55,17 @@ namespace SimpleSongsPlayer.DAL
             return Task.FromResult(result);
         }
 
-        public Task<List<TableModel>> ToList()
+        public async Task<List<TableModel>> ToList()
         {
             List<TableModel> result = null;
 
             using (var db = Activator.CreateInstance<Context>())
             {
                 var table = (DbSet<TableModel>) TableInfo.GetValue(db);
-                result = table.ToList();
+                result = await Task.Run((Func<List<TableModel>>) table.ToList);
             }
 
-            return Task.FromResult(result);
+            return result;
         }
         
         public async Task Add(TableModel data) => await AddRange(new[] {data});
