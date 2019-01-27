@@ -94,6 +94,9 @@ namespace SimpleSongsPlayer.Views
 
         private async void PlayAll_Button_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!vm.DataSource.Any())
+                return;
+
             PlayAll_Button.IsEnabled = false;
 
             this.LogByObject("正在提取出所有的音乐");
@@ -105,8 +108,7 @@ namespace SimpleSongsPlayer.Views
                 return d;
             });
 
-            if (data.Any())
-                await MusicPusher.Push(data);
+            await MusicPusher.Push(data);
 
             PlayAll_Button.IsEnabled = true;
         }
