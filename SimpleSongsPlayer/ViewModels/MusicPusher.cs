@@ -12,14 +12,17 @@ namespace SimpleSongsPlayer.ViewModels
     public static class MusicPusher
     {
         private static readonly Type CurrentType = typeof(MusicPusher);
+        private static readonly object itemAddiction_Locker = new object();
 
         private static void AddItem(MediaPlaybackList target, MediaPlaybackItem item)
         {
             if (!target.Items.Contains(item))
-            {
-                CurrentType.LogByType("添加播放项至播放列表");
-                target.Items.Add(item);
-            }
+                lock (itemAddiction_Locker)
+                    if (!target.Items.Contains(item))
+                    {
+                        CurrentType.LogByType("添加播放项至播放列表");
+                        target.Items.Add(item);
+                    }
         }
 
         public static async Task Push(MusicFileDTO music)
