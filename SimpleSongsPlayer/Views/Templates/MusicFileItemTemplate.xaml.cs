@@ -73,6 +73,7 @@ namespace SimpleSongsPlayer.Views.Templates
                 }
             }
         }
+
         private void Play_Button_OnClick(object sender, RoutedEventArgs e)
         {
             PlayRequested?.Invoke(this, e);
