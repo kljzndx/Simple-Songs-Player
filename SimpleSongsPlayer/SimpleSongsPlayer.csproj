@@ -296,46 +296,46 @@
     </Content>
     <None Include="SimpleSongsPlayer_StoreKey.pfx" />
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
-    <PRIResource Include="StringResources\en-US\MoreMenu.resw" />
-    <PRIResource Include="StringResources\zh-CN\MoreMenu.resw" />
-    <PRIResource Include="StringResources\en-US\SorterMembers.resw" />
-    <PRIResource Include="StringResources\zh-CN\SorterMembers.resw" />
+    <PRIResource Include="StringResources\en-US\Members\MoreMenu.resw" />
+    <PRIResource Include="StringResources\zh-CN\Members\MoreMenu.resw" />
+    <PRIResource Include="StringResources\en-US\Members\SorterMembers.resw" />
+    <PRIResource Include="StringResources\zh-CN\Members\SorterMembers.resw" />
     <PRIResource Include="StringResources\zh-CN\MusicGroup.resw" />
     <PRIResource Include="StringResources\en-US\MusicGroup.resw" />
-    <PRIResource Include="StringResources\en-US\Notification.resw" />
-    <PRIResource Include="StringResources\zh-CN\Notification.resw" />
-    <PRIResource Include="StringResources\en-US\SettingsPage.resw" />
-    <PRIResource Include="StringResources\en-US\AboutPage.resw" />
-    <PRIResource Include="StringResources\zh-CN\AboutPage.resw" />
-    <PRIResource Include="StringResources\zh-CN\SettingsPage.resw" />
+    <PRIResource Include="StringResources\en-US\Members\Notification.resw" />
+    <PRIResource Include="StringResources\zh-CN\Members\Notification.resw" />
+    <PRIResource Include="StringResources\en-US\Pages\SettingsPage.resw" />
+    <PRIResource Include="StringResources\en-US\Pages\AboutPage.resw" />
+    <PRIResource Include="StringResources\zh-CN\Pages\AboutPage.resw" />
+    <PRIResource Include="StringResources\zh-CN\Pages\SettingsPage.resw" />
     <PRIResource Include="StringResources\en-US\App.resw" />
     <PRIResource Include="StringResources\zh-CN\App.resw" />
-    <PRIResource Include="StringResources\en-US\MusicInfoPage.resw" />
-    <PRIResource Include="StringResources\zh-CN\MusicInfoPage.resw" />
-    <PRIResource Include="StringResources\en-US\MusicClassifyPage.resw" />
-    <PRIResource Include="StringResources\zh-CN\MusicClassifyPage.resw" />
+    <PRIResource Include="StringResources\en-US\Pages\MusicInfoPage.resw" />
+    <PRIResource Include="StringResources\zh-CN\Pages\MusicInfoPage.resw" />
+    <PRIResource Include="StringResources\en-US\Pages\MusicClassifyPage.resw" />
+    <PRIResource Include="StringResources\zh-CN\Pages\MusicClassifyPage.resw" />
     <PRIResource Include="StringResources\en-US\Controllers\Player.resw" />
     <PRIResource Include="StringResources\zh-CN\Controllers\Player.resw" />
-    <PRIResource Include="StringResources\en-US\MusicGroupPage.resw" />
-    <PRIResource Include="StringResources\zh-CN\MusicGroupPage.resw" />
+    <PRIResource Include="StringResources\en-US\Pages\MusicGroupPage.resw" />
+    <PRIResource Include="StringResources\zh-CN\Pages\MusicGroupPage.resw" />
     <PRIResource Include="StringResources\en-US\Controllers\FavoriteSelectorDialog.resw" />
     <PRIResource Include="StringResources\zh-CN\Controllers\FavoriteSelectorDialog.resw" />
-    <PRIResource Include="StringResources\zh-CN\InputDialog.resw" />
-    <PRIResource Include="StringResources\en-US\InputDialog.resw" />
-    <PRIResource Include="StringResources\en-US\MusicListPage.resw" />
-    <PRIResource Include="StringResources\zh-CN\MusicListPage.resw" />
+    <PRIResource Include="StringResources\zh-CN\Controllers\InputDialog.resw" />
+    <PRIResource Include="StringResources\en-US\Controllers\InputDialog.resw" />
+    <PRIResource Include="StringResources\en-US\Pages\MusicListPage.resw" />
+    <PRIResource Include="StringResources\zh-CN\Pages\MusicListPage.resw" />
     <PRIResource Include="StringResources\zh-CN\MusicItem.resw" />
     <PRIResource Include="StringResources\en-US\MusicItem.resw" />
     <PRIResource Include="StringResources\zh-CN\ErrorDialog.resw" />
     <PRIResource Include="StringResources\en-US\ErrorDialog.resw" />
-    <PRIResource Include="StringResources\zh-CN\ErrorTable.resw" />
+    <PRIResource Include="StringResources\zh-CN\Members\ErrorTable.resw" />
     <PRIResource Include="StringResources\zh-CN\Dialog.resw">
       <SubType>Designer</SubType>
     </PRIResource>
     <PRIResource Include="StringResources\en-US\Dialog.resw">
       <SubType>Designer</SubType>
     </PRIResource>
-    <PRIResource Include="StringResources\en-US\ErrorTable.resw" />
+    <PRIResource Include="StringResources\en-US\Members\ErrorTable.resw" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.StoreAssociation.xml" />
