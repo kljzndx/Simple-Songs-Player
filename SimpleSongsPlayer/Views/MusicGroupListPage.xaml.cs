@@ -17,7 +17,6 @@ using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
-using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Arguments;
 using SimpleSongsPlayer.ViewModels.DataServers;
@@ -43,6 +42,8 @@ namespace SimpleSongsPlayer.Views
         public MusicGroupListPage()
         {
             groupMenu.Add(new MusicItemMenuItem<MusicFileGroupDynamic>("MusicGroupPage", "MoreMenu_Favorite", async g => FavoriteAdditionNotification.RequestFavoriteAddition(g.Items.Select(f => f.Original))));
+            Resources["GroupMoreMenu"] = groupMenu;
+
             this.InitializeComponent();
             vm = (MusicGroupListViewModel) DataContext;
         }
