@@ -123,11 +123,17 @@
   <data name="Artist_Run.Text" xml:space="preserve">
     <value>Artist: </value>
   </data>
+  <data name="NoFile_TextBlock.Text" xml:space="preserve">
+    <value>Lyrics File not scanned</value>
+  </data>
   <data name="NotFoundLyricsFile_TextBlock.Text" xml:space="preserve">
     <value>No matching lyrics file found</value>
   </data>
   <data name="Pin_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Pin to screen</value>
+  </data>
+  <data name="Search_TextBox.PlaceholderText" xml:space="preserve">
+    <value>Please enter file name</value>
   </data>
   <data name="SetUpLyricFile_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Setup lyric file</value>

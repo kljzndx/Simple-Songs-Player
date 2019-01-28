@@ -99,7 +99,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBox x:Name="Search_TextBox" TextChanged="Search_TextBox_OnTextChanged"/>
+                <TextBox x:Name="Search_TextBox" x:Uid="/MusicInfoPage/Search_TextBox" TextChanged="Search_TextBox_OnTextChanged"/>
                 
                 <ListView x:Name="LyricFile_ListView" Grid.Row="1">
                     <ListView.ItemTemplate>
@@ -114,6 +114,8 @@
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>
+
+                <TextBlock x:Name="NoFile_TextBlock" x:Uid="/MusicInfoPage/NoFile_TextBlock" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                 <pctrl:FloatingActionButton x:Name="Submit_Button" x:Uid="/MusicInfoPage/Submit_Button" Grid.Row="1" Glyph="&#xE0E7;" Click="Submit_Button_OnClick"/>
             </Grid>

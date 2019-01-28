@@ -44,6 +44,12 @@ namespace SimpleSongsPlayer.Views
             CustomMediaPlayerElement.PositionChanged += CustomMediaPlayerElement_PositionChanged;
             NavigationCacheMode = NavigationCacheMode.Enabled;
 
+            LyricFile_ListView.ItemsSource = LyricFileDataServer.Current.Data;
+            NoFile_TextBlock.Visibility =
+                LyricFileDataServer.Current.Data.Any() ? Visibility.Collapsed : Visibility.Visible;
+            LyricFileDataServer.Current.DataAdded += LyricFileDataServer_DataAdded;
+            LyricFileDataServer.Current.DataRemoved += LyricFileDataServer_DataRemoved;
+
             if (!ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationViewMode") ||
                 !ApiInformation.IsEnumNamedValuePresent(typeof(ApplicationViewMode).FullName, "CompactOverlay") ||
                 !_currentView.IsViewModeSupported(ApplicationViewMode.CompactOverlay))
@@ -85,6 +91,17 @@ namespace SimpleSongsPlayer.Views
             });
         }
 
+        private void LyricFileDataServer_DataAdded(object sender, IEnumerable<LyricFileDTO> e)
+        {
+            NoFile_TextBlock.Visibility = Visibility.Collapsed;
+        }
+
+        private void LyricFileDataServer_DataRemoved(object sender, IEnumerable<LyricFileDTO> e)
+        {
+            if (!LyricFileDataServer.Current.Data.Any())
+                NoFile_TextBlock.Visibility = Visibility.Collapsed;
+        }
+
         private void My_ScrollLyricsPreviewControl_OnItemClick(object sender, ItemClickEventArgs e)
         {
             CustomMediaPlayerElement.SetPosition_Global(((LyricLine) e.ClickedItem).Time);
@@ -108,7 +125,6 @@ namespace SimpleSongsPlayer.Views
             LyricPreview_Grid.Visibility = Visibility.Collapsed;
             LyricFileSelector_Grid.Visibility = Visibility.Visible;
             Search_TextBox.Text = String.Empty;
-            LyricFile_ListView.ItemsSource = LyricFileDataServer.Current.Data;
 
             Search_TextBox.Focus(FocusState.Keyboard);
         }
