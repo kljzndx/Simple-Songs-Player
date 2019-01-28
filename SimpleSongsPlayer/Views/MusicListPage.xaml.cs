@@ -41,6 +41,7 @@ namespace SimpleSongsPlayer.Views
     {
         private MusicListViewModel vm;
         private readonly MusicViewSettingProperties settings = MusicViewSettingProperties.Current;
+        private readonly OtherSettingProperties otherSettings = OtherSettingProperties.Current;
         private readonly List<MusicItemMenuItem<MusicFileDynamic>> musicItemMenuList;
 
         public MusicListPage()
@@ -72,6 +73,7 @@ namespace SimpleSongsPlayer.Views
                             foreach (MusicFileDynamic item in Main_ListView.SelectedItems.ToList())
                                 await menuItem.Action.Invoke(item);
                         };
+                        appBarButton.SetBinding(AppBarButton.IsEnabledProperty, new Binding { Source = OtherSettingProperties.Current, Path = new PropertyPath("CanOptionNowPlayList"), Mode = BindingMode.OneWay });
 
                         ListOption_CommandBar.SecondaryCommands.Add(appBarButton);
                     }
@@ -142,9 +144,7 @@ namespace SimpleSongsPlayer.Views
 
         private async void PlayAll_Button_OnClick(object sender, RoutedEventArgs e)
         {
-            PlayAll_Button.IsEnabled = false;
             await MusicPusher.Push(vm.GetAllMusic().Select(f => f.Original));
-            PlayAll_Button.IsEnabled = true;
         }
 
         private async void PlayGroup_Button_OnTapped(object sender, TappedRoutedEventArgs e)
@@ -224,10 +224,8 @@ namespace SimpleSongsPlayer.Views
         {
             if (!Main_ListView.SelectedItems.Any())
                 return;
-
-            PlaySelectedItems_AppBarButton.IsEnabled = false;
+            
             await MusicPusher.Push(Main_ListView.SelectedItems.Cast<MusicFileDynamic>().Select(d => d.Original));
-            PlaySelectedItems_AppBarButton.IsEnabled = true;
         }
 
         private async void AddSelectedItemsToNowPlaying_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)

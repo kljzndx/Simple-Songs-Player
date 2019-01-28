@@ -18,5 +18,13 @@ namespace SimpleSongsPlayer.ViewModels.SettingProperties
             get => isMigratedOldFavorites;
             set => SetSetting(ref isMigratedOldFavorites, value);
         }
+
+        [SettingFieldByNormal(nameof(CanOptionNowPlayList), true)] private bool canOptionNowPlayList;
+
+        public bool CanOptionNowPlayList
+        {
+            get => canOptionNowPlayList;
+            set => SetSetting(ref canOptionNowPlayList, value);
+        }
     }
 }

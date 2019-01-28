@@ -88,7 +88,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="PlayAll_Button" x:Uid="/MusicPage/PlayAll_Button" Background="Transparent" Click="PlayAll_Button_OnClick">
+            <Button x:Name="PlayAll_Button" x:Uid="/MusicPage/PlayAll_Button" Background="Transparent" IsEnabled="{x:Bind otherSettings.CanOptionNowPlayList, Mode=OneWay}" Click="PlayAll_Button_OnClick">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -205,7 +205,7 @@
                         <FontIcon Glyph="&#xE179;"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton x:Name="PlaySelectedItems_AppBarButton" x:Uid="/MusicItemsOptions/PlaySelectedItems_AppBarButton" Click="PlaySelectedItems_AppBarButton_OnClick">
+                <AppBarButton x:Name="PlaySelectedItems_AppBarButton" x:Uid="/MusicItemsOptions/PlaySelectedItems_AppBarButton" IsEnabled="{x:Bind otherSettings.CanOptionNowPlayList, Mode=OneWay}" Click="PlaySelectedItems_AppBarButton_OnClick">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE102;"/>
                     </AppBarButton.Icon>
@@ -216,7 +216,7 @@
                     </AppBarButton.Icon>
                     <AppBarButton.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem x:Name="AddSelectedItemsToNowPlaying_MenuFlyoutItem" x:Uid="/MusicItemsOptions/AddToNowPlaying_MenuFlyoutItem" Click="AddSelectedItemsToNowPlaying_MenuFlyoutItem_OnClick"/>
+                            <MenuFlyoutItem x:Name="AddSelectedItemsToNowPlaying_MenuFlyoutItem" x:Uid="/MusicItemsOptions/AddToNowPlaying_MenuFlyoutItem" IsEnabled="{x:Bind otherSettings.CanOptionNowPlayList, Mode=OneWay}" Click="AddSelectedItemsToNowPlaying_MenuFlyoutItem_OnClick"/>
                             <MenuFlyoutItem x:Name="AddSelectedItemsToFavorites_MenuFlyoutItem" x:Uid="/MusicItemsOptions/AddToFavorites_MenuFlyoutItem" Click="AddSelectedItemsToFavorites_MenuFlyoutItem_OnClick"/>
                         </MenuFlyout>
                     </AppBarButton.Flyout>

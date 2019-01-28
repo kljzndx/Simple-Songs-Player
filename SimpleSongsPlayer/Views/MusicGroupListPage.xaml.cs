@@ -35,6 +35,7 @@ namespace SimpleSongsPlayer.Views
     {
         private MusicGroupListViewModel vm;
         private MusicGroupViewSettingProperties settings = MusicGroupViewSettingProperties.Current;
+        private readonly OtherSettingProperties otherSettings = OtherSettingProperties.Current;
 
         private List<MusicItemMenuItem<MusicFileDynamic>> itemExtraMenu;
         private readonly List<MusicItemMenuItem<MusicFileGroup>> groupMenu = new List<MusicItemMenuItem<MusicFileGroup>>();
@@ -81,6 +82,7 @@ namespace SimpleSongsPlayer.Views
                                     if (menuItem.Action != null)
                                         await menuItem.Action.Invoke(item);
                             };
+                            more.SetBinding(AppBarButton.IsEnabledProperty, new Binding{Source = OtherSettingProperties.Current, Path = new PropertyPath("CanOptionNowPlayList"), Mode = BindingMode.OneWay});
 
                             GroupsOptions_CommandBar.SecondaryCommands.Add(more);
                         }
@@ -127,12 +129,8 @@ namespace SimpleSongsPlayer.Views
 
         private async void PlayAll_Button_OnClick(object sender, RoutedEventArgs e)
         {
-            PlayAll_Button.IsEnabled = false;
-
             if (vm.DataSource.Any())
                 await MusicPusher.Push(GetSongItems(vm.DataSource));
-
-            PlayAll_Button.IsEnabled = true;
         }
 
         private void DataServer_DataAdded(object sender, IEnumerable<KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>> e)

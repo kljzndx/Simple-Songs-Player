@@ -6,6 +6,7 @@ using Windows.Media.Playback;
 using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
+using SimpleSongsPlayer.ViewModels.SettingProperties;
 
 namespace SimpleSongsPlayer.ViewModels
 {
@@ -24,6 +25,8 @@ namespace SimpleSongsPlayer.ViewModels
 
         public static async Task Push(MusicFileDTO music)
         {
+            OtherSettingProperties.Current.CanOptionNowPlayList = false;
+
             CurrentType.LogByType("获取播放项");
             var playbackItem = await music.GetPlaybackItem();
             
@@ -42,24 +45,29 @@ namespace SimpleSongsPlayer.ViewModels
                 mpl.MoveTo((uint) mpl.Items.IndexOf(playbackItem));
             }
             else
-                Push(new[] {playbackItem});
+                await Push(new[] {playbackItem});
+
+            OtherSettingProperties.Current.CanOptionNowPlayList = true;
         }
 
         public static async Task Push(IEnumerable<MusicFileDTO> files)
         {
+            OtherSettingProperties.Current.CanOptionNowPlayList = false;
+
+            CurrentType.LogByType("接收文件");
             var source = new Queue<MusicFileDTO>(files);
-            var plList = new List<MediaPlaybackItem>();
+            CurrentType.LogByType("播放第一首歌");
             var fmpi = await source.Dequeue().GetPlaybackItem();
-            Push(new[] {fmpi});
+            await Push(new[] {fmpi});
 
-            foreach (var dto in source)
-                plList.Add(await dto.GetPlaybackItem());
-
-            Append(plList);
+            await Append(source);
+            OtherSettingProperties.Current.CanOptionNowPlayList = true;
         }
 
         public static async Task PushToNext(MusicFileDTO file)
         {
+            OtherSettingProperties.Current.CanOptionNowPlayList = false;
+
             CurrentType.LogByType("获取播放项");
             var mpi = await file.GetPlaybackItem();
 
@@ -79,39 +87,57 @@ namespace SimpleSongsPlayer.ViewModels
                 mpl.Items.Insert((int) id, mpi);
             }
             else
-                Push(new[] {mpi});
+                await Push(new[] {mpi});
+
+            OtherSettingProperties.Current.CanOptionNowPlayList = true;
         }
 
         public static async Task Append(MusicFileDTO file) => await Append(new[] {file});
 
         public static async Task Append(IEnumerable<MusicFileDTO> files)
         {
+            OtherSettingProperties.Current.CanOptionNowPlayList = false;
             CurrentType.LogByType("正在接收参数");
-            var source = files.ToList();
+            var source = new Queue<MusicFileDTO>(files);
+            var option = new List<MusicFileDTO>();
+
+            int dequeueCount = (source.Count != 0 ? source.Count / 100 : 0);
+            for (int i = 0; i < (dequeueCount < 10 ? 10 : dequeueCount); i++)
+                if (source.Any())
+                    option.Add(source.Dequeue());
+                else
+                    break;
+
             var plList = new List<MediaPlaybackItem>();
 
+            CurrentType.LogByType("解析所有文件");
             foreach (var dto in source)
                 plList.Add(await dto.GetPlaybackItem());
 
-            Append(plList);
+            CurrentType.LogByType("添加到正在播放");
+            await Append(plList);
+            OtherSettingProperties.Current.CanOptionNowPlayList = true;
+
+            if (source.Any())
+                await Append(source);
         }
 
-        private static void Append(IEnumerable<MediaPlaybackItem> items)
+        private static async Task Append(IEnumerable<MediaPlaybackItem> items)
         {
             if (App.MediaPlayer.Source is MediaPlaybackList mpl)
             {
-                CurrentType.LogByType("正在接收参数");
-                var source = items.ToList();
-
                 CurrentType.LogByType("正在解析文件列表");
-                foreach (var item in source)
-                    AddItem(mpl, item);
+                await Task.Run(() =>
+                {
+                    foreach (var item in items)
+                        AddItem(mpl, item);
+                });
             }
             else
-                Push(items.ToList());
+                await Push(items);
         }
 
-        private static void Push(IEnumerable<MediaPlaybackItem> items)
+        private static async Task Push(IEnumerable<MediaPlaybackItem> items)
         {
             CurrentType.LogByType("正在创建播放列表");
             var mpl = new MediaPlaybackList();
@@ -119,8 +145,11 @@ namespace SimpleSongsPlayer.ViewModels
             App.MediaPlayer.Source = mpl;
 
             CurrentType.LogByType("正在解析传进来的播放项列表");
-            foreach (var item in items)
-                AddItem(mpl, item);
+            await Task.Run(() =>
+            {
+                foreach (var item in items)
+                    AddItem(mpl, item);
+            });
         }
     }
 }
