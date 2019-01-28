@@ -46,7 +46,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             if (!_musicFiles.Any() || !_lyricFiles.Any())
                 return;
 
-            var results = await _service.GetFiles();
+            var results = await _service.GetData();
             if (results.Any())
             {
                 this.LogByObject("正在解析索引数据");
@@ -62,9 +62,9 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             }
 
             this.LogByObject("监听服务");
-            _service.FilesAdded += Service_FilesAdded;
-            _service.FilesRemoved += Service_FilesRemoved;
-            _service.FilesUpdated += Service_FilesUpdated;
+            _service.DataAdded += Service_DataAdded;
+            _service.DataRemoved += Service_DataRemoved;
+            _service.DataUpdated += Service_DataUpdated;
         }
 
         public async Task ScanAsync()
@@ -101,7 +101,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             return result;
         }
         
-        private void Service_FilesAdded(object sender, IEnumerable<LyricIndex> e)
+        private void Service_DataAdded(object sender, IEnumerable<LyricIndex> e)
         {
             var pairs = IntelligentOption(e, Data.Add).ToList();
             if (pairs.Any())
@@ -111,7 +111,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             }
         }
 
-        private void Service_FilesRemoved(object sender, IEnumerable<LyricIndex> e)
+        private void Service_DataRemoved(object sender, IEnumerable<LyricIndex> e)
         {
             var pairs = IntelligentOption(e, p =>
             {
@@ -125,7 +125,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             }
         }
 
-        private void Service_FilesUpdated(object sender, IEnumerable<LyricIndex> e)
+        private void Service_DataUpdated(object sender, IEnumerable<LyricIndex> e)
         {
             var pairs = IntelligentOption(e, p =>
             {

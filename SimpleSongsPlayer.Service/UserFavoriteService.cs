@@ -9,23 +9,23 @@ using SimpleSongsPlayer.Log;
 
 namespace SimpleSongsPlayer.Service
 {
-    public class UserFavoriteService : IFileService<IGrouping<string, string>>, IGroupServiceBasicOptions<string>
+    public class UserFavoriteService : IDataService<IGrouping<string, string>>, IGroupServiceBasicOptions<string>
     {
         private static UserFavoriteService current;
         
         private readonly ContextHelper<FilesContext, UserFavorite> helper = new ContextHelper<FilesContext, UserFavorite>();
 
-        public event EventHandler<IEnumerable<IGrouping<string, string>>> FilesAdded;
-        public event EventHandler<IEnumerable<IGrouping<string, string>>> FilesRemoved;
+        public event EventHandler<IEnumerable<IGrouping<string, string>>> DataAdded;
+        public event EventHandler<IEnumerable<IGrouping<string, string>>> DataRemoved;
         public event EventHandler<KeyValuePair<string, string>> GroupRenamed;
 
-        private UserFavoriteService(IFileService<MusicFile> libraryService)
+        private UserFavoriteService(IDataService<MusicFile> libraryService)
         {
             this.LogByObject("订阅音乐库的文件移除事件");
-            libraryService.FilesRemoved += MusicLibraryService_FilesRemoved;
+            libraryService.DataRemoved += MusicLibraryService_FilesRemoved;
         }
 
-        public async Task<List<IGrouping<string, string>>> GetFiles()
+        public async Task<List<IGrouping<string, string>>> GetData()
         {
             this.LogByObject("开始对数据进行分组操作");
             var result = CreateGroup(await helper.ToList());
@@ -60,7 +60,7 @@ namespace SimpleSongsPlayer.Service
             if (favorites.Any())
             {
                 this.LogByObject("触发数据添加事件");
-                FilesAdded?.Invoke(this, CreateGroup(favorites));
+                DataAdded?.Invoke(this, CreateGroup(favorites));
             }
         }
 
@@ -81,7 +81,7 @@ namespace SimpleSongsPlayer.Service
             if (optionTarget.Any())
             {
                 this.LogByObject("触发数据移除事件");
-                FilesRemoved?.Invoke(this, CreateGroup(optionTarget));
+                DataRemoved?.Invoke(this, CreateGroup(optionTarget));
             }
         }
 
@@ -105,7 +105,7 @@ namespace SimpleSongsPlayer.Service
             if (optionTarget.Any())
             {
                 this.LogByObject("触发数据移除事件");
-                FilesRemoved?.Invoke(this, CreateGroup(optionTarget));
+                DataRemoved?.Invoke(this, CreateGroup(optionTarget));
             }
         }
 
@@ -129,7 +129,7 @@ namespace SimpleSongsPlayer.Service
             if (optionTarget.Any())
             {
                 this.LogByObject("触发数据移除事件");
-                FilesRemoved?.Invoke(this, CreateGroup(optionTarget));
+                DataRemoved?.Invoke(this, CreateGroup(optionTarget));
             }
         }
 
@@ -167,7 +167,7 @@ namespace SimpleSongsPlayer.Service
             await RemoveRangeInAllGroup(e.Select(f => f.Path));
         }
 
-        public static UserFavoriteService GetService(IFileService<MusicFile> libraryService)
+        public static UserFavoriteService GetService(IDataService<MusicFile> libraryService)
         {
             if (current is null)
             {

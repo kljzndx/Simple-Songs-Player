@@ -11,7 +11,7 @@ using SimpleSongsPlayer.Log;
 
 namespace SimpleSongsPlayer.Service
 {
-    public class MusicLibraryFileService<TFile, TFileFactory> : IFileService<TFile> where TFile : class, ILibraryFile where TFileFactory : ILibraryFileFactory<TFile>, new()
+    public class MusicLibraryFileService<TFile, TFileFactory> : IObservableDataService<TFile> where TFile : class, ILibraryFile where TFileFactory : ILibraryFileFactory<TFile>, new()
     {
         private const string DBVersion = "V3";
 
@@ -24,9 +24,9 @@ namespace SimpleSongsPlayer.Service
         private readonly StorageLibrary library;
         private List<TFile> musicFiles;
 
-        public event EventHandler<IEnumerable<TFile>> FilesAdded;
-        public event EventHandler<IEnumerable<TFile>> FilesRemoved;
-        public event EventHandler<IEnumerable<TFile>> FilesUpdated;
+        public event EventHandler<IEnumerable<TFile>> DataAdded;
+        public event EventHandler<IEnumerable<TFile>> DataRemoved;
+        public event EventHandler<IEnumerable<TFile>> DataUpdated;
         
         private MusicLibraryFileService(StorageLibrary library, string[] fileTypeFilter)
         {
@@ -43,7 +43,7 @@ namespace SimpleSongsPlayer.Service
             this.LogByObject("构造完成");
         }
 
-        public async Task<List<TFile>> GetFiles()
+        public async Task<List<TFile>> GetData()
         {
             if (musicFiles is null)
             {
@@ -57,7 +57,7 @@ namespace SimpleSongsPlayer.Service
         internal async Task ScanFiles()
         {
             if (musicFiles is null)
-                await GetFiles();
+                await GetData();
             
             this.LogByObject("移除垃圾数据");
             var folderPaths = library.Folders.Select(d => d.Path).ToList();
@@ -242,7 +242,7 @@ namespace SimpleSongsPlayer.Service
             musicFiles.AddRange(filesList);
 
             this.LogByObject("触发 ‘添加完成’ 事件");
-            FilesAdded?.Invoke(this, filesList);
+            DataAdded?.Invoke(this, filesList);
         }
 
         private async Task UpdateFileRange(IEnumerable<TFile> files)
@@ -258,7 +258,7 @@ namespace SimpleSongsPlayer.Service
             musicFiles.AddRange(filesList);
 
             this.LogByObject("触发 ‘更新完成’ 事件");
-            FilesUpdated?.Invoke(this, filesList);
+            DataUpdated?.Invoke(this, filesList);
         }
 
         private async Task RemoveRange(IEnumerable<TFile> files)
@@ -272,7 +272,7 @@ namespace SimpleSongsPlayer.Service
             musicFiles.RemoveAll(filesList.Contains);
 
             this.LogByObject("触发 ‘移除完成’ 事件");
-            FilesRemoved?.Invoke(this, filesList);
+            DataRemoved?.Invoke(this, filesList);
         }
 
         internal static void SetupFileTypeFilter(params string[] fileTypeFilter)

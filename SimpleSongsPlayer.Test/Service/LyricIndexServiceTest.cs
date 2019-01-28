@@ -22,26 +22,26 @@ namespace SimpleSongsPlayer.Test.Service
             "正常扫描".Test(async () =>
             {
                 await indexService.ScanAsync();
-                var indexes = await indexService.GetFiles();
+                var indexes = await indexService.GetData();
                 Assert.IsTrue(indexes.Count == 8);
             });
             "添加文件".Test(async () =>
             {
                 mService.TestAdd();
-                // Assert.IsTrue((await mService.GetFiles()).Count == 10);
+                // Assert.IsTrue((await mService.GetData()).Count == 10);
 
                 await indexService.ScanAsync();
-                var indexes = await indexService.GetFiles();
+                var indexes = await indexService.GetData();
                 Assert.IsTrue(indexes.Count == 10);
             });
         }
 
-        class TestMusicService : IFileService<MusicFile>
+        class TestMusicService : IDataService<MusicFile>
         {
             private List<MusicFile> _source;
 
-            public event EventHandler<IEnumerable<MusicFile>> FilesAdded;
-            public event EventHandler<IEnumerable<MusicFile>> FilesRemoved;
+            public event EventHandler<IEnumerable<MusicFile>> DataAdded;
+            public event EventHandler<IEnumerable<MusicFile>> DataRemoved;
 
             public TestMusicService()
             {
@@ -58,7 +58,7 @@ namespace SimpleSongsPlayer.Test.Service
                 };
             }
 
-            public Task<List<MusicFile>> GetFiles()
+            public Task<List<MusicFile>> GetData()
             {
                 return Task.FromResult(_source.ToList());
             }
@@ -72,18 +72,18 @@ namespace SimpleSongsPlayer.Test.Service
                 };
 
                 _source.AddRange(add);
-                FilesAdded?.Invoke(this, add);
+                DataAdded?.Invoke(this, add);
             }
 
             
         }
 
-        class TestLyricService : IFileService<LyricFile>
+        class TestLyricService : IDataService<LyricFile>
         {
-            public event EventHandler<IEnumerable<LyricFile>> FilesAdded;
-            public event EventHandler<IEnumerable<LyricFile>> FilesRemoved;
+            public event EventHandler<IEnumerable<LyricFile>> DataAdded;
+            public event EventHandler<IEnumerable<LyricFile>> DataRemoved;
 
-            public Task<List<LyricFile>> GetFiles()
+            public Task<List<LyricFile>> GetData()
             {
                 return Task.FromResult(new List<LyricFile>
                 {

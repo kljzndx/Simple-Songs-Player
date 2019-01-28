@@ -47,7 +47,7 @@ namespace SimpleSongsPlayer.ViewModels
 
             this.LogByObject("获取用户收藏");
             var result = new List<KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>>();
-            foreach (var grouping in await userFavoriteService.GetFiles())
+            foreach (var grouping in await userFavoriteService.GetData())
             {
                 List<MusicFileDTO> files = new List<MusicFileDTO>();
                 foreach (var path in grouping)
@@ -61,8 +61,8 @@ namespace SimpleSongsPlayer.ViewModels
             DataAdded?.Invoke(this, result);
 
             this.LogByObject("监听服务");
-            userFavoriteService.FilesAdded += UserFavoriteService_FilesAdded;
-            userFavoriteService.FilesRemoved += UserFavoriteService_FilesRemoved;
+            userFavoriteService.DataAdded += UserFavoriteService_DataAdded;
+            userFavoriteService.DataRemoved += UserFavoriteService_DataRemoved;
             userFavoriteService.GroupRenamed += UserFavoriteService_GroupRenamed;
         }
 
@@ -122,7 +122,7 @@ namespace SimpleSongsPlayer.ViewModels
             return result;
         }
         
-        private void UserFavoriteService_FilesAdded(object sender, IEnumerable<IGrouping<string, string>> e)
+        private void UserFavoriteService_DataAdded(object sender, IEnumerable<IGrouping<string, string>> e)
         {
             this.LogByObject("检测到有收藏的音乐添加，正在同步添加操作");
             var result = new List<KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>>();
@@ -152,7 +152,7 @@ namespace SimpleSongsPlayer.ViewModels
             DataAdded?.Invoke(this, result);
         }
 
-        private void UserFavoriteService_FilesRemoved(object sender, IEnumerable<IGrouping<string, string>> e)
+        private void UserFavoriteService_DataRemoved(object sender, IEnumerable<IGrouping<string, string>> e)
         {
             this.LogByObject("检测到有收藏的音乐被移除，正在同步移除操作");
             var result = new List<KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>>();

@@ -16,9 +16,9 @@ namespace SimpleSongsPlayer.Test.Service
         {
             var libraryService = await MusicLibraryFileServiceManager.Current.GetMusicFileService();
             var favoriteService = UserFavoriteService.GetService(libraryService);
-            List<MusicFile> allFiles = await libraryService.GetFiles();
+            List<MusicFile> allFiles = await libraryService.GetData();
             await favoriteService.AddRange("test", allFiles.Select(a => a.Path));
-            List<IGrouping<string, string>> f = await favoriteService.GetFiles();
+            List<IGrouping<string, string>> f = await favoriteService.GetData();
             Assert.IsTrue(f.Count > 0);
         }
 
@@ -28,7 +28,7 @@ namespace SimpleSongsPlayer.Test.Service
             var libraryService = await MusicLibraryFileServiceManager.Current.GetMusicFileService();
             var favoriteService = UserFavoriteService.GetService(libraryService);
             await favoriteService.RenameGroup("test", "newTest");
-            List<IGrouping<string, string>> f = await favoriteService.GetFiles();
+            List<IGrouping<string, string>> f = await favoriteService.GetData();
             Assert.IsTrue(f.All(uf => uf.Key != "test") && f.Any(uf => uf.Key == "newTest"));
         }
 
@@ -37,9 +37,9 @@ namespace SimpleSongsPlayer.Test.Service
         {
             var libraryService = await MusicLibraryFileServiceManager.Current.GetMusicFileService();
             var favoriteService = UserFavoriteService.GetService(libraryService);
-            List<MusicFile> allFiles = await libraryService.GetFiles();
+            List<MusicFile> allFiles = await libraryService.GetData();
             await favoriteService.RemoveRange("newTest", allFiles.Select(a => a.Path));
-            List<IGrouping<string, string>> f = await favoriteService.GetFiles();
+            List<IGrouping<string, string>> f = await favoriteService.GetData();
             Assert.IsFalse(f.Any());
         }
     }

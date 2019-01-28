@@ -106,8 +106,9 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="IFileService.cs" />
+    <Compile Include="IDataService.cs" />
     <Compile Include="IGroupServiceBasicOptions.cs" />
+    <Compile Include="IObservableDataService.cs" />
     <Compile Include="LyricIndexService.cs" />
     <Compile Include="MusicLibraryFileService.cs" />
     <Compile Include="MusicLibraryFileServiceManager.cs" />

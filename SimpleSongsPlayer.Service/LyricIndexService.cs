@@ -11,31 +11,31 @@ using SimpleSongsPlayer.Log;
 
 namespace SimpleSongsPlayer.Service
 {
-    public class LyricIndexService : IFileService<LyricIndex>
+    public class LyricIndexService : IObservableDataService<LyricIndex>
     {
         private static LyricIndexService current;
 
         private readonly ContextHelper<FilesContext, LyricIndex> _helper = new ContextHelper<FilesContext, LyricIndex>();
-        private readonly IFileService<MusicFile> _musicFileService;
-        private readonly IFileService<LyricFile> _lyricFileService;
+        private readonly IDataService<MusicFile> _musicFileService;
+        private readonly IDataService<LyricFile> _lyricFileService;
 
         private List<LyricIndex> _source;
         
-        public event EventHandler<IEnumerable<LyricIndex>> FilesAdded;
-        public event EventHandler<IEnumerable<LyricIndex>> FilesRemoved;
-        public event EventHandler<IEnumerable<LyricIndex>> FilesUpdated;
+        public event EventHandler<IEnumerable<LyricIndex>> DataAdded;
+        public event EventHandler<IEnumerable<LyricIndex>> DataRemoved;
+        public event EventHandler<IEnumerable<LyricIndex>> DataUpdated;
 
-        private LyricIndexService(IFileService<MusicFile> musicFileService, IFileService<LyricFile> lyricFileService)
+        private LyricIndexService(IDataService<MusicFile> musicFileService, IDataService<LyricFile> lyricFileService)
         {
             _musicFileService = musicFileService;
             _lyricFileService = lyricFileService;
 
-            _musicFileService.FilesRemoved += MusicFileService_FilesRemoved;
+            _musicFileService.DataRemoved += MusicFileService_FilesRemoved;
             
-            _lyricFileService.FilesRemoved += LyricFileService_FilesRemoved;
+            _lyricFileService.DataRemoved += LyricFileService_FilesRemoved;
         }
 
-        public async Task<List<LyricIndex>> GetFiles()
+        public async Task<List<LyricIndex>> GetData()
         {
             if (_source == null)
             {
@@ -68,7 +68,7 @@ namespace SimpleSongsPlayer.Service
             if (isUpdate)
             {
                 this.LogByObject("触发更新事件");
-                FilesUpdated?.Invoke(this, new[] {index});
+                DataUpdated?.Invoke(this, new[] {index});
             }
             else
             {
@@ -80,12 +80,12 @@ namespace SimpleSongsPlayer.Service
         public async Task ScanAsync()
         {
             if (_source == null)
-                await GetFiles();
+                await GetData();
 
             this.LogByObject("开始扫描");
 
-            List<MusicFile> musicFiles = await _musicFileService.GetFiles();
-            List<LyricFile> lyricFiles = await _lyricFileService.GetFiles();
+            List<MusicFile> musicFiles = await _musicFileService.GetData();
+            List<LyricFile> lyricFiles = await _lyricFileService.GetData();
 
             List<LyricIndex> addOption = new List<LyricIndex>();
             List<LyricIndex> removeOption = new List<LyricIndex>();
@@ -160,7 +160,7 @@ namespace SimpleSongsPlayer.Service
             _source.AddRange(optionList);
 
             this.LogByObject("触发添加事件");
-            FilesAdded?.Invoke(this, optionList);
+            DataAdded?.Invoke(this, optionList);
 
             if (sourceStack.Any())
                 await AddRange(sourceStack);
@@ -182,7 +182,7 @@ namespace SimpleSongsPlayer.Service
             _source.RemoveAll(optionList.Contains);
 
             this.LogByObject("触发移除事件");
-            FilesRemoved?.Invoke(this, optionList);
+            DataRemoved?.Invoke(this, optionList);
 
             if (sourceStack.Any())
                 await RemoveRange(sourceStack);
@@ -200,7 +200,7 @@ namespace SimpleSongsPlayer.Service
             return current;
         }
 
-        internal static LyricIndexService GetService(IFileService<MusicFile> musicService, IFileService<LyricFile> lyricService)
+        internal static LyricIndexService GetService(IDataService<MusicFile> musicService, IDataService<LyricFile> lyricService)
         {
             if (current == null)
             {

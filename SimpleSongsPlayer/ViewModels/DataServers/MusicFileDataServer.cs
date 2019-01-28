@@ -37,7 +37,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             musicFilesService = await MusicLibraryFileServiceManager.Current.GetMusicFileService();
 
             this.LogByObject("提取数据库里的音乐文件");
-            var musicData = await musicFilesService.GetFiles();
+            var musicData = await musicFilesService.GetData();
             if (musicData.Any())
             {
                 foreach (var musicFile in musicData)
@@ -48,12 +48,12 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             }
             
             this.LogByObject("监听服务");
-            musicFilesService.FilesAdded += MusicFilesService_FilesAdded;
-            musicFilesService.FilesRemoved += MusicFilesService_FilesRemoved;
-            musicFilesService.FilesUpdated += MusicFilesService_FilesUpdated;
+            musicFilesService.DataAdded += MusicFilesService_DataAdded;
+            musicFilesService.DataRemoved += MusicFilesService_DataRemoved;
+            musicFilesService.DataUpdated += MusicFilesService_DataUpdated;
         }
 
-        private void MusicFilesService_FilesAdded(object sender, IEnumerable<MusicFile> e)
+        private void MusicFilesService_DataAdded(object sender, IEnumerable<MusicFile> e)
         {
             this.LogByObject("检测到有新的文件，正在同步");
             List<MusicFileDTO> option = new List<MusicFileDTO>();
@@ -71,7 +71,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             DataAdded?.Invoke(this, option);
         }
 
-        private void MusicFilesService_FilesRemoved(object sender, IEnumerable<MusicFile> e)
+        private void MusicFilesService_DataRemoved(object sender, IEnumerable<MusicFile> e)
         {
             this.LogByObject("检测到有文件被移除，正在同步");
             List<MusicFileDTO> option = new List<MusicFileDTO>();
@@ -88,7 +88,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             DataRemoved?.Invoke(this, option);
         }
 
-        private void MusicFilesService_FilesUpdated(object sender, IEnumerable<MusicFile> e)
+        private void MusicFilesService_DataUpdated(object sender, IEnumerable<MusicFile> e)
         {
             this.LogByObject("检测到有文件被更新，正在同步");
             List<MusicFileDTO> option = new List<MusicFileDTO>();

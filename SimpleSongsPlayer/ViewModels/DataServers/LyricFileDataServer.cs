@@ -37,7 +37,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             service = await MusicLibraryFileServiceManager.Current.GetLyricFileService();
 
             this.LogByObject("提取数据库里的歌词文件");
-            var files = await service.GetFiles();
+            var files = await service.GetData();
 
             if (files.Any())
             {
@@ -49,12 +49,12 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             }
 
             this.LogByObject("监听服务");
-            service.FilesAdded += Service_FilesAdded;
-            service.FilesRemoved += Service_FilesRemoved;
-            service.FilesUpdated += Service_FilesUpdated;
+            service.DataAdded += Service_DataAdded;
+            service.DataRemoved += Service_DataRemoved;
+            service.DataUpdated += Service_DataUpdated;
         }
 
-        private void Service_FilesAdded(object sender, IEnumerable<LyricFile> e)
+        private void Service_DataAdded(object sender, IEnumerable<LyricFile> e)
         {
             this.LogByObject("检测到有新的文件，正在同步");
             List<LyricFileDTO> options = new List<LyricFileDTO>();
@@ -69,7 +69,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             DataAdded?.Invoke(this, options);
         }
 
-        private void Service_FilesRemoved(object sender, IEnumerable<LyricFile> e)
+        private void Service_DataRemoved(object sender, IEnumerable<LyricFile> e)
         {
             this.LogByObject("检测到有文件被移除，正在同步");
             List<LyricFileDTO> options = new List<LyricFileDTO>();
@@ -84,7 +84,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             DataRemoved?.Invoke(this, options);
         }
 
-        private async void Service_FilesUpdated(object sender, IEnumerable<LyricFile> e)
+        private async void Service_DataUpdated(object sender, IEnumerable<LyricFile> e)
         {
             this.LogByObject("检测到有文件被更改，正在同步");
             List<LyricFileDTO> options = new List<LyricFileDTO>();
