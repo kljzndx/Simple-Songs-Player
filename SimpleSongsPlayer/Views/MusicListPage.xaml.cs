@@ -179,11 +179,14 @@ namespace SimpleSongsPlayer.Views
             if (theMenu == null)
                 return;
 
+            theMenu.IsEnabled = false;
+
             var source = theMenu.DataContext as MusicFileGroupDynamic;
             if (source == null)
                 return;
             
             await MusicPusher.Append(source.Items.Select(g => g.Original));
+            theMenu.IsEnabled = true;
         }
 
         private void AddToFavorites_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
