@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
@@ -123,39 +127,45 @@ namespace SimpleSongsPlayer.ViewModels
             original.CollectionChanged += Original_Filter_CollectionChanged;
         }
 
-        private void Original_Normal_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private async void Original_Normal_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            switch (e.Action)
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                case NotifyCollectionChangedAction.Add:
-                    AddItems(e.NewItems.Cast<MusicFileDTO>());
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    RemoveDtos(e.OldItems.Cast<MusicFileDTO>());
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    if (!original.Any())
-                        DataSource.Clear();
-                    break;
-            }
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        AddItems(e.NewItems.Cast<MusicFileDTO>());
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        RemoveDtos(e.OldItems.Cast<MusicFileDTO>());
+                        break;
+                    case NotifyCollectionChangedAction.Reset:
+                        if (!original.Any())
+                            DataSource.Clear();
+                        break;
+                }
+            });
         }
 
-        private void Original_Filter_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private async void Original_Filter_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            switch (e.Action)
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                case NotifyCollectionChangedAction.Add:
-                    AddItems(_filterArgs.Filter.Filter(e.NewItems.Cast<MusicFileDTO>(), _filterArgs.Args));
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    var datas = e.OldItems.Cast<MusicFileDTO>();
-                    RemoveDtos(datas);
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    if (!original.Any())
-                        DataSource.Clear();
-                    break;
-            }
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        AddItems(_filterArgs.Filter.Filter(e.NewItems.Cast<MusicFileDTO>(), _filterArgs.Args));
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        var datas = e.OldItems.Cast<MusicFileDTO>();
+                        RemoveDtos(datas);
+                        break;
+                    case NotifyCollectionChangedAction.Reset:
+                        if (!original.Any())
+                            DataSource.Clear();
+                        break;
+                }
+            });
         }
 
         private void Settings_PropertyChanged(object sender, PropertyChangedEventArgs e)

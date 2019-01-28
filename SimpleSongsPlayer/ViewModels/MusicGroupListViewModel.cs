@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using GalaSoft.MvvmLight;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
@@ -90,36 +93,41 @@ namespace SimpleSongsPlayer.ViewModels
             Original.CollectionChanged += Original_CollectionChanged;
         }
 
-        private void Original_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private async void Original_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            switch (e.Action)
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                case NotifyCollectionChangedAction.Add:
-                    foreach (var fileGroup in _grouper.Group(e.NewItems.Cast<MusicFileDTO>()))
-                        if (dataSource.FirstOrDefault(g => g.Name == fileGroup.Name) is MusicFileGroup group)
-                            group.Join(fileGroup);
-                        else
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        foreach (var fileGroup in _grouper.Group(e.NewItems.Cast<MusicFileDTO>()))
+                            if (dataSource.FirstOrDefault(g => g.Name == fileGroup.Name) is MusicFileGroup group)
+                                group.Join(fileGroup);
+                            else
+                            {
+                                dataSource.Add(fileGroup);
+
+                                AutoSort();
+                            }
+
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        var groups = _grouper.Group(e.OldItems.Cast<MusicFileDTO>())
+                            .Where(g => dataSource.Any(d => d.Name == g.Name));
+
+                        foreach (var fileGroup in groups)
                         {
-                            dataSource.Add(fileGroup);
-
-                            AutoSort();
+                            var theGroup = dataSource.First(g => g.Name == fileGroup.Name);
+                            if (fileGroup.Items.Count >= theGroup.Items.Count)
+                                dataSource.Remove(theGroup);
+                            else
+                                foreach (var fileDto in fileGroup.Items)
+                                    theGroup.Items.Remove(fileDto);
                         }
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    var groups = _grouper.Group(e.OldItems.Cast<MusicFileDTO>())
-                        .Where(g => dataSource.Any(d => d.Name == g.Name));
 
-                    foreach (var fileGroup in groups)
-                    {
-                        var theGroup = dataSource.First(g => g.Name == fileGroup.Name);
-                        if (fileGroup.Items.Count >= theGroup.Items.Count)
-                            dataSource.Remove(theGroup);
-                        else
-                            foreach (var fileDto in fileGroup.Items)
-                                theGroup.Items.Remove(fileDto);
-                    }
-                    break;
-            }
+                        break;
+                }
+            });
         }
     }
 }
