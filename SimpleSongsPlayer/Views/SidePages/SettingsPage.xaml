@@ -88,6 +88,12 @@
         </StackPanel>
 
         <StackPanel>
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="0,4"/>
+                </Style>
+            </StackPanel.Resources>
+
             <Button x:Name="LeadingInFavorites_Button" x:Uid="/SettingsPage/LeadingInFavorites_Button" Click="LeadingInFavorites_Button_OnClick"/>
             <Button x:Name="LeadingOutFavorites_Button" x:Uid="/SettingsPage/LeadingOutFavorites_Button" Click="LeadingOutFavorites_Button_OnClick"/>
         </StackPanel>
