@@ -166,10 +166,12 @@ namespace SimpleSongsPlayer
                     FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("LoadData"));
                     await MusicFileDataServer.Current.InitializeMusicService();
                     await LyricFileDataServer.Current.Init();
+                    await LyricIndexDataServer.Current.Init();
 
                     FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("ScanMusicLibrary"));
                     await MusicLibraryFileServiceManager.Current.ScanFiles();
                     await LyricIndexDataServer.Current.ScanAsync();
+
                     if (!FavoritesDataServer.Current.IsInit)
                     {
                         FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("GetFavorites"));
