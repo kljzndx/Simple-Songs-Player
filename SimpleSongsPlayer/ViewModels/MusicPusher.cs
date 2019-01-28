@@ -101,8 +101,11 @@ namespace SimpleSongsPlayer.ViewModels
             var source = new Queue<MusicFileDTO>(files);
             var option = new List<MusicFileDTO>();
 
-            int dequeueCount = (source.Count != 0 ? source.Count / 100 : 0);
-            for (int i = 0; i < (dequeueCount < 10 ? 10 : dequeueCount); i++)
+            int dc = (source.Count != 0 ? source.Count / 32 : 0);
+            int c = (dc < 10 ? 10 : dc);
+            CurrentType.LogByType($"正在提取 {c} 条项目");
+
+            for (int i = 0; i < c; i++)
                 if (source.Any())
                     option.Add(source.Dequeue());
                 else
