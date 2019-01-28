@@ -26,7 +26,7 @@ namespace SimpleSongsPlayer.ViewModels
             LyricIndexDataServer.Current.Data;
 
         private MusicFileDTO musicSource;
-        private LyricFileDTO lyricSource;
+        private LyricFileDTO lyricSource = LyricFileDTO.Empty;
         private BitmapSource cover;
 
         public MusicInfoViewModel()
