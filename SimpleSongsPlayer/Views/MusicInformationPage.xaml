@@ -4,6 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ctrl="using:SimpleSongsPlayer.Views.Controllers"
     xmlns:pctrl="using:HappyStudio.UwpToolsLibrary.Control"
+    
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
+
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -67,6 +71,17 @@
 
             <Grid x:Name="LyricPreview_Grid" Grid.Row="1">
                 <ctrl:ScrollLyricsPreviewControl x:Name="My_ScrollLyricsPreviewControl" Source="{Binding LyricSource.Lines}" ItemClick="My_ScrollLyricsPreviewControl_OnItemClick"/>
+                <TextBlock x:Name="NotFoundLyricsFile_TextBlock" x:Uid="/MusicInfoPage/NotFoundLyricsFile_TextBlock" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Interactivity:Interaction.Behaviors>
+                        <Interactions:DataTriggerBehavior Binding="{Binding LyricSource.Lines}" Value="{x:Null}" ComparisonCondition="Equal">
+                            <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=NotFoundLyricsFile_TextBlock}" PropertyName="Visibility" Value="Visible"/>
+                        </Interactions:DataTriggerBehavior>
+
+                        <Interactions:DataTriggerBehavior Binding="{Binding LyricSource.Lines}" Value="{x:Null}" ComparisonCondition="NotEqual">
+                            <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=NotFoundLyricsFile_TextBlock}" PropertyName="Visibility" Value="Collapsed"/>
+                        </Interactions:DataTriggerBehavior>
+                    </Interactivity:Interaction.Behaviors>
+                </TextBlock>
 
                 <Button x:Name="SetUpLyricFile_Button" x:Uid="/MusicInfoPage/SetUpLyricFile_Button" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="8" Click="SetUpLyricFile_Button_OnClick">
                     <FontIcon Glyph="&#xE115;"/>

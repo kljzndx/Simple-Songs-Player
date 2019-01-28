@@ -123,6 +123,9 @@
   <data name="Artist_Run.Text" xml:space="preserve">
     <value>Artist: </value>
   </data>
+  <data name="NotFoundLyricsFile_TextBlock.Text" xml:space="preserve">
+    <value>No matching lyrics file found</value>
+  </data>
   <data name="Pin_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Pin to screen</value>
   </data>

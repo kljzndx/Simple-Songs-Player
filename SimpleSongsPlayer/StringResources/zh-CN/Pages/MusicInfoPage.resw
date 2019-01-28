@@ -123,6 +123,9 @@
   <data name="Artist_Run.Text" xml:space="preserve">
     <value>歌手： </value>
   </data>
+  <data name="NotFoundLyricsFile_TextBlock.Text" xml:space="preserve">
+    <value>未找到匹配的歌词文件</value>
+  </data>
   <data name="Pin_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>固定到屏幕</value>
   </data>
