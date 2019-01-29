@@ -32,7 +32,9 @@ namespace SimpleSongsPlayer.ViewModels
         public async Task SetUpSource(MediaPlaybackList playbackList)
         {
             this.LogByObject("初始化列表");
-            Data.Clear();
+            foreach (var musicFileDto in Data.ToList())
+                Data.Remove(musicFileDto);
+
             if (currentPlaybackList != null)
             {
                 this.LogByObject("取消对旧播放源的监听");
