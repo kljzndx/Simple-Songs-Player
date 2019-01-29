@@ -91,7 +91,7 @@ namespace SimpleSongsPlayer.Views
                             }));
                     break;
                 case 4:
-                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.Data, MusicFileDataServer.Current, new [] {new MusicItemMenuItem<MusicFileDynamic>("MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
+                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.Data, NowPlayingDataServer.Current, new [] {new MusicItemMenuItem<MusicFileDynamic>("MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
                     break;
             }
         }
