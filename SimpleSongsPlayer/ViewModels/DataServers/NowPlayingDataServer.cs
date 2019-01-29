@@ -15,7 +15,7 @@ namespace SimpleSongsPlayer.ViewModels
 {
     public class NowPlayingDataServer : IFileDataServer<MusicFileDTO>
     {
-        public static  readonly NowPlayingDataServer Current = new NowPlayingDataServer();
+        public static readonly NowPlayingDataServer Current = new NowPlayingDataServer();
 
         private MediaPlaybackList currentPlaybackList;
 
