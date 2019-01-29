@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -55,8 +56,9 @@ namespace SimpleSongsPlayer.Views
 
             this.InitializeComponent();
             vm = (MusicListViewModel) DataContext;
+            vm.DataSource.CollectionChanged += DataSource_CollectionChanged;
         }
-        
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is MusicListArguments args)
@@ -98,6 +100,12 @@ namespace SimpleSongsPlayer.Views
         {
             Grouper_ListBox.SelectedIndex = (int)settings.GroupMethod;
             ListSorter_ListBox.SelectedIndex = (int)settings.SortMethod;
+        }
+
+        private void DataSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if ((e.Action == NotifyCollectionChangedAction.Remove || e.Action == NotifyCollectionChangedAction.Reset) && !vm.DataSource.Any() && Frame.CanGoBack)
+                Frame.GoBack();
         }
 
         private void ListSortSelection_SplitButton_OnLeftButton_Click(object sender, RoutedEventArgs e)
