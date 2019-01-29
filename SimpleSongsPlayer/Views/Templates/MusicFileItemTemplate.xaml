@@ -83,10 +83,10 @@
                         <Setter Property="Margin" Value="4,0"/>
                     </Style>
                 </StackPanel.Resources>
-                <Button x:Name="Play_Button" Click="Play_Button_OnClick">
+                <Button x:Name="Play_Button" x:Uid="/MusicPage/Play_Button" Click="Play_Button_OnClick">
                     <FontIcon Glyph="&#xE102;"/>
                 </Button>
-                <Button x:Name="More_Button" Visibility="{x:Bind IsShowMoreButton, Mode=OneWay}" Click="More_Button_OnClick">
+                <Button x:Name="More_Button" x:Uid="/MusicPage/MoreMenu_Button" Visibility="{x:Bind IsShowMoreButton, Mode=OneWay}" Click="More_Button_OnClick">
                     <Button.Flyout>
                         <MenuFlyout x:Name="More_MenuFlyout"/>
                     </Button.Flyout>

@@ -120,11 +120,17 @@
   <data name="ListSort_TextBlock.Text" xml:space="preserve">
     <value>排序： </value>
   </data>
+  <data name="MoreMenu_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>更多</value>
+  </data>
   <data name="PlayAll_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>全部播放</value>
   </data>
   <data name="PlayAll_TextBlock.Text" xml:space="preserve">
     <value>全部播放</value>
+  </data>
+  <data name="Play_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>播放</value>
   </data>
   <data name="SwitchMultipleSelection_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>切换到多选模式</value>
