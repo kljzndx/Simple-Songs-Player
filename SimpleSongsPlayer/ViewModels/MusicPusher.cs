@@ -99,30 +99,29 @@ namespace SimpleSongsPlayer.ViewModels
             OtherSettingProperties.Current.CanOptionNowPlayList = false;
             CurrentType.LogByType("正在接收参数");
             var source = new Queue<MusicFileDTO>(files);
-            var option = new List<MusicFileDTO>();
 
-            int dc = (source.Count != 0 ? source.Count / 32 : 0);
-            int c = (dc < 10 ? 10 : dc);
-            CurrentType.LogByType($"正在提取 {c} 条项目");
+            while (source.Any())
+            {
+                var option = new List<MusicFileDTO>();
 
-            for (int i = 0; i < c; i++)
-                if (source.Any())
-                    option.Add(source.Dequeue());
-                else
-                    break;
+                CurrentType.LogByType($"正在提取 10 条项目");
 
-            var plList = new List<MediaPlaybackItem>();
+                for (int i = 0; i < 10; i++)
+                    if (source.Any())
+                        option.Add(source.Dequeue());
+                    else
+                        break;
 
-            CurrentType.LogByType("解析所有文件");
-            foreach (var dto in option)
-                plList.Add(await dto.GetPlaybackItem());
+                var plList = new List<MediaPlaybackItem>();
 
-            CurrentType.LogByType("添加到正在播放");
-            await Append(plList);
+                CurrentType.LogByType("解析所有文件");
+                foreach (var dto in option)
+                    plList.Add(await dto.GetPlaybackItem());
+
+                CurrentType.LogByType("添加到正在播放");
+                await Append(plList);
+            }
             OtherSettingProperties.Current.CanOptionNowPlayList = true;
-
-            if (source.Any())
-                await Append(source);
         }
 
         private static async Task Append(IEnumerable<MediaPlaybackItem> items)

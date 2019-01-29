@@ -137,78 +137,79 @@ namespace SimpleSongsPlayer.Service
             }
         }
 
-        public async Task ScanFiles(IEnumerable<StorageLibraryChange> libraryChanges)
+        internal async Task ScanFiles(IEnumerable<StorageLibraryChange> libraryChanges)
         {
             this.LogByObject("接收并筛选数据");
             var changes = libraryChanges.Where(c => c.IsOfType(StorageItemTypes.File) && CheckExtensionName(c.Path));
-            this.LogByObject("提取出 100 条数据");
             var source = new Stack<StorageLibraryChange>(changes);
-            var option = new List<StorageLibraryChange>();
-            for (int i = 0; i < 100; i++)
-                if (source.Any())
-                    option.Add(source.Pop());
-                else break;
 
-            this.LogByObject("进入扫描流程");
-            List<TFile> addFiles = new List<TFile>();
-            List<TFile> removeFiles = new List<TFile>();
-            List<TFile> updateFiles = new List<TFile>();
-
-            foreach (var libraryChange in option)
+            while (source.Any())
             {
-                switch (libraryChange.ChangeType)
+                this.LogByObject("提取出 100 条数据");
+                var option = new List<StorageLibraryChange>();
+                for (int i = 0; i < 100; i++)
+                    if (source.Any())
+                        option.Add(source.Pop());
+                    else break;
+
+                this.LogByObject("进入扫描流程");
+                List<TFile> addFiles = new List<TFile>();
+                List<TFile> removeFiles = new List<TFile>();
+                List<TFile> updateFiles = new List<TFile>();
+
+                foreach (var libraryChange in option)
                 {
-                    case StorageLibraryChangeType.MovedIntoLibrary:
-                    case StorageLibraryChangeType.Created:
-                        if (musicFiles.Any(f => f.Path == libraryChange.Path))
+                    switch (libraryChange.ChangeType)
+                    {
+                        case StorageLibraryChangeType.MovedIntoLibrary:
+                        case StorageLibraryChangeType.Created:
+                            if (musicFiles.Any(f => f.Path == libraryChange.Path))
+                                break;
+                            
+                            addFiles.Add(await fileFactory.FromFilePath(GrtLibraryFolderPath(libraryChange.Path), libraryChange.Path, DBVersion));
                             break;
-                        
-                        addFiles.Add(await fileFactory.FromFilePath(GrtLibraryFolderPath(libraryChange.Path), libraryChange.Path, DBVersion));
-                        break;
-                    case StorageLibraryChangeType.MovedOutOfLibrary:
-                    case StorageLibraryChangeType.Deleted:
-                        if (musicFiles.All(f => f.Path != libraryChange.Path))
+                        case StorageLibraryChangeType.MovedOutOfLibrary:
+                        case StorageLibraryChangeType.Deleted:
+                            if (musicFiles.All(f => f.Path != libraryChange.Path))
+                                break;
+                            
+                            removeFiles.Add(musicFiles.Find(f => f.Path == libraryChange.Path));
                             break;
-                        
-                        removeFiles.Add(musicFiles.Find(f => f.Path == libraryChange.Path));
-                        break;
-                    case StorageLibraryChangeType.MovedOrRenamed:
-                        if (musicFiles.All(f => f.Path != libraryChange.PreviousPath))
-                            break;
+                        case StorageLibraryChangeType.MovedOrRenamed:
+                            if (musicFiles.All(f => f.Path != libraryChange.PreviousPath))
+                                break;
 
-                        removeFiles.Add(musicFiles.Find(f => f.Path == libraryChange.PreviousPath));
-                        addFiles.Add(await fileFactory.FromFilePath(GrtLibraryFolderPath(libraryChange.Path), libraryChange.Path, DBVersion));
-                        break;
-                    case StorageLibraryChangeType.ContentsChanged:
-                    case StorageLibraryChangeType.ContentsReplaced:
-                        if (musicFiles.All(f => f.Path != libraryChange.Path))
+                            removeFiles.Add(musicFiles.Find(f => f.Path == libraryChange.PreviousPath));
+                            addFiles.Add(await fileFactory.FromFilePath(GrtLibraryFolderPath(libraryChange.Path), libraryChange.Path, DBVersion));
                             break;
+                        case StorageLibraryChangeType.ContentsChanged:
+                        case StorageLibraryChangeType.ContentsReplaced:
+                            if (musicFiles.All(f => f.Path != libraryChange.Path))
+                                break;
 
-                        updateFiles.Add(await fileFactory.FromFilePath(GrtLibraryFolderPath(libraryChange.Path), libraryChange.Path, DBVersion));
-                        break;
+                            updateFiles.Add(await fileFactory.FromFilePath(GrtLibraryFolderPath(libraryChange.Path), libraryChange.Path, DBVersion));
+                            break;
+                    }
+                }
+
+                if (addFiles.Any())
+                {
+                    this.LogByObject("应用添加操作");
+                    await AddFileRange(addFiles);
+                }
+
+                if (removeFiles.Any())
+                {
+                    this.LogByObject("应用移除操作");
+                    await RemoveRange(removeFiles);
+                }
+
+                if (updateFiles.Any())
+                {
+                    this.LogByObject("应用更新操作");
+                    await UpdateFileRange(updateFiles);
                 }
             }
-
-            if (addFiles.Any())
-            {
-                this.LogByObject("应用添加操作");
-                await AddFileRange(addFiles);
-            }
-
-            if (removeFiles.Any())
-            {
-                this.LogByObject("应用移除操作");
-                await RemoveRange(removeFiles);
-            }
-
-            if (updateFiles.Any())
-            {
-                this.LogByObject("应用更新操作");
-                await UpdateFileRange(updateFiles);
-            }
-
-            if (source.Any())
-                await ScanFiles(source);
         }
 
         private bool CheckExtensionName(string filePath)

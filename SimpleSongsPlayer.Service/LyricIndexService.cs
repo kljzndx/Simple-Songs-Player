@@ -148,44 +148,48 @@ namespace SimpleSongsPlayer.Service
         {
             this.LogByObject("接收数据");
             Stack<LyricIndex> sourceStack = new Stack<LyricIndex>(source);
-            List<LyricIndex> optionList = new List<LyricIndex>();
-            for (int i = 0; i < 200; i++)
-                if (sourceStack.Any())
-                    optionList.Add(sourceStack.Pop());
-                else break;
 
-            this.LogByObject("添加到数据库");
-            await _helper.AddRange(optionList);
-            this.LogByObject("添加到私有列表");
-            _source.AddRange(optionList);
+            while (sourceStack.Any())
+            {
+                this.LogByObject("尝试提取 200 条数据");
+                List<LyricIndex> optionList = new List<LyricIndex>();
+                for (int i = 0; i < 200; i++)
+                    if (sourceStack.Any())
+                        optionList.Add(sourceStack.Pop());
+                    else break;
 
-            this.LogByObject("触发添加事件");
-            DataAdded?.Invoke(this, optionList);
+                this.LogByObject("添加到数据库");
+                await _helper.AddRange(optionList);
+                this.LogByObject("添加到私有列表");
+                _source.AddRange(optionList);
 
-            if (sourceStack.Any())
-                await AddRange(sourceStack);
+                this.LogByObject("触发添加事件");
+                DataAdded?.Invoke(this, optionList);
+            }
         }
 
         private async Task RemoveRange(IEnumerable<LyricIndex> source)
         {
             this.LogByObject("接收数据");
             Stack<LyricIndex> sourceStack = new Stack<LyricIndex>(source);
-            List<LyricIndex> optionList = new List<LyricIndex>();
-            for (int i = 0; i < 200; i++)
-                if (sourceStack.Any())
-                    optionList.Add(sourceStack.Pop());
-                else break;
 
-            this.LogByObject("从数据库移除数据");
-            await _helper.RemoveRange(optionList);
-            this.LogByObject("从私有列表移除数据");
-            _source.RemoveAll(optionList.Contains);
+            while (sourceStack.Any())
+            {
+                this.LogByObject("尝试提取 200 条数据");
+                List<LyricIndex> optionList = new List<LyricIndex>();
+                for (int i = 0; i < 200; i++)
+                    if (sourceStack.Any())
+                        optionList.Add(sourceStack.Pop());
+                    else break;
 
-            this.LogByObject("触发移除事件");
-            DataRemoved?.Invoke(this, optionList);
+                this.LogByObject("从数据库移除数据");
+                await _helper.RemoveRange(optionList);
+                this.LogByObject("从私有列表移除数据");
+                _source.RemoveAll(optionList.Contains);
 
-            if (sourceStack.Any())
-                await RemoveRange(sourceStack);
+                this.LogByObject("触发移除事件");
+                DataRemoved?.Invoke(this, optionList);
+            }
         }
 
         public static async Task<LyricIndexService> GetService()
