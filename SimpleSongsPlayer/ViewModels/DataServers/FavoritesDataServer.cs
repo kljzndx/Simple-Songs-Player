@@ -68,7 +68,7 @@ namespace SimpleSongsPlayer.ViewModels
 
         public async Task MigrateOldFavorites()
         {
-            if (IsInit)
+            if (!IsInit)
                 await InitializeFavoritesService();
 
             try
@@ -77,13 +77,15 @@ namespace SimpleSongsPlayer.ViewModels
                 var options = new QueryOptions(CommonFileQuery.OrderByName, new[] {".plb"});
                 var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync("plbs");
                 var query = folder.CreateFileQueryWithOptions(options);
+                uint index = 0, count = await query.GetItemCountAsync();
 
-                this.LogByObject("提取全部播放列表文件");
-                var files = await query.GetFilesAsync();
-
-                if (files.Any())
+                while (index < count - 1)
                 {
-                    this.LogByObject("开始迁移");
+                    this.LogByObject("提取10个播放列表文件");
+                    var files = await query.GetFilesAsync(index, 10);
+                    index += (uint) files.Count;
+
+                    this.LogByObject("开始解析并迁移");
                     foreach (var file in files)
                     {
                         var lines = await FileIO.ReadLinesAsync(file);
