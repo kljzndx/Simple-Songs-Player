@@ -214,7 +214,7 @@ namespace SimpleSongsPlayer.Service
         private async void MusicFileService_FilesRemoved(object sender, IEnumerable<MusicFile> e)
         {
             this.LogByObject("查询与删除的音乐匹配的索引");
-            var indexes = _source.Where(i => e.Any(f => f.Path == i.MusicPath)).ToList();
+            var indexes = (await GetData()).Where(i => e.Any(f => f.Path == i.MusicPath)).ToList();
             if (indexes.Any())
                 await RemoveRange(indexes);
         }
@@ -222,7 +222,7 @@ namespace SimpleSongsPlayer.Service
         private async void LyricFileService_FilesRemoved(object sender, IEnumerable<LyricFile> e)
         {
             this.LogByObject("查询与删除的歌词匹配的索引");
-            var indexes = _source.Where(i => e.Any(f => f.Path == i.LyricPath)).ToList();
+            var indexes = (await GetData()).Where(i => e.Any(f => f.Path == i.LyricPath)).ToList();
             if (indexes.Any())
                 await RemoveRange(indexes);
         }
