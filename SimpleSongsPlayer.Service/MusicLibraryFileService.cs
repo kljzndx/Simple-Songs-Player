@@ -139,7 +139,9 @@ namespace SimpleSongsPlayer.Service
 
         public async Task ScanFiles(IEnumerable<StorageLibraryChange> libraryChanges)
         {
+            this.LogByObject("接收并筛选数据");
             var changes = libraryChanges.Where(c => c.IsOfType(StorageItemTypes.File) && CheckExtensionName(c.Path));
+            this.LogByObject("提取出 100 条数据");
             var source = new Stack<StorageLibraryChange>(changes);
             var option = new List<StorageLibraryChange>();
             for (int i = 0; i < 100; i++)
@@ -147,6 +149,7 @@ namespace SimpleSongsPlayer.Service
                     option.Add(source.Pop());
                 else break;
 
+            this.LogByObject("进入扫描流程");
             List<TFile> addFiles = new List<TFile>();
             List<TFile> removeFiles = new List<TFile>();
             List<TFile> updateFiles = new List<TFile>();
@@ -166,7 +169,7 @@ namespace SimpleSongsPlayer.Service
                     case StorageLibraryChangeType.Deleted:
                         if (musicFiles.All(f => f.Path != libraryChange.Path))
                             break;
-
+                        
                         removeFiles.Add(musicFiles.Find(f => f.Path == libraryChange.Path));
                         break;
                     case StorageLibraryChangeType.MovedOrRenamed:
