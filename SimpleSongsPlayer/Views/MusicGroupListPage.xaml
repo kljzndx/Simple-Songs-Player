@@ -71,7 +71,7 @@
         <GridView x:Name="Main_GridView" Grid.Row="1" ItemsSource="{Binding DataSource}" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="Main_GridView_OnItemClick">
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <temp:MusicGroupItemTemplate Source="{Binding}" MoreMenuItemList="{StaticResource GroupMoreMenu}"/>
+                    <temp:MusicGroupItemTemplate Source="{Binding}" MoreMenuItemList="{StaticResource GroupMoreMenu}" PlayRequested="MusicGroupItemTemplate_OnPlayRequested"/>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>

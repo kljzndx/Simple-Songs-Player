@@ -192,5 +192,19 @@ namespace SimpleSongsPlayer.Views
         {
             FavoriteAdditionNotification.RequestFavoriteAddition(GetSongItems(Main_GridView.SelectedItems.Cast<MusicFileGroup>()));
         }
+
+        private async void MusicGroupItemTemplate_OnPlayRequested(object sender, RoutedEventArgs e)
+        {
+            var theButton = sender as Control;
+            var group = theButton?.DataContext as MusicFileGroup;
+            if (group is null)
+                return;
+
+            theButton.IsEnabled = false;
+
+            await MusicPusher.Push(group.Items);
+
+            theButton.IsEnabled = true;
+        }
     }
 }
