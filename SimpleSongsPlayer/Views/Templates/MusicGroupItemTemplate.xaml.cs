@@ -73,5 +73,16 @@ namespace SimpleSongsPlayer.Views.Templates
             SetUpMenu();
             More_MenuFlyout.ShowAt(this, e.GetPosition(this));
         }
+
+        private void MoreMenu_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            SetUpMenu();
+            More_MenuFlyout.ShowAt(MoreMenu_Button);
+        }
+
+        private void Play_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            PlayRequested?.Invoke(sender, e);
+        }
     }
 }
