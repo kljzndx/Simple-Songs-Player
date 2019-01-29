@@ -60,7 +60,7 @@ namespace SimpleSongsPlayer.ViewModels
             var fmpi = await source.Dequeue().GetPlaybackItem();
             await Push(new[] {fmpi});
 
-            await Append(source);
+            await Append(source.ToList());
             OtherSettingProperties.Current.CanOptionNowPlayList = true;
         }
 
@@ -114,7 +114,7 @@ namespace SimpleSongsPlayer.ViewModels
             var plList = new List<MediaPlaybackItem>();
 
             CurrentType.LogByType("解析所有文件");
-            foreach (var dto in source)
+            foreach (var dto in option)
                 plList.Add(await dto.GetPlaybackItem());
 
             CurrentType.LogByType("添加到正在播放");
