@@ -88,8 +88,8 @@
                 </Button>
 
                 <StackPanel x:Name="PinOption_StackPanel" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <pctrl:FloatingActionButton x:Name="Pin_FloatingActionButton" x:Uid="/MusicInfoPage/Pin_FloatingActionButton" Glyph="&#xE141;" Click="Pin_FloatingActionButton_OnClick"/>
-                    <pctrl:FloatingActionButton x:Name="UnPin_FloatingActionButton" x:Uid="/MusicInfoPage/UnPin_FloatingActionButton" Glyph="&#xE196;" Visibility="Collapsed" Click="UnPin_FloatingActionButton_OnClick"/>
+                    <pctrl:FloatingActionButton x:Name="Pin_FloatingActionButton" x:Uid="/MusicInfoPage/Pin_FloatingActionButton" Content="&#xE141;" Tapped="Pin_FloatingActionButton_OnClick"/>
+                    <pctrl:FloatingActionButton x:Name="UnPin_FloatingActionButton" x:Uid="/MusicInfoPage/UnPin_FloatingActionButton" Content="&#xE196;" Visibility="Collapsed" Tapped="UnPin_FloatingActionButton_OnClick"/>
                 </StackPanel>
             </Grid>
 

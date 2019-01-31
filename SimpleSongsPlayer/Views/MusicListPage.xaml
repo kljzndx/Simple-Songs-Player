@@ -194,8 +194,8 @@
                 </TransitionCollection>
             </Grid.Transitions>
 
-            <pctor:FloatingActionButton x:Name="SwitchMultipleSelection_FloatingActionButton" x:Uid="/MusicPage/SwitchMultipleSelection_FloatingActionButton" Glyph="&#xE133;" Click="SwitchMultipleSelection_FloatingActionButton_OnClick"/>
-            <pctor:FloatingActionButton x:Name="SwitchSingleSelection_FloatingActionButton" x:Uid="/MusicPage/SwitchSingleSelection_FloatingActionButton" Glyph="&#xE10B;" Visibility="Collapsed" Click="SwitchSingleSelection_FloatingActionButton_OnClick"/>
+            <pctor:FloatingActionButton x:Name="SwitchMultipleSelection_FloatingActionButton" x:Uid="/MusicPage/SwitchMultipleSelection_FloatingActionButton" Content="&#xE133;" Tapped="SwitchMultipleSelection_FloatingActionButton_OnClick"/>
+            <pctor:FloatingActionButton x:Name="SwitchSingleSelection_FloatingActionButton" x:Uid="/MusicPage/SwitchSingleSelection_FloatingActionButton" Content="&#xE10B;" Visibility="Collapsed" Tapped="SwitchSingleSelection_FloatingActionButton_OnClick"/>
         </Grid>
 
         <CommandBar x:Name="ListOption_CommandBar" Grid.Row="2" Visibility="Collapsed">
