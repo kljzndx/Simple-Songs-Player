@@ -436,7 +436,7 @@
       <Version>1.2.3</Version>
     </PackageReference>
     <PackageReference Include="HappyStudio.UwpToolsLibrary.Control">
-      <Version>1.6.3</Version>
+      <Version>1.6.5</Version>
     </PackageReference>
     <PackageReference Include="HappyStudio.UwpToolsLibrary.Information">
       <Version>1.0.3</Version>
