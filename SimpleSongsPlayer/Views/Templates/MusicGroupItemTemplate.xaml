@@ -52,7 +52,7 @@
 
         <Image x:Name="Cover_Image" Width="98" Height="98"/>
 
-        <Grid x:Name="Option_Grid">
+        <Grid x:Name="Option_Grid" Visibility="{x:Bind settings.IsSingleMode, Mode=OneWay}">
             <pctol:FloatingActionButton x:Name="Play_Button" x:Uid="/MusicPage/Play_Button" Width="30" Height="30" Content="&#xE102;" HorizontalAlignment="Left" VerticalAlignment="Bottom" Tapped="Play_Button_OnClick"/>
             <pctol:FloatingActionButton x:Name="MoreMenu_Button" x:Uid="/MusicPage/MoreMenu_Button" BorderThickness="2" Width="30" Height="30" Content="&#xE700;" HorizontalAlignment="Right" VerticalAlignment="Top" Tapped="MoreMenu_Button_OnClick">
                 <pctol:FloatingActionButton.Background>

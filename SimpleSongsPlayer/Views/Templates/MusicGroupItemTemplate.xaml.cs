@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models;
+using SimpleSongsPlayer.ViewModels.SettingProperties;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -23,6 +24,8 @@ namespace SimpleSongsPlayer.Views.Templates
     {
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
             nameof(Source), typeof(MusicFileGroup), typeof(MusicGroupItemTemplate), new PropertyMetadata(null));
+
+        private MusicGroupViewSettingProperties settings = MusicGroupViewSettingProperties.Current;
 
         public MusicGroupItemTemplate()
         {

@@ -166,6 +166,7 @@ namespace SimpleSongsPlayer.Views
         private void SwitchMultipleSelection_FloatingActionButton_OnClick(object sender, RoutedEventArgs e)
         {
             Main_GridView.SelectionMode = ListViewSelectionMode.Multiple;
+            settings.IsSingleMode = false;
             SwitchMultipleSelection_FloatingActionButton.Visibility = Visibility.Collapsed;
             SwitchSingleSelection_FloatingActionButton.Visibility = Visibility.Visible;
             SwitchSingleSelection_FloatingActionButton.Focus(FocusState.Pointer);
@@ -174,6 +175,7 @@ namespace SimpleSongsPlayer.Views
         private void SwitchSingleSelection_FloatingActionButton_OnClick(object sender, RoutedEventArgs e)
         {
             Main_GridView.SelectionMode = ListViewSelectionMode.Single;
+            settings.IsSingleMode = true;
             SwitchSingleSelection_FloatingActionButton.Visibility = Visibility.Collapsed;
             SwitchMultipleSelection_FloatingActionButton.Visibility = Visibility.Visible;
             SwitchMultipleSelection_FloatingActionButton.Focus(FocusState.Pointer);

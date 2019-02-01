@@ -41,5 +41,13 @@ namespace SimpleSongsPlayer.ViewModels.SettingProperties
             get => isReverse;
             set => SetSetting(ref isReverse, value);
         }
+
+        private bool isSingleMode = true;
+
+        public bool IsSingleMode
+        {
+            get => isSingleMode;
+            set => Set(ref isSingleMode, value);
+        }
     }
 }
