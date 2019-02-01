@@ -49,7 +49,11 @@
         <Image x:Name="Cover_Image" Width="98" Height="98"/>
 
         <Grid x:Name="Option_Grid" Visibility="{x:Bind settings.IsSingleMode, Mode=OneWay}">
-            <pctol:FloatingActionButton x:Name="Play_Button" x:Uid="/MusicPage/Play_Button" Background="Transparent" BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" BorderThickness="1" Width="30" Height="30" Content="&#xE102;" HorizontalAlignment="Left" VerticalAlignment="Bottom" Tapped="Play_Button_OnClick"/>
+            <pctol:FloatingActionButton x:Name="Play_Button" x:Uid="/MusicPage/Play_Button" BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" BorderThickness="1" Width="30" Height="30" Content="&#xE102;" HorizontalAlignment="Left" VerticalAlignment="Bottom" Tapped="Play_Button_OnClick">
+                <pctol:FloatingActionButton.Background>
+                    <SolidColorBrush Color="White" Opacity="0.4"/>
+                </pctol:FloatingActionButton.Background>
+            </pctol:FloatingActionButton>
         </Grid>
 
         <StackPanel x:Name="Info_StackPanel" Grid.Row="1" Width="98">
