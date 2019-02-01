@@ -83,26 +83,8 @@
                 </TransitionCollection>
             </StackPanel.Transitions>
 
-            <pctol:FloatingActionButton x:Name="SwitchMultipleSelection_FloatingActionButton" x:Uid="/MusicPage/SwitchMultipleSelection_FloatingActionButton" Content="&#xE133;" Tapped="SwitchMultipleSelection_FloatingActionButton_OnClick">
-                <Interactivity:Interaction.Behaviors>
-                    <Interactions:DataTriggerBehavior Binding="{Binding ElementName=Main_GridView, Path=SelectionMode}" Value="Single" ComparisonCondition="Equal">
-                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=SwitchMultipleSelection_FloatingActionButton}" PropertyName="Visibility" Value="Visible"/>
-                    </Interactions:DataTriggerBehavior>
-                    <Interactions:DataTriggerBehavior Binding="{Binding ElementName=Main_GridView, Path=SelectionMode}" Value="Multiple" ComparisonCondition="Equal">
-                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=SwitchMultipleSelection_FloatingActionButton}" PropertyName="Visibility" Value="Collapsed"/>
-                    </Interactions:DataTriggerBehavior>
-                </Interactivity:Interaction.Behaviors>
-            </pctol:FloatingActionButton>
-            <pctol:FloatingActionButton x:Name="SwitchSingleSelection_FloatingActionButton" x:Uid="/MusicPage/SwitchSingleSelection_FloatingActionButton" Content="&#xE10B;" Tapped="SwitchSingleSelection_FloatingActionButton_OnClick">
-                <Interactivity:Interaction.Behaviors>
-                    <Interactions:DataTriggerBehavior Binding="{Binding ElementName=Main_GridView, Path=SelectionMode}" Value="Single" ComparisonCondition="Equal">
-                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=SwitchSingleSelection_FloatingActionButton}" PropertyName="Visibility" Value="Collapsed"/>
-                    </Interactions:DataTriggerBehavior>
-                    <Interactions:DataTriggerBehavior Binding="{Binding ElementName=Main_GridView, Path=SelectionMode}" Value="Multiple" ComparisonCondition="Equal">
-                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=SwitchSingleSelection_FloatingActionButton}" PropertyName="Visibility" Value="Visible"/>
-                    </Interactions:DataTriggerBehavior>
-                </Interactivity:Interaction.Behaviors>
-            </pctol:FloatingActionButton>
+            <pctol:FloatingActionButton x:Name="SwitchMultipleSelection_FloatingActionButton" x:Uid="/MusicPage/SwitchMultipleSelection_FloatingActionButton" Content="&#xE133;" Tapped="SwitchMultipleSelection_FloatingActionButton_OnClick"/>
+            <pctol:FloatingActionButton x:Name="SwitchSingleSelection_FloatingActionButton" x:Uid="/MusicPage/SwitchSingleSelection_FloatingActionButton" Content="&#xE10B;" Visibility="Collapsed" Tapped="SwitchSingleSelection_FloatingActionButton_OnClick"/>
         </StackPanel>
 
         <CommandBar x:Name="GroupsOptions_CommandBar" Grid.Row="2" Visibility="Visible">
