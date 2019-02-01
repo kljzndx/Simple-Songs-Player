@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Newtonsoft.Json;
-using SimpleSongsPlayer.DAL;
-using SimpleSongsPlayer.DAL.Factory;
 using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
-using SimpleSongsPlayer.ViewModels.DataServers;
 
-namespace SimpleSongsPlayer.ViewModels
+namespace SimpleSongsPlayer.ViewModels.DataServers
 {
     public class FavoritesDataServer : IDataServer<MusicFileGroup, KeyValuePair<MusicFileGroup, IEnumerable<MusicFileDTO>>>
     {

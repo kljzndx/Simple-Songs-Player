@@ -7,11 +7,9 @@ using Windows.Foundation.Collections;
 using Windows.Media.Playback;
 using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models.DTO;
-using SimpleSongsPlayer.Service;
-using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Extensions;
 
-namespace SimpleSongsPlayer.ViewModels
+namespace SimpleSongsPlayer.ViewModels.DataServers
 {
     public class NowPlayingDataServer : IFileDataServer<MusicFileDTO>
     {
