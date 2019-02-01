@@ -22,10 +22,6 @@
                         <Setter Target="Play_Button.Height" Value="20"/>
                         <Setter Target="Play_Button.FontSize" Value="12"/>
 
-                        <Setter Target="MoreMenu_Button.Width" Value="20"/>
-                        <Setter Target="MoreMenu_Button.Height" Value="20"/>
-                        <Setter Target="MoreMenu_Button.FontSize" Value="12"/>
-
                         <Setter Target="Info_StackPanel.Width" Value="64"/>
                         <Setter Target="Title_TextBlock.FontSize" Value="13"/>
                         <Setter Target="Title_TextBlock.MinHeight" Value="32"/>
@@ -53,16 +49,7 @@
         <Image x:Name="Cover_Image" Width="98" Height="98"/>
 
         <Grid x:Name="Option_Grid" Visibility="{x:Bind settings.IsSingleMode, Mode=OneWay}">
-            <pctol:FloatingActionButton x:Name="Play_Button" x:Uid="/MusicPage/Play_Button" Width="30" Height="30" Content="&#xE102;" HorizontalAlignment="Left" VerticalAlignment="Bottom" Tapped="Play_Button_OnClick"/>
-            <pctol:FloatingActionButton x:Name="MoreMenu_Button" x:Uid="/MusicPage/MoreMenu_Button" BorderThickness="2" Width="30" Height="30" Content="&#xE700;" HorizontalAlignment="Right" VerticalAlignment="Top" Tapped="MoreMenu_Button_OnClick">
-                <pctol:FloatingActionButton.Background>
-                    <SolidColorBrush Color="#ff000000" Opacity="0.2"/>
-                </pctol:FloatingActionButton.Background>
-
-                <pctol:FloatingActionButton.BorderBrush>
-                    <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
-                </pctol:FloatingActionButton.BorderBrush>
-            </pctol:FloatingActionButton>
+            <pctol:FloatingActionButton x:Name="Play_Button" x:Uid="/MusicPage/Play_Button" Background="Transparent" BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" BorderThickness="1" Width="30" Height="30" Content="&#xE102;" HorizontalAlignment="Left" VerticalAlignment="Bottom" Tapped="Play_Button_OnClick"/>
         </Grid>
 
         <StackPanel x:Name="Info_StackPanel" Grid.Row="1" Width="98">
