@@ -88,7 +88,8 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                     if (dto != null)
                     {
                         this.LogByObject("正在添加播放项");
-                        Data.Insert((int)args.Index, dto);
+                        int id = (int) args.Index;
+                        Data.Insert(id < Data.Count ? id : Data.Count - 1, dto);
                         DataAdded?.Invoke(this, new[] {dto});
                     }
                     break;
