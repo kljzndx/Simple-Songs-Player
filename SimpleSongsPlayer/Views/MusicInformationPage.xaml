@@ -49,7 +49,7 @@
         </Grid.ColumnDefinitions>
 
         <RelativePanel x:Name="LeftArea_RelativePanel">
-            <Image x:Name="Cover_Image" Source="{Binding Cover}" Stretch="Uniform" Margin="50" RelativePanel.AlignHorizontalCenterWithPanel="False" RelativePanel.AlignVerticalCenterWithPanel="False"/>
+            <Image x:Name="Cover_Image" Source="{Binding Cover}" Stretch="Uniform" Margin="50" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
         </RelativePanel>
 
         <Grid x:Name="RightArea_Grid" Grid.Column="1">
