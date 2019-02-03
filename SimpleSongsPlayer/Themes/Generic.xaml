@@ -410,7 +410,7 @@
                                     </VisualState.Setters>
 
                                     <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="641"/>
+                                        <AdaptiveTrigger MinWindowWidth="490"/>
                                     </VisualState.StateTriggers>
                                 </VisualState>
                                 <VisualState x:Name="Mobile">
