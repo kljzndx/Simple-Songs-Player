@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -45,24 +46,37 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private void ScrollLyricsPreview_Refreshed(LyricsPreviewControlBase sender, LyricLine args)
         {
-            foreach (var line in Source.Where(l => l.IsSelected))
-                line.IsSelected = false;
-
             if (args.Equals(LyricLine.Empty))
             {
-                Main_ListView.SelectedItem = null;
-                Root_ScrollViewer.ChangeView(null, 0, null);
+                Main_ListView.SelectedIndex = -1;
                 return;
             }
 
             Main_ListView.SelectedItem = args;
-            args.IsSelected = true;
-            Root_ScrollViewer.ChangeView(null, GetItemPosition(args), null);
         }
 
         private void Main_ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             ItemClick?.Invoke(sender, e);
+        }
+
+        private async void Main_ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                var args = e.AddedItems.Cast<LyricLine>().FirstOrDefault();
+                foreach (var line in Source.Where(l => l.IsSelected))
+                    line.IsSelected = false;
+
+                if (args is null)
+                {
+                    Root_ScrollViewer.ChangeView(null, 0, null);
+                    return;
+                }
+
+                args.IsSelected = true;
+                Root_ScrollViewer.ChangeView(null, GetItemPosition(args), null);
+            });
         }
     }
 }
