@@ -63,11 +63,6 @@ namespace SimpleSongsPlayer.Views.Controllers
             args.IsSelected = true;
         }
 
-        private void Main_ListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            ItemClick?.Invoke(sender, e);
-        }
-
         private async void ScrollLyricsPreviewItemTemplate_OnSelected(ScrollLyricsPreviewItemTemplate sender, object args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -75,6 +70,11 @@ namespace SimpleSongsPlayer.Views.Controllers
                 Main_ListView.SelectedItem = sender.DataContext;
                 Root_ScrollViewer.ChangeView(null, GetItemPosition((LyricLine) sender.DataContext), null);
             });
+        }
+
+        private void Main_ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            ItemClick?.Invoke(sender, e);
         }
     }
 }
