@@ -21,12 +21,13 @@ namespace SimpleSongsPlayer.Views.MusicInfo
         public MusicInformationPageBase()
         {
             CustomMediaPlayerElement.PositionChanged += CustomMediaPlayerElement_PositionChanged;
+            CustomMediaPlayerElement.NowPlaybackItemChanged += (s, e) => needRefreshLyric = true;
             NavigationCacheMode = NavigationCacheMode.Enabled;
 
             LyricFileDataServer.Current.DataAdded += LyricFileDataServer_DataAdded;
             LyricFileDataServer.Current.DataRemoved += LyricFileDataServer_DataRemoved;
         }
-
+        
         protected void Init(MusicInfoViewModel vm)
         {
             this.ViewModel = vm;
