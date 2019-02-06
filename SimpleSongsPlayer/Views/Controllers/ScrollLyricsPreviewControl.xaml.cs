@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.Models.DTO.Lyric;
 using SimpleSongsPlayer.Views.Controllers.Abstracts;
+using SimpleSongsPlayer.Views.Templates;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -44,15 +45,22 @@ namespace SimpleSongsPlayer.Views.Controllers
             return result > 0 ? result : 0;
         }
 
-        private void ScrollLyricsPreview_Refreshed(LyricsPreviewControlBase sender, LyricLine args)
+        private async void ScrollLyricsPreview_Refreshed(LyricsPreviewControlBase sender, LyricLine args)
         {
+            foreach (var line in Source.Where(l => l.IsSelected))
+                line.IsSelected = false;
+            
             if (args.Equals(LyricLine.Empty))
             {
-                Main_ListView.SelectedIndex = -1;
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    Main_ListView.SelectedIndex = -1;
+                    Root_ScrollViewer.ChangeView(null, 0, null);
+                });
                 return;
             }
 
-            Main_ListView.SelectedItem = args;
+            args.IsSelected = true;
         }
 
         private void Main_ListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -60,22 +68,12 @@ namespace SimpleSongsPlayer.Views.Controllers
             ItemClick?.Invoke(sender, e);
         }
 
-        private async void Main_ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void ScrollLyricsPreviewItemTemplate_OnSelected(ScrollLyricsPreviewItemTemplate sender, object args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                var args = e.AddedItems.Cast<LyricLine>().FirstOrDefault();
-                foreach (var line in Source.Where(l => l.IsSelected))
-                    line.IsSelected = false;
-
-                if (args is null)
-                {
-                    Root_ScrollViewer.ChangeView(null, 0, null);
-                    return;
-                }
-
-                args.IsSelected = true;
-                Root_ScrollViewer.ChangeView(null, GetItemPosition(args), null);
+                Main_ListView.SelectedItem = sender.DataContext;
+                Root_ScrollViewer.ChangeView(null, GetItemPosition((LyricLine) sender.DataContext), null);
             });
         }
     }

@@ -12,10 +12,10 @@
     d:DesignWidth="400">
 
     <ScrollViewer x:Name="Root_ScrollViewer">
-        <ListView x:Name="Main_ListView" ItemsSource="{x:Bind Source, Mode=OneWay}" SelectionMode="Extended" IsItemClickEnabled="True" ItemClick="Main_ListView_ItemClick" SelectionChanged="Main_ListView_OnSelectionChanged">
+        <ListView x:Name="Main_ListView" ItemsSource="{x:Bind Source, Mode=OneWay}" SelectionMode="Extended" IsItemClickEnabled="True" ItemClick="Main_ListView_ItemClick">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="dataModel:LyricLine">
-                    <temp:ScrollLyricsPreviewItemTemplate IsSelected="{x:Bind IsSelected, Mode=OneWay}" LyricText="{x:Bind Content, Mode=OneWay}"/>
+                    <temp:ScrollLyricsPreviewItemTemplate IsSelected="{x:Bind IsSelected, Mode=OneWay}" LyricText="{x:Bind Content, Mode=OneWay}" Selected="ScrollLyricsPreviewItemTemplate_OnSelected"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>

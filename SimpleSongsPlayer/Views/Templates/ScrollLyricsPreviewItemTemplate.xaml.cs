@@ -45,6 +45,9 @@ namespace SimpleSongsPlayer.Views.Templates
 
                 Root_TextBlock.FontWeight = value ? FontWeights.Bold : FontWeights.Normal;
                 Root_TextBlock.FontSize = IsSelected ? settings.ScrollLyrics_FontSize + 2 : settings.ScrollLyrics_FontSize;
+
+                if (value)
+                    Selected?.Invoke(this, null);
             }
         }
 
@@ -53,6 +56,8 @@ namespace SimpleSongsPlayer.Views.Templates
             get => (string)GetValue(LyricTextProperty);
             set => SetValue(LyricTextProperty, value);
         }
+
+        public event TypedEventHandler<ScrollLyricsPreviewItemTemplate, object> Selected;
 
         private void Settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
