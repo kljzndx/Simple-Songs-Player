@@ -198,6 +198,13 @@
     <Compile Include="Views\MusicInformationPage.xaml.cs">
       <DependentUpon>MusicInformationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MusicInfo\MusicInformationLongPage.xaml.cs">
+      <DependentUpon>MusicInformationLongPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MusicInfo\MusicInformationPageBase.cs" />
+    <Compile Include="Views\MusicInfo\MusicInformationSmallPage.xaml.cs">
+      <DependentUpon>MusicInformationSmallPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MusicListPage.xaml.cs">
       <DependentUpon>MusicListPage.xaml</DependentUpon>
     </Compile>
@@ -399,6 +406,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MusicInformationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MusicInfo\MusicInformationLongPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MusicInfo\MusicInformationSmallPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

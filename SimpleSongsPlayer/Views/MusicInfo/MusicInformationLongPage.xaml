@@ -1,0 +1,117 @@
+﻿<local:MusicInformationPageBase
+    x:Class="SimpleSongsPlayer.Views.MusicInfo.MusicInformationLongPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleSongsPlayer.Views.MusicInfo"
+    xmlns:ctrl="using:SimpleSongsPlayer.Views.Controllers"
+    xmlns:pctrl="using:HappyStudio.UwpToolsLibrary.Control"
+    
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
+
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    DataContext="{Binding Source={StaticResource VmLocator}, Path=MusicInfo}">
+
+    <Page.Resources>
+        <Style TargetType="pctrl:FloatingActionButton">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Margin" Value="0,0,56,36"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="PC">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="501"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+                <VisualState x:Name="Mobile">
+                    <VisualState.Setters>
+                        <Setter Target="MusicInfo_StackPanel.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="1"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <RelativePanel x:Name="LeftArea_RelativePanel">
+            <Image x:Name="Cover_Image" Source="{Binding Cover}" Stretch="Uniform" Margin="50" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+        </RelativePanel>
+
+        <Grid x:Name="RightArea_Grid" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel x:Name="MusicInfo_StackPanel" Padding="12,0">
+                <TextBlock Text="{Binding MusicSource.Title}" Style="{ThemeResource TitleTextBlockStyle}"/>
+                <TextBlock Style="{ThemeResource CaptionTextBlockStyle}">
+                    <Run x:Uid="/MusicInfoPage/Artist_Run"/>
+                    <Run Text="{Binding MusicSource.Artist}"/>
+                    <LineBreak/>
+                    <Run x:Uid="/MusicInfoPage/Album_Run"/>
+                    <Run Text="{Binding MusicSource.Album}"/>
+                </TextBlock>
+            </StackPanel>
+
+            <Grid x:Name="LyricPreview_Grid" Grid.Row="1">
+                <ctrl:ScrollLyricsPreviewControl x:Name="My_ScrollLyricsPreviewControl" Source="{x:Bind ViewModel.LyricSource.Lines, Mode=OneWay}" ItemClick="My_ScrollLyricsPreviewControl_OnItemClick"/>
+                <TextBlock x:Name="NotFoundLyricsFile_TextBlock" x:Uid="/MusicInfoPage/NotFoundLyricsFile_TextBlock" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Interactivity:Interaction.Behaviors>
+                        <Interactions:DataTriggerBehavior Binding="{Binding LyricSource.Lines}" Value="{x:Null}" ComparisonCondition="Equal">
+                            <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=NotFoundLyricsFile_TextBlock}" PropertyName="Visibility" Value="Visible"/>
+                        </Interactions:DataTriggerBehavior>
+
+                        <Interactions:DataTriggerBehavior Binding="{Binding LyricSource.Lines}" Value="{x:Null}" ComparisonCondition="NotEqual">
+                            <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=NotFoundLyricsFile_TextBlock}" PropertyName="Visibility" Value="Collapsed"/>
+                        </Interactions:DataTriggerBehavior>
+                    </Interactivity:Interaction.Behaviors>
+                </TextBlock>
+
+                <Button x:Name="SetUpLyricFile_Button" x:Uid="/MusicInfoPage/SetUpLyricFile_Button" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="8" Click="SetUpLyricFile_Button_OnClick">
+                    <FontIcon Glyph="&#xE115;"/>
+                </Button>
+            </Grid>
+
+            <Grid x:Name="LyricFileSelector_Grid" Grid.Row="1" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBox x:Name="Search_TextBox" x:Uid="/MusicInfoPage/Search_TextBox" TextChanged="Search_TextBox_OnTextChanged"/>
+
+                <ListView x:Name="LyricFile_ListView" Grid.Row="1">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FileName}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+
+                <TextBlock x:Name="NoFile_TextBlock" x:Uid="/MusicInfoPage/NoFile_TextBlock" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <pctrl:FloatingActionButton x:Name="Submit_Button" x:Uid="/MusicInfoPage/Submit_Button" Grid.Row="1" Content="&#xE0E7;" Tapped="Submit_Button_OnClick"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</local:MusicInformationPageBase>
