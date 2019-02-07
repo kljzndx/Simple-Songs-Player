@@ -14,7 +14,8 @@
     xmlns:selectors="using:SimpleSongsPlayer.ViewModels.Selectors"
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource VmLocator}, Path=MusicList}"
-    Loaded="MusicListPage_OnLoaded">
+    Loaded="MusicListPage_OnLoaded"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
         <CollectionViewSource x:Key="Data_CollectionViewSource" Source="{Binding DataSource}" IsSourceGrouped="True" ItemsPath="Items"/>

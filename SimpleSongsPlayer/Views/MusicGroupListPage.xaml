@@ -13,7 +13,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource VmLocator}, Path=MusicGroupList}"
-    Loaded="MusicGroupListPage_OnLoaded">
+    Loaded="MusicGroupListPage_OnLoaded"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
         <Grid.RowDefinitions>
