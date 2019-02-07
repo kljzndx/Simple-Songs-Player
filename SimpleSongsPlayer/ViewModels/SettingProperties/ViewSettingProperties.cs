@@ -18,5 +18,21 @@ namespace SimpleSongsPlayer.ViewModels.SettingProperties
             get => scrollLyrics_FontSize;
             set => SetSetting(ref scrollLyrics_FontSize, value);
         }
+
+        [SettingFieldByNormal(nameof(BackgroundBlurDegree), 10D)] private double backgroundBlurDegree;
+
+        public double BackgroundBlurDegree
+        {
+            get => backgroundBlurDegree;
+            set => SetSetting(ref backgroundBlurDegree, value);
+        }
+
+        [SettingFieldByNormal(nameof(BackgroundTransparency), 0.65D)] private double backgroundTransparency;
+
+        public double BackgroundTransparency
+        {
+            get => backgroundTransparency;
+            set => SetSetting(ref backgroundTransparency, value);
+        }
     }
 }

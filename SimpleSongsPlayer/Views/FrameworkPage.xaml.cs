@@ -7,6 +7,7 @@ using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.Log;
@@ -23,6 +24,7 @@ using SimpleSongsPlayer.ViewModels.Extensions;
 using SimpleSongsPlayer.ViewModels.Factories;
 using SimpleSongsPlayer.ViewModels.Factories.MusicFilters;
 using SimpleSongsPlayer.ViewModels.Factories.MusicGroupers;
+using SimpleSongsPlayer.ViewModels.SettingProperties;
 using SimpleSongsPlayer.Views.Controllers;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
@@ -40,6 +42,7 @@ namespace SimpleSongsPlayer.Views
         private readonly SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
         private IEnumerable<string> musicDtoPaths;
         private readonly ObservableCollection<MusicFileGroup> favorites = FavoritesDataServer.Current.Data;
+        private readonly ViewSettingProperties settings = ViewSettingProperties.Current;
 
         public FrameworkPage()
         {
@@ -50,6 +53,20 @@ namespace SimpleSongsPlayer.Views
 
             Main_CustomMediaPlayerElement.SetMediaPlayer(App.MediaPlayer);
             FavoriteAdditionNotification.FavoriteAdditionRequested += FavoriteAdditionNotification_FavoriteAdditionRequested;
+            CustomMediaPlayerElement.NowPlaybackItemChanged += CustomMediaPlayerElement_NowPlaybackItemChanged;
+        }
+
+        private async void CustomMediaPlayerElement_NowPlaybackItemChanged(CustomMediaPlayerElement sender, PlayerNowPlaybackItemChangeEventArgs args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                if (args.NewItem == null)
+                    return;
+
+                BitmapImage image = new BitmapImage();
+                await image.SetSourceAsync(await args.NewItem.GetDisplayProperties().Thumbnail.OpenReadAsync());
+                BlurBackground.Source = image;
+            });
         }
 
         public string PageMoreInfo => PageInfo_TextBlock.Text;

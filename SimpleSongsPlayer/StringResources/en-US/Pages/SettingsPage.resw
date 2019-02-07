@@ -156,4 +156,10 @@
   <data name="LeadingOutFavorites_ErrorInfo" xml:space="preserve">
     <value>Favorites list is empty now</value>
   </data>
+  <data name="BackgroundBlurDegree_Slider.Header" xml:space="preserve">
+    <value>Background blur degree</value>
+  </data>
+  <data name="BackgroundTransparency_Slider.Header" xml:space="preserve">
+    <value>Background transparency</value>
+  </data>
 </root>

@@ -16,6 +16,8 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <ctrl:BlurBackground x:Name="BlurBackground" Grid.RowSpan="4" BlurDegree="{x:Bind settings.BackgroundBlurDegree, Mode=OneWay}" ImageTransparency="{x:Bind settings.BackgroundTransparency, Mode=OneWay}"/>
+
         <Grid x:Name="TitleBar_Grid" BorderBrush="{ThemeResource SystemControlBackgroundBaseHighBrush}" BorderThickness="0,0,0,1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
