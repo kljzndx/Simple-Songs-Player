@@ -32,6 +32,7 @@ namespace SimpleSongsPlayer.Views
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
     [PageTitle("MusicInfoPage")]
+    [TransparentBackground]
     public sealed partial class MusicInformationPage : Page
     {
         private readonly ApplicationView _currentView = ApplicationView.GetForCurrentView();

@@ -115,10 +115,12 @@
     <Compile Include="ViewModels\Arguments\MusicListArguments.cs" />
     <Compile Include="ViewModels\Arguments\PageArgumentsBase.cs" />
     <Compile Include="ViewModels\Attributes\Getters\PageTitleGetter.cs" />
+    <Compile Include="ViewModels\Attributes\Getters\TransparentBackgroundChicker.cs" />
     <Compile Include="ViewModels\Attributes\PageTitleAttribute.cs" />
     <Compile Include="Models\DTO\MusicFileDTO.cs" />
     <Compile Include="Models\MusicFileGroup.cs" />
     <Compile Include="Models\MusicFileDynamic.cs" />
+    <Compile Include="ViewModels\Attributes\TransparentBackgroundAttribute.cs" />
     <Compile Include="ViewModels\Converters\CollectionToString.cs" />
     <Compile Include="ViewModels\Converters\DoubleToPercentage.cs" />
     <Compile Include="ViewModels\Converters\TimeSpanToSongTimeString.cs" />

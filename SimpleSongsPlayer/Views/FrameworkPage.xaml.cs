@@ -66,6 +66,17 @@ namespace SimpleSongsPlayer.Views
                 var args = e.Parameter as PageArgumentsBase;
                 PageInfo_TextBlock.Text = args?.Title ?? String.Empty;
                 PageInfo_TextBlock.Visibility = args != null ? Visibility.Visible : Visibility.Collapsed;
+
+                if (TransparentBackgroundChecker.Check(e.SourcePageType))
+                {
+                    NormalBackground_Rectangle.Visibility = Visibility.Collapsed;
+                    TransparentBackground_Rectangle.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    NormalBackground_Rectangle.Visibility = Visibility.Visible;
+                    TransparentBackground_Rectangle.Visibility = Visibility.Collapsed;
+                }
             }
             else
                 TitleBar_Grid.Visibility = Visibility.Collapsed;
@@ -86,22 +97,6 @@ namespace SimpleSongsPlayer.Views
         {
             Main_Frame.GoBack();
         }
-
-        //private async void CustomMediaPlayerElement_NowPlaybackItemChanged(CustomMediaPlayerElement sender, PlayerNowPlaybackItemChangeEventArgs args)
-        //{
-        //    if (args.NewItem is MediaPlaybackItem mpi)
-        //    {
-        //        this.LogByObject("刷新音乐信息按钮的专辑图");
-        //        var properties = mpi.GetDisplayProperties();
-        //        var bitmap = new BitmapImage();
-        //        bitmap.SetSource(await properties.Thumbnail.OpenReadAsync());
-        //        Cover_Image.Visibility = Visibility.Visible;
-        //        Cover_Image.Source = bitmap;
-        //    }
-
-        //    if (args.NewItem is null || !NowPlayingDataServer.Current.Data.Any())
-        //        Cover_Image.Visibility = Visibility.Collapsed;
-        //}
 
         private void FavoriteAdditionNotification_FavoriteAdditionRequested(object sender, IEnumerable<MusicFileDTO> e)
         {

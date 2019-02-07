@@ -16,12 +16,15 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="TitleBar_Grid" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+        <Grid x:Name="TitleBar_Grid" BorderBrush="{ThemeResource SystemControlBackgroundBaseHighBrush}" BorderThickness="0,0,0,1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+
+            <Rectangle x:Name="NormalBackground_Rectangle" Grid.ColumnSpan="3" Fill="{ThemeResource SystemControlBackgroundChromeMediumBrush}"/>
+            <Rectangle x:Name="TransparentBackground_Rectangle" Grid.ColumnSpan="3" Fill="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"/>
 
             <Button x:Name="Back_Button" VerticalAlignment="Top" Style="{ThemeResource NavigationBackButtonNormalStyle}" Click="Back_Button_OnClick"/>
             <TextBlock x:Name="PageInfo_TextBlock" Grid.Column="1" Visibility="Collapsed" Margin="8,8,0,8" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource TitleTextBlockStyle}"/>
