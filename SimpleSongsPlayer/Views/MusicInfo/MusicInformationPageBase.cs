@@ -9,14 +9,17 @@ using SimpleSongsPlayer.Models.DTO.Lyric;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Events;
+using SimpleSongsPlayer.ViewModels.SettingProperties;
 using SimpleSongsPlayer.Views.Controllers;
 
 namespace SimpleSongsPlayer.Views.MusicInfo
 {
     public class MusicInformationPageBase : Page
     {
-        protected MusicInfoViewModel ViewModel;
         private bool needRefreshLyric;
+
+        protected MusicInfoViewModel ViewModel;
+        protected readonly ViewSettingProperties Settings = ViewSettingProperties.Current;
 
         public MusicInformationPageBase()
         {

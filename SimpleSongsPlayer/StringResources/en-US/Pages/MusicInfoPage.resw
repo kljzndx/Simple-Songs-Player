@@ -123,6 +123,15 @@
   <data name="Artist_Run.Text" xml:space="preserve">
     <value>Artist: </value>
   </data>
+  <data name="BackgroundBlurDegree_Slider.Header" xml:space="preserve">
+    <value>Background blur degree</value>
+  </data>
+  <data name="BackgroundSettings_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Background settings</value>
+  </data>
+  <data name="BackgroundTransparency_Slider.Header" xml:space="preserve">
+    <value>Background transparency</value>
+  </data>
   <data name="NoFile_TextBlock.Text" xml:space="preserve">
     <value>Lyrics File not scanned</value>
   </data>

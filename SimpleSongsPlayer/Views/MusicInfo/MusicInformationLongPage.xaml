@@ -48,6 +48,19 @@
 
         <RelativePanel x:Name="LeftArea_RelativePanel">
             <Image x:Name="Cover_Image" Source="{Binding Cover}" Stretch="Uniform" Margin="50" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+
+            <Button x:Uid="/MusicInfoPage/BackgroundSettings_Button" Background="Transparent" Padding="8" Margin="8" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True">
+                <Button.Flyout>
+                    <Flyout>
+                        <StackPanel>
+                            <Slider x:Name="BackgroundBlurDegree_Slider" x:Uid="/MusicInfoPage/BackgroundBlurDegree_Slider" Width="200" Value="{x:Bind Settings.BackgroundBlurDegree, Mode=TwoWay}" Maximum="30"/>
+                            <Slider x:Name="BackgroundTransparency_Slider" x:Uid="/MusicInfoPage/BackgroundTransparency_Slider" Width="200" Value="{x:Bind Settings.BackgroundTransparency, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}"/>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+
+                <FontIcon Glyph="&#xE115;"/>
+            </Button>
         </RelativePanel>
 
         <Grid x:Name="RightArea_Grid" Grid.Column="1">

@@ -25,6 +25,19 @@
                     <Image Source="{Binding Cover}" Stretch="Uniform" Margin="50" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
                 </Border>
 
+                <Button x:Uid="/MusicInfoPage/BackgroundSettings_Button" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="8">
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <Slider x:Name="BackgroundBlurDegree_Slider" x:Uid="/MusicInfoPage/BackgroundBlurDegree_Slider" Width="200" Value="{x:Bind Settings.BackgroundBlurDegree, Mode=TwoWay}" Maximum="30"/>
+                                <Slider x:Name="BackgroundTransparency_Slider" x:Uid="/MusicInfoPage/BackgroundTransparency_Slider" Width="200" Value="{x:Bind Settings.BackgroundTransparency, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}"/>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+
+                    <FontIcon Glyph="&#xE115;"/>
+                </Button>
+
                 <StackPanel x:Name="MusicInfo_StackPanel" Grid.Row="1" Padding="12,0" Margin="10">
                     <TextBlock Text="{Binding MusicSource.Title}" Style="{ThemeResource TitleTextBlockStyle}"/>
                     <TextBlock Style="{ThemeResource CaptionTextBlockStyle}">

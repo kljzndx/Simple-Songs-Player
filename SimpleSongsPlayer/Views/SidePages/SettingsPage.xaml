@@ -97,10 +97,5 @@
             <Button x:Name="LeadingInFavorites_Button" x:Uid="/SettingsPage/LeadingInFavorites_Button" Click="LeadingInFavorites_Button_OnClick"/>
             <Button x:Name="LeadingOutFavorites_Button" x:Uid="/SettingsPage/LeadingOutFavorites_Button" Click="LeadingOutFavorites_Button_OnClick"/>
         </StackPanel>
-
-        <StackPanel>
-            <Slider x:Name="BackgroundBlurDegree_Slider" x:Uid="/SettingsPage/BackgroundBlurDegree_Slider" Value="{x:Bind locator.View.BackgroundBlurDegree, Mode=TwoWay}" Maximum="30"/>
-            <Slider x:Name="BackgroundTransparency_Slider" x:Uid="/SettingsPage/BackgroundTransparency_Slider" Value="{x:Bind locator.View.BackgroundTransparency, Mode=TwoWay, Converter={StaticResource DoubleToPercentage}}"/>
-        </StackPanel>
     </StackPanel>
 </Page>

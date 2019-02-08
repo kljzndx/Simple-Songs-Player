@@ -123,6 +123,15 @@
   <data name="Artist_Run.Text" xml:space="preserve">
     <value>歌手： </value>
   </data>
+  <data name="BackgroundBlurDegree_Slider.Header" xml:space="preserve">
+    <value>背景模糊度</value>
+  </data>
+  <data name="BackgroundSettings_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>背景设置</value>
+  </data>
+  <data name="BackgroundTransparency_Slider.Header" xml:space="preserve">
+    <value>背景透明度</value>
+  </data>
   <data name="NoFile_TextBlock.Text" xml:space="preserve">
     <value>未扫描到歌词文件</value>
   </data>
