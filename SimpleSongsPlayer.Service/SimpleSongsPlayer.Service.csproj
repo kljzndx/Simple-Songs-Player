@@ -112,6 +112,7 @@
     <Compile Include="LyricIndexService.cs" />
     <Compile Include="MusicLibraryFileService.cs" />
     <Compile Include="MusicLibraryFileServiceManager.cs" />
+    <Compile Include="PlaybackListService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserFavoriteService.cs" />
     <EmbeddedResource Include="Properties\SimpleSongsPlayer.Service.rd.xml" />
