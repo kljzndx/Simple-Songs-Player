@@ -8,6 +8,7 @@ namespace SimpleSongsPlayer.DAL
         public DbSet<UserFavorite> UserFavorites { get; set; }
         public DbSet<LyricFile> LyricFiles { get; set; }
         public DbSet<LyricIndex> LyricIndices { get; set; }
+        public DbSet<PlaybackItem> PlaybackList { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
