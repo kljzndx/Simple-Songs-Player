@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Storage;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.Log;
 
@@ -11,12 +12,13 @@ namespace SimpleSongsPlayer.Service
     {
         private static PlaybackListService Current;
 
+        private readonly StorageLibrary _musicLibrary;
         private readonly ContextHelper<FilesContext, PlaybackItem> _helper = new ContextHelper<FilesContext, PlaybackItem>();
         private List<PlaybackItem> _source;
 
-        public PlaybackListService(IDataService<MusicFile> musicDataService)
+        public PlaybackListService(StorageLibrary musicLibrary)
         {
-            musicDataService.DataRemoved += MusicDataService_DataRemoved;
+            _musicLibrary = musicLibrary;
         }
 
         public event EventHandler<IEnumerable<PlaybackItem>> DataAdded;
@@ -33,27 +35,48 @@ namespace SimpleSongsPlayer.Service
             return _source;
         }
 
-        public async Task Add(string path, FileSourceMembers fileSource) => await AddRange(new[] {path}, fileSource);
+        public async Task<List<PlaybackItem>> Add(string path) => await AddRange(new[] {path});
 
-        public async Task AddRange(IEnumerable<string> paths, FileSourceMembers fileSource)
+        public async Task Remove(string path) => await RemoveRange(new[] {path});
+
+        public async Task<List<PlaybackItem>> SetUp(IEnumerable<string> paths)
+        {
+            if (_source is null)
+                await GetData();
+            
+            await RemoveRange(_source.Select(i => i.Path).ToList());
+            return await AddRange(paths);
+        }
+
+        public async Task<List<PlaybackItem>> AddRange(IEnumerable<string> paths)
         {
             if (_source is null)
                 await GetData();
 
+            var result = new List<PlaybackItem>();
+
             this.LogByObject("正在去重");
-            var result = paths.Where(p => _source.All(pb => pb.Path != p)).Select(p => new PlaybackItem(p, fileSource)).ToList();
-            if (!result.Any())
-                return;
+            var needAdd = paths.Where(p => _source.All(pb => pb.Path != p)).ToList();
+            if (!needAdd.Any())
+                return result;
+
+            var libraryPath = _musicLibrary.Folders.Select(d => d.Path).ToList();
+            foreach (var item in needAdd)
+            {
+                if (libraryPath.Any(item.Contains))
+                    result.Add(new PlaybackItem(item, FileSourceMembers.MusicLibrary));
+                else
+                    result.Add(new PlaybackItem(item, FileSourceMembers.Other));
+            }
 
             this.LogByObject("正在应用添加操作");
             _source.AddRange(result);
             await _helper.AddRange(result);
             DataAdded?.Invoke(this, result);
+            return result;
         }
 
-        public async Task Remove(string path) => await RemoveRange(new[] {path});
-
-        public async Task RemoveRange(IEnumerable<string> paths)
+        private async Task RemoveRange(IEnumerable<string> paths)
         {
             if (_source is null)
                 await GetData();
@@ -77,15 +100,10 @@ namespace SimpleSongsPlayer.Service
             if (Current is null)
             {
                 typeof(PlaybackListService).LogByType("创建服务");
-                Current = new PlaybackListService(await MusicLibraryFileServiceManager.Current.GetMusicFileService());
+                Current = new PlaybackListService(await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music));
             }
 
             return Current;
-        }
-
-        private async void MusicDataService_DataRemoved(object sender, IEnumerable<MusicFile> e)
-        {
-            await RemoveRange(e.Select(f => f.Path));
         }
     }
 }
