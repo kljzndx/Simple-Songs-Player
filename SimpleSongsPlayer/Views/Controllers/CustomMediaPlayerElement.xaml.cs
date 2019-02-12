@@ -41,7 +41,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         private bool? isPressPositionControlButton = false;
         private bool isUserChangePositon;
 
-        private MusicFileDataServer dataServer = MusicFileDataServer.Current;
+        private PlaybackListDataServer dataServer = PlaybackListDataServer.Current;
         private PlayerSettingProperties settings = PlayerSettingProperties.Current;
 
         public CustomMediaPlayerElement()
