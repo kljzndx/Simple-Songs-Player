@@ -19,6 +19,8 @@ namespace SimpleSongsPlayer.Models.DTO
 {
     public class MusicFileDTO : ObservableObject
     {
+        private static readonly MusicFileFactory Factory = new MusicFileFactory();
+
         private static readonly string UnknownArtist;
         private static readonly string UnknownAlbum;
 
@@ -169,6 +171,12 @@ namespace SimpleSongsPlayer.Models.DTO
             }
 
             return _playbackItem;
+        }
+
+        public static async Task<MusicFileDTO> CreateFromPath(string path)
+        {
+            var file = await Factory.FromFilePath("$OUTSIDE$", path, String.Empty);
+            return new MusicFileDTO(file);
         }
     }
 }
