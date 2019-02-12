@@ -79,11 +79,17 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             int id = 0;
             try
             {
-                var item = await music.GetPlaybackItem();
+                var dto = Data.FirstOrDefault(f => f.FilePath == music.FilePath) ?? music;
+
+                var item = await dto.GetPlaybackItem();
                 if (!_playbackList.Items.Contains(item) && _playbackList.CurrentItem != item)
                 {
                     this.LogByObject("将播放项插入至顶端");
                     _playbackList.Items.Insert(0, item);
+
+                    if (Data.Contains(dto))
+                        Data.Remove(dto);
+
                     Data.Insert(0, music);
                 }
 
@@ -137,6 +143,9 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                 throw new Exception($"Cannot Parse {music.FileName} file", e);
             }
 
+            if (Data.Contains(music))
+                Data.Remove(music);
+
             Data.Insert((int)id, music);
             if (isAdd)
             {
@@ -169,6 +178,9 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                     await _service.Remove(dto.FilePath);
                     continue;
                 }
+
+                if (Data.Contains(dto))
+                    Data.Remove(dto);
 
                 Data.Add(dto);
             }
