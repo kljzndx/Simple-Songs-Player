@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -12,6 +15,7 @@ using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Service;
 using SimpleSongsPlayer.Log.Models;
+using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Extensions;
@@ -77,12 +81,7 @@ namespace SimpleSongsPlayer
             }
         }
 
-        /// <summary>
-        /// 在应用程序由最终用户正常启动时进行调用。
-        /// 将在启动应用程序以打开特定文件等情况下使用。
-        /// </summary>
-        /// <param name="e">有关启动请求和过程的详细信息。</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        private void InitWindow(IActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -100,26 +99,53 @@ namespace SimpleSongsPlayer
                 {
                     //TODO: 从之前挂起的应用程序加载状态
                 }
+
                 Logger.Info("为窗口应用页面框架");
                 // 将框架放在当前窗口中
                 Window.Current.Content = rootFrame;
                 Window.Current.Activated += Window_Activated;
             }
 
-            if (e.PrelaunchActivated == false)
+            if (e is LaunchActivatedEventArgs launchArgs && launchArgs.PrelaunchActivated)
+                return;
+
+            if (rootFrame.Content == null)
             {
-                if (rootFrame.Content == null)
-                {
-                    Logger.Info("跳转至主页面");
-                    // 当导航堆栈尚未还原时，导航到第一页，
-                    // 并通过将所需信息作为导航参数传入来配置
-                    // 参数
-                    rootFrame.Navigate(typeof(FrameworkPage), e.Arguments);
-                }
-                Logger.Info("激活窗口");
-                // 确保当前窗口处于活动状态
-                Window.Current.Activate();
+                Logger.Info("跳转至主页面");
+                // 当导航堆栈尚未还原时，导航到第一页，
+                // 并通过将所需信息作为导航参数传入来配置
+                // 参数
+                rootFrame.Navigate(typeof(FrameworkPage));
             }
+
+            Logger.Info("激活窗口");
+            // 确保当前窗口处于活动状态
+            Window.Current.Activate();
+        }
+
+        /// <summary>
+        /// 在应用程序由最终用户正常启动时进行调用。
+        /// 将在启动应用程序以打开特定文件等情况下使用。
+        /// </summary>
+        /// <param name="e">有关启动请求和过程的详细信息。</param>
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        {
+            InitWindow(e);
+        }
+
+        protected override async void OnFileActivated(FileActivatedEventArgs args)
+        {
+            InitWindow(args);
+            await PlaybackListDataServer.Current.Init();
+
+            Queue<MusicFileDTO> result = new Queue<MusicFileDTO>();
+
+            foreach (var item in args.Files)
+                result.Enqueue(await MusicFileDTO.CreateFromPath(item.Path));
+
+            await PlaybackListDataServer.Current.Push(result.Dequeue());
+            if (result.Any())
+                await PlaybackListDataServer.Current.Append(result);
         }
 
         /// <summary>
@@ -186,7 +212,7 @@ namespace SimpleSongsPlayer
                     }
                     FlyoutNotification.Hide();
                 });
-                
+
                 _canRefreshData = true;
             }
         }
