@@ -167,6 +167,7 @@ namespace SimpleSongsPlayer
                     await MusicFileDataServer.Current.InitializeMusicService();
                     await LyricFileDataServer.Current.Init();
                     await LyricIndexDataServer.Current.Init();
+                    await PlaybackListDataServer.Current.Init();
 
                     FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("ScanMusicLibrary"));
                     await MusicLibraryFileServiceManager.Current.ScanFiles();

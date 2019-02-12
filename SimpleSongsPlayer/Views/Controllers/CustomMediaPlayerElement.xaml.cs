@@ -48,8 +48,6 @@ namespace SimpleSongsPlayer.Views.Controllers
         {
             this.InitializeComponent();
             settings.PropertyChanged += Settings_PropertyChanged;
-            player = Root_MediaPlayerElement.MediaPlayer;
-            Install(player);
 
             MyTransportControls.RepeatMode_SelectedID = (int) settings.RepeatMode;
             MyTransportControls.CoverButton_Click += (s, e) => CoverButton_Click?.Invoke(this, e);
@@ -61,7 +59,8 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         public void SetMediaPlayer(MediaPlayer mediaPlayer)
         {
-            Uninstall(player);
+            if (player != null)
+                Uninstall(player);
             player = mediaPlayer;
             Root_MediaPlayerElement.SetMediaPlayer(player);
             Install(player);
@@ -71,7 +70,6 @@ namespace SimpleSongsPlayer.Views.Controllers
         {
             mediaPlayer.SourceChanged += MediaPlayer_SourceChanged;
             mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
-            mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
             mediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
             mediaPlayer.VolumeChanged += MediaPlayer_VolumeChanged;
             
@@ -85,9 +83,9 @@ namespace SimpleSongsPlayer.Views.Controllers
         {
             mediaPlayer.SourceChanged -= MediaPlayer_SourceChanged;
             mediaPlayer.MediaOpened -= MediaPlayer_MediaOpened;
-            mediaPlayer.MediaEnded -= MediaPlayer_MediaEnded;
             mediaPlayer.MediaFailed -= MediaPlayer_MediaFailed;
             mediaPlayer.VolumeChanged -= MediaPlayer_VolumeChanged;
+
             var session = mediaPlayer.PlaybackSession;
             session.PlaybackStateChanged -= MediaPlayer_Session_PlaybackStateChanged;
             session.PositionChanged -= MediaPlayer_Session_PositionChanged;
@@ -250,9 +248,6 @@ namespace SimpleSongsPlayer.Views.Controllers
                 }
 
                 SetupPlayer();
-
-                if (sender.Source is MediaPlaybackList mpl)
-                    await NowPlayingDataServer.Current.SetUpSource(mpl);
             });
         }
 
@@ -266,12 +261,6 @@ namespace SimpleSongsPlayer.Views.Controllers
                     CurrentItem = mpi;
                 }
             });
-        }
-
-        private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                () => PositionChanged?.Invoke(this, new PlayerPositionChangeEventArgs(true, TimeSpan.Zero)));
         }
 
         private async void MediaPlayer_MediaFailed(MediaPlayer sender, MediaPlayerFailedEventArgs args)

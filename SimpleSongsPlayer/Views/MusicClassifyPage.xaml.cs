@@ -91,7 +91,7 @@ namespace SimpleSongsPlayer.Views
                             }));
                     break;
                 case 4:
-                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(NowPlayingDataServer.Current.Data, NowPlayingDataServer.Current, new [] {new MusicItemMenuItem<MusicFileDynamic>("MoreMenu_Remove", NowPlaying_RemoveItem_Click)}));
+                    NowPlaying_Frame.NavigateEx(typeof(MusicListPage), new MusicListArguments(PlaybackListDataServer.Current.Data, PlaybackListDataServer.Current, new [] {new MusicItemMenuItem<MusicFileDynamic>("MoreMenu_Remove", d => PlaybackListDataServer.Current.Remove(d.Original))}));
                     break;
             }
         }
@@ -104,13 +104,7 @@ namespace SimpleSongsPlayer.Views
             e.Cancel = true;
             Frame.Navigate(e.SourcePageType, e.Parameter);
         }
-
-        private async Task NowPlaying_RemoveItem_Click(MusicFileDynamic source)
-        {
-            if (App.MediaPlayer.Source is MediaPlaybackList mpl)
-                mpl.Items.Remove(await source.Original.GetPlaybackItem());
-        }
-
+        
         private void Beside_Frame_OnNavigated(object sender, NavigationEventArgs e)
         {
             Title_TextBlock.Text = PageTitleGetter.GetTitle(e.SourcePageType);
