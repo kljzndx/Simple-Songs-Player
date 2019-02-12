@@ -7,11 +7,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
+using SimpleSongsPlayer.DAL.Factory;
 
 namespace SimpleSongsPlayer.Models.DTO.Lyric
 {
     public class LyricFileDTO : ObservableObject
     {
+        private static readonly LyricFileFactory Factory = new LyricFileFactory();
         private static readonly Encoding GbkEncoding = GetGbkEncoding();
         private static readonly Regex LyricLineRegex = new Regex(@"^\[(?<min>\d+)\:(?<ss>\d{2}).(?<ms>\d{1,3})\](?<content>.*)");
 
@@ -192,11 +194,16 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
             return new String(c);
         }
 
-        
         private static Encoding GetGbkEncoding()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             return Encoding.GetEncoding("GBK");
+        }
+
+        public static async Task<LyricFileDTO> CreateFromPath(string path)
+        {
+            var file = await Factory.FromFilePath("$OUTSIDE$", path, String.Empty);
+            return new LyricFileDTO(file);
         }
     }
 }
