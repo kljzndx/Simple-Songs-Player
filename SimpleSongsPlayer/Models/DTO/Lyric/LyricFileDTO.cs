@@ -19,6 +19,7 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
 
         public static LyricFileDTO Empty { get; } = new LyricFileDTO { IsInit = true };
 
+        private readonly StorageFile _file;
         private LyricProperties properties;
         private List<LyricLine> lines;
 
@@ -31,6 +32,11 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
             FileName = file.FileName;
             FilePath = file.Path;
             ModifyDate = file.ChangeDate;
+        }
+
+        public LyricFileDTO(LyricFile data, StorageFile file) : this(data)
+        {
+            _file = file;
         }
 
         public bool IsInit { get; private set; }
@@ -68,7 +74,7 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
 
             IsInit = true;
 
-            StorageFile file = await StorageFile.GetFileFromPathAsync(FilePath);
+            StorageFile file = _file ?? await StorageFile.GetFileFromPathAsync(FilePath);
             string content = await ReadText(file);
 
             Properties = new LyricProperties(content);
@@ -200,10 +206,10 @@ namespace SimpleSongsPlayer.Models.DTO.Lyric
             return Encoding.GetEncoding("GBK");
         }
 
-        public static async Task<LyricFileDTO> CreateFromPath(string path)
+        public static async Task<LyricFileDTO> CreateFromFile(StorageFile file)
         {
-            var file = await Factory.FromFilePath("$OUTSIDE$", path, String.Empty);
-            return new LyricFileDTO(file);
+            var data = await Factory.FromStorageFile("$OUTSIDE$", file, String.Empty);
+            return new LyricFileDTO(data, file);
         }
     }
 }

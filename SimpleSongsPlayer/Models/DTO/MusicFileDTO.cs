@@ -28,6 +28,7 @@ namespace SimpleSongsPlayer.Models.DTO
         private WeakReference<StorageItemThumbnail> _thumbnail = new WeakReference<StorageItemThumbnail>(null);
         private WeakReference<BitmapSource> _bitmap = new WeakReference<BitmapSource>(null);
         private MediaPlaybackItem _playbackItem;
+        private StorageFile _file;
 
         private bool isPlaying;
 
@@ -58,6 +59,11 @@ namespace SimpleSongsPlayer.Models.DTO
             artist = fileData.Artist;
             album = fileData.Album;
             duration = fileData.Duration;
+        }
+
+        public MusicFileDTO(MusicFile fileData, StorageFile file) : this(fileData)
+        {
+            _file = file;
         }
 
         public bool IsPlaying
@@ -125,6 +131,9 @@ namespace SimpleSongsPlayer.Models.DTO
 
         private async Task<StorageFile> GetFile()
         {
+            if (_file != null)
+                return _file;
+
             StorageFile file = null;
             if (_fileReference.TryGetTarget(out file))
                 return file;
@@ -173,10 +182,10 @@ namespace SimpleSongsPlayer.Models.DTO
             return _playbackItem;
         }
 
-        public static async Task<MusicFileDTO> CreateFromPath(string path)
+        public static async Task<MusicFileDTO> CreateFromFile(StorageFile file)
         {
-            var file = await Factory.FromFilePath("$OUTSIDE$", path, String.Empty);
-            return new MusicFileDTO(file);
+            var data = await Factory.FromStorageFile("$OUTSIDE$", file, String.Empty);
+            return new MusicFileDTO(data, file);
         }
     }
 }
