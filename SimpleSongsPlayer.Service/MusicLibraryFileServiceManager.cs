@@ -13,6 +13,8 @@ namespace SimpleSongsPlayer.Service
 {
     public class MusicLibraryFileServiceManager
     {
+        public static readonly string[] MusicExtensionName = {"mp3", "aac", "wav", "flac", "alac", "m4a"};
+        public static readonly string[] LyricExtensionName = {"lrc"};
         public static readonly MusicLibraryFileServiceManager Current = new MusicLibraryFileServiceManager();
         private StorageLibrary _musicLibrary;
 
@@ -43,7 +45,7 @@ namespace SimpleSongsPlayer.Service
 
             if (_musicFilesService is null)
             {
-                MusicLibraryFileService<MusicFile, MusicFileFactory>.SetupFileTypeFilter("mp3", "aac", "wav", "flac", "alac", "m4a");
+                MusicLibraryFileService<MusicFile, MusicFileFactory>.SetupFileTypeFilter(MusicExtensionName);
                 _musicFilesService =  MusicLibraryFileService<MusicFile, MusicFileFactory>.GetService(_musicLibrary);
             }
 
@@ -56,7 +58,7 @@ namespace SimpleSongsPlayer.Service
 
             if (_lyricFilesService is null)
             {
-                MusicLibraryFileService<LyricFile, LyricFileFactory>.SetupFileTypeFilter("lrc");
+                MusicLibraryFileService<LyricFile, LyricFileFactory>.SetupFileTypeFilter(LyricExtensionName);
                 _lyricFilesService = MusicLibraryFileService<LyricFile, LyricFileFactory>.GetService(_musicLibrary);
             }
 

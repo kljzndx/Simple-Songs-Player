@@ -141,7 +141,8 @@ namespace SimpleSongsPlayer
             
             Queue<MusicFileDTO> result = new Queue<MusicFileDTO>();
 
-            foreach (var item in args.Files.Where(i => i.IsOfType(StorageItemTypes.File)))
+            var files = args.Files.Where(i => i.IsOfType(StorageItemTypes.File)).ToList();
+            foreach (var item in files.Where(i => MusicLibraryFileServiceManager.MusicExtensionName.Contains(i.ToExtensionName())))
                 if (item is StorageFile file)
                     result.Enqueue(await MusicFileDTO.CreateFromFile(file));
 
