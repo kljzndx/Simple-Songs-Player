@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Media.Playback;
+using Windows.Storage;
 using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models.DTO;
@@ -236,7 +237,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
         private async Task<List<MusicFileDTO>> Parse(IEnumerable<PlaybackItem> data)
         {
             var result = new List<MusicFileDTO>();
-            foreach (var item in data)
+            foreach (var item in data.ToList())
             {
                 switch (item.Source)
                 {
@@ -253,7 +254,8 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                     {
                         try
                         {
-                            var music = await MusicFileDTO.CreateFromPath(item.Path);
+                            var file = await StorageFile.GetFileFromPathAsync(item.Path);
+                            var music = await MusicFileDTO.CreateFromFile(file);
                             result.Add(music);
                         }
                         catch (Exception e)

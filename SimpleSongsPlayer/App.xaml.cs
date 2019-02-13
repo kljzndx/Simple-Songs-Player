@@ -6,6 +6,7 @@ using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Media.Playback;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -137,11 +138,12 @@ namespace SimpleSongsPlayer
         {
             InitWindow(args);
             await PlaybackListDataServer.Current.Init();
-
+            
             Queue<MusicFileDTO> result = new Queue<MusicFileDTO>();
 
-            foreach (var item in args.Files)
-                result.Enqueue(await MusicFileDTO.CreateFromPath(item.Path));
+            foreach (var item in args.Files.Where(i => i.IsOfType(StorageItemTypes.File)))
+                if (item is StorageFile file)
+                    result.Enqueue(await MusicFileDTO.CreateFromFile(file));
 
             await PlaybackListDataServer.Current.Push(result.Dequeue());
             if (result.Any())
