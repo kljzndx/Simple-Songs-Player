@@ -372,10 +372,12 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private async void CustomMediaPlayerElement_NowPlaybackItemChanged(CustomMediaPlayerElement sender, PlayerNowPlaybackItemChangeEventArgs args)
         {
-            bool isUpdated = false;
+            foreach (var musicFileDto in dataServer.Data.Where(f => f.IsPlaying))
+                musicFileDto.IsPlaying = false;
+
             foreach (var fileDto in dataServer.Data.Where(f => f.IsInitPlaybackItem))
             {
-                if (!isUpdated && await fileDto.GetPlaybackItem() == args.NewItem)
+                if (await fileDto.GetPlaybackItem() == args.NewItem)
                 {
                     MyTransportControls.CoverSource = await fileDto.GetAlbumCover();
 
@@ -390,10 +392,8 @@ namespace SimpleSongsPlayer.Views.Controllers
                     mediaProperties.Update();
 
                     fileDto.IsPlaying = true;
-                    isUpdated = true;
-                    continue;
+                    break;
                 }
-                fileDto.IsPlaying = false;
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Media.Playback;
@@ -25,12 +26,19 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             Data.CollectionChanged += Data_CollectionChanged;
         }
 
-        private void Data_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void Data_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (Data.Any())
             {
                 if (App.MediaPlayer.Source is null)
                     App.MediaPlayer.Source = _playbackList;
+
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Remove:
+                        ((MusicFileDTO) e.OldItems[0]).IsPlaying = false;
+                        break;
+                }
             }
             else
                 App.MediaPlayer.Source = null;
