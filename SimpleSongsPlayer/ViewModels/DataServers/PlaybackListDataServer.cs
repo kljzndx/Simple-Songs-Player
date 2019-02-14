@@ -36,13 +36,13 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                 switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Remove:
-                        ((MusicFileDTO) e.OldItems[0]).IsPlaying = false;
+                        foreach (MusicFileDTO item in e.OldItems)
+                            item.IsPlaying = false;
                         break;
                 }
             }
             else
                 App.MediaPlayer.Source = null;
-
         }
 
         public bool IsInit { get; private set; }
