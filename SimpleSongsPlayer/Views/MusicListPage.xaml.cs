@@ -63,6 +63,8 @@ namespace SimpleSongsPlayer.Views
         {
             if (e.Parameter is MusicListArguments args)
             {
+                vm.IsEnableViewOption = args.IsEnableViewOption;
+
                 if (args.ArgsType.HasFlag(MusicListArgsType.Menu))
                 {
                     musicItemMenuList.AddRange(args.ExtraMenu);

@@ -118,13 +118,13 @@ namespace SimpleSongsPlayer.Views
 
             if (vm.ItemFilter != null)
                 if (itemExtraMenu != null)
-                    Frame.Navigate(typeof(MusicListPage), new MusicListArguments(vm.Original, MusicFileDataServer.Current, new MusicFilterArgs(vm.ItemFilter, item.Name), itemExtraMenu, pageTitle: item.Name));
+                    Frame.Navigate(typeof(MusicListPage), new MusicListArguments(source:vm.Original, dataServer:MusicFileDataServer.Current, filter:new MusicFilterArgs(vm.ItemFilter, item.Name), extraMenu:itemExtraMenu, title: item.Name));
                 else
-                    Frame.Navigate(typeof(MusicListPage), new MusicListArguments(vm.Original, MusicFileDataServer.Current, new MusicFilterArgs(vm.ItemFilter, item.Name), pageTitle: item.Name));
+                    Frame.Navigate(typeof(MusicListPage), new MusicListArguments(source:vm.Original, dataServer:MusicFileDataServer.Current, filter:new MusicFilterArgs(vm.ItemFilter, item.Name), title: item.Name));
             else if (itemExtraMenu != null)
-                Frame.Navigate(typeof(MusicListPage), new MusicListArguments(item.Items, itemExtraMenu, item.Name));
+                Frame.Navigate(typeof(MusicListPage), new MusicListArguments(source:item.Items, extraMenu:itemExtraMenu, title:item.Name));
             else
-                Frame.Navigate(typeof(MusicListPage), new MusicListArguments(item.Items, item.Name));
+                Frame.Navigate(typeof(MusicListPage), new MusicListArguments(source:item.Items, title:item.Name));
         }
 
         private async void PlayAll_Button_OnClick(object sender, RoutedEventArgs e)

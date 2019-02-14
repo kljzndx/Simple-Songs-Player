@@ -41,6 +41,14 @@ namespace SimpleSongsPlayer.ViewModels
             settings.PropertyChanged += Settings_PropertyChanged;
         }
 
+        private bool _isEnableViewOption;
+
+        public bool IsEnableViewOption
+        {
+            get => _isEnableViewOption;
+            set => Set(ref _isEnableViewOption, value);
+        }
+
         public List<MusicGrouperUi> GrouperMembers { get; }
         public List<MusicSorterUi<MusicFileDynamic>> SorterMembers { get; }
         
@@ -52,9 +60,20 @@ namespace SimpleSongsPlayer.ViewModels
             if (needClear) DataSource.Clear();
             _grouper = grouper ?? GrouperMembers[(int) settings.GroupMethod].Grouper;
             
-            foreach (var item in _grouper.Group(source))
+            foreach (var item in IsEnableViewOption ? _grouper.Group(source) : GrouperMembers[0].Grouper.Group(source))
                 if (DataSource.FirstOrDefault(f => f.Name == item.Name) is MusicFileGroupDynamic groupDynamic)
-                    groupDynamic.Join(item);
+                {
+                    if (IsEnableViewOption)
+                        groupDynamic.Join(item);
+                    else
+                    {
+                        foreach (var musicFileDto in item.Items)
+                        {
+                            var id = original.IndexOf(musicFileDto);
+                            groupDynamic.Items.Insert(id < groupDynamic.Items.Count ? id : groupDynamic.Items.Count - 1, new MusicFileDynamic(musicFileDto));
+                        }
+                    }
+                }
                 else
                     DataSource.Add(new MusicFileGroupDynamic(item));
         }
@@ -70,6 +89,9 @@ namespace SimpleSongsPlayer.ViewModels
 
         public void SortItems(MusicSorterUi<MusicFileDynamic> sorter)
         {
+            if (!IsEnableViewOption)
+                return;
+
             foreach (var groupDynamic in DataSource)
             {
                 groupDynamic.OrderBy(sorter.KeySelector);
@@ -80,6 +102,9 @@ namespace SimpleSongsPlayer.ViewModels
 
         public void ReverseItems()
         {
+            if (!IsEnableViewOption)
+                return;
+
             foreach (var groupDynamic in DataSource)
                 groupDynamic.ReverseItems();
         }

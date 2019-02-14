@@ -20,70 +20,41 @@ namespace SimpleSongsPlayer.ViewModels.Arguments
 
     public class MusicListArguments : PageArgumentsBase
     {
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, string pageTitle = null) : base(pageTitle)
+        public MusicListArguments(string title = null, IFileDataServer<MusicFileDTO> dataServer = null, ObservableCollection<MusicFileDTO> source = null, MusicFilterArgs filter = null, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu = null, bool isEnableViewOption = true) : base(title)
         {
-            Source = source;
-            ArgsType = MusicListArgsType.Source;
-        }
-
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer, string pageTitle = null) : base(pageTitle)
-        {
-            Source = source;
             DataServer = dataServer;
-            ArgsType = MusicListArgsType.Source | MusicListArgsType.DataServer;
-        }
-
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu, string pageTitle = null) : base(pageTitle)
-        {
-            Source = source;
-            ExtraMenu = extraMenu.ToList();
-            ArgsType = MusicListArgsType.Source | MusicListArgsType.Menu;
-        }
-
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu, string pageTitle = null) : base(pageTitle)
-        {
-            Source = source;
-            DataServer = dataServer;
-            ExtraMenu = extraMenu.ToList();
-            ArgsType = MusicListArgsType.Source | MusicListArgsType.DataServer | MusicListArgsType.Menu;
-        }
-
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, MusicFilterArgs filter, string pageTitle = null) : base(pageTitle)
-        {
             Source = source;
             Filter = filter;
-            ArgsType = MusicListArgsType.Source | MusicListArgsType.Filter;
+            ExtraMenu = extraMenu?.ToList();
+            IsEnableViewOption = isEnableViewOption;
         }
 
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer, MusicFilterArgs filter, string pageTitle = null) : base(pageTitle)
+        public MusicListArgsType ArgsType
         {
-            Source = source;
-            DataServer = dataServer;
-            Filter = filter;
-            ArgsType = MusicListArgsType.Source | MusicListArgsType.DataServer | MusicListArgsType.Filter;
+            get
+            {
+                MusicListArgsType args = default(MusicListArgsType);
+
+                if (Source != null)
+                    args = MusicListArgsType.Source;
+
+                if (DataServer != null)
+                    args |= MusicListArgsType.DataServer;
+
+                if (Filter != null)
+                    args |= MusicListArgsType.Filter;
+
+                if (ExtraMenu != null)
+                    args |= MusicListArgsType.Menu;
+                
+                return args;
+            }
         }
 
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, MusicFilterArgs filter, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu, string pageTitle = null) : base(pageTitle)
-        {
-            Source = source;
-            Filter = filter;
-            ExtraMenu = extraMenu.ToList();
-            ArgsType = MusicListArgsType.Source | MusicListArgsType.Filter | MusicListArgsType.Menu;
-        }
-
-        public MusicListArguments(ObservableCollection<MusicFileDTO> source, IFileDataServer<MusicFileDTO> dataServer, MusicFilterArgs filter, IEnumerable<MusicItemMenuItem<MusicFileDynamic>> extraMenu, string pageTitle = null) : base(pageTitle)
-        {
-            Source = source;
-            DataServer = dataServer;
-            Filter = filter;
-            ExtraMenu = extraMenu.ToList();
-            ArgsType = MusicListArgsType.Source | MusicListArgsType.DataServer | MusicListArgsType.Filter | MusicListArgsType.Menu;
-        }
-
-        public MusicListArgsType ArgsType { get; }
         public IFileDataServer<MusicFileDTO> DataServer { get; }
         public ObservableCollection<MusicFileDTO> Source { get; }
         public MusicFilterArgs Filter { get; }
         public List<MusicItemMenuItem<MusicFileDynamic>> ExtraMenu { get; }
+        public bool IsEnableViewOption { get; }
     }
 }
