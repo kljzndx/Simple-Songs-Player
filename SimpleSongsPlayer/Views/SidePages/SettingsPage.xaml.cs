@@ -144,8 +144,8 @@ namespace SimpleSongsPlayer.Views.SidePages
                 return;
             }
 
-            ExitTime = DateTime.Now.AddMinutes(minutes - 2);
-            TimedExitTime_Run.Text = ExitTime.AddMinutes(2).ToString("hh:mm:ss");
+            ExitTime = DateTime.Now.AddMinutes(minutes - 10);
+            TimedExitTime_Run.Text = ExitTime.AddMinutes(10).ToString("hh:mm:ss");
 
             var success = await StartTimer();
             if (!success)
