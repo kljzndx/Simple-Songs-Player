@@ -100,10 +100,10 @@
                     <TextBlock x:Uid="/MusicPage/PlayAll_TextBlock" Grid.Column="1" Margin="8,0,0,0"/>
                 </Grid>
             </Button>
-            <StackPanel x:Name="ViewOption_StackPanel" Grid.Column="1" Orientation="Horizontal">
+            <StackPanel x:Name="ViewOption_StackPanel" Grid.Column="1" Orientation="Horizontal" Visibility="{Binding IsEnableViewOption}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock x:Uid="/MusicPage/ListSort_TextBlock" VerticalAlignment="Center"/>
-                    <ctor:SplitButton x:Name="ListSortSelection_SplitButton" IsEnabled="{Binding IsEnableViewOption}" LeftButton_Click="ListSortSelection_SplitButton_OnLeftButton_Click">
+                    <ctor:SplitButton x:Name="ListSortSelection_SplitButton" LeftButton_Click="ListSortSelection_SplitButton_OnLeftButton_Click">
                         <ctor:SplitButton.ExtendFlyout>
                             <Flyout Placement="Bottom">
                                 <ListBox x:Name="ListSorter_ListBox" ItemsSource="{x:Bind vm.SorterMembers, Mode=OneWay}" SelectionChanged="ListSorter_ListBox_OnSelectionChanged">
@@ -120,7 +120,7 @@
                         </ctor:SplitButton.LeftContent>
                     </ctor:SplitButton>
                 </StackPanel>
-                <ctor:DropDownButton x:Uid="/MusicListPage/Grouper_DropDownButton" Margin="8,0" Background="Transparent" IsEnabled="{Binding IsEnableViewOption}">
+                <ctor:DropDownButton x:Uid="/MusicListPage/Grouper_DropDownButton" Margin="8,0" Background="Transparent">
                     <ctor:DropDownButton.Flyout>
                         <Flyout>
                             <ListBox x:Name="Grouper_ListBox" ItemsSource="{x:Bind vm.GrouperMembers, Mode=OneWay}" SelectionChanged="Grouper_ListBox_OnSelectionChanged">
