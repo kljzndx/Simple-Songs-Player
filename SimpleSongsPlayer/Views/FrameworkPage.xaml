@@ -29,10 +29,10 @@
             <Rectangle x:Name="TransparentBackground_Rectangle" Grid.ColumnSpan="3" Fill="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"/>
 
             <Button x:Name="Back_Button" VerticalAlignment="Top" Style="{ThemeResource NavigationBackButtonNormalStyle}" Click="Back_Button_OnClick"/>
-            <TextBlock x:Name="PageInfo_TextBlock" Grid.Column="1" Visibility="Collapsed" Margin="8,8,0,8" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource TitleTextBlockStyle}"/>
+            <TextBlock x:Name="PageInfo_TextBlock" Grid.Column="1" Visibility="Collapsed" Margin="8,8,0,8" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource SubtitleTextBlockStyle}"/>
             <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="8">
-                <TextBlock Text="-" Margin="0,0,8,0" Visibility="{x:Bind PageInfo_TextBlock.Visibility, Mode=OneWay}" Style="{ThemeResource TitleTextBlockStyle}"/>
-                <TextBlock x:Name="PageTitle_TextBlock" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource TitleTextBlockStyle}"/>
+                <TextBlock Text="-" Margin="0,0,8,0" Visibility="{x:Bind PageInfo_TextBlock.Visibility, Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                <TextBlock x:Name="PageTitle_TextBlock" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{ThemeResource SubtitleTextBlockStyle}"/>
             </StackPanel>
         </Grid>
 
