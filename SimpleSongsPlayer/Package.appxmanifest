@@ -33,6 +33,7 @@
       <Extensions>
         <uap:Extension Category="windows.fileTypeAssociation">
           <uap:FileTypeAssociation Name="music">
+            <uap:Logo>Assets/File icon.png</uap:Logo>
             <uap:SupportedFileTypes>
               <uap:FileType>.mp3</uap:FileType>
               <uap:FileType>.aac</uap:FileType>

@@ -236,6 +236,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets\File icon.png" />
     <Content Include="Assets\Icons\theme-dark\Artist.png" />
     <Content Include="Assets\Icons\theme-dark\Album.png" />
     <Content Include="Assets\Icons\theme-light\Artist.png" />
