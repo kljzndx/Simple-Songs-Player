@@ -145,7 +145,7 @@ namespace SimpleSongsPlayer.Views.SidePages
             }
 
             ExitTime = DateTime.Now.AddMinutes(minutes - 10);
-            TimedExitTime_Run.Text = ExitTime.AddMinutes(10).ToString("hh:mm:ss");
+            TimedExitTime_Run.Text = ExitTime.AddMinutes(10).ToString("HH:mm:ss");
 
             var success = await StartTimer();
             if (!success)
