@@ -123,28 +123,28 @@
   <data name="FeedbackEmailTitle" xml:space="preserve">
     <value>反馈</value>
   </data>
-  <data name="GitHub_AppBarButton.Label" xml:space="preserve">
-    <value>GitHub</value>
-  </data>
   <data name="GitHub_AppBarButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>GitHub</value>
   </data>
-  <data name="OpenLogsFolder_AppBarButton.Label" xml:space="preserve">
-    <value>查看日志</value>
+  <data name="GitHub_TextBlock.Text" xml:space="preserve">
+    <value>GitHub</value>
   </data>
   <data name="OpenLogsFolder_AppBarButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>查看日志</value>
   </data>
-  <data name="Review_AppBarButton.Label" xml:space="preserve">
-    <value>评论</value>
+  <data name="OpenLogsFolder_TextBlock.Text" xml:space="preserve">
+    <value>查看日志</value>
   </data>
   <data name="Review_AppBarButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>评论</value>
   </data>
-  <data name="SendFeedback_AppBarButton.Label" xml:space="preserve">
-    <value>反馈</value>
+  <data name="Review_TextBlock.Text" xml:space="preserve">
+    <value>评论</value>
   </data>
   <data name="SendFeedback_AppBarButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>反馈</value>
+  </data>
+  <data name="SendFeedback_TextBlock.Text" xml:space="preserve">
     <value>反馈</value>
   </data>
   <data name="Title" xml:space="preserve">
