@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Services.Store;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models.DTO.Lyric;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Events;
+using SimpleSongsPlayer.ViewModels.Getters;
 using SimpleSongsPlayer.ViewModels.SettingProperties;
 using SimpleSongsPlayer.Views.Controllers;
 
@@ -17,6 +20,7 @@ namespace SimpleSongsPlayer.Views.MusicInfo
     public class MusicInformationPageBase : Page
     {
         private bool needRefreshLyric;
+        private readonly StoreContext storeClient = StoreContext.GetDefault();
 
         protected MusicInfoViewModel ViewModel;
         protected readonly ViewSettingProperties Settings = ViewSettingProperties.Current;
@@ -143,9 +147,22 @@ namespace SimpleSongsPlayer.Views.MusicInfo
             GetControlByName<Grid>("LyricPreview_Grid").Visibility = Visibility.Visible;
         }
 
-        protected void RemoveAds_Button_OnClick(object sender, RoutedEventArgs e)
+        protected async void RemoveAds_Button_OnClick(object sender, RoutedEventArgs e)
         {
+            var r = await storeClient.RequestPurchaseAsync(PrivateKeyGetter.RemoveAdKey);
+            if (r.ExtendedError != null)
+            {
+                this.LogByObject(r.ExtendedError, "付款失败");
+                return;
+            }
 
+            switch (r.Status)
+            {
+                case StorePurchaseStatus.Succeeded:
+                case StorePurchaseStatus.AlreadyPurchased:
+                    ViewSettingProperties.Current.IsShowAds = false;
+                    break;
+            }
         }
     }
 }
