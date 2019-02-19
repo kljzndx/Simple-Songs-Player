@@ -20,6 +20,7 @@ using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.Extensions;
+using SimpleSongsPlayer.ViewModels.Getters;
 using SimpleSongsPlayer.ViewModels.SettingProperties;
 using SimpleSongsPlayer.Views;
 using SimpleSongsPlayer.Views.Controllers;
@@ -196,6 +197,7 @@ namespace SimpleSongsPlayer
                     await MusicFileDataServer.Current.InitializeMusicService();
                     await LyricFileDataServer.Current.Init();
                     await LyricIndexDataServer.Current.Init();
+                    await PrivateKeyGetter.Init();
                     await PlaybackListDataServer.Current.Init();
 
                     FlyoutNotification.Show(StringResources.NotificationStringResource.GetString("ScanMusicLibrary"));

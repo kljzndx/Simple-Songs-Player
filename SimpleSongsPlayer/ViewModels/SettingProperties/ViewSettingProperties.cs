@@ -34,5 +34,13 @@ namespace SimpleSongsPlayer.ViewModels.SettingProperties
             get => backgroundTransparency;
             set => SetSetting(ref backgroundTransparency, value);
         }
+
+        [SettingFieldByNormal(nameof(IsShowAds), true)] private bool isShowAds;
+
+        public bool IsShowAds
+        {
+            get => isShowAds;
+            set => SetSetting(ref isShowAds, value);
+        }
     }
 }

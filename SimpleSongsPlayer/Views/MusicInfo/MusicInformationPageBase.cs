@@ -143,5 +143,9 @@ namespace SimpleSongsPlayer.Views.MusicInfo
             GetControlByName<Grid>("LyricPreview_Grid").Visibility = Visibility.Visible;
         }
 
+        protected void RemoveAds_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

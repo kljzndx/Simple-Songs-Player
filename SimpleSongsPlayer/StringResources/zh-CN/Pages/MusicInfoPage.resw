@@ -141,6 +141,9 @@
   <data name="Pin_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>固定到屏幕</value>
   </data>
+  <data name="RemoveAds_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>移除广告</value>
+  </data>
   <data name="Search_TextBox.PlaceholderText" xml:space="preserve">
     <value>请输入文件名</value>
   </data>

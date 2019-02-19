@@ -141,6 +141,9 @@
   <data name="Pin_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Pin to screen</value>
   </data>
+  <data name="RemoveAds_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Remove ads</value>
+  </data>
   <data name="Search_TextBox.PlaceholderText" xml:space="preserve">
     <value>Please enter file name</value>
   </data>

@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.ViewModels.Getters;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -27,6 +28,27 @@ namespace SimpleSongsPlayer.Views.MusicInfo
         {
             this.InitializeComponent();
             base.Init((MusicInfoViewModel) this.DataContext);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (Ms_AdControl.AdUnitId != PrivateKeyGetter.AdBigKey)
+                Ms_AdControl.AdUnitId = PrivateKeyGetter.AdBigKey;
+
+            if (Settings.IsShowAds)
+                Ms_AdControl.Resume();
+            else
+                Ms_AdControl.Suspend();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            if (Settings.IsShowAds)
+                Ms_AdControl.Suspend();
         }
     }
 }

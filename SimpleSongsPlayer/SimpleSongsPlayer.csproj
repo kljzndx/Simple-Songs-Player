@@ -150,6 +150,7 @@
     <Compile Include="ViewModels\Factories\MusicGroupers\MusicPathGrouper.cs" />
     <Compile Include="ViewModels\Factories\MusicGroupers\SingleGrouper.cs" />
     <Compile Include="ViewModels\FrameworkViewModel.cs" />
+    <Compile Include="ViewModels\Getters\PrivateKeyGetter.cs" />
     <Compile Include="ViewModels\MusicGroupListViewModel.cs" />
     <Compile Include="ViewModels\MusicInfoViewModel.cs" />
     <Compile Include="ViewModels\MusicPusher.cs" />
@@ -307,6 +308,7 @@
     <Content Include="nlog.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Assets\PrivateKey.json" />
     <None Include="SimpleSongsPlayer_StoreKey.pfx" />
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
     <PRIResource Include="StringResources\en-US\Pages\MusicPage.resw" />
@@ -466,6 +468,9 @@
     <PackageReference Include="HappyStudio.UwpToolsLibrary.Information">
       <Version>1.0.3</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Advertising.XAML">
+      <Version>10.1811.22001</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.9</Version>
     </PackageReference>
@@ -503,7 +508,14 @@
       <Name>SimpleSongsPlayer.Service</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <SDKReference Include="Microsoft.Advertising.Xaml, Version=10.0">
+      <Name>Microsoft Advertising SDK for XAML</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+    </SDKReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
