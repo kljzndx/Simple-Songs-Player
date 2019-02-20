@@ -40,10 +40,15 @@ namespace SimpleSongsPlayer.Views
         private static readonly Type ListPageType = typeof(MusicListPage);
         private static readonly Type GroupPageType = typeof(MusicGroupListPage);
 
+        private bool _isInit;
+
         public MusicClassifyPage()
         {
             this.InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Enabled;
+
+            Root_Pivot.SelectedIndex = OtherSettingProperties.Current.ClassifyViewId;
+            _isInit = true;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -63,6 +68,9 @@ namespace SimpleSongsPlayer.Views
 
         private void Root_Pivot_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (_isInit)
+                OtherSettingProperties.Current.ClassifyViewId = Root_Pivot.SelectedIndex;
+
             switch (Root_Pivot.SelectedIndex)
             {
                 case 0:

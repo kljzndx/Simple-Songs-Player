@@ -34,5 +34,13 @@ namespace SimpleSongsPlayer.ViewModels.SettingProperties
             get => currentPlayIndex;
             set => SetSetting(ref currentPlayIndex, value);
         }
+
+        [SettingFieldByNormal(nameof(ClassifyViewId), 0)] private int _classifyViewId;
+
+        public int ClassifyViewId
+        {
+            get => _classifyViewId;
+            set => SetSetting(ref _classifyViewId, value);
+        }
     }
 }
