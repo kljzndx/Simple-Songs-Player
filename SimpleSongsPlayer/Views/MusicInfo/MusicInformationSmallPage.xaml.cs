@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.ViewModels.Getters;
+using SimpleSongsPlayer.ViewModels.SettingProperties;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -24,10 +25,15 @@ namespace SimpleSongsPlayer.Views.MusicInfo
     /// </summary>
     public sealed partial class MusicInformationSmallPage : MusicInformationPageBase
     {
+        private bool _isInit;
+
         public MusicInformationSmallPage()
         {
             this.InitializeComponent();
             base.Init((MusicInfoViewModel) this.DataContext);
+
+            Root_Pivot.SelectedIndex = ViewSettingProperties.Current.ViewId;
+            _isInit = true;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -58,6 +64,9 @@ namespace SimpleSongsPlayer.Views.MusicInfo
                 Ms_AdControl.Resume();
             else if (Settings.IsShowAds)
                 Ms_AdControl.Suspend();
+
+            if (_isInit)
+                ViewSettingProperties.Current.ViewId = Root_Pivot.SelectedIndex;
         }
     }
 }

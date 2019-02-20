@@ -42,5 +42,13 @@ namespace SimpleSongsPlayer.ViewModels.SettingProperties
             get => isShowAds;
             set => SetSetting(ref isShowAds, value);
         }
+
+        [SettingFieldByNormal(nameof(ViewId), 0)] private int viewId;
+
+        public int ViewId
+        {
+            get => viewId;
+            set => SetSetting(ref viewId, value);
+        }
     }
 }
