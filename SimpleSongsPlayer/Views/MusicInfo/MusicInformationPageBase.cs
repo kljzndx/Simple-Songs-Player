@@ -6,6 +6,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Advertising.WinRT.UI;
 using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models.DTO.Lyric;
 using SimpleSongsPlayer.ViewModels;
@@ -161,6 +162,7 @@ namespace SimpleSongsPlayer.Views.MusicInfo
                 case StorePurchaseStatus.Succeeded:
                 case StorePurchaseStatus.AlreadyPurchased:
                     ViewSettingProperties.Current.IsShowAds = false;
+                    GetControlByName<AdControl>("Ms_AdControl").Suspend();
                     break;
             }
         }
