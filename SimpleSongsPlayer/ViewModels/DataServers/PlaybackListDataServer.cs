@@ -28,31 +28,6 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             _playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
         }
 
-        private void PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
-        {
-            if (IsInit)
-                OtherSettingProperties.Current.CurrentPlayIndex = sender.CurrentItemIndex;
-        }
-
-        private void Data_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (Data.Any())
-            {
-                if (App.MediaPlayer.Source is null)
-                    App.MediaPlayer.Source = _playbackList;
-
-                switch (e.Action)
-                {
-                    case NotifyCollectionChangedAction.Remove:
-                        foreach (MusicFileDTO item in e.OldItems)
-                            item.IsPlaying = false;
-                        break;
-                }
-            }
-            else
-                App.MediaPlayer.Source = null;
-        }
-
         public bool IsInit { get; private set; }
         public ObservableCollection<MusicFileDTO> Data { get; } = new ObservableCollection<MusicFileDTO>();
         public event EventHandler<IEnumerable<MusicFileDTO>> DataAdded;
@@ -301,22 +276,29 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                 _playbackList.Items.Add(item);
         }
 
-        //private async void Service_DataAdded(object sender, IEnumerable<PlaybackItem> e)
-        //{
-        //    var needAdd = await Parse(e);
-        //    foreach (var dto in needAdd)
-        //        Data.Add(dto);
+        private void PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
+        {
+            if (IsInit)
+                OtherSettingProperties.Current.CurrentPlayIndex = sender.CurrentItemIndex;
+        }
 
-        //    DataAdded?.Invoke(this, needAdd);
-        //}
+        private void Data_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (Data.Any())
+            {
+                if (App.MediaPlayer.Source is null)
+                    App.MediaPlayer.Source = _playbackList;
 
-        //private void Service_DataRemoved(object sender, IEnumerable<PlaybackItem> e)
-        //{
-        //    var needRemove = Data.Where(mf => e.Any(i => i.Path == mf.FilePath)).ToList();
-        //    foreach (var dto in needRemove)
-        //        Data.Remove(dto);
-
-        //    DataRemoved?.Invoke(this, needRemove);
-        //}
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Remove:
+                        foreach (MusicFileDTO item in e.OldItems)
+                            item.IsPlaying = false;
+                        break;
+                }
+            }
+            else
+                App.MediaPlayer.Source = null;
+        }
     }
 }
