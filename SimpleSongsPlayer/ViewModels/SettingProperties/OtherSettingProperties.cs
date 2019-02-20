@@ -26,5 +26,13 @@ namespace SimpleSongsPlayer.ViewModels.SettingProperties
             get => canOptionNowPlayList;
             set => Set(ref canOptionNowPlayList, value);
         }
+
+        [SettingFieldByNormal(nameof(CurrentPlayIndex), (uint) 0)] private uint currentPlayIndex;
+
+        public uint CurrentPlayIndex
+        {
+            get => currentPlayIndex;
+            set => SetSetting(ref currentPlayIndex, value);
+        }
     }
 }

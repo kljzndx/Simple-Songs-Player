@@ -10,6 +10,7 @@ using SimpleSongsPlayer.DAL;
 using SimpleSongsPlayer.Log;
 using SimpleSongsPlayer.Models.DTO;
 using SimpleSongsPlayer.Service;
+using SimpleSongsPlayer.ViewModels.SettingProperties;
 
 namespace SimpleSongsPlayer.ViewModels.DataServers
 {
@@ -24,6 +25,13 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
         private PlaybackListDataServer()
         {
             Data.CollectionChanged += Data_CollectionChanged;
+            _playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
+        }
+
+        private void PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
+        {
+            if (IsInit)
+                OtherSettingProperties.Current.CurrentPlayIndex = sender.CurrentItemIndex;
         }
 
         private void Data_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -58,7 +66,6 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             if (!_musicFileDataServer.IsInit)
                 await _musicFileDataServer.InitializeMusicService();
 
-            IsInit = true;
             _service = await PlaybackListService.GetService();
             var data = await _service.GetData();
 
@@ -79,8 +86,15 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                 Data.Add(dto);
             }
 
+            if (OtherSettingProperties.Current.CurrentPlayIndex < Data.Count)
+                _playbackList.MoveTo(OtherSettingProperties.Current.CurrentPlayIndex);
+            else
+                OtherSettingProperties.Current.CurrentPlayIndex = 0;
+
             if (Data.Any())
                 DataAdded?.Invoke(this, Data);
+
+            IsInit = true;
         }
 
         public async Task Push(MusicFileDTO music)
