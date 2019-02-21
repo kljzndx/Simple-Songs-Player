@@ -15,8 +15,8 @@ namespace SimpleSongsPlayer.Test.Service
         [ContractTestCase]
         public void ScanFiles()
         {
-            var mService = new TestMusicService();
-            var lService = new TestLyricService();
+            var mService = TestMusicService.Current;
+            var lService = TestLyricService.Current;
             var indexService = LyricIndexService.GetService(mService, lService);
 
             "正常扫描".Test(async () =>
@@ -27,23 +27,25 @@ namespace SimpleSongsPlayer.Test.Service
             });
             "添加文件".Test(async () =>
             {
-                mService.TestAdd();
+                lService.TestChange();
                 // Assert.IsTrue((await mService.GetData()).Count == 10);
 
                 await indexService.ScanAsync();
                 var indexes = await indexService.GetData();
-                Assert.IsTrue(indexes.Count == 10);
+                Assert.IsTrue(indexes.Count == 8);
             });
         }
 
         class TestMusicService : IDataService<MusicFile>
         {
+            public static readonly TestMusicService Current = new TestMusicService();
+
             private List<MusicFile> _source;
 
             public event EventHandler<IEnumerable<MusicFile>> DataAdded;
             public event EventHandler<IEnumerable<MusicFile>> DataRemoved;
 
-            public TestMusicService()
+            private TestMusicService()
             {
                 _source = new List<MusicFile>
                 {
@@ -80,19 +82,33 @@ namespace SimpleSongsPlayer.Test.Service
 
         class TestLyricService : IDataService<LyricFile>
         {
+            public static readonly TestLyricService Current = new TestLyricService();
+
+            private readonly List<LyricFile> _source;
+
             public event EventHandler<IEnumerable<LyricFile>> DataAdded;
             public event EventHandler<IEnumerable<LyricFile>> DataRemoved;
 
+            private TestLyricService()
+            {
+                _source = new List<LyricFile>
+                {
+                    new LyricFile {FileName = "xxx.lrc", Path = "c:/xxx/xxx.lrc"},
+                    new LyricFile {FileName = "ttt.lrc", Path = "c:/xxx/ttt.lrc"},
+                    new LyricFile {FileName = "ggg.lrc", Path = "c:/xxx/ggg.lrc"},
+                    new LyricFile {FileName = "hhh.lrc", Path = "c:/xxx/hhh.lrc"},
+                    new LyricFile {FileName = "yyy.lrc", Path = "c:/xxx/yyy.lrc"}
+                };
+            }
+
             public Task<List<LyricFile>> GetData()
             {
-                return Task.FromResult(new List<LyricFile>
-                {
-                    new LyricFile{ FileName = "xxx.lrc", Path = "c:/xxx/xxx.lrc" },
-                    new LyricFile{ FileName = "ttt.lrc", Path = "c:/xxx/ttt.lrc" },
-                    new LyricFile{ FileName = "ggg.lrc", Path = "c:/xxx/ggg.lrc" },
-                    new LyricFile{ FileName = "hhh.lrc", Path = "c:/xxx/hhh.lrc" },
-                    new LyricFile{ FileName = "yyy.lrc", Path = "c:/xxx/yyy.lrc" }
-                });
+                return Task.FromResult(_source);
+            }
+
+            public void TestChange()
+            {
+                _source[1].Path = "c:/xxx/ddd/ttt.lrc";
             }
         }
     }
