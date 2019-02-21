@@ -122,16 +122,16 @@ namespace SimpleSongsPlayer.Service
                         addOption.Add(new LyricIndex(musicPath, lyricPaths[musicPathGroup.Key]));
             }
 
-            if (addOption.Any())
-            {
-                this.LogByObject("应用添加操作");
-                await AddRange(addOption);
-            }
-
             if (removeOption.Any())
             {
                 this.LogByObject("应用移除操作");
                 await RemoveRange(removeOption);
+            }
+
+            if (addOption.Any())
+            {
+                this.LogByObject("应用添加操作");
+                await AddRange(addOption);
             }
         }
 
