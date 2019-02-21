@@ -95,6 +95,12 @@ namespace SimpleSongsPlayer.Service
                 if (musicFiles.All(f => f.Path != lyricIndex.MusicPath) || lyricFiles.All(f => f.Path != lyricIndex.LyricPath))
                     removeOption.Add(lyricIndex);
 
+            if (removeOption.Any())
+            {
+                this.LogByObject("应用移除操作");
+                await RemoveRange(removeOption);
+            }
+
             this.LogByObject("提取出所有的音乐文件名");
             var musicFileNames = musicFiles.Where(f => _source.All(i => i.MusicPath != f.Path))
                 .Select(f => TrimExtensionName(f.FileName)).Distinct().ToList();
@@ -120,12 +126,6 @@ namespace SimpleSongsPlayer.Service
                 foreach (var musicPathGroup in musicPathGroups)
                     foreach (var musicPath in musicPathGroup)
                         addOption.Add(new LyricIndex(musicPath, lyricPaths[musicPathGroup.Key]));
-            }
-
-            if (removeOption.Any())
-            {
-                this.LogByObject("应用移除操作");
-                await RemoveRange(removeOption);
             }
 
             if (addOption.Any())

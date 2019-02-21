@@ -40,12 +40,16 @@ namespace SimpleSongsPlayer.Log
         public static void LogByType(this Type type, string message, [CallerMemberName] string callerName = "")
         {
             string assemblyName = GetAssemblyNameFromType(type);
+            if (!AllAssembly.ContainsKey(assemblyName))
+                return;
             AllAssembly[assemblyName].Info($"{message} on {callerName} in {type.Name}");
         }
 
         public static void LogByType(this Type type, Exception exception, string message = "", [CallerMemberName] string callerName = "")
         {
             string assemblyName = GetAssemblyNameFromType(type);
+            if (!AllAssembly.ContainsKey(assemblyName))
+                return;
             AllAssembly[assemblyName].Error(exception, $"{message} on {callerName} in {type.Name}");
         }
 
