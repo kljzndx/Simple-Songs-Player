@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controllers="using:SimpleSongsPlayer.Views.Controllers"
     xmlns:ads="using:Microsoft.Advertising.WinRT.UI"
+    xmlns:pctrl="using:HappyStudio.UwpToolsLibrary.Control"
 
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
@@ -111,12 +112,10 @@
                     <TextBlock x:Name="NoFile_TextBlock" x:Uid="/MusicInfoPage/NoFile_TextBlock" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
 
-                <RelativePanel Grid.Row="1" Visibility="{x:Bind Settings.IsShowAds, Mode=OneWay}">
+                <RelativePanel Grid.Row="2" Visibility="{x:Bind Settings.IsShowAds, Mode=OneWay}">
                     <ads:AdControl x:Name="Ms_AdControl" Width="300" Height="50" ApplicationId="9n6406pnnrzs" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
 
-                    <Button x:Name="RemoveAds_Button" x:Uid="/MusicInfoPage/RemoveAds_Button" Background="Transparent" Padding="8" RelativePanel.LeftOf="Ms_AdControl" RelativePanel.AlignVerticalCenterWithPanel="True" Click="RemoveAds_Button_OnClick">
-                        <FontIcon Glyph="&#xE10A;"/>
-                    </Button>
+                    <pctrl:FloatingActionButton x:Name="RemoveAds_Button" x:Uid="/MusicInfoPage/RemoveAds_Button" Width="25" Height="25" FontSize="15" Margin="0" Content="&#xE10A;" RelativePanel.AlignRightWith="Ms_AdControl" Tapped="RemoveAds_Button_OnClick"/>
                 </RelativePanel>
             </Grid>
         </PivotItem>

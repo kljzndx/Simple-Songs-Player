@@ -11,7 +11,7 @@
     <Grid>
         <Frame x:Name="Main_Frame"/>
 
-        <StackPanel x:Name="PinOption_StackPanel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,56,36">
+        <StackPanel x:Name="PinOption_StackPanel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,56,54">
             <pctrl:FloatingActionButton x:Name="Pin_FloatingActionButton" x:Uid="/MusicInfoPage/Pin_FloatingActionButton" Content="&#xE141;" Tapped="Pin_FloatingActionButton_OnClick"/>
             <pctrl:FloatingActionButton x:Name="UnPin_FloatingActionButton" x:Uid="/MusicInfoPage/UnPin_FloatingActionButton" Content="&#xE196;" Visibility="Collapsed" Tapped="UnPin_FloatingActionButton_OnClick"/>
         </StackPanel>
