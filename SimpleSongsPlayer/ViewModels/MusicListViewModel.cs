@@ -70,7 +70,7 @@ namespace SimpleSongsPlayer.ViewModels
                         foreach (var musicFileDto in item.Items)
                         {
                             var id = original.IndexOf(musicFileDto);
-                            groupDynamic.Items.Insert(id <= groupDynamic.Items.Count ? id : groupDynamic.Items.Count - 1, new MusicFileDynamic(musicFileDto));
+                            groupDynamic.Items.Insert(id <= groupDynamic.Items.Count ? id : groupDynamic.Items.Count == 0 ? 0 : groupDynamic.Items.Count - 1, new MusicFileDynamic(musicFileDto));
                         }
                     }
                 }
