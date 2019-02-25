@@ -58,12 +58,14 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                     continue;
                 }
 
+                var id = Data.Count;
                 Data.Add(dto);
+
+                if (id == OtherSettingProperties.Current.CurrentPlayIndex)
+                    _playbackList.MoveTo((uint) id);
             }
 
-            if (OtherSettingProperties.Current.CurrentPlayIndex < Data.Count)
-                _playbackList.MoveTo(OtherSettingProperties.Current.CurrentPlayIndex);
-            else
+            if (OtherSettingProperties.Current.CurrentPlayIndex >= Data.Count)
                 OtherSettingProperties.Current.CurrentPlayIndex = 0;
 
             if (Data.Any())
@@ -286,7 +288,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
         {
             if (Data.Any())
             {
-                if (App.MediaPlayer.Source is null)
+                if (App.MediaPlayer.Source is null && _playbackList.CurrentItemIndex >= OtherSettingProperties.Current.CurrentPlayIndex)
                     App.MediaPlayer.Source = _playbackList;
 
                 switch (e.Action)
