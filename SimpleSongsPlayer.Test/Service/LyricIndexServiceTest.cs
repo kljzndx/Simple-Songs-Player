@@ -27,12 +27,12 @@ namespace SimpleSongsPlayer.Test.Service
             });
             "添加文件".Test(async () =>
             {
-                lService.TestChange();
+                mService.TestAdd();
                 // Assert.IsTrue((await mService.GetData()).Count == 10);
 
                 await indexService.ScanAsync();
                 var indexes = await indexService.GetData();
-                Assert.IsTrue(indexes.Count == 8);
+                Assert.IsTrue(indexes.Count == 10);
             });
         }
 
