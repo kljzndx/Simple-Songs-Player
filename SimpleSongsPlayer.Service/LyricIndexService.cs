@@ -114,7 +114,7 @@ namespace SimpleSongsPlayer.Service
             if (result.Any())
             {
                 this.LogByObject("查询文件名一样的音乐项");
-                var musicPathGroups = musicFiles.Where(f => result.Contains(TrimExtensionName(f.FileName))).GroupBy(f => TrimExtensionName(f.FileName), f => f.Path).ToList();
+                var musicPathGroups = musicFiles.Where(f => result.Contains(TrimExtensionName(f.FileName)) && _source.All(i => i.MusicPath != f.Path)).GroupBy(f => TrimExtensionName(f.FileName), f => f.Path).ToList();
                 var lyricPaths = new Dictionary<string, string>();
 
                 this.LogByObject("查询文件名一样的歌词项");
