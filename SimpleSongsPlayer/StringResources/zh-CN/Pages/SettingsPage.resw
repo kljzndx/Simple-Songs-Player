@@ -156,4 +156,16 @@
   <data name="LeadingOutFavorites_ErrorInfo" xml:space="preserve">
     <value>收藏列表为空</value>
   </data>
+  <data name="LeadingInFavorites_ToolTip_Imported" xml:space="preserve">
+    <value>导入完毕</value>
+  </data>
+  <data name="LeadingInFavorites_ToolTip_Importing" xml:space="preserve">
+    <value>正在导入</value>
+  </data>
+  <data name="LeadingOutFavorites_ToolTip_Exported" xml:space="preserve">
+    <value>导出完毕</value>
+  </data>
+  <data name="LeadingOutFavorites_ToolTip_Exporting" xml:space="preserve">
+    <value>正在导出</value>
+  </data>
 </root>

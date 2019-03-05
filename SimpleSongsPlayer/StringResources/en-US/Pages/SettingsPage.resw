@@ -148,12 +148,24 @@
     <value />
   </data>
   <data name="LeadingInFavorites_Button.Content" xml:space="preserve">
-    <value>Leading-in favorites list</value>
+    <value>Import favorites list</value>
   </data>
   <data name="LeadingOutFavorites_Button.Content" xml:space="preserve">
-    <value>Leading-out favorites list</value>
+    <value>Export favorites list</value>
   </data>
   <data name="LeadingOutFavorites_ErrorInfo" xml:space="preserve">
     <value>Favorites list is empty now</value>
+  </data>
+  <data name="LeadingInFavorites_ToolTip_Imported" xml:space="preserve">
+    <value>Imported</value>
+  </data>
+  <data name="LeadingInFavorites_ToolTip_Importing" xml:space="preserve">
+    <value>Importing</value>
+  </data>
+  <data name="LeadingOutFavorites_ToolTip_Exported" xml:space="preserve">
+    <value>Exported</value>
+  </data>
+  <data name="LeadingOutFavorites_ToolTip_Exporting" xml:space="preserve">
+    <value>Exporting</value>
   </data>
 </root>

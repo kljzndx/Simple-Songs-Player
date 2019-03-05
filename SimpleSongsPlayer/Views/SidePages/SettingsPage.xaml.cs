@@ -31,6 +31,7 @@ using SimpleSongsPlayer.ViewModels.Attributes;
 using SimpleSongsPlayer.ViewModels.DataServers;
 using SimpleSongsPlayer.ViewModels.SettingProperties;
 using SimpleSongsPlayer.ViewModels.SideViews;
+using SimpleSongsPlayer.Views.Controllers;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -42,6 +43,7 @@ namespace SimpleSongsPlayer.Views.SidePages
     [PageTitle("SettingsPage")]
     public sealed partial class SettingsPage : Page
     {
+        private static readonly ResourceLoader StringResource = ResourceLoader.GetForCurrentView("SettingsPage");
         public const string timedExitTaskName = "TimedExitTask";
         public static DateTimeOffset ExitTime;
 
@@ -156,20 +158,23 @@ namespace SimpleSongsPlayer.Views.SidePages
         {
             if (FavoritesDataServer.Current.Data.Count <= 0)
             {
-                await MessageBox.ShowAsync(ResourceLoader.GetForCurrentView("SettingsPage").GetString("LeadingOutFavorites_ErrorInfo"), "OK");
+                await MessageBox.ShowAsync(StringResource.GetString("LeadingOutFavorites_ErrorInfo"), "OK");
                 return;
             }
 
             var picker = new FileSavePicker();
             picker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
+            picker.SuggestedFileName = "all favorites";
             picker.FileTypeChoices.Add("Json file", new List<string>{".json"});
             var file = await picker.PickSaveFileAsync();
             if (file is null)
                 return;
 
+            FlyoutNotification.ShowOnce(StringResource.GetString("LeadingOutFavorites_ToolTip_Exporting"));
             string json = FavoritesDataServer.Current.ToJson();
 
             await FileIO.WriteTextAsync(file, json);
+            FlyoutNotification.ShowOnce(StringResource.GetString("LeadingOutFavorites_ToolTip_Exported"));
         }
 
         private async void LeadingInFavorites_Button_OnClick(object sender, RoutedEventArgs e)
@@ -180,6 +185,8 @@ namespace SimpleSongsPlayer.Views.SidePages
             var file = await picker.PickSingleFileAsync();
             if (file is null)
                 return;
+
+            FlyoutNotification.ShowOnce(StringResource.GetString("LeadingInFavorites_ToolTip_Importing"));
             string content = await FileIO.ReadTextAsync(file);
             JArray root = JArray.Parse(content);
             foreach (var token in root)
@@ -201,6 +208,8 @@ namespace SimpleSongsPlayer.Views.SidePages
                 else
                     throw new Exception("Cannot parse this file");
             }
+
+            FlyoutNotification.ShowOnce(StringResource.GetString("LeadingInFavorites_ToolTip_Imported"));
         }
     }
 }
