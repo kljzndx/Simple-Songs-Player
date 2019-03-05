@@ -21,7 +21,7 @@ namespace SimpleSongsPlayer.ViewModels
 {
     public class MusicInfoViewModel : ViewModelBase
     {
-        private readonly ObservableCollection<MusicFileDTO> musicFiles = MusicFileDataServer.Current.Data;
+        private readonly ObservableCollection<MusicFileDTO> musicFiles = PlaybackListDataServer.Current.Data;
         private readonly ObservableCollection<KeyValuePair<MusicFileDTO, LyricFileDTO>> indexes =
             LyricIndexDataServer.Current.Data;
 
