@@ -103,9 +103,21 @@
             </Button>
             <StackPanel x:Name="ViewOption_StackPanel" Grid.Column="1" Orientation="Horizontal" Visibility="{Binding IsEnableViewOption}">
                 <StackPanel Orientation="Horizontal">
+                    <StackPanel.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Padding" Value="4"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Style>
+                    </StackPanel.Resources>
+
                     <TextBlock x:Uid="/MusicPage/ListSort_TextBlock" VerticalAlignment="Center"/>
-                    <ctor:SplitButton x:Name="ListSortSelection_SplitButton" LeftButton_Click="ListSortSelection_SplitButton_OnLeftButton_Click">
-                        <ctor:SplitButton.ExtendFlyout>
+
+                    <Button x:Name="ReverseItems_Button" x:Uid="/MusicPage/ReverseItems_Button" Click="ReverseItems_Button_Click">
+                        <FontIcon Glyph="&#xE174;"/>
+                    </Button>
+
+                    <Button x:Name="ListSorterSelect_Button" x:Uid="/MusicPage/ListSorterSelect_Button">
+                        <Button.Flyout>
                             <Flyout Placement="Bottom">
                                 <ListBox x:Name="ListSorter_ListBox" ItemsSource="{x:Bind vm.SorterMembers, Mode=OneWay}" SelectionChanged="ListSorter_ListBox_OnSelectionChanged">
                                     <ListBox.ItemTemplate>
@@ -113,13 +125,17 @@
                                             <TextBlock Text="{Binding Name}"/>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
                                 </ListBox>
                             </Flyout>
-                        </ctor:SplitButton.ExtendFlyout>
-                        <ctor:SplitButton.LeftContent>
-                            <FontIcon Glyph="&#xE174;"/>
-                        </ctor:SplitButton.LeftContent>
-                    </ctor:SplitButton>
+                        </Button.Flyout>
+
+                        <FontIcon Glyph="&#xE0E5;"/>
+                    </Button>
                 </StackPanel>
                 <ctor:DropDownButton x:Uid="/MusicListPage/Grouper_DropDownButton" Margin="8,0" Background="Transparent">
                     <ctor:DropDownButton.Flyout>

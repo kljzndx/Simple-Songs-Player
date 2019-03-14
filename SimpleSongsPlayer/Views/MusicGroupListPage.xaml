@@ -43,29 +43,39 @@
             </Button>
 
             <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Padding" Value="4"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                    </Style>
+                </StackPanel.Resources>
+
                 <TextBlock x:Uid="/MusicPage/ListSort_TextBlock" VerticalAlignment="Center"/>
-                <ctol:SplitButton x:Name="Sort_SplitButton" LeftButton_Click="Sort_SplitButton_OnLeftButton_Click">
-                    <ctol:SplitButton.ExtendFlyout>
-                        <Flyout>
-                            <ListView x:Name="Sorter_ListView" ItemsSource="{x:Bind vm.SorterMembers, Mode=OneWay}" SelectionChanged="Sorter_ListView_OnSelectionChanged">
-                                <ListView.ItemTemplate>
+
+                <Button x:Name="ReverseItems_Button" x:Uid="/MusicPage/ReverseItems_Button" Click="ReverseItems_Button_Click">
+                    <FontIcon Glyph="&#xE174;"/>
+                </Button>
+
+                <Button x:Name="ListSorterSelect_Button" x:Uid="/MusicPage/ListSorterSelect_Button">
+                    <Button.Flyout>
+                        <Flyout Placement="Bottom">
+                            <ListBox x:Name="ListSorter_ListBox" ItemsSource="{x:Bind vm.SorterMembers, Mode=OneWay}" SelectionChanged="ListSorter_ListBox_OnSelectionChanged">
+                                <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Name}"/>
                                     </DataTemplate>
-                                </ListView.ItemTemplate>
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
                                     </Style>
-                                </ListView.ItemContainerStyle>
-                            </ListView>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
                         </Flyout>
-                    </ctol:SplitButton.ExtendFlyout>
+                    </Button.Flyout>
 
-                    <ctol:SplitButton.LeftContent>
-                        <FontIcon Glyph="&#xE174;"/>
-                    </ctol:SplitButton.LeftContent>
-                </ctol:SplitButton>
+                    <FontIcon Glyph="&#xE0E5;"/>
+                </Button>
             </StackPanel>
         </Grid>
 

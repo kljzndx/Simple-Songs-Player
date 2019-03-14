@@ -107,7 +107,7 @@ namespace SimpleSongsPlayer.Views
 
         private void MusicGroupListPage_OnLoaded(object sender, RoutedEventArgs e)
         {
-            Sorter_ListView.SelectedIndex = (int)settings.SortMethod;
+            ListSorter_ListBox.SelectedIndex = (int)settings.SortMethod;
         }
 
         private void Main_GridView_OnItemClick(object sender, ItemClickEventArgs e)
@@ -145,11 +145,11 @@ namespace SimpleSongsPlayer.Views
             }
         }
 
-        private void Sorter_ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListSorter_ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            bool isEqual = (int) settings.SortMethod == Sorter_ListView.SelectedIndex;
+            bool isEqual = (int) settings.SortMethod == ListSorter_ListBox.SelectedIndex;
             settings.SortMethod =
-                (MusicGroupSorterMembers) Sorter_ListView.SelectedIndex;
+                (MusicGroupSorterMembers) ListSorter_ListBox.SelectedIndex;
 
             if (isEqual)
                 vm.AutoSort();
@@ -157,7 +157,7 @@ namespace SimpleSongsPlayer.Views
                 vm.Sort(e.AddedItems.Cast<MusicSorterUi<MusicFileGroup>>().First());
         }
 
-        private void Sort_SplitButton_OnLeftButton_Click(object sender, RoutedEventArgs e)
+        private void ReverseItems_Button_Click(object sender, RoutedEventArgs e)
         {
             vm.Reverse();
             settings.IsReverse = !settings.IsReverse;

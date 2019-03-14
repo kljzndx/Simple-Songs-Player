@@ -110,7 +110,7 @@ namespace SimpleSongsPlayer.Views
                 Frame.GoBack();
         }
 
-        private void ListSortSelection_SplitButton_OnLeftButton_Click(object sender, RoutedEventArgs e)
+        private void ReverseItems_Button_Click(object sender, RoutedEventArgs e)
         {
             vm.ReverseItems();
             settings.IsReverse = !settings.IsReverse;
