@@ -98,7 +98,7 @@
                     </Grid.ColumnDefinitions>
 
                     <FontIcon Glyph="&#xE149;"/>
-                    <TextBlock x:Uid="/MusicPage/PlayAll_TextBlock" Grid.Column="1" Margin="8,0,0,0"/>
+                    <TextBlock x:Name="PlayAll_TextBlock" x:Uid="/MusicPage/PlayAll_TextBlock" Grid.Column="1" Margin="8,0,0,0"/>
                 </Grid>
             </Button>
             <StackPanel x:Name="ViewOption_StackPanel" Grid.Column="1" Orientation="Horizontal" Visibility="{Binding IsEnableViewOption}">
@@ -110,7 +110,7 @@
                         </Style>
                     </StackPanel.Resources>
 
-                    <TextBlock x:Uid="/MusicPage/ListSort_TextBlock" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="ListSort_TextBlock" x:Uid="/MusicPage/ListSort_TextBlock" VerticalAlignment="Center"/>
 
                     <Button x:Name="ReverseItems_Button" x:Uid="/MusicPage/ReverseItems_Button" Click="ReverseItems_Button_Click">
                         <FontIcon Glyph="&#xE174;"/>
@@ -137,8 +137,9 @@
                         <FontIcon Glyph="&#xE0E5;"/>
                     </Button>
                 </StackPanel>
-                <ctor:DropDownButton x:Uid="/MusicListPage/Grouper_DropDownButton" Margin="8,0" Background="Transparent">
-                    <ctor:DropDownButton.Flyout>
+
+                <Button x:Uid="/MusicListPage/Grouper_Button" Margin="8,0" Background="Transparent">
+                    <Button.Flyout>
                         <Flyout>
                             <ListBox x:Name="Grouper_ListBox" ItemsSource="{x:Bind vm.GrouperMembers, Mode=OneWay}" SelectionChanged="Grouper_ListBox_OnSelectionChanged">
                                 <ListBox.ItemTemplate>
@@ -148,8 +149,19 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                         </Flyout>
-                    </ctor:DropDownButton.Flyout>
-                </ctor:DropDownButton>
+                    </Button.Flyout>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <FontIcon Glyph="&#xE138;" FontSize="24" Margin="0,0,4,0"/>
+                        <TextBlock x:Uid="/MusicListPage/Grouper_TextBlock" Grid.Column="1" VerticalAlignment="Center"/>
+                    </Grid>
+                </Button>
+                
             </StackPanel>
         </Grid>
 
