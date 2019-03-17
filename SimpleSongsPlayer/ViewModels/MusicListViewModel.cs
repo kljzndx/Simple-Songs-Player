@@ -27,6 +27,7 @@ namespace SimpleSongsPlayer.ViewModels
         {
             GrouperMembers = new List<MusicGrouperUi>();
             SorterMembers = new List<MusicSorterUi<MusicFileDynamic>>();
+            SearchTriggerMembers = new List<SearchTriggerUI<MusicFileDynamic>>();
 
             GrouperMembers.Add(new MusicGrouperUi("GrouperMember_None", new SingleGrouper()));
             GrouperMembers.Add(new MusicGrouperUi("GrouperMember_FirstLetter", new CharacterGrouper()));
@@ -37,6 +38,10 @@ namespace SimpleSongsPlayer.ViewModels
             SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("Artist", s => s.Original.Artist));
             SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("Album", s => s.Original.Album));
             SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("ChangeDate", s => s.Original.ChangeDate, true));
+
+            SearchTriggerMembers.Add(new SearchTriggerUI<MusicFileDynamic>("Title", m => m.Original.Title));
+            SearchTriggerMembers.Add(new SearchTriggerUI<MusicFileDynamic>("Artist", m => m.Original.Artist));
+            SearchTriggerMembers.Add(new SearchTriggerUI<MusicFileDynamic>("Album", m => m.Original.Album));
 
             settings.PropertyChanged += Settings_PropertyChanged;
         }
@@ -51,6 +56,7 @@ namespace SimpleSongsPlayer.ViewModels
 
         public List<MusicGrouperUi> GrouperMembers { get; }
         public List<MusicSorterUi<MusicFileDynamic>> SorterMembers { get; }
+        public List<SearchTriggerUI<MusicFileDynamic>> SearchTriggerMembers { get; }
         
         public ObservableCollection<MusicFileGroupDynamic> DataSource { get; } = new ObservableCollection<MusicFileGroupDynamic>();
 

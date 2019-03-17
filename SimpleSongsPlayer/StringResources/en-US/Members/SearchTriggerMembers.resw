@@ -117,37 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ListSorterSelect_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>排序模式</value>
+  <data name="Album" xml:space="preserve">
+    <value>Album</value>
   </data>
-  <data name="ListSort_TextBlock.Text" xml:space="preserve">
-    <value>排序： </value>
+  <data name="Artist" xml:space="preserve">
+    <value>Artist</value>
   </data>
-  <data name="MoreMenu_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>更多</value>
-  </data>
-  <data name="PlayAll_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>全部播放</value>
-  </data>
-  <data name="PlayAll_TextBlock.Text" xml:space="preserve">
-    <value>全部播放</value>
-  </data>
-  <data name="Play_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>播放</value>
-  </data>
-  <data name="ReverseItems_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>反向排序</value>
-  </data>
-  <data name="SwitchMultipleSelection_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>切换到多选模式</value>
-  </data>
-  <data name="SwitchSingleSelection_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>切换到单选模式</value>
-  </data>
-  <data name="Search_AutoSuggestBox.PlaceholderText" xml:space="preserve">
-    <value>请输入内容以开始搜索</value>
-  </data>
-  <data name="Search_AutoSuggestBox.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>搜索框</value>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
   </data>
 </root>

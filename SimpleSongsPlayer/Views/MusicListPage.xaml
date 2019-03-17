@@ -79,6 +79,26 @@
     </Page.Resources>
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="PC">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+                <VisualState x:Name="Mobile">
+                    <VisualState.Setters>
+                        <Setter Target="PlayAll_TextBlock.(UIElement.Visibility)" Value="Collapsed"/>
+                        <Setter Target="ListSort_TextBlock.(UIElement.Visibility)" Value="Collapsed"/>
+                        <Setter Target="Grouper_TextBlock.(UIElement.Visibility)" Value="Collapsed"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
@@ -87,9 +107,11 @@
 
         <Grid Margin="0,6">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
+
             <Button x:Name="PlayAll_Button" x:Uid="/MusicPage/PlayAll_Button" Background="Transparent" IsEnabled="{x:Bind otherSettings.CanOptionNowPlayList, Mode=OneWay}" Click="PlayAll_Button_OnClick">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -101,7 +123,25 @@
                     <TextBlock x:Name="PlayAll_TextBlock" x:Uid="/MusicPage/PlayAll_TextBlock" Grid.Column="1" Margin="8,0,0,0"/>
                 </Grid>
             </Button>
-            <StackPanel x:Name="ViewOption_StackPanel" Grid.Column="1" Orientation="Horizontal" Visibility="{Binding IsEnableViewOption}">
+
+            <Grid Grid.Column="1" VerticalAlignment="Center" Margin="8,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <ComboBox x:Name="SearchTrigger_ComboBox" x:Uid="/MusicListPage/SearchTrigger_ComboBox" BorderThickness="2,2,0,2" ItemsSource="{Binding SearchTriggerMembers}" SelectedIndex="0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <AutoSuggestBox x:Name="Search_AutoSuggestBox" x:Uid="/MusicPage/Search_AutoSuggestBox" Grid.Column="1"/>
+            </Grid>
+
+            <StackPanel x:Name="ViewOption_StackPanel" Grid.Column="2" Orientation="Horizontal" Visibility="{Binding IsEnableViewOption}">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel.Resources>
                         <Style TargetType="Button">
@@ -157,8 +197,8 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <FontIcon Glyph="&#xE138;" FontSize="24" Margin="0,0,4,0"/>
-                        <TextBlock x:Uid="/MusicListPage/Grouper_TextBlock" Grid.Column="1" VerticalAlignment="Center"/>
+                        <FontIcon Glyph="&#xE138;" FontSize="24"/>
+                        <TextBlock x:Name="Grouper_TextBlock" x:Uid="/MusicListPage/Grouper_TextBlock" Grid.Column="1" Margin="4,0,0,0" VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
                 

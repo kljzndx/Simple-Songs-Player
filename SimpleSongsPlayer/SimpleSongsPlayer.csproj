@@ -110,6 +110,7 @@
     <Compile Include="Models\MusicGrouperUi.cs" />
     <Compile Include="Models\MusicItemMenuItem.cs" />
     <Compile Include="Models\MusicSorterUi.cs" />
+    <Compile Include="Models\SearchTriggerUI.cs" />
     <Compile Include="Models\StringResources.cs" />
     <Compile Include="ViewModels\Arguments\MusicGroupArguments.cs" />
     <Compile Include="ViewModels\Arguments\MusicListArguments.cs" />
@@ -311,6 +312,8 @@
     <Content Include="Assets\PrivateKey.json" />
     <None Include="SimpleSongsPlayer_StoreKey.pfx" />
     <None Include="SimpleSongsPlayer_TemporaryKey.pfx" />
+    <PRIResource Include="StringResources\en-US\Members\SearchTriggerMembers.resw" />
+    <PRIResource Include="StringResources\zh-CN\Members\SearchTriggerMembers.resw" />
     <PRIResource Include="StringResources\en-US\Pages\MusicPage.resw" />
     <PRIResource Include="StringResources\zh-CN\Pages\MusicPage.resw" />
     <PRIResource Include="StringResources\zh-CN\Members\MusicItemsOptions.resw" />

@@ -144,4 +144,10 @@
   <data name="SwitchSingleSelection_FloatingActionButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Switch to single-choice mode</value>
   </data>
+  <data name="Search_AutoSuggestBox.PlaceholderText" xml:space="preserve">
+    <value>Please enter anything to search</value>
+  </data>
+  <data name="Search_AutoSuggestBox.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Searching box</value>
+  </data>
 </root>
