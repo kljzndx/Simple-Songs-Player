@@ -138,7 +138,13 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
 
-                <AutoSuggestBox x:Name="Search_AutoSuggestBox" x:Uid="/MusicPage/Search_AutoSuggestBox" Grid.Column="1"/>
+                <AutoSuggestBox x:Name="Search_AutoSuggestBox" x:Uid="/MusicPage/Search_AutoSuggestBox" Grid.Column="1" TextChanged="Search_AutoSuggestBox_OnTextChanged" SuggestionChosen="Search_AutoSuggestBox_OnSuggestionChosen">
+                    <AutoSuggestBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Title}"/>
+                        </DataTemplate>
+                    </AutoSuggestBox.ItemTemplate>
+                </AutoSuggestBox>
             </Grid>
 
             <StackPanel x:Name="ViewOption_StackPanel" Grid.Column="2" Orientation="Horizontal" Visibility="{Binding IsEnableViewOption}">

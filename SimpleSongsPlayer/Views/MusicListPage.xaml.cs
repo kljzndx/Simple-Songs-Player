@@ -10,6 +10,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -255,6 +256,39 @@ namespace SimpleSongsPlayer.Views
                 return;
 
             FavoriteAdditionNotification.RequestFavoriteAddition(Main_ListView.SelectedItems.Cast<MusicFileDynamic>().Select(d => d.Original));
+        }
+
+        private void Search_AutoSuggestBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            var trigger = SearchTrigger_ComboBox.SelectedItem as SearchTriggerUI<MusicFileDTO>;
+            if (trigger is null)
+                return;
+
+            sender.ItemsSource = vm.AllItems.Where(m => trigger.Selector.Invoke(m).ToLower().Contains(sender.Text.ToLower()));
+        }
+
+        private void Search_AutoSuggestBox_OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            var source = args.SelectedItem as MusicFileDTO;
+            if (source is null)
+                return;
+
+            sender.Text = source.Title;
+
+            var allItems = vm.DataSource.Select(g => g.Items).Aggregate((l, f) =>
+            {
+                var result = new List<MusicFileDynamic>();
+                result.AddRange(l);
+                result.AddRange(f);
+                return new ObservableCollection<MusicFileDynamic>(result);
+            });
+
+            var item = allItems.FirstOrDefault(d => d.Original.Equals(source));
+            if (item is null)
+                return;
+
+            Main_ListView.SelectedItem = item;
+            Main_ListView.ScrollIntoView(item, ScrollIntoViewAlignment.Leading);
         }
     }
 }

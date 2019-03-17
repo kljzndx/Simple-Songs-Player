@@ -18,6 +18,7 @@ namespace SimpleSongsPlayer.ViewModels
 {
     public class MusicListViewModel : ViewModelBase
     {
+        private List<MusicFileDTO> allItems = new List<MusicFileDTO>();
         private ObservableCollection<MusicFileDTO> original;
         private MusicFilterArgs _filterArgs;
         private IMusicGrouper _grouper = new SingleGrouper();
@@ -27,7 +28,7 @@ namespace SimpleSongsPlayer.ViewModels
         {
             GrouperMembers = new List<MusicGrouperUi>();
             SorterMembers = new List<MusicSorterUi<MusicFileDynamic>>();
-            SearchTriggerMembers = new List<SearchTriggerUI<MusicFileDynamic>>();
+            SearchTriggerMembers = new List<SearchTriggerUI<MusicFileDTO>>();
 
             GrouperMembers.Add(new MusicGrouperUi("GrouperMember_None", new SingleGrouper()));
             GrouperMembers.Add(new MusicGrouperUi("GrouperMember_FirstLetter", new CharacterGrouper()));
@@ -39,9 +40,9 @@ namespace SimpleSongsPlayer.ViewModels
             SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("Album", s => s.Original.Album));
             SorterMembers.Add(new MusicSorterUi<MusicFileDynamic>("ChangeDate", s => s.Original.ChangeDate, true));
 
-            SearchTriggerMembers.Add(new SearchTriggerUI<MusicFileDynamic>("Title", m => m.Original.Title));
-            SearchTriggerMembers.Add(new SearchTriggerUI<MusicFileDynamic>("Artist", m => m.Original.Artist));
-            SearchTriggerMembers.Add(new SearchTriggerUI<MusicFileDynamic>("Album", m => m.Original.Album));
+            SearchTriggerMembers.Add(new SearchTriggerUI<MusicFileDTO>("Title", m => m.Title));
+            SearchTriggerMembers.Add(new SearchTriggerUI<MusicFileDTO>("Artist", m => m.Artist));
+            SearchTriggerMembers.Add(new SearchTriggerUI<MusicFileDTO>("Album", m => m.Album));
 
             settings.PropertyChanged += Settings_PropertyChanged;
         }
@@ -56,17 +57,24 @@ namespace SimpleSongsPlayer.ViewModels
 
         public List<MusicGrouperUi> GrouperMembers { get; }
         public List<MusicSorterUi<MusicFileDynamic>> SorterMembers { get; }
-        public List<SearchTriggerUI<MusicFileDynamic>> SearchTriggerMembers { get; }
-        
+        public List<SearchTriggerUI<MusicFileDTO>> SearchTriggerMembers { get; }
+
+        public IEnumerable<MusicFileDTO> AllItems => allItems.ToList();
         public ObservableCollection<MusicFileGroupDynamic> DataSource { get; } = new ObservableCollection<MusicFileGroupDynamic>();
 
         private void AddItems(IEnumerable<MusicFileDTO> fileDtos = null, bool needClear = false, IMusicGrouper grouper = null)
         {
             var source = fileDtos ?? (_filterArgs != null ? _filterArgs.Filter.Filter(original, _filterArgs.Args) : original);
-            if (needClear) DataSource.Clear();
+            if (needClear)
+            {
+                DataSource.Clear();
+                allItems.Clear();
+            }
             _grouper = grouper ?? GrouperMembers[(int) settings.GroupMethod].Grouper;
             
             foreach (var item in IsEnableViewOption ? _grouper.Group(source) : GrouperMembers[0].Grouper.Group(source))
+            {
+                allItems.AddRange(item.Items);
                 if (DataSource.FirstOrDefault(f => f.Name == item.Name) is MusicFileGroupDynamic groupDynamic)
                 {
                     if (IsEnableViewOption)
@@ -82,11 +90,16 @@ namespace SimpleSongsPlayer.ViewModels
                 }
                 else
                     DataSource.Add(new MusicFileGroupDynamic(item));
+
+            }
         }
 
         private void RemoveDtos(IEnumerable<MusicFileDTO> datas)
         {
-            foreach (var data in datas)
+            var dataList = datas.ToList();
+            allItems.RemoveAll(dataList.Contains);
+
+            foreach (var data in dataList)
             {
                 var groupDynamic = DataSource.First(g => g.Items.Any(f => f.Original.FilePath == data.FilePath));
                 groupDynamic.Items.Remove(groupDynamic.Items.First(f => f.Original.FilePath == data.FilePath));
