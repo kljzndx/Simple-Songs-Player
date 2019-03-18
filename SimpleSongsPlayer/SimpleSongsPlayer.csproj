@@ -122,6 +122,7 @@
     <Compile Include="Models\MusicFileGroup.cs" />
     <Compile Include="Models\MusicFileDynamic.cs" />
     <Compile Include="ViewModels\Attributes\TransparentBackgroundAttribute.cs" />
+    <Compile Include="ViewModels\Converters\BoolToVisibility.cs" />
     <Compile Include="ViewModels\Converters\CollectionToString.cs" />
     <Compile Include="ViewModels\Converters\DoubleToPercentage.cs" />
     <Compile Include="ViewModels\Converters\TimeSpanToSongTimeString.cs" />

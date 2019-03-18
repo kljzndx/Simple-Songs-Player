@@ -142,7 +142,7 @@
                 <ToggleButton x:Name="ShowSearchBox_ToggleButton" Background="Transparent" Content="&#xE1A3;" Padding="8" Margin="8,0" FontSize="18" FontFamily="Segoe MDL2 Assets" IsChecked="True" Visibility="Collapsed"/>
             </StackPanel>
 
-            <Grid x:Name="SearchBox_Grid" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="8,4" Visibility="{x:Bind ShowSearchBox_ToggleButton.IsChecked, Mode=OneWay}">
+            <Grid x:Name="SearchBox_Grid" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="8,4" Visibility="{x:Bind ShowSearchBox_ToggleButton.IsChecked, Mode=OneWay, Converter={StaticResource BoolToVisibility}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
