@@ -214,5 +214,22 @@ namespace SimpleSongsPlayer.Views
 
             theButton.IsEnabled = true;
         }
+
+        private void Search_AutoSuggestBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            sender.ItemsSource = vm.DataSource.Where(g => g.Name.ToLower().Contains(sender.Text.ToLower()));
+        }
+
+        private void Search_AutoSuggestBox_OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            var source = args.SelectedItem as MusicFileGroup;
+            if (source is null)
+                return;
+
+            sender.Text = source.Name;
+
+            Main_GridView.SelectedItem = source;
+            Main_GridView.ScrollIntoView(source, ScrollIntoViewAlignment.Leading);
+        }
     }
 }

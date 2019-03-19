@@ -77,7 +77,13 @@
                 <ToggleButton x:Name="ShowSearchBox_ToggleButton" x:Uid="/MusicPage/ShowSearchBox_ToggleButton" Background="Transparent" Content="&#xE1A3;" Padding="8" Margin="8,0" FontSize="18" FontFamily="Segoe MDL2 Assets" IsChecked="True" Visibility="Collapsed"/>
             </StackPanel>
 
-            <AutoSuggestBox x:Name="Search_AutoSuggestBox" x:Uid="/MusicPage/Search_AutoSuggestBox" Grid.Column="1" Margin="7,4" Visibility="{x:Bind ShowSearchBox_ToggleButton.IsChecked, Mode=OneWay, Converter={StaticResource BoolToVisibility}}"/>
+            <AutoSuggestBox x:Name="Search_AutoSuggestBox" x:Uid="/MusicPage/Search_AutoSuggestBox" Grid.Column="1" Margin="7,4" Visibility="{x:Bind ShowSearchBox_ToggleButton.IsChecked, Mode=OneWay, Converter={StaticResource BoolToVisibility}}" TextChanged="Search_AutoSuggestBox_OnTextChanged" SuggestionChosen="Search_AutoSuggestBox_OnSuggestionChosen">
+                <AutoSuggestBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </AutoSuggestBox.ItemTemplate>
+            </AutoSuggestBox>
 
             <StackPanel Grid.Column="2" Orientation="Horizontal">
                 <StackPanel.Resources>
