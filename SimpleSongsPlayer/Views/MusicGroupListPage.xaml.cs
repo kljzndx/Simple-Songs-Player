@@ -217,6 +217,12 @@ namespace SimpleSongsPlayer.Views
 
         private void Search_AutoSuggestBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            if (String.IsNullOrWhiteSpace(sender.Text))
+            {
+                sender.ItemsSource = null;
+                return;
+            }
+
             sender.ItemsSource = vm.DataSource.Where(g => g.Name.ToLower().Contains(sender.Text.ToLower()));
         }
 

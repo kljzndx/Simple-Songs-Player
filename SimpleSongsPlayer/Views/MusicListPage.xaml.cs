@@ -260,6 +260,12 @@ namespace SimpleSongsPlayer.Views
 
         private void Search_AutoSuggestBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            if (String.IsNullOrWhiteSpace(sender.Text))
+            {
+                sender.ItemsSource = null;
+                return;
+            }
+
             var trigger = SearchTrigger_ComboBox.SelectedItem as SearchTriggerUI<MusicFileDTO>;
             if (trigger is null)
                 return;
