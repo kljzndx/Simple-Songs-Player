@@ -20,6 +20,9 @@
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="PC">
+                    <VisualState.Setters>
+                        <Setter Target="ShowSearchBox_ToggleButton.IsChecked" Value="True"/>
+                    </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="641"/>
                     </VisualState.StateTriggers>
@@ -28,6 +31,12 @@
                     <VisualState.Setters>
                         <Setter Target="PlayAll_TextBlock.Visibility" Value="Collapsed"/>
                         <Setter Target="ListSort_TextBlock.Visibility" Value="Collapsed"/>
+                        <Setter Target="ShowSearchBox_ToggleButton.Visibility" Value="Visible"/>
+                        <Setter Target="ShowSearchBox_ToggleButton.IsChecked" Value="False"/>
+
+                        <Setter Target="Search_AutoSuggestBox.(Grid.Row)" Value="1"/>
+                        <Setter Target="Search_AutoSuggestBox.(Grid.Column)" Value="0"/>
+                        <Setter Target="Search_AutoSuggestBox.(Grid.ColumnSpan)" Value="3"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="1"/>
@@ -47,18 +56,28 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-            <Button x:Name="PlayAll_Button" x:Uid="/MusicPage/PlayAll_Button" Background="Transparent" IsEnabled="{x:Bind otherSettings.CanOptionNowPlayList, Mode=OneWay}" Click="PlayAll_Button_OnClick">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="PlayAll_Button" x:Uid="/MusicPage/PlayAll_Button" Background="Transparent" IsEnabled="{x:Bind otherSettings.CanOptionNowPlayList, Mode=OneWay}" Click="PlayAll_Button_OnClick">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
 
-                    <FontIcon Glyph="&#xE149;"/>
-                    <TextBlock x:Name="PlayAll_TextBlock" x:Uid="/MusicPage/PlayAll_TextBlock" Grid.Column="1" Margin="8,0,0,0"/>
-                </Grid>
-            </Button>
+                        <FontIcon Glyph="&#xE149;"/>
+                        <TextBlock x:Name="PlayAll_TextBlock" x:Uid="/MusicPage/PlayAll_TextBlock" Grid.Column="1" Margin="8,0,0,0"/>
+                    </Grid>
+                </Button>
+
+                <ToggleButton x:Name="ShowSearchBox_ToggleButton" x:Uid="/MusicPage/ShowSearchBox_ToggleButton" Background="Transparent" Content="&#xE1A3;" Padding="8" Margin="8,0" FontSize="18" FontFamily="Segoe MDL2 Assets" IsChecked="True" Visibility="Collapsed"/>
+            </StackPanel>
+
+            <AutoSuggestBox x:Name="Search_AutoSuggestBox" x:Uid="/MusicPage/Search_AutoSuggestBox" Grid.Column="1" Margin="7,4" Visibility="{x:Bind ShowSearchBox_ToggleButton.IsChecked, Mode=OneWay, Converter={StaticResource BoolToVisibility}}"/>
 
             <StackPanel Grid.Column="2" Orientation="Horizontal">
                 <StackPanel.Resources>
