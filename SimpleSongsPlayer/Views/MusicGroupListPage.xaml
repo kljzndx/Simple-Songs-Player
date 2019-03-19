@@ -17,6 +17,24 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="PC">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Mobile">
+                    <VisualState.Setters>
+                        <Setter Target="PlayAll_TextBlock.Visibility" Value="Collapsed"/>
+                        <Setter Target="ListSort_TextBlock.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
@@ -38,7 +56,7 @@
                     </Grid.ColumnDefinitions>
 
                     <FontIcon Glyph="&#xE149;"/>
-                    <TextBlock x:Uid="/MusicPage/PlayAll_TextBlock" Grid.Column="1" Margin="8,0,0,0"/>
+                    <TextBlock x:Name="PlayAll_TextBlock" x:Uid="/MusicPage/PlayAll_TextBlock" Grid.Column="1" Margin="8,0,0,0"/>
                 </Grid>
             </Button>
 
@@ -50,7 +68,7 @@
                     </Style>
                 </StackPanel.Resources>
 
-                <TextBlock x:Uid="/MusicPage/ListSort_TextBlock" VerticalAlignment="Center"/>
+                <TextBlock x:Name="ListSort_TextBlock" x:Uid="/MusicPage/ListSort_TextBlock" VerticalAlignment="Center"/>
 
                 <Button x:Name="ReverseItems_Button" x:Uid="/MusicPage/ReverseItems_Button" Click="ReverseItems_Button_Click">
                     <FontIcon Glyph="&#xE174;"/>
