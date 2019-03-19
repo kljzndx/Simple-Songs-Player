@@ -41,7 +41,7 @@
                 </Button>
 
                 <StackPanel x:Name="MusicInfo_StackPanel" Grid.Row="1" Padding="12,0" Margin="10">
-                    <TextBlock Text="{Binding MusicSource.Title}" Style="{ThemeResource TitleTextBlockStyle}"/>
+                    <TextBlock Text="{Binding MusicSource.Title}" IsTextSelectionEnabled="True" Style="{ThemeResource TitleTextBlockStyle}"/>
                     <TextBlock Style="{ThemeResource CaptionTextBlockStyle}">
                         <Run x:Uid="/MusicInfoPage/Artist_Run"/>
                         <Run Text="{Binding MusicSource.Artist}"/>
