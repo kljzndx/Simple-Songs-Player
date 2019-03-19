@@ -150,4 +150,7 @@
   <data name="Search_AutoSuggestBox.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>搜索框</value>
   </data>
+  <data name="ShowSearchBox_ToggleButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>显示/隐藏 搜索框</value>
+  </data>
 </root>
