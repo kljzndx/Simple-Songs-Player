@@ -148,7 +148,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <ComboBox x:Name="SearchTrigger_ComboBox" x:Uid="/MusicListPage/SearchTrigger_ComboBox" BorderThickness="2,2,0,2" ItemsSource="{Binding SearchTriggerMembers}" SelectedIndex="0">
+                <ComboBox x:Name="SearchTrigger_ComboBox" x:Uid="/MusicListPage/SearchTrigger_ComboBox" BorderThickness="2,2,0,2" ItemsSource="{x:Bind vm.SearchTriggerMembers, Mode=OneWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}"/>

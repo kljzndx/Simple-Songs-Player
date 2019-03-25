@@ -103,6 +103,7 @@ namespace SimpleSongsPlayer.Views
         {
             Grouper_ListBox.SelectedIndex = (int)settings.GroupMethod;
             ListSorter_ListBox.SelectedIndex = (int)settings.SortMethod;
+            SearchTrigger_ComboBox.SelectedIndex = 0;
         }
 
         private void DataSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
