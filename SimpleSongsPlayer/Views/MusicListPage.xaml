@@ -156,7 +156,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
 
-                <AutoSuggestBox x:Name="Search_AutoSuggestBox" x:Uid="/MusicPage/Search_AutoSuggestBox" Grid.Column="1" TextChanged="Search_AutoSuggestBox_OnTextChanged" SuggestionChosen="Search_AutoSuggestBox_OnSuggestionChosen">
+                <AutoSuggestBox x:Name="Search_AutoSuggestBox" x:Uid="/MusicPage/Search_AutoSuggestBox" Grid.Column="1" TextChanged="Search_AutoSuggestBox_OnTextChanged" SuggestionChosen="Search_AutoSuggestBox_SuggestionChosen" QuerySubmitted="Search_AutoSuggestBox_QuerySubmitted">
                     <AutoSuggestBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Title}"/>

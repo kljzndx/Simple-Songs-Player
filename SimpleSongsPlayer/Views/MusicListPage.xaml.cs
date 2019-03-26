@@ -271,16 +271,24 @@ namespace SimpleSongsPlayer.Views
             if (trigger is null)
                 return;
 
-            sender.ItemsSource = vm.AllItems.Where(m => trigger.Selector.Invoke(m).ToLower().Contains(sender.Text.ToLower()));
+            sender.ItemsSource = vm.AllItems.Where(m => trigger.Selector.Invoke(m).ToLower().Contains(sender.Text.ToLower())).Take(10);
         }
 
-        private void Search_AutoSuggestBox_OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private void Search_AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             var source = args.SelectedItem as MusicFileDTO;
             if (source is null)
                 return;
 
             sender.Text = source.Title;
+        }
+
+        private void Search_AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            var source = args.ChosenSuggestion as MusicFileDTO ?? (sender.ItemsSource as IEnumerable<MusicFileDTO>)?.FirstOrDefault();
+
+            if (source is null)
+                return;
 
             var allItems = vm.DataSource.Select(g => g.Items).Aggregate((l, f) =>
             {

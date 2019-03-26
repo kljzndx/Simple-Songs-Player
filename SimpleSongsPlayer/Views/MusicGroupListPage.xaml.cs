@@ -223,16 +223,23 @@ namespace SimpleSongsPlayer.Views
                 return;
             }
 
-            sender.ItemsSource = vm.DataSource.Where(g => g.Name.ToLower().Contains(sender.Text.ToLower()));
+            sender.ItemsSource = vm.DataSource.Where(g => g.Name.ToLower().Contains(sender.Text.ToLower())).Take(10);
         }
 
-        private void Search_AutoSuggestBox_OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private void Search_AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             var source = args.SelectedItem as MusicFileGroup;
             if (source is null)
                 return;
 
             sender.Text = source.Name;
+        }
+
+        private void Search_AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            var source = args.ChosenSuggestion as MusicFileGroup ?? (sender.ItemsSource as IEnumerable<MusicFileGroup>)?.FirstOrDefault();
+            if (source is null)
+                return;
 
             Main_GridView.SelectedItem = source;
             Main_GridView.ScrollIntoView(source, ScrollIntoViewAlignment.Leading);
