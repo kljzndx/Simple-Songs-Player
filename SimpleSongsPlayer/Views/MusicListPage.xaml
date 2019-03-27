@@ -230,7 +230,7 @@
 
         </Grid>
 
-        <SemanticZoom Grid.Row="1" Margin="8,0">
+        <SemanticZoom Grid.Row="1">
             <SemanticZoom.ZoomedInView>
                 <ListView x:Name="Main_ListView" ItemsSource="{Binding Source={StaticResource Data_CollectionViewSource}}" GroupStyleSelector="{StaticResource MusicGroupDynamicStyleSelector}" SelectionChanged="Main_ListView_OnSelectionChanged">
                     <ListView.GroupStyle>
