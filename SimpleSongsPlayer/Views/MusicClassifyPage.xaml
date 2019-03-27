@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    
     <SplitView x:Name="Root_SplitView" DisplayMode="Overlay" PanePlacement="Right">
         <SplitView.Pane>
             <Grid>
@@ -24,6 +24,7 @@
                 </ScrollViewer>
             </Grid>
         </SplitView.Pane>
+        
         <Pivot x:Name="Root_Pivot" SelectionChanged="Root_Pivot_OnSelectionChanged">
             <Pivot.RightHeader>
                 <StackPanel>
@@ -40,6 +41,12 @@
                 </StackPanel>
             </Pivot.RightHeader>
 
+            <Pivot.ItemContainerStyle>
+                <Style TargetType="PivotItem">
+                    <Setter Property="Margin" Value="0"/>
+                </Style>
+            </Pivot.ItemContainerStyle>
+            
             <PivotItem x:Uid="/MusicClassifyPage/Song_PivotItem">
                 <Frame x:Name="Song_Frame"/>
             </PivotItem>

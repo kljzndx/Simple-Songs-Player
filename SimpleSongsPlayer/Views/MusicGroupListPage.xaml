@@ -61,7 +61,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Margin="8,0">
                 <Button x:Name="PlayAll_Button" x:Uid="/MusicPage/PlayAll_Button" Background="Transparent" IsEnabled="{x:Bind otherSettings.CanOptionNowPlayList, Mode=OneWay}" Click="PlayAll_Button_OnClick">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -85,7 +85,7 @@
                 </AutoSuggestBox.ItemTemplate>
             </AutoSuggestBox>
 
-            <StackPanel Grid.Column="2" Orientation="Horizontal">
+            <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="8,0">
                 <StackPanel.Resources>
                     <Style TargetType="Button">
                         <Setter Property="Padding" Value="4"/>
@@ -122,7 +122,7 @@
             </StackPanel>
         </Grid>
 
-        <GridView x:Name="Main_GridView" Grid.Row="1" ItemsSource="{Binding DataSource}" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="Main_GridView_OnItemClick">
+        <GridView x:Name="Main_GridView" Grid.Row="1" ItemsSource="{Binding DataSource}" SelectionMode="Single" Margin="8,0" IsItemClickEnabled="True" ItemClick="Main_GridView_OnItemClick">
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <temp:MusicGroupItemTemplate Source="{Binding}" MoreMenuItemList="{StaticResource GroupMoreMenu}" PlayRequested="MusicGroupItemTemplate_OnPlayRequested"/>

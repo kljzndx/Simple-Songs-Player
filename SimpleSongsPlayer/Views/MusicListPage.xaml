@@ -126,7 +126,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Margin="8,0">
                 <Button x:Name="PlayAll_Button" x:Uid="/MusicPage/PlayAll_Button" Background="Transparent" IsEnabled="{x:Bind otherSettings.CanOptionNowPlayList, Mode=OneWay}" Click="PlayAll_Button_OnClick">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -230,7 +230,7 @@
 
         </Grid>
 
-        <SemanticZoom Grid.Row="1">
+        <SemanticZoom Grid.Row="1" Margin="8,0">
             <SemanticZoom.ZoomedInView>
                 <ListView x:Name="Main_ListView" ItemsSource="{Binding Source={StaticResource Data_CollectionViewSource}}" GroupStyleSelector="{StaticResource MusicGroupDynamicStyleSelector}" SelectionChanged="Main_ListView_OnSelectionChanged">
                     <ListView.GroupStyle>
