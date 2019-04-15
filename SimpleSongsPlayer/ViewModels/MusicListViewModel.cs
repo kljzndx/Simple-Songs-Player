@@ -75,7 +75,7 @@ namespace SimpleSongsPlayer.ViewModels
             foreach (var item in IsEnableViewOption ? _grouper.Group(source) : GrouperMembers[0].Grouper.Group(source))
             {
                 allItems.AddRange(item.Items);
-                if (DataSource.FirstOrDefault(f => f.Name == item.Name) is MusicFileGroupDynamic groupDynamic)
+                if (DataSource.FirstOrDefault(g => g.Name == item.Name) is MusicFileGroupDynamic groupDynamic)
                 {
                     if (IsEnableViewOption)
                         groupDynamic.Join(item);
@@ -90,7 +90,6 @@ namespace SimpleSongsPlayer.ViewModels
                 }
                 else
                     DataSource.Add(new MusicFileGroupDynamic(item));
-
             }
         }
 
