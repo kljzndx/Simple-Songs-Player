@@ -82,7 +82,7 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                 var dto = Data.FirstOrDefault(f => f.FilePath == music.FilePath) ?? music;
 
                 var item = await dto.GetPlaybackItem();
-                if (!_playbackList.Items.Contains(item) && _playbackList.CurrentItem != item)
+                if (!_playbackList.Items.Contains(item))
                 {
                     this.LogByObject("将播放项插入至顶端");
                     _playbackList.Items.Insert(0, item);
@@ -130,6 +130,9 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                 if (_playbackList.Items.Contains(item))
                 {
                     this.LogByObject("移除播放项");
+                    if (_playbackList.Items.IndexOf(item) <= id)
+                        id--;
+
                     _playbackList.Items.Remove(item);
                 }
 
@@ -138,6 +141,20 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                     _playbackList.Items.Add(item);
                 else
                     _playbackList.Items.Insert((int) id, item);
+
+                if (_playbackList.ShuffleEnabled)
+                {
+                    var shuffleList = _playbackList.ShuffledItems.ToList();
+                    if (shuffleList.Any(item.Equals))
+                    {
+                        shuffleList.Remove(item);
+
+                        var cid = shuffleList.IndexOf(_playbackList.CurrentItem);
+                        shuffleList.Insert(cid + 1, item);
+
+                        _playbackList.SetShuffledItems(shuffleList);
+                    }
+                }
             }
             catch (Exception e)
             {
