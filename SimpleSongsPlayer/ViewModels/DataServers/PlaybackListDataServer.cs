@@ -117,26 +117,27 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
                 await SetUp(new[] {music});
                 return;
             }
-
+            
+            var item = await music.GetPlaybackItem();
             uint id = _playbackList.CurrentItemIndex + 1;
-            bool isAdd = true;
+            bool isAdd = id == _playbackList.Items.Count;
+
             try
             {
-                var item = await music.GetPlaybackItem();
                 if (_playbackList.CurrentItem == item)
-                {
-                    isAdd = false;
                     return;
-                }
 
                 if (_playbackList.Items.Contains(item))
                 {
-                    isAdd = false;
+                    this.LogByObject("移除播放项");
                     _playbackList.Items.Remove(item);
                 }
 
-                this.LogByObject("将播放项插入至顶端");
-                _playbackList.Items.Insert((int) id, item);
+                this.LogByObject("将播放项插入至当前项下方");
+                if (isAdd)
+                    _playbackList.Items.Add(item);
+                else
+                    _playbackList.Items.Insert((int) id, item);
             }
             catch (Exception e)
             {
@@ -146,12 +147,18 @@ namespace SimpleSongsPlayer.ViewModels.DataServers
             if (Data.Contains(music))
                 Data.Remove(music);
 
-            Data.Insert((int)id, music);
             if (isAdd)
             {
-                await _service.SetUp(Data.Select(d => d.FilePath));
-                DataAdded?.Invoke(this, new[] { music });
+                Data.Add(music);
+                await _service.Add(music.FilePath);
             }
+            else
+            {
+                Data.Insert((int)id, music);
+                await _service.SetUp(Data.Select(d => d.FilePath));
+            }
+
+            DataAdded?.Invoke(this, new[] { music });
         }
 
         public async Task Append(IEnumerable<MusicFileDTO> musicList)
