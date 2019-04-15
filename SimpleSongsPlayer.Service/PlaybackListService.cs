@@ -29,7 +29,7 @@ namespace SimpleSongsPlayer.Service
             if (_source is null)
             {
                 this.LogByObject("获取数据");
-                _source = await _helper.ToList();
+                _source = (await _helper.ToList()).OrderBy(p => p.Index).ToList();
             }
 
             return _source;
@@ -91,6 +91,9 @@ namespace SimpleSongsPlayer.Service
 
             this.LogByObject("应用移除操作");
             _source.RemoveAll(needRemove.Contains);
+            if (!_source.Any())
+                PlaybackItem.ResetCount();
+
             await _helper.RemoveRange(needRemove);
             DataRemoved?.Invoke(this, needRemove);
         }
