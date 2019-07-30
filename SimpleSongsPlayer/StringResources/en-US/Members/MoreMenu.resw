@@ -123,6 +123,9 @@
   <data name="MoreMenu_Favorite" xml:space="preserve">
     <value>Favorite</value>
   </data>
+  <data name="MoreMenu_OpenLocation" xml:space="preserve">
+    <value>Open the location of the file</value>
+  </data>
   <data name="MoreMenu_PlayNext" xml:space="preserve">
     <value>Play next</value>
   </data>

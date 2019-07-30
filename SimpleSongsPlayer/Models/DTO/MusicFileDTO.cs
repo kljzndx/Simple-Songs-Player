@@ -143,6 +143,12 @@ namespace SimpleSongsPlayer.Models.DTO
             return file;
         }
 
+        public async Task<StorageFolder> GetLocation()
+        {
+            var file = await GetFile();
+            return await file.GetParentAsync();
+        }
+
         public async Task<StorageItemThumbnail> GetThumbnail()
         {
             StorageItemThumbnail thumbnail = null;

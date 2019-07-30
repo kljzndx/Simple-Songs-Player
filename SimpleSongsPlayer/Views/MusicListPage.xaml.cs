@@ -10,6 +10,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -54,6 +55,7 @@ namespace SimpleSongsPlayer.Views
             musicItemMenuList.Add(new MusicItemMenuItem<MusicFileDynamic>("MoreMenu_PlayNext", s => MusicPusher.PushToNext(s.Original)));
             musicItemMenuList.Add(new MusicItemMenuItem<MusicFileDynamic>("MoreMenu_AddNowPlaying", s => MusicPusher.Append(s.Original)));
             musicItemMenuList.Add(new MusicItemMenuItem<MusicFileDynamic>("MoreMenu_Favorite", async f => FavoriteAdditionNotification.RequestFavoriteAddition(new[] {f.Original})));
+            musicItemMenuList.Add(new MusicItemMenuItem<MusicFileDynamic>("MoreMenu_OpenLocation", async f => await Launcher.LaunchFolderAsync(await f.Original.GetLocation())));
 
             this.InitializeComponent();
             vm = (MusicListViewModel) DataContext;
