@@ -400,7 +400,6 @@
                             <VisualStateGroup x:Name="MediaTransport">
                                 <VisualState x:Name="PC">
                                     <VisualState.Setters>
-                                        <Setter Target="TimeTextGrid.Visibility" Value="Collapsed"/>
                                         <Setter Target="MediaTransportControls_Command_Border.(Grid.Column)" Value="2"/>
                                         <Setter Target="MediaTransportControls_Command_Border.(Grid.Row)" Value="1"/>
                                         <Setter Target="LeftSidePlayBorder.(Grid.Row)" Value="1"/>
@@ -410,7 +409,7 @@
                                     </VisualState.Setters>
 
                                     <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="490"/>
+                                        <AdaptiveTrigger MinWindowWidth="641"/>
                                     </VisualState.StateTriggers>
                                 </VisualState>
                                 <VisualState x:Name="Mobile">
