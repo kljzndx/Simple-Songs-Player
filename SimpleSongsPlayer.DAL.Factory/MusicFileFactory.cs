@@ -11,16 +11,13 @@ namespace SimpleSongsPlayer.DAL.Factory
         {
             var basicProperties = await file.GetProperties(async f => await f.GetBasicPropertiesAsync());
             var musicProperties = await file.GetProperties(async f => await f.Properties.GetMusicPropertiesAsync());
-            var paths = file.Path.Split('\\').ToList();
-            paths.Remove(paths.Last());
-            string parent = String.Join("\\", paths);
 
             return new MusicFile
             {
                 FileName = file.Name,
                 LibraryFolder = libraryFolder,
                 ChangeDate = basicProperties.DateModified.DateTime,
-                ParentFolder = parent,
+                ParentFolder = file.Path.TakeParentPath(),
                 Path = file.Path,
 
                 TrackNumber = musicProperties.TrackNumber,

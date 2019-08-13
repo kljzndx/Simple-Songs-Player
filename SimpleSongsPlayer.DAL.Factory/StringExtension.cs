@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Windows.Gaming.Input;
 
-namespace SimpleSongsPlayer.ViewModels.Extensions
+namespace SimpleSongsPlayer.DAL.Factory
 {
     public static class StringExtension
     {
@@ -15,6 +13,13 @@ namespace SimpleSongsPlayer.ViewModels.Extensions
                 result.Remove(result.Last());
 
             return String.Join(".", result);
+        }
+
+        public static string TakeParentPath(this string path)
+        {
+            var paths = path.Split('\\').ToList();
+            paths.Remove(paths.Last());
+            return String.Join("\\", paths);
         }
     }
 }
