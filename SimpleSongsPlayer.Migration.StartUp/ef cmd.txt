@@ -1,0 +1,1 @@
+dotnet ef migrations add <MigrationName> --project ../SimpleSongsPlayer.Dal --startup-project ../SimpleSongsPlayer.Migration.StartUp
