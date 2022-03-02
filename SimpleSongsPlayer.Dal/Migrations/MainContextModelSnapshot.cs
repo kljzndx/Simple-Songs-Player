@@ -7,7 +7,7 @@ using SimpleSongsPlayer.Dal;
 
 namespace SimpleSongsPlayer.Dal.Migrations
 {
-    [DbContext(typeof(MainContext))]
+    [DbContext(typeof(MainDbContext))]
     partial class MainContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

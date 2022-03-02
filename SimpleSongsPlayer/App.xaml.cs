@@ -49,9 +49,9 @@ namespace SimpleSongsPlayer
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Ioc.Default.ConfigureServices(new ServiceCollection()
-                .AddScoped<MainContext>(ioc =>
+                .AddScoped<MainDbContext>(ioc =>
                 {
-                    var mc = new MainContext();
+                    var mc = new MainDbContext();
                     mc.Database.Migrate();
                     return mc;
                 })

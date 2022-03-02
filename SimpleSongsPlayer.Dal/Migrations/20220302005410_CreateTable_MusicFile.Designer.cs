@@ -8,7 +8,7 @@ using SimpleSongsPlayer.Dal;
 
 namespace SimpleSongsPlayer.Dal.Migrations
 {
-    [DbContext(typeof(MainContext))]
+    [DbContext(typeof(MainDbContext))]
     [Migration("20220302005410_CreateTable_MusicFile")]
     partial class CreateTable_MusicFile
     {

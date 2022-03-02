@@ -2,7 +2,7 @@
 
 namespace SimpleSongsPlayer.Dal
 {
-    public class MainContext : DbContext
+    public class MainDbContext : DbContext
     {
         public DbSet<MusicFile> MusicFiles { get; set; }
 
