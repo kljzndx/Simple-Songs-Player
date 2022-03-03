@@ -24,7 +24,7 @@ namespace SimpleSongsPlayer.Services
             return _dbContext.MusicFiles.Select(mf => new MusicUi(mf));
         }
 
-        public List<MusicGroup> WatchGroup(MusicGroup group)
+        public List<MusicGroup> WatchMusicGroup(MusicGroup group)
         {
             return new List<MusicGroup>(new[] { new MusicGroup("All", group.Items) });
         }
