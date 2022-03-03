@@ -1,8 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace SimpleSongsPlayer.Dal
 {
+    [AttributeUsage(AttributeTargets.Property)]
+    public class DbDataAttribute : Attribute
+    {
+    }
+
     public class MusicFile
     {
         public MusicFile() { }
@@ -21,6 +27,7 @@ namespace SimpleSongsPlayer.Dal
             FileChangeDate = fileChangeDate;
         }
 
+        [DbData]
         [Key]
         public int Index { get; set; }
         public string Title { get; set; }
@@ -36,8 +43,23 @@ namespace SimpleSongsPlayer.Dal
         public string LibraryFolder { get; set; }
         public DateTime FileChangeDate { get; set; }
 
+        [DbData]
         public bool IsInPlaybackList { get; set; }
 
+        [DbData]
         public string DbVersion { get; set; }
+
+        public void UpdateFileInfo(MusicFile newInfo)
+        {
+            var props = this.GetType().GetProperties();
+
+            foreach (var prop in props)
+            {
+                var att = prop.GetCustomAttribute<DbDataAttribute>();
+
+                if (att == null)
+                    prop.SetValue(this, prop.GetValue(newInfo));
+            }
+        }
     }
 }
