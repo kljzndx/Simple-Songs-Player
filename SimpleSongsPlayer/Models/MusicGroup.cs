@@ -15,6 +15,6 @@ namespace SimpleSongsPlayer.Models
         }
 
         public string Name { get; }
-        public IEnumerable<MusicUi> Items { get; }
+        public IEnumerable<MusicUi> Items { get; set; }
     }
 }
