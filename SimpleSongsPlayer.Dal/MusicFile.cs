@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SimpleSongsPlayer.Dal
 {
@@ -8,12 +7,13 @@ namespace SimpleSongsPlayer.Dal
     {
         public MusicFile() { }
 
-        public MusicFile(string title, string artist, string album, TimeSpan duration
+        public MusicFile(string title, string artist, string album, uint trackNumber, TimeSpan duration
                         , string filePath, string libraryFolder, DateTime fileChangeDate)
         {
             Title = title;
             Artist = artist;
             Album = album;
+            TrackNumber = trackNumber;
             Duration = duration;
 
             FilePath = filePath;
@@ -26,6 +26,7 @@ namespace SimpleSongsPlayer.Dal
         public string Title { get; set; }
         public string Artist { get; set; }
         public string Album { get; set; }
+        public uint TrackNumber { get; set; }
         public TimeSpan Duration { get; set; }
 
         [Required(AllowEmptyStrings = false)]
