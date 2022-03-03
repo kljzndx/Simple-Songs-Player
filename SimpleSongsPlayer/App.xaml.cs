@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 using SimpleSongsPlayer.Dal;
+using SimpleSongsPlayer.Services;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.Views;
 
@@ -55,6 +56,8 @@ namespace SimpleSongsPlayer
                     mc.Database.Migrate();
                     return mc;
                 })
+                .AddScoped<MusicFileManageService>()
+
                 .AddSingleton<MainViewModel>()
                 .BuildServiceProvider());
 
