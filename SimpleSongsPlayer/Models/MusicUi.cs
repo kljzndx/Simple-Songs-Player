@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Windows.Storage;
+using Windows.Storage.FileProperties;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace SimpleSongsPlayer.Models
 {
@@ -52,6 +54,16 @@ namespace SimpleSongsPlayer.Models
         public async Task<StorageFile> GetFileAsync()
         {
             return await StorageFile.GetFileFromPathAsync(_table.FilePath);
+        }
+
+        public async Task<BitmapSource> GetCover()
+        {
+            var file = await GetFileAsync();
+            var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.MusicView, 200, ThumbnailOptions.ResizeThumbnail);
+
+            var image = new BitmapImage();
+            await image.SetSourceAsync(thumbnail);
+            return image;
         }
     }
 }
