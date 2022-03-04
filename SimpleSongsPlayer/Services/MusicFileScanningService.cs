@@ -61,15 +61,9 @@ namespace SimpleSongsPlayer.Services
                 var deleteList = _dbContext.MusicFiles.Where(record => record.LibraryFolder == folder.Path && scanFileList.All(scan => scan.FilePath != record.FilePath)).ToList();
 
                 var newVersionList = scanFileList.Where(scan => _dbContext.MusicFiles.Any(record => record.FilePath == scan.FilePath && record.FileChangeDate < scan.FileChangeDate)).ToList();
-                var updateList = _dbContext.MusicFiles.Where(record => newVersionList.Any(scan => scan.FilePath == record.FilePath)).ToList();
+                var oldVersionList = _dbContext.MusicFiles.Where(record => newVersionList.Any(scan => scan.FilePath == record.FilePath)).ToList();
 
-                for (int i = 0; i < updateList.Count; i++)
-                {
-                    var oldInfo = updateList[i];
-                    var newInfo = newVersionList[i];
-
-                    oldInfo.UpdateFileInfo(newInfo);
-                }
+                var updateList = newVersionList.Select(scan => oldVersionList.First(record => record.FilePath == scan.FilePath).UpdateFileInfo(scan)).ToList();
 
                 await _dbContext.MusicFiles.AddRangeAsync(addList);
                 _dbContext.MusicFiles.RemoveRange(deleteList);

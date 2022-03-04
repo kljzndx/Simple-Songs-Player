@@ -49,7 +49,7 @@ namespace SimpleSongsPlayer.Dal
         [DbData]
         public string DbVersion { get; set; }
 
-        public void UpdateFileInfo(MusicFile newInfo)
+        public MusicFile UpdateFileInfo(MusicFile newInfo)
         {
             var props = this.GetType().GetProperties();
 
@@ -60,6 +60,8 @@ namespace SimpleSongsPlayer.Dal
                 if (att == null)
                     prop.SetValue(this, prop.GetValue(newInfo));
             }
+
+            return this;
         }
     }
 }
