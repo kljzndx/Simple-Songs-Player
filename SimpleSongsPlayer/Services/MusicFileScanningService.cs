@@ -21,7 +21,7 @@ namespace SimpleSongsPlayer.Services
         {
             _dbContext = dbContext;
 
-            _queryOptions = new QueryOptions(CommonFileQuery.OrderByName, new[] { "mp3", "aac", "wav", "flac", "alac", "m4a" });
+            _queryOptions = new QueryOptions(CommonFileQuery.OrderByName, new[] { ".mp3", ".aac", ".wav", ".flac", ".alac", ".m4a" });
             _queryOptions.FolderDepth = FolderDepth.Deep;
             _queryOptions.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
             _queryOptions.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties | PropertyPrefetchOptions.MusicProperties, new string[] { });
