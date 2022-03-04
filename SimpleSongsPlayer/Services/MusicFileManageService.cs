@@ -19,29 +19,24 @@ namespace SimpleSongsPlayer.Services
             _dbContext = dbContext;
         }
 
-        private IQueryable<MusicUi> QueryAllMusic()
+        public List<MusicUi> GetAllMusic()
         {
-            return _dbContext.MusicFiles.Select(mf => new MusicUi(mf));
+            return _dbContext.MusicFiles.Select(mf => new MusicUi(mf)).ToList();
+        }
+
+        public List<MusicGroup> GroupMusic(IEnumerable<MusicUi> source, Func<MusicUi, string> GroupKeySelector)
+        {
+            return source.GroupBy(GroupKeySelector).Select(g => new MusicGroup(g.Key, g)).ToList();
+        }
+
+        public List<MusicAlbum> GetMusicAlbumList()
+        {
+            return GetAllMusic().GroupBy(mu => mu.Album).Select(g => new MusicAlbum(g.Key, g)).ToList();
         }
 
         public List<MusicGroup> WatchMusicGroup(MusicGroup group)
         {
             return new List<MusicGroup>(new[] { new MusicGroup("All", group.Items) });
-        }
-
-        public List<MusicGroup> GetAllMusic()
-        {
-            return new List<MusicGroup>(new[] { new MusicGroup("All", QueryAllMusic().ToList()) });
-        }
-
-        public List<MusicGroup> GroupMusic(Expression<Func<MusicUi, string>> GroupKeySelector)
-        {
-            return QueryAllMusic().GroupBy(GroupKeySelector).Select(gp => new MusicGroup(gp.Key, gp)).ToList();
-        }
-
-        public List<MusicAlbum> GroupMusicAlbum()
-        {
-            return QueryAllMusic().GroupBy(mu => mu.Album).Select(gp => new MusicAlbum(gp.Key, gp)).ToList();
         }
 
         public List<MusicGroup> GetPlaybackList()
