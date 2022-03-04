@@ -37,13 +37,11 @@ namespace SimpleSongsPlayer.Services
                 var query = folder.CreateFileQueryWithOptions(_queryOptions);
                 uint count = await query.GetItemCountAsync();
 
-                uint id = 0;
                 List<MusicFile> scanFileList = new List<MusicFile>();
 
-                while (id > count)
+                for (uint id = 0; id < count; id += 20)
                 {
                     var files = await query.GetFilesAsync(id, 20);
-                    id += 20;
 
                     foreach (var file in files)
                     {
