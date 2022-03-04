@@ -60,6 +60,8 @@ namespace SimpleSongsPlayer
                 .AddScoped<MusicFileScanningService>()
 
                 .AddSingleton<MainViewModel>()
+                .AddSingleton<MusicListViewModel>()
+
                 .BuildServiceProvider());
 
             Frame rootFrame = Window.Current.Content as Frame;
