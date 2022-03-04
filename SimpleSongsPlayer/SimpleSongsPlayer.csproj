@@ -125,6 +125,7 @@
     <Compile Include="Services\MusicFileScanningService.cs" />
     <Compile Include="Services\MusicFileManageService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MusicListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
