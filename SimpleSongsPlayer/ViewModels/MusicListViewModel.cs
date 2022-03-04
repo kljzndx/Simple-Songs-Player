@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 
 using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Services;
@@ -14,13 +15,12 @@ namespace SimpleSongsPlayer.ViewModels
     public class MusicListViewModel : ObservableRecipient
     {
         private Func<MusicFileManageService, List<MusicGroup>> _sourceGetter;
-        private MusicFileManageService _manageService;
 
         private List<MusicGroup> _source;
 
-        public MusicListViewModel(MusicFileManageService manageService)
+        public MusicListViewModel()
         {
-            _manageService = manageService;
+
         }
 
         public List<MusicGroup> Source
@@ -29,15 +29,20 @@ namespace SimpleSongsPlayer.ViewModels
             set => SetProperty(ref _source, value);
         }
 
+        public MusicFileManageService GetManageService()
+        {
+            return Ioc.Default.GetRequiredService<MusicFileManageService>();
+        }
+
         public void Load(Func<MusicFileManageService, List<MusicGroup>> sourceGetter)
         {
             this._sourceGetter = sourceGetter;
-            Source = _sourceGetter.Invoke(_manageService);
+            Source = _sourceGetter.Invoke(GetManageService());
         }
 
         public void Refresh()
         {
-            Source = _sourceGetter.Invoke(_manageService);
+            Source = _sourceGetter.Invoke(GetManageService());
         }
     }
 }
