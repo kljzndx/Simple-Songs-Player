@@ -57,6 +57,7 @@ namespace SimpleSongsPlayer
                     return mc;
                 })
                 .AddScoped<MusicFileManageService>()
+                .AddScoped<MusicFileScanningService>()
 
                 .AddSingleton<MainViewModel>()
                 .BuildServiceProvider());
