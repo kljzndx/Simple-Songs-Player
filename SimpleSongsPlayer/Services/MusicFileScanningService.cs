@@ -1,4 +1,6 @@
-﻿using SimpleSongsPlayer.Dal;
+﻿using CommunityToolkit.Mvvm.Messaging;
+
+using SimpleSongsPlayer.Dal;
 
 using System;
 using System.Collections.Generic;
@@ -29,6 +31,8 @@ namespace SimpleSongsPlayer.Services
 
         public async Task ScanAsync()
         {
+            WeakReferenceMessenger.Default.Send("Started", nameof(MusicFileScanningService));
+
             var musicLib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
             _dbContext.MusicFiles.RemoveRange(_dbContext.MusicFiles.Where(record => musicLib.Folders.All(fol => fol.Path != record.LibraryFolder)).ToList());
 
@@ -69,6 +73,7 @@ namespace SimpleSongsPlayer.Services
             }
 
             await _dbContext.SaveChangesAsync();
+            WeakReferenceMessenger.Default.Send("Finished", nameof(MusicFileScanningService));
         }
     }
 }
