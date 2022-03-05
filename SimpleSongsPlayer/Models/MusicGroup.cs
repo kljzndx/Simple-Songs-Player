@@ -8,6 +8,10 @@ namespace SimpleSongsPlayer.Models
 {
     public class MusicGroup
     {
+        public MusicGroup(string name) : this(name, new List<MusicUi>())
+        {
+        }
+
         public MusicGroup(string name, IEnumerable<MusicUi> items)
         {
             Name = name;

@@ -8,6 +8,8 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
+using Windows.Globalization.Collation;
+
 namespace SimpleSongsPlayer.Services
 {
     public class MusicFileManageService
@@ -27,6 +29,18 @@ namespace SimpleSongsPlayer.Services
         public List<MusicGroup> GroupMusic(IEnumerable<MusicUi> source, Func<MusicUi, string> GroupKeySelector)
         {
             return source.GroupBy(GroupKeySelector).Select(g => new MusicGroup(g.Key, g)).ToList();
+        }
+
+        public List<MusicGroup> GroupMusicByFirstLetter(IEnumerable<MusicUi> source)
+        {
+            CharacterGroupings cgs = new CharacterGroupings();
+
+            var musicGroupList = GroupMusic(source, mu => cgs.Lookup(mu.Title).Replace("拼音", ""));
+            var cgsGroupList = cgs.Where(c => !c.Label.Contains("拼音") && musicGroupList.All(mg => mg.Name != c.Label))
+                               .Select(c => new MusicGroup(c.Label)).ToList();
+
+            musicGroupList.AddRange(cgsGroupList);
+            return musicGroupList;
         }
 
         public List<MusicAlbum> GetMusicAlbumList()
