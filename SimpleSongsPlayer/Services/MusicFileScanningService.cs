@@ -35,8 +35,8 @@ namespace SimpleSongsPlayer.Services
 
             var musicLib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
 
-            var folderNameList = musicLib.Folders.Select(f => f.Name).ToList();
-            var trashList = _dbContext.MusicFiles.Where(record => folderNameList.All(name => name != record.LibraryFolder)).ToList();
+            var folderPathList = musicLib.Folders.Select(f => f.Path).ToList();
+            var trashList = _dbContext.MusicFiles.Where(record => folderPathList.All(path => path != record.LibraryFolder)).ToList();
             _dbContext.MusicFiles.RemoveRange(trashList);
 
             foreach (var folder in musicLib.Folders)
