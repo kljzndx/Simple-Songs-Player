@@ -34,7 +34,10 @@ namespace SimpleSongsPlayer.Services
             WeakReferenceMessenger.Default.Send("Started", nameof(MusicFileScanningService));
 
             var musicLib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
-            _dbContext.MusicFiles.RemoveRange(_dbContext.MusicFiles.Where(record => musicLib.Folders.All(fol => fol.Path != record.LibraryFolder)).ToList());
+
+            var folderNameList = musicLib.Folders.Select(f => f.Name).ToList();
+            var trashList = _dbContext.MusicFiles.Where(record => folderNameList.All(name => name != record.LibraryFolder)).ToList();
+            _dbContext.MusicFiles.RemoveRange(trashList);
 
             foreach (var folder in musicLib.Folders)
             {
@@ -59,12 +62,13 @@ namespace SimpleSongsPlayer.Services
                     }
                 }
 
-                var addList = scanFileList.Where(scan => _dbContext.MusicFiles.All(record => record.FilePath != scan.FilePath)).ToList();
-                var deleteList = _dbContext.MusicFiles.Where(record => record.LibraryFolder == folder.Path && scanFileList.All(scan => scan.FilePath != record.FilePath)).ToList();
+                var dbData = _dbContext.MusicFiles.Where(record => record.LibraryFolder == folder.Path).ToList();
 
-                var newVersionList = scanFileList.Where(scan => _dbContext.MusicFiles.Any(record => record.FilePath == scan.FilePath && record.FileChangeDate < scan.FileChangeDate)).ToList();
-                var oldVersionList = _dbContext.MusicFiles.Where(record => newVersionList.Any(scan => scan.FilePath == record.FilePath)).ToList();
+                var addList = scanFileList.Where(scan => dbData.All(record => record.FilePath != scan.FilePath)).ToList();
+                var deleteList = dbData.Where(record => scanFileList.All(scan => scan.FilePath != record.FilePath)).ToList();
 
+                var newVersionList = scanFileList.Where(scan => dbData.Any(record => record.FilePath == scan.FilePath && record.FileChangeDate < scan.FileChangeDate)).ToList();
+                var oldVersionList = dbData.Where(record => newVersionList.Any(scan => scan.FilePath == record.FilePath)).ToList();
                 var updateList = newVersionList.Select(scan => oldVersionList.First(record => record.FilePath == scan.FilePath).UpdateFileInfo(scan)).ToList();
 
                 await _dbContext.MusicFiles.AddRangeAsync(addList);
