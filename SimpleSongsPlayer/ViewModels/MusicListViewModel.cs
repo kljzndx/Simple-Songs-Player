@@ -42,7 +42,8 @@ namespace SimpleSongsPlayer.ViewModels
 
         public void Refresh()
         {
-            Source = _sourceGetter.Invoke(GetManageService());
+            if (_sourceGetter != null)
+                Source = _sourceGetter.Invoke(GetManageService());
         }
     }
 }
