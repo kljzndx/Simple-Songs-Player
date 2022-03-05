@@ -32,7 +32,6 @@ namespace SimpleSongsPlayer.Services
         public async Task ScanAsync()
         {
             WeakReferenceMessenger.Default.Send("Started", nameof(MusicFileScanningService));
-
             var musicLib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
 
             var folderPathList = musicLib.Folders.Select(f => f.Path).ToList();
@@ -71,7 +70,7 @@ namespace SimpleSongsPlayer.Services
                 var oldVersionList = dbData.Where(record => newVersionList.Any(scan => scan.FilePath == record.FilePath)).ToList();
                 var updateList = newVersionList.Select(scan => oldVersionList.First(record => record.FilePath == scan.FilePath).UpdateFileInfo(scan)).ToList();
 
-                await _dbContext.MusicFiles.AddRangeAsync(addList);
+                _dbContext.MusicFiles.AddRange(addList);
                 _dbContext.MusicFiles.RemoveRange(deleteList);
                 _dbContext.MusicFiles.UpdateRange(updateList);
             }
