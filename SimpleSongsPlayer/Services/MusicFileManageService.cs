@@ -43,11 +43,6 @@ namespace SimpleSongsPlayer.Services
             return musicGroupList.OrderBy(mg => mg.Name).ToList();
         }
 
-        public List<MusicAlbum> GetMusicAlbumList()
-        {
-            return GetAllMusic().GroupBy(mu => mu.Album).Select(g => new MusicAlbum(g.Key, g)).OrderBy(ma => ma.Name).ToList();
-        }
-
         public List<MusicGroup> WatchMusicGroup(MusicGroup group)
         {
             return new List<MusicGroup>(new[] { new MusicGroup("All", group.Items) });
