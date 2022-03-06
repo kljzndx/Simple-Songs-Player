@@ -40,7 +40,7 @@ namespace SimpleSongsPlayer.Services
                                .Select(c => new MusicGroup(c.Label)).ToList();
 
             musicGroupList.AddRange(cgsGroupList);
-            return musicGroupList.OrderBy(mg => mg.Name).ToList();
+            return musicGroupList.Where(mg => mg.Items.Any() || !string.IsNullOrWhiteSpace(mg.Name)).OrderBy(mg => mg.Name).ToList();
         }
 
         public List<MusicGroup> WatchMusicGroup(MusicGroup group)
