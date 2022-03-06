@@ -1,0 +1,81 @@
+﻿<Page
+    x:Class="SimpleSongsPlayer.Views.MusicListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:model="using:SimpleSongsPlayer.Models"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{Binding Source={StaticResource Vms}, Path=MusicList}">
+
+    <Page.Resources>
+        <CollectionViewSource x:Key="Data_Cvs" Source="{Binding Source, Mode=OneWay}" IsSourceGrouped="True" ItemsPath="Items"/>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <CommandBar OverflowButtonVisibility="Auto" DefaultLabelPosition="Right">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Icon="Play" Label="全部播放" />
+                <AppBarSeparator />
+                <AppBarButton Icon="Refresh" Label="刷新" Click="{x:Bind _vm.Refresh}"/>
+                <AppBarButton Icon="Sort" Label="排序">
+                    <AppBarButton.Flyout>
+                        <Flyout>
+                            <StackPanel Orientation="Vertical">
+                                <ListBox>
+                                    <x:String>标题</x:String>
+                                    <x:String>音轨编号</x:String>
+                                    <x:String>更新时间</x:String>
+                                </ListBox>
+                                
+                                <Button Content="反向排序" Margin="0,8,0,0" HorizontalAlignment="Stretch" />
+                            </StackPanel>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+
+        <SemanticZoom Grid.Row="1">
+            <SemanticZoom.ZoomedInView>
+                <ListView ItemsSource="{Binding Source={StaticResource Data_Cvs}}" DisplayMemberPath="Title">
+                    <ListView.GroupStyle>
+                        <GroupStyle HidesIfEmpty="True">
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate x:DataType="model:MusicGroup">
+                                    <TextBlock Text="{x:Bind Name}"/>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ListView.GroupStyle>
+                </ListView>
+            </SemanticZoom.ZoomedInView>
+            <SemanticZoom.ZoomedOutView>
+                <ListView ItemsSource="{Binding Source={StaticResource Data_Cvs}, Path=CollectionGroups}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Group.Name}" Opacity="0.4">
+                                <Interactivity:Interaction.Behaviors>
+                                    <Interactivity:BehaviorCollection>
+                                        <Interactions:DataTriggerBehavior Binding="{Binding Group.Count}" ComparisonCondition="GreaterThan" Value="0">
+                                            <Interactions:ChangePropertyAction PropertyName="Opacity" Value="1"/>
+                                        </Interactions:DataTriggerBehavior>
+                                    </Interactivity:BehaviorCollection>
+                                </Interactivity:Interaction.Behaviors>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </SemanticZoom.ZoomedOutView>
+        </SemanticZoom>
+
+    </Grid>
+</Page>
