@@ -9,7 +9,7 @@ using SimpleSongsPlayer.Dal;
 namespace SimpleSongsPlayer.Dal.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20220306112705_CreateTable_MusicFile")]
+    [Migration("20220306130835_CreateTable_MusicFile")]
     partial class CreateTable_MusicFile
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,7 @@ namespace SimpleSongsPlayer.Dal.Migrations
 
             modelBuilder.Entity("SimpleSongsPlayer.Dal.MusicFile", b =>
                 {
-                    b.Property<int>("Index")
+                    b.Property<int>("MusicFileId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -55,7 +55,7 @@ namespace SimpleSongsPlayer.Dal.Migrations
                     b.Property<uint>("TrackNumber")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Index");
+                    b.HasKey("MusicFileId");
 
                     b.HasIndex("FilePath");
 

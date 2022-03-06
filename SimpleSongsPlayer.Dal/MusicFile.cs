@@ -29,7 +29,7 @@ namespace SimpleSongsPlayer.Dal
 
         [DbData]
         [Key]
-        public int Index { get; set; }
+        public int MusicFileId { get; set; }
         public string Title { get; set; }
         public string Artist { get; set; }
         public string Album { get; set; }

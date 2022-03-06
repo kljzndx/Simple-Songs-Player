@@ -18,7 +18,7 @@ namespace SimpleSongsPlayer.Dal.Migrations
 
             modelBuilder.Entity("SimpleSongsPlayer.Dal.MusicFile", b =>
                 {
-                    b.Property<int>("Index")
+                    b.Property<int>("MusicFileId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -53,7 +53,7 @@ namespace SimpleSongsPlayer.Dal.Migrations
                     b.Property<uint>("TrackNumber")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Index");
+                    b.HasKey("MusicFileId");
 
                     b.HasIndex("FilePath");
 

@@ -11,7 +11,7 @@ namespace SimpleSongsPlayer.Dal.Migrations
                 name: "MusicFiles",
                 columns: table => new
                 {
-                    Index = table.Column<int>(nullable: false)
+                    MusicFileId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(nullable: true),
                     Artist = table.Column<string>(nullable: true),
@@ -25,7 +25,7 @@ namespace SimpleSongsPlayer.Dal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MusicFiles", x => x.Index);
+                    table.PrimaryKey("PK_MusicFiles", x => x.MusicFileId);
                 });
 
             migrationBuilder.CreateIndex(

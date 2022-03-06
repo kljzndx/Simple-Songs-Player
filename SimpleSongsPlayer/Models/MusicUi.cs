@@ -27,7 +27,7 @@ namespace SimpleSongsPlayer.Models
             Title = string.IsNullOrWhiteSpace(table.Title) ? Path.GetFileNameWithoutExtension(_table.FilePath) : table.Title;
 
             WeakReferenceMessenger.Default.Register<MusicUi, string, int>
-                (this, Index, (mu, isPlaying) => mu.IsPlaying = bool.Parse(isPlaying));
+                (this, Id, (mu, isPlaying) => mu.IsPlaying = bool.Parse(isPlaying));
         }
 
         public bool IsPlaying
@@ -36,7 +36,7 @@ namespace SimpleSongsPlayer.Models
             set => SetProperty(ref _isPlaying, value);
         }
 
-        public int Index => _table.Index;
+        public int Id => _table.MusicFileId;
         public string Title { get; }
         public string Artist => _table.Artist;
         public string Album => _table.Album;
