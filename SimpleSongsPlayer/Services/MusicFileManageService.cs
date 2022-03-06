@@ -28,24 +28,24 @@ namespace SimpleSongsPlayer.Services
 
         public List<MusicGroup> GroupMusic(IEnumerable<MusicUi> source, Func<MusicUi, string> GroupKeySelector)
         {
-            return source.GroupBy(GroupKeySelector).Select(g => new MusicGroup(g.Key, g)).ToList();
+            return source.GroupBy(GroupKeySelector).Select(g => new MusicGroup(g.Key, g)).OrderBy(mg => mg.Name).ToList();
         }
 
         public List<MusicGroup> GroupMusicByFirstLetter(IEnumerable<MusicUi> source)
         {
             CharacterGroupings cgs = new CharacterGroupings();
 
-            var musicGroupList = GroupMusic(source, mu => cgs.Lookup(mu.Title).Replace("拼音", ""));
+            var musicGroupList = source.GroupBy(mu => cgs.Lookup(mu.Title).Replace("拼音", "")).Select(g => new MusicGroup(g.Key, g)).ToList();
             var cgsGroupList = cgs.Where(c => !c.Label.Contains("拼音") && musicGroupList.All(mg => mg.Name != c.Label))
                                .Select(c => new MusicGroup(c.Label)).ToList();
 
             musicGroupList.AddRange(cgsGroupList);
-            return musicGroupList;
+            return musicGroupList.OrderBy(mg => mg.Name).ToList();
         }
 
         public List<MusicAlbum> GetMusicAlbumList()
         {
-            return GetAllMusic().GroupBy(mu => mu.Album).Select(g => new MusicAlbum(g.Key, g)).ToList();
+            return GetAllMusic().GroupBy(mu => mu.Album).Select(g => new MusicAlbum(g.Key, g)).OrderBy(ma => ma.Name).ToList();
         }
 
         public List<MusicGroup> WatchMusicGroup(MusicGroup group)
