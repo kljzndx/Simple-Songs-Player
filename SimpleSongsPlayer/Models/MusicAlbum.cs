@@ -14,8 +14,6 @@ namespace SimpleSongsPlayer.Models
         {
         }
 
-        public int Count => Items.Count();
-
         public Task<BitmapSource> GetCover()
         {
             return Items.First().GetCover();

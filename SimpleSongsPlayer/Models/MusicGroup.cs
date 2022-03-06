@@ -20,5 +20,6 @@ namespace SimpleSongsPlayer.Models
 
         public string Name { get; }
         public IEnumerable<MusicUi> Items { get; set; }
+        public int Count => Items.Count();
     }
 }
