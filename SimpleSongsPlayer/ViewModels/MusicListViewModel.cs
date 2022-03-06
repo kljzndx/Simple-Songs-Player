@@ -20,7 +20,8 @@ namespace SimpleSongsPlayer.ViewModels
 
         public MusicListViewModel()
         {
-
+            Messenger.Register<MusicListViewModel, string, string>(this, nameof(MusicFileScanningService),
+                (vm, message) => { if (message == "Finished") vm.Refresh(); });
         }
 
         public List<MusicGroup> Source
