@@ -71,13 +71,14 @@ namespace SimpleSongsPlayer.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public void MusicDataOrderBy<TOrderByKey>(IEnumerable<MusicGroup> source, Func<MusicUi, TOrderByKey> orderByKeySelector, bool isDescending)
+        public List<MusicGroup> OrderMusicDataBy<TOrderByKey>(IEnumerable<MusicGroup> source, Func<MusicUi, TOrderByKey> orderByKeySelector)
         {
-            foreach (var group in source)
-                if (isDescending)
-                    group.Items = group.Items.OrderByDescending(orderByKeySelector).ToList();
-                else
-                    group.Items = group.Items.OrderBy(orderByKeySelector).ToList();
+            return source.Select(mg => new MusicGroup(mg.Name, mg.Items.OrderBy(orderByKeySelector).ToList())).ToList();
+        }
+
+        public List<MusicGroup> ReverseMusicData(IEnumerable<MusicGroup> source)
+        {
+            return source.Select(mg => new MusicGroup(mg.Name, mg.Items.Reverse().ToList())).ToList();
         }
     }
 }
