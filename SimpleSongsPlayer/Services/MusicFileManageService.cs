@@ -48,24 +48,6 @@ namespace SimpleSongsPlayer.Services
             return new List<MusicGroup>(new[] { new MusicGroup("All", group.Items) });
         }
 
-        public List<MusicGroup> GetPlaybackList()
-        {
-            var list = _dbContext.MusicFiles.Where(mf => mf.IsInPlaybackList).Select(mf => new MusicUi(mf)).ToList();
-
-            return new List<MusicGroup>(new[] { new MusicGroup("All", list) });
-        }
-
-        public async Task SavePlaybackList(IEnumerable<MusicUi> source)
-        {
-            foreach (var item in source)
-                item.IsInPlaybackList = true;
-
-            var mfList = source.Select(mf => mf.GetTable()).ToList();
-
-            _dbContext.MusicFiles.UpdateRange(mfList);
-            await _dbContext.SaveChangesAsync();
-        }
-
         public List<MusicGroup> OrderMusicDataBy<TOrderByKey>(IEnumerable<MusicGroup> source, Func<MusicUi, TOrderByKey> orderByKeySelector)
         {
             return source.Select(mg => new MusicGroup(mg.Name, mg.Items.OrderBy(orderByKeySelector).ToList())).ToList();

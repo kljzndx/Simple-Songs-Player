@@ -44,9 +44,6 @@ namespace SimpleSongsPlayer.Dal
         public DateTime FileChangeDate { get; set; }
 
         [DbData]
-        public bool IsInPlaybackList { get; set; }
-
-        [DbData]
         public string DbVersion { get; set; }
 
         public MusicFile UpdateFileInfo(MusicFile newInfo)

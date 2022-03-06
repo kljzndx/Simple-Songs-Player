@@ -10,7 +10,6 @@ namespace SimpleSongsPlayer.Dal
         {
             modelBuilder.Entity<MusicFile>().HasIndex(mf => mf.FilePath);
             modelBuilder.Entity<MusicFile>().HasIndex(mf => mf.LibraryFolder);
-            modelBuilder.Entity<MusicFile>().HasIndex(mf => mf.IsInPlaybackList);
 
             modelBuilder.Entity<MusicFile>().Property(mf => mf.DbVersion).HasDefaultValue("V1");
         }

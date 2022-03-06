@@ -43,12 +43,6 @@ namespace SimpleSongsPlayer.Models
         public TimeSpan Duration => _table.Duration;
         public string FilePath => _table.FilePath;
 
-        public bool IsInPlaybackList
-        {
-            get => _table.IsInPlaybackList;
-            set => _table.IsInPlaybackList = value;
-        }
-
         public MusicFile GetTable() => _table;
 
         public async Task<StorageFile> GetFileAsync()
