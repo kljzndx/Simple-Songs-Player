@@ -9,8 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Windows.Media.Core;
+using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace SimpleSongsPlayer.Models
@@ -52,12 +55,24 @@ namespace SimpleSongsPlayer.Models
 
         public async Task<BitmapSource> GetCover()
         {
-            var file = await GetFileAsync();
-            var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.MusicView, 200, ThumbnailOptions.ResizeThumbnail);
-
             var image = new BitmapImage();
-            await image.SetSourceAsync(thumbnail);
+            await image.SetSourceAsync(await GetThumbnailAsync());
             return image;
+        }
+
+        public async Task<MediaPlaybackItem> GetPlaybackItem()
+        {
+            var item = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(await GetFileAsync()));
+            var prop = item.GetDisplayProperties();
+            prop.Thumbnail = RandomAccessStreamReference.CreateFromStream(await GetThumbnailAsync());
+            item.ApplyDisplayProperties(prop);
+
+            return item;
+        }
+
+        private async Task<StorageItemThumbnail> GetThumbnailAsync()
+        {
+            return await (await GetFileAsync()).GetThumbnailAsync(ThumbnailMode.SingleItem);
         }
     }
 }
