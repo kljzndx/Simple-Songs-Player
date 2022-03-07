@@ -53,7 +53,7 @@ namespace SimpleSongsPlayer.Models
             return await StorageFile.GetFileFromPathAsync(_table.FilePath);
         }
 
-        public async Task<BitmapSource> GetCover()
+        public async Task<BitmapSource> GetCoverAsync()
         {
             var image = new BitmapImage();
             await image.SetSourceAsync(await GetThumbnailAsync());
