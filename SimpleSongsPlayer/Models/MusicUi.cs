@@ -29,8 +29,16 @@ namespace SimpleSongsPlayer.Models
 
             Title = string.IsNullOrWhiteSpace(table.Title) ? Path.GetFileNameWithoutExtension(_table.FilePath) : table.Title;
 
-            WeakReferenceMessenger.Default.Register<MusicUi, string, int>
-                (this, Id, (mu, isPlaying) => mu.IsPlaying = bool.Parse(isPlaying));
+            WeakReferenceMessenger.Default.Register<MusicUi, string, string>(this, "MediaPlayer", 
+                (mu, mes) => 
+                {
+                    var split = mes.Split(':');
+                    var key = split[0];
+                    var value = split[1].Trim();
+
+                    if (key == "CurrentPlay")
+                        mu.IsPlaying = mu.Id == int.Parse(value);
+                });
         }
 
         public bool IsPlaying
