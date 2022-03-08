@@ -123,6 +123,7 @@
     <Compile Include="Models\MusicUi.cs" />
     <Compile Include="Services\MusicFileScanningService.cs" />
     <Compile Include="Services\MusicFileManageService.cs" />
+    <Compile Include="Services\PlaybackListManageService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MusicListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
