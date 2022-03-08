@@ -1,4 +1,6 @@
-﻿using SimpleSongsPlayer.Dal;
+﻿using Microsoft.EntityFrameworkCore;
+
+using SimpleSongsPlayer.Dal;
 using SimpleSongsPlayer.Models;
 
 using System;
@@ -24,6 +26,12 @@ namespace SimpleSongsPlayer.Services
         public List<MusicUi> GetAllMusic()
         {
             return _dbContext.MusicFiles.Select(mf => new MusicUi(mf)).ToList();
+        }
+
+        public List<MusicUi> GetPlaybackList()
+        {
+            return _dbContext.PlaybackList.Include(pi => pi.File)
+                   .OrderBy(pi => pi.TrackId).Select(pi => new MusicUi(pi.File)).ToList();
         }
 
         public List<MusicGroup> GroupMusic(IEnumerable<MusicUi> source, Func<MusicUi, string> GroupKeySelector)
