@@ -6,7 +6,7 @@ namespace SimpleSongsPlayer.Dal
     {
         public PlaybackItem() { }
 
-        public PlaybackItem(int musicFileId, int trackId)
+        public PlaybackItem(int musicFileId, int trackId = 0)
         {
             MusicFileId = musicFileId;
             TrackId = trackId;
@@ -17,9 +17,7 @@ namespace SimpleSongsPlayer.Dal
 
         [Required(AllowEmptyStrings = false)]
         public int MusicFileId { get; set; }
-        /// <summary>
-        /// 轨道序号（从 1 开始）
-        /// </summary>
+
         [Required(AllowEmptyStrings = false)]
         public int TrackId { get; set; }
         public bool IsPlaying { get; set; }
