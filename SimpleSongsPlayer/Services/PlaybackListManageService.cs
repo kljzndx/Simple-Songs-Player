@@ -100,7 +100,7 @@ namespace SimpleSongsPlayer.Services
 
             var newItem = playItem == null ? new PlaybackItem(source.Id) : playItem;
             playList.Insert(currentTrackId + 1, newItem);
-            GiveUpTrackId(playList, currentTrackId);
+            SetUpTrackId(playList, currentTrackId);
 
             _dbContext.PlaybackList.UpdateRange(playList);
             await _dbContext.SaveChangesAsync();
@@ -122,14 +122,14 @@ namespace SimpleSongsPlayer.Services
                 dbPlayList.Add(new PlaybackItem(mui.Id));
             }
 
-            GiveUpTrackId(dbPlayList, lastId);
+            SetUpTrackId(dbPlayList, lastId);
             _dbContext.UpdateRange(dbPlayList);
             await _dbContext.SaveChangesAsync();
 
             playList.ForEach(_playbackList.Items.Add);
         }
 
-        private void GiveUpTrackId(List<PlaybackItem> playList, int startId = 0)
+        private void SetUpTrackId(List<PlaybackItem> playList, int startId = 0)
         {
             for (int i = startId; i < playList.Count; i++)
                 playList[i].TrackId = i;
