@@ -15,11 +15,14 @@ namespace SimpleSongsPlayer.ViewModels
     public class MusicListViewModel : ObservableRecipient
     {
         private Func<MusicFileManageService, List<MusicGroup>> _sourceGetter;
+        private MusicFileManageService _manageService;
 
         private List<MusicGroup> _source;
 
-        public MusicListViewModel()
+        public MusicListViewModel(MusicFileManageService manageService)
         {
+            _manageService = manageService;
+
             Messenger.Register<MusicListViewModel, string, string>(this, nameof(MusicFileScanningService),
                 (vm, message) => { if (message == "Finished") vm.Refresh(); });
         }
@@ -30,21 +33,16 @@ namespace SimpleSongsPlayer.ViewModels
             set => SetProperty(ref _source, value);
         }
 
-        public MusicFileManageService GetManageService()
-        {
-            return Ioc.Default.GetRequiredService<MusicFileManageService>();
-        }
-
         public void Load(Func<MusicFileManageService, List<MusicGroup>> sourceGetter)
         {
             this._sourceGetter = sourceGetter;
-            Source = _sourceGetter.Invoke(GetManageService());
+            Source = _sourceGetter.Invoke(_manageService);
         }
 
         public void Refresh()
         {
             if (_sourceGetter != null)
-                Source = _sourceGetter.Invoke(GetManageService());
+                Source = _sourceGetter.Invoke(_manageService);
         }
     }
 }
