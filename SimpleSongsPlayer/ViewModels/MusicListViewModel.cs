@@ -19,9 +19,10 @@ namespace SimpleSongsPlayer.ViewModels
 
         private List<MusicGroup> _source;
 
-        public MusicListViewModel(MusicFileManageService manageService)
+        public MusicListViewModel(MusicFileManageService manageService, PlaybackListManageService playbackListService)
         {
             _manageService = manageService;
+            PlaybackListService = playbackListService;
 
             Messenger.Register<MusicListViewModel, string, string>(this, nameof(MusicFileScanningService),
                 (vm, message) => { if (message == "Finished") vm.Refresh(); });
@@ -32,6 +33,8 @@ namespace SimpleSongsPlayer.ViewModels
             get => _source;
             set => SetProperty(ref _source, value);
         }
+
+        public PlaybackListManageService PlaybackListService { get; }
 
         public void Load(Func<MusicFileManageService, List<MusicGroup>> sourceGetter)
         {
