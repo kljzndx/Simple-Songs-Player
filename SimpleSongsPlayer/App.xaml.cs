@@ -51,16 +51,6 @@ namespace SimpleSongsPlayer
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Ioc.Default.ConfigureServices(new ServiceCollection()
-                .AddSingleton<MediaPlayer>(ioc =>
-                {
-                    var player = new MediaPlayer();
-                    player.Source = ioc.GetRequiredService<PlaybackListManageService>().GetPlaybackList();
-                    return player;
-                })
-
-                .AddSingleton<MainViewModel>()
-                .AddSingleton<MusicListViewModel>()
-
                 .AddScoped<MainDbContext>(ioc =>
                 {
                     var mc = new MainDbContext();
@@ -70,6 +60,16 @@ namespace SimpleSongsPlayer
                 .AddSingleton<MusicFileManageService>()
                 .AddSingleton<MusicFileScanningService>()
                 .AddSingleton<PlaybackListManageService>()
+                
+                .AddSingleton<MainViewModel>()
+                .AddSingleton<MusicListViewModel>()
+
+                .AddSingleton<MediaPlayer>(ioc =>
+                {
+                    var player = new MediaPlayer();
+                    player.Source = ioc.GetRequiredService<PlaybackListManageService>().GetPlaybackList();
+                    return player;
+                })
 
                 .BuildServiceProvider());
 
