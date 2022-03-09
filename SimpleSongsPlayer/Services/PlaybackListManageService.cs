@@ -146,7 +146,7 @@ namespace SimpleSongsPlayer.Services
             await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             async () =>
             {
-                var dbPlayList = _dbContext.PlaybackList.OrderBy(pi => pi.TrackId).ToList();
+                var dbPlayList = _dbContext.PlaybackList.ToList();
                 dbPlayList.ForEach(pi => pi.IsPlaying = pi.TrackId == sender.CurrentItemIndex);
 
                 _dbContext.PlaybackList.UpdateRange(dbPlayList);
