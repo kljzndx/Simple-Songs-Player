@@ -48,7 +48,7 @@ namespace SimpleSongsPlayer.Services
             else
             {
                 CleanDbAndList();
-                _dbContext.PlaybackList.Add(new PlaybackItem(source.Id, 0));
+                _dbContext.PlaybackList.Add(new PlaybackItem(source.Id));
                 await _dbContext.SaveChangesAsync();
 
                 _playbackList.Items.Add(await source.GetPlaybackItem());
