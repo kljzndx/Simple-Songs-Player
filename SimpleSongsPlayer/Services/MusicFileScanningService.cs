@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Messaging;
 
 using SimpleSongsPlayer.Dal;
 
@@ -16,13 +17,11 @@ namespace SimpleSongsPlayer.Services
 {
     public class MusicFileScanningService
     {
-        private MainDbContext _dbContext;
+        private MainDbContext DbContext => Ioc.Default.GetRequiredService<MainDbContext>();
         private QueryOptions _queryOptions;
 
-        public MusicFileScanningService(MainDbContext dbContext)
+        public MusicFileScanningService()
         {
-            _dbContext = dbContext;
-
             _queryOptions = new QueryOptions(CommonFileQuery.OrderByName, new[] { ".mp3", ".aac", ".wav", ".flac", ".alac", ".m4a" });
             _queryOptions.FolderDepth = FolderDepth.Deep;
             _queryOptions.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
@@ -35,8 +34,8 @@ namespace SimpleSongsPlayer.Services
             var musicLib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
 
             var folderPathList = musicLib.Folders.Select(f => f.Path).ToList();
-            var trashList = _dbContext.MusicFiles.Where(record => folderPathList.All(path => path != record.LibraryFolder)).ToList();
-            _dbContext.MusicFiles.RemoveRange(trashList);
+            var trashList = DbContext.MusicFiles.Where(record => folderPathList.All(path => path != record.LibraryFolder)).ToList();
+            DbContext.MusicFiles.RemoveRange(trashList);
 
             foreach (var folder in musicLib.Folders)
             {
@@ -61,7 +60,7 @@ namespace SimpleSongsPlayer.Services
                     }
                 }
 
-                var dbData = _dbContext.MusicFiles.Where(record => record.LibraryFolder == folder.Path).ToList();
+                var dbData = DbContext.MusicFiles.Where(record => record.LibraryFolder == folder.Path).ToList();
 
                 var addList = scanFileList.Where(scan => dbData.All(record => record.FilePath != scan.FilePath)).ToList();
                 var deleteList = dbData.Where(record => scanFileList.All(scan => scan.FilePath != record.FilePath)).ToList();
@@ -70,12 +69,12 @@ namespace SimpleSongsPlayer.Services
                 var oldVersionList = dbData.Where(record => newVersionList.Any(scan => scan.FilePath == record.FilePath)).ToList();
                 var updateList = newVersionList.Select(scan => oldVersionList.First(record => record.FilePath == scan.FilePath).UpdateFileInfo(scan)).ToList();
 
-                _dbContext.MusicFiles.AddRange(addList);
-                _dbContext.MusicFiles.RemoveRange(deleteList);
-                _dbContext.MusicFiles.UpdateRange(updateList);
+                DbContext.MusicFiles.AddRange(addList);
+                DbContext.MusicFiles.RemoveRange(deleteList);
+                DbContext.MusicFiles.UpdateRange(updateList);
             }
 
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
             WeakReferenceMessenger.Default.Send("Finished", nameof(MusicFileScanningService));
         }
     }

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+
+using Microsoft.EntityFrameworkCore;
 
 using SimpleSongsPlayer.Dal;
 using SimpleSongsPlayer.Models;
@@ -16,21 +18,20 @@ namespace SimpleSongsPlayer.Services
 {
     public class MusicFileManageService
     {
-        private MainDbContext _dbContext;
+        private MainDbContext DbContext => Ioc.Default.GetRequiredService<MainDbContext>();
 
-        public MusicFileManageService(MainDbContext dbContext)
+        public MusicFileManageService()
         {
-            _dbContext = dbContext;
         }
 
         public List<MusicUi> GetAllMusic()
         {
-            return _dbContext.MusicFiles.Select(mf => new MusicUi(mf)).ToList();
+            return DbContext.MusicFiles.Select(mf => new MusicUi(mf)).ToList();
         }
 
         public List<MusicUi> GetPlaybackList()
         {
-            return _dbContext.PlaybackList.Include(pi => pi.File)
+            return DbContext.PlaybackList.Include(pi => pi.File)
                    .OrderBy(pi => pi.TrackId).Select(pi => new MusicUi(pi.File)).ToList();
         }
 

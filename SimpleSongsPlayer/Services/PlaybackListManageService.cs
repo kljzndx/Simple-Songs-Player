@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Messaging;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -19,12 +20,11 @@ namespace SimpleSongsPlayer.Services
 {
     public class PlaybackListManageService
     {
-        private MainDbContext _dbContext;
+        private MainDbContext DbContext => Ioc.Default.GetRequiredService<MainDbContext>();
         private MediaPlaybackList _playbackList;
 
-        public PlaybackListManageService(MainDbContext dbContext)
+        public PlaybackListManageService()
         {
-            _dbContext = dbContext;
             _playbackList = new MediaPlaybackList();
 
             _playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
@@ -40,7 +40,7 @@ namespace SimpleSongsPlayer.Services
             if (source.IsPlaying)
                 return;
 
-            var data = await _dbContext.PlaybackList.FirstOrDefaultAsync(pi => pi.MusicFileId == source.Id);
+            var data = await DbContext.PlaybackList.FirstOrDefaultAsync(pi => pi.MusicFileId == source.Id);
             if (data != null)
             {
                 _playbackList.MoveTo((uint) data.TrackId);
@@ -48,8 +48,8 @@ namespace SimpleSongsPlayer.Services
             else
             {
                 CleanDbAndList();
-                _dbContext.PlaybackList.Add(new PlaybackItem(source.Id));
-                await _dbContext.SaveChangesAsync();
+                DbContext.PlaybackList.Add(new PlaybackItem(source.Id));
+                await DbContext.SaveChangesAsync();
 
                 _playbackList.Items.Add(await source.GetPlaybackItem());
                 _playbackList.MoveTo(0);
@@ -70,8 +70,8 @@ namespace SimpleSongsPlayer.Services
                 dbPlayList.Add(new PlaybackItem(item.Id, i));
             }
 
-            _dbContext.PlaybackList.AddRange(dbPlayList);
-            await _dbContext.SaveChangesAsync();
+            DbContext.PlaybackList.AddRange(dbPlayList);
+            await DbContext.SaveChangesAsync();
 
             playList.ForEach(_playbackList.Items.Add);
             _playbackList.MoveTo(0);
@@ -82,16 +82,16 @@ namespace SimpleSongsPlayer.Services
             if (source.IsPlaying)
                 return;
 
-            if (!_dbContext.PlaybackList.Any())
+            if (!DbContext.PlaybackList.Any())
             {
                 await Push(source);
                 return;
             }
 
-            var playList = _dbContext.PlaybackList.OrderBy(pi => pi.TrackId).ToList();
+            var playList = DbContext.PlaybackList.OrderBy(pi => pi.TrackId).ToList();
             int currentTrackId = (int)_playbackList.CurrentItemIndex;
 
-            var playItem = await _dbContext.PlaybackList.FirstOrDefaultAsync(pi => pi.MusicFileId == source.Id);
+            var playItem = await DbContext.PlaybackList.FirstOrDefaultAsync(pi => pi.MusicFileId == source.Id);
             if (playItem != null)
             {
                 _playbackList.Items.Remove(_playbackList.Items[playItem.TrackId]);
@@ -102,8 +102,8 @@ namespace SimpleSongsPlayer.Services
             playList.Insert(currentTrackId + 1, newItem);
             SetUpTrackId(playList, currentTrackId);
 
-            _dbContext.PlaybackList.UpdateRange(playList);
-            await _dbContext.SaveChangesAsync();
+            DbContext.PlaybackList.UpdateRange(playList);
+            await DbContext.SaveChangesAsync();
 
             _playbackList.Items.Insert(currentTrackId + 1, await source.GetPlaybackItem());
         }
@@ -111,7 +111,7 @@ namespace SimpleSongsPlayer.Services
         public async Task Append(IEnumerable<MusicUi> source)
         {
             var sourceList = source.ToList();
-            var dbPlayList = _dbContext.PlaybackList.OrderBy(pi => pi.TrackId).ToList();
+            var dbPlayList = DbContext.PlaybackList.OrderBy(pi => pi.TrackId).ToList();
             var playList = new List<MediaPlaybackItem>();
 
             int lastId = dbPlayList.Count - 1;
@@ -123,8 +123,8 @@ namespace SimpleSongsPlayer.Services
             }
 
             SetUpTrackId(dbPlayList, lastId);
-            _dbContext.UpdateRange(dbPlayList);
-            await _dbContext.SaveChangesAsync();
+            DbContext.UpdateRange(dbPlayList);
+            await DbContext.SaveChangesAsync();
 
             playList.ForEach(_playbackList.Items.Add);
         }
@@ -137,7 +137,7 @@ namespace SimpleSongsPlayer.Services
 
         private void CleanDbAndList()
         {
-            _dbContext.PlaybackList.RemoveRange(_dbContext.PlaybackList);
+            DbContext.PlaybackList.RemoveRange(DbContext.PlaybackList);
             _playbackList.Items.Clear();
         }
 
@@ -146,11 +146,11 @@ namespace SimpleSongsPlayer.Services
             await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             async () =>
             {
-                var dbPlayList = _dbContext.PlaybackList.ToList();
+                var dbPlayList = DbContext.PlaybackList.ToList();
                 dbPlayList.ForEach(pi => pi.IsPlaying = pi.TrackId == sender.CurrentItemIndex);
 
-                _dbContext.PlaybackList.UpdateRange(dbPlayList);
-                await _dbContext.SaveChangesAsync();
+                DbContext.PlaybackList.UpdateRange(dbPlayList);
+                await DbContext.SaveChangesAsync();
                 WeakReferenceMessenger.Default.Send($"CurrentPlay: {dbPlayList[(int)sender.CurrentItemIndex].MusicFileId}", "MediaPlayer");
             });
         }
