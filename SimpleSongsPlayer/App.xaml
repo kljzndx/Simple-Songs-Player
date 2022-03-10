@@ -10,6 +10,13 @@
             <controls:XamlControlsResources.MergedDictionaries>
                 <ResourceDictionary>
                     <vm:ViewModelLocator x:Key="Vms"/>
+
+                    <Style x:Key="IconButtonStyle" TargetType="Button">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Padding" Value="6" />
+                        <Setter Property="Margin" Value="2,0" />
+                    </Style>
+
                 </ResourceDictionary>
             </controls:XamlControlsResources.MergedDictionaries>
         </controls:XamlControlsResources>
