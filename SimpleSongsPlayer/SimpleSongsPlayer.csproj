@@ -127,6 +127,11 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MusicListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\Controllers\CustomPlayerElement.xaml.cs">
+      <DependentUpon>CustomPlayerElement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Converters\TimeSpanToDoubleCoverter.cs" />
+    <Compile Include="Views\Converters\TimeSpanToString.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -155,6 +160,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\Controllers\CustomPlayerElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
