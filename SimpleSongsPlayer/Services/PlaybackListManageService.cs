@@ -143,7 +143,7 @@ namespace SimpleSongsPlayer.Services
 
         private async void PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
         {
-            await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            await Ioc.Default.GetRequiredService<CoreDispatcher>().RunAsync(CoreDispatcherPriority.Normal,
             async () =>
             {
                 var dbPlayList = DbContext.PlaybackList.ToList();
