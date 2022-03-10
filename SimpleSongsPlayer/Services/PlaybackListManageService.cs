@@ -146,12 +146,16 @@ namespace SimpleSongsPlayer.Services
             await Ioc.Default.GetRequiredService<CoreDispatcher>().RunAsync(CoreDispatcherPriority.Normal,
             async () =>
             {
+                int trackId = (int)sender.CurrentItemIndex;
+                if (trackId < 0 && trackId >= await DbContext.PlaybackList.CountAsync())
+                    return;
+
                 var dbPlayList = DbContext.PlaybackList.ToList();
-                dbPlayList.ForEach(pi => pi.IsPlaying = pi.TrackId == sender.CurrentItemIndex);
+                dbPlayList.ForEach(pi => pi.IsPlaying = pi.TrackId == trackId);
 
                 DbContext.PlaybackList.UpdateRange(dbPlayList);
                 await DbContext.SaveChangesAsync();
-                WeakReferenceMessenger.Default.Send($"CurrentPlay: {dbPlayList[(int)sender.CurrentItemIndex].MusicFileId}", "MediaPlayer");
+                WeakReferenceMessenger.Default.Send($"CurrentPlay: {dbPlayList[trackId].MusicFileId}", "MediaPlayer");
             });
         }
     }
