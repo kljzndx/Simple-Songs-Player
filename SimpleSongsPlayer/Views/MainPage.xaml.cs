@@ -1,4 +1,9 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+
+using SimpleSongsPlayer.Services;
+using SimpleSongsPlayer.ViewModels;
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +30,17 @@ namespace SimpleSongsPlayer.Views
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private async void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            Main_Frame.Navigate(typeof(MusicListPage));
+            Ioc.Default.GetRequiredService<MusicListViewModel>().Load(manage =>
+            {
+                var muiList = manage.GetAllMusic();
+                return manage.GroupMusicByFirstLetter(muiList);
+            });
+            await Ioc.Default.GetRequiredService<MusicFileScanningService>().ScanAsync();
         }
     }
 }
