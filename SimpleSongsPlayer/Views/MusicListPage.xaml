@@ -30,7 +30,7 @@
                     <AppBarButton.Flyout>
                         <Flyout>
                             <StackPanel Orientation="Vertical">
-                                <ListView>
+                                <ListView Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}">
                                     <ListViewItem Tag="Title">标题</ListViewItem>
                                     <ListViewItem Tag="TrackNumber">音轨编号</ListViewItem>
                                     <ListViewItem Tag="UpdateDate">更新时间</ListViewItem>
