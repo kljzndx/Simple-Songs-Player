@@ -46,12 +46,26 @@
 
         <SemanticZoom Grid.Row="1">
             <SemanticZoom.ZoomedInView>
-                <ListView ItemsSource="{Binding Source={StaticResource Data_Cvs}}" DisplayMemberPath="Title">
+                <ListView ItemsSource="{Binding Source={StaticResource Data_Cvs}}">
                     <ListView.GroupStyle>
                         <GroupStyle HidesIfEmpty="True">
+                            <GroupStyle.HeaderContainerStyle>
+                                <Style TargetType="ListViewHeaderItem">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                </Style>
+                            </GroupStyle.HeaderContainerStyle>
                             <GroupStyle.HeaderTemplate>
                                 <DataTemplate x:DataType="model:MusicGroup">
-                                    <TextBlock Text="{x:Bind Name}"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{x:Bind Name}"/>
+
+                                        <Button Grid.Column="1" Tapped="PlayGroup_Button_Tapped">Play</Button>
+                                    </Grid>
                                 </DataTemplate>
                             </GroupStyle.HeaderTemplate>
                         </GroupStyle>

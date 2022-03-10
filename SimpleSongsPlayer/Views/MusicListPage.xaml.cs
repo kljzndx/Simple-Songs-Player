@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Messaging;
 
+using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Services;
 using SimpleSongsPlayer.ViewModels;
 
@@ -35,6 +36,15 @@ namespace SimpleSongsPlayer.Views
         {
             this.InitializeComponent();
             _vm = Ioc.Default.GetRequiredService<MusicListViewModel>();
+        }
+
+        private async void PlayGroup_Button_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            e.Handled = true;
+            var s = sender as FrameworkElement;
+            var context = s.DataContext as MusicGroup;
+
+            await _vm.PlaybackListService.PushGroup(context.Items);
         }
     }
 }
