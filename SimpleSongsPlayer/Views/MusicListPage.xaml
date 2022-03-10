@@ -30,11 +30,11 @@
                     <AppBarButton.Flyout>
                         <Flyout>
                             <StackPanel Orientation="Vertical">
-                                <ListBox>
-                                    <x:String>标题</x:String>
-                                    <x:String>音轨编号</x:String>
-                                    <x:String>更新时间</x:String>
-                                </ListBox>
+                                <ListView>
+                                    <ListViewItem Tag="Title">标题</ListViewItem>
+                                    <ListViewItem Tag="TrackNumber">音轨编号</ListViewItem>
+                                    <ListViewItem Tag="UpdateDate">更新时间</ListViewItem>
+                                </ListView>
                                 
                                 <Button Content="反向排序" Margin="0,8,0,0" HorizontalAlignment="Stretch" />
                             </StackPanel>
@@ -46,7 +46,7 @@
 
         <SemanticZoom Grid.Row="1">
             <SemanticZoom.ZoomedInView>
-                <ListView ItemsSource="{Binding Source={StaticResource Data_Cvs}}">
+                <ListView ItemsSource="{Binding Source={StaticResource Data_Cvs}}" DisplayMemberPath="Title">
                     <ListView.GroupStyle>
                         <GroupStyle HidesIfEmpty="True">
                             <GroupStyle.HeaderContainerStyle>
