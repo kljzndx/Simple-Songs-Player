@@ -59,6 +59,7 @@ namespace SimpleSongsPlayer
                     mc.Database.Migrate();
                     return mc;
                 })
+                .AddSingleton<ConfigurationService>()
                 .AddSingleton<MusicFileManageService>()
                 .AddSingleton<MusicFileScanningService>()
                 .AddSingleton<PlaybackListManageService>()
