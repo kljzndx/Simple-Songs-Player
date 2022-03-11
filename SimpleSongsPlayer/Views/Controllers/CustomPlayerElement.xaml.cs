@@ -93,7 +93,8 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private void Position_Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            _mediaPlayer.PlaybackSession.Position = TimeSpan.FromMinutes(Position_Slider.Value);
+            if (_isPressSlider)
+                _mediaPlayer.PlaybackSession.Position = TimeSpan.FromMinutes(Position_Slider.Value);
         }
     }
 }
