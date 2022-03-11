@@ -171,7 +171,7 @@ namespace SimpleSongsPlayer.Services
                 int trackId = (int)sender.CurrentItemIndex;
                 if (trackId < 0 || trackId >= await DbContext.PlaybackList.CountAsync()) return;
 
-                var dbPlayList = DbContext.PlaybackList.ToList();
+                var dbPlayList = DbContext.PlaybackList.OrderBy(pi => pi.TrackId).ToList();
                 dbPlayList.ForEach(pi => pi.IsPlaying = pi.TrackId == trackId);
 
                 DbContext.PlaybackList.UpdateRange(dbPlayList);
