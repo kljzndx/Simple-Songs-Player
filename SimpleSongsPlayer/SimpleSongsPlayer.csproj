@@ -121,6 +121,7 @@
     </Compile>
     <Compile Include="Models\MusicGroup.cs" />
     <Compile Include="Models\MusicUi.cs" />
+    <Compile Include="Services\ConfigurationService.cs" />
     <Compile Include="Services\MusicFileScanningService.cs" />
     <Compile Include="Services\MusicFileManageService.cs" />
     <Compile Include="Services\PlaybackListManageService.cs" />
