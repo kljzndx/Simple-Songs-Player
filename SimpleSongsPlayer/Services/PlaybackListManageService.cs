@@ -27,7 +27,10 @@ namespace SimpleSongsPlayer.Services
 
         public PlaybackListManageService()
         {
-            _playbackList = new MediaPlaybackList();
+            _playbackList = new MediaPlaybackList()
+            {
+                AutoRepeatEnabled = true,
+            };
 
             _playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
         }
