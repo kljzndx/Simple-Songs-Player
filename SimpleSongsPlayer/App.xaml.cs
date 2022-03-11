@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -68,7 +69,10 @@ namespace SimpleSongsPlayer
                 .AddSingleton<MediaPlayer>(ioc =>
                 {
                     var player = new MediaPlayer();
-                    player.Source = ioc.GetRequiredService<PlaybackListManageService>().GetPlaybackList();
+                    var service = ioc.GetRequiredService<PlaybackListManageService>();
+                    service.InitPlayList();
+
+                    player.Source = service.GetPlaybackList();
                     return player;
                 })
                 .AddSingleton<CoreDispatcher>(Window.Current.Dispatcher)

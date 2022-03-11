@@ -8,6 +8,7 @@ using SimpleSongsPlayer.Models;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,12 +23,31 @@ namespace SimpleSongsPlayer.Services
     {
         private MainDbContext DbContext => Ioc.Default.GetRequiredService<MainDbContext>();
         private MediaPlaybackList _playbackList;
+        private bool _isInit = false;
 
         public PlaybackListManageService()
         {
             _playbackList = new MediaPlaybackList();
 
             _playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
+        }
+
+        public async Task InitPlayList()
+        {
+            if (!DbContext.PlaybackList.Any())
+                return;
+
+            var dbPlayList = DbContext.PlaybackList.Include(pi => pi.File).OrderBy(pi => pi.TrackId).ToList();
+            var muiList = dbPlayList.Select(pi => new MusicUi(pi.File)).ToList();
+
+            foreach (var mui in muiList)
+                _playbackList.Items.Add(await mui.GetPlaybackItem().ConfigureAwait(false));
+
+            var playing = dbPlayList.FirstOrDefault(pi => pi.IsPlaying);
+            if (playing != null)
+                _playbackList.MoveTo((uint)playing.TrackId);
+
+            _isInit = true;
         }
 
         public MediaPlaybackList GetPlaybackList()
@@ -146,9 +166,10 @@ namespace SimpleSongsPlayer.Services
             await Ioc.Default.GetRequiredService<CoreDispatcher>().RunAsync(CoreDispatcherPriority.Normal,
             async () =>
             {
+                if (!_isInit) return;
+
                 int trackId = (int)sender.CurrentItemIndex;
-                if (trackId < 0 && trackId >= await DbContext.PlaybackList.CountAsync())
-                    return;
+                if (trackId < 0 || trackId >= await DbContext.PlaybackList.CountAsync()) return;
 
                 var dbPlayList = DbContext.PlaybackList.ToList();
                 dbPlayList.ForEach(pi => pi.IsPlaying = pi.TrackId == trackId);
