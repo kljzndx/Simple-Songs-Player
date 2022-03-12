@@ -8,7 +8,7 @@
     <Application.Resources>
         <controls:XamlControlsResources>
             <controls:XamlControlsResources.MergedDictionaries>
-                <ResourceDictionary>
+                <ResourceDictionary xmlns:cvt="using:SimpleSongsPlayer.Views.Converters">
                     <vm:ViewModelLocator x:Key="Vms"/>
 
                     <Style x:Key="IconButtonStyle" TargetType="Button">
@@ -17,6 +17,10 @@
                         <Setter Property="Margin" Value="2,0" />
                     </Style>
 
+                    <cvt:TimeSpanToDoubleCoverter x:Key="TimeSpanToDouble"/>
+                    <cvt:TimeSpanToStringCoverter x:Key="TimeSpanToString"/>
+                    <cvt:PercentageConverter x:Key="PercentageConverter"/>
+                    <cvt:EnumToInt32Converter x:Key="EnumToInt32" />
                 </ResourceDictionary>
             </controls:XamlControlsResources.MergedDictionaries>
         </controls:XamlControlsResources>
