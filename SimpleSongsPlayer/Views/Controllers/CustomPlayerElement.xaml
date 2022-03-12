@@ -67,18 +67,18 @@
                 
                 <Button.Flyout>
                     <Flyout>
-                        <StackPanel>
-                            <StackPanel>
-                                <TextBlock Text="播放速率" />
-                                <StackPanel Orientation="Horizontal">
-                                    <Slider x:Name="Rate_Slider" Width="250" Value="{x:Bind _configService.PlaybackRate, Mode=TwoWay, Converter={StaticResource PercentageConverter}}" Maximum="200" StepFrequency="10"/>
-                                    <TextBlock Width="30" VerticalAlignment="Center" Margin="8,0"
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="8,0">
+                                <TextBlock Text="播放速率" Margin="0,4" />
+                                <StackPanel>
+                                    <TextBlock HorizontalAlignment="Center"
                                                Text="{x:Bind Rate_Slider.Value, Mode=OneWay}"/>
+                                    <Slider x:Name="Rate_Slider" HorizontalAlignment="Center" Height="150" Minimum="50" Value="{x:Bind _configService.PlaybackRate, Mode=TwoWay, Converter={StaticResource PercentageConverter}}" Maximum="300" StepFrequency="10" Orientation="Vertical"/>
                                 </StackPanel>
                             </StackPanel>
-                            <StackPanel>
-                                <TextBlock Text="Looping mode" />
-                                <ListView HorizontalAlignment="Left" SelectedIndex="{x:Bind _configService.LoopingMode, Mode=TwoWay, Converter={StaticResource EnumToInt32}}" Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}">
+                            <StackPanel Margin="8,0">
+                                <TextBlock Text="Looping mode" Margin="0,4" HorizontalAlignment="Center" />
+                                <ListView HorizontalAlignment="Center" SelectedIndex="{x:Bind _configService.LoopingMode, Mode=TwoWay, Converter={StaticResource EnumToInt32}}" Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}">
                                     <ListViewItem Tag="Single">单曲循环</ListViewItem>
                                     <ListViewItem Tag="List">顺序播放</ListViewItem>
                                     <ListViewItem Tag="Random">随机播放</ListViewItem>
