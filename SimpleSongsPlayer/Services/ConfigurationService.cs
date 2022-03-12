@@ -42,6 +42,10 @@ namespace SimpleSongsPlayer.Services
         private MusicListSortEnum _musicListSort;
         [SettingFieldByEnum(nameof(MusicGroupSort), typeof(MusicGroupSortEnum), "Name")]
         private MusicGroupSortEnum _musicGroupSort;
+        [SettingFieldByNormal(nameof(IsReverseMusicGroupList), false)]
+        private bool _isReverseMusicGroupList;
+        [SettingFieldByNormal(nameof(IsReverseMusicList), false)]
+        private bool _isReverseMusicList;
 
         public double Volume
         {
@@ -59,15 +63,26 @@ namespace SimpleSongsPlayer.Services
             set => SetSetting(ref _loopingMode, value);
         }
 
-        public MusicListSortEnum MusicListSort
-        {
-            get => _musicListSort;
-            set => SetSetting(ref _musicListSort, value);
-        }
         public MusicGroupSortEnum MusicGroupSort
         {
             get => _musicGroupSort;
             set => SetSetting(ref _musicGroupSort, value);
         }
+        public MusicListSortEnum MusicListSort
+        {
+            get => _musicListSort;
+            set => SetSetting(ref _musicListSort, value);
+        }
+        public bool IsReverseMusicGroupList
+        {
+            get => _isReverseMusicGroupList;
+            set => SetSetting(ref _isReverseMusicGroupList, value);
+        }
+        public bool IsReverseMusicList
+        {
+            get => _isReverseMusicList;
+            set => SetSetting(ref _isReverseMusicList, value);
+        }
+
     }
 }
