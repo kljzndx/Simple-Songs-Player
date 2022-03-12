@@ -75,6 +75,8 @@ namespace SimpleSongsPlayer
                     playListService.InitPlayList();
 
                     player.Volume = configService.Volume;
+                    player.IsLoopingEnabled = configService.LoopingMode == LoopingModeEnum.Single;
+
                     player.Source = playListService.GetPlaybackList();
                     return player;
                 })

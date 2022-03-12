@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Windows.Foundation;
 using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -25,11 +26,14 @@ namespace SimpleSongsPlayer.Services
         private MediaPlaybackList _playbackList;
         private bool _isInit = false;
 
-        public PlaybackListManageService()
+        public event TypedEventHandler<MediaPlaybackList, CurrentMediaPlaybackItemChangedEventArgs> CurrentItemChanged;
+
+        public PlaybackListManageService(ConfigurationService configService)
         {
             _playbackList = new MediaPlaybackList()
             {
                 AutoRepeatEnabled = true,
+                ShuffleEnabled = configService.LoopingMode == LoopingModeEnum.Random,
             };
 
             _playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
@@ -180,6 +184,7 @@ namespace SimpleSongsPlayer.Services
                 DbContext.PlaybackList.UpdateRange(dbPlayList);
                 await DbContext.SaveChangesAsync();
                 WeakReferenceMessenger.Default.Send($"CurrentPlay: {dbPlayList[trackId].MusicFileId}", "MediaPlayer");
+                CurrentItemChanged?.Invoke(sender, args);
             });
         }
     }
