@@ -38,6 +38,13 @@ namespace SimpleSongsPlayer.Views
             _vm = Ioc.Default.GetRequiredService<MusicListViewModel>();
         }
 
+        private async void PlayAll_AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var list = new List<MusicUi>();
+            _vm.Source.Select(mg => mg.Items).ToList().ForEach(list.AddRange);
+            await _vm.PlaybackListService.PushGroup(list);
+        }
+
         private async void PlayGroup_Button_Tapped(object sender, TappedRoutedEventArgs e)
         {
             e.Handled = true;

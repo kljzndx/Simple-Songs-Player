@@ -23,7 +23,7 @@
 
         <CommandBar OverflowButtonVisibility="Auto" DefaultLabelPosition="Right">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="Play" Label="全部播放" />
+                <AppBarButton Icon="Play" Label="全部播放" Click="PlayAll_AppBarButton_Click"/>
                 <AppBarSeparator />
                 <AppBarButton Icon="Refresh" Label="刷新" Click="{x:Bind _vm.Refresh}"/>
                 <AppBarButton Icon="Sort" Label="排序">
