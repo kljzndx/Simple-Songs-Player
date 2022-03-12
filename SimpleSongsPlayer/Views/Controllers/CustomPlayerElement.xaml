@@ -13,6 +13,8 @@
         <Style BasedOn="{StaticResource IconButtonStyle}" TargetType="Button"/>
 
         <cvt:TimeSpanToStringCoverter x:Key="TimeSpanToString"/>
+        <cvt:PercentageConverter x:Key="PercentageConverter"/>
+        <cvt:EnumToInt32Converter x:Key="EnumToInt32" />
     </UserControl.Resources>
 
     <Grid VerticalAlignment="Bottom">
@@ -51,7 +53,7 @@
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel Orientation="Horizontal">
-                            <Slider x:Name="Volume_Slider" Width="200" Value="50" Maximum="100"/>
+                            <Slider x:Name="Volume_Slider" Width="200" Value="{x:Bind _configService.Volume, Mode=TwoWay, Converter={StaticResource PercentageConverter}}" Maximum="100"/>
                             <TextBlock Width="30" VerticalAlignment="Center" Margin="8,0"
                                        Text="{x:Bind Volume_Slider.Value, Mode=OneWay}"/>
                         </StackPanel>
@@ -69,14 +71,14 @@
                             <StackPanel>
                                 <TextBlock Text="播放速率" />
                                 <StackPanel Orientation="Horizontal">
-                                    <Slider x:Name="Rate_Slider" Width="250" Value="100" Maximum="200" StepFrequency="10"/>
+                                    <Slider x:Name="Rate_Slider" Width="250" Value="{x:Bind _configService.PlaybackRate, Mode=TwoWay, Converter={StaticResource PercentageConverter}}" Maximum="200" StepFrequency="10"/>
                                     <TextBlock Width="30" VerticalAlignment="Center" Margin="8,0"
                                                Text="{x:Bind Rate_Slider.Value, Mode=OneWay}"/>
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel>
                                 <TextBlock Text="Looping mode" />
-                                <ListView HorizontalAlignment="Left" Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}">
+                                <ListView HorizontalAlignment="Left" SelectedIndex="{x:Bind _configService.LoopingMode, Mode=TwoWay, Converter={StaticResource EnumToInt32}}" Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}">
                                     <ListViewItem Tag="Single">单曲循环</ListViewItem>
                                     <ListViewItem Tag="List">顺序播放</ListViewItem>
                                     <ListViewItem Tag="Random">随机播放</ListViewItem>

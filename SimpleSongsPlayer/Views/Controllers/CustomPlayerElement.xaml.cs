@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 
+using SimpleSongsPlayer.Services;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,11 +26,15 @@ namespace SimpleSongsPlayer.Views.Controllers
     public sealed partial class CustomPlayerElement : UserControl
     {
         private readonly MediaPlayer _mediaPlayer;
+        private readonly ConfigurationService _configService;
         private bool _isPressSlider;
 
         public CustomPlayerElement()
         {
             this.InitializeComponent();
+            _configService = Ioc.Default.GetRequiredService<ConfigurationService>();
+            _configService.PropertyChanged += ConfigService_PropertyChanged;
+
             _mediaPlayer = Ioc.Default.GetRequiredService<MediaPlayer>();
             _mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
             _mediaPlayer.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
@@ -39,6 +45,28 @@ namespace SimpleSongsPlayer.Views.Controllers
 
             Position_Slider.GotFocus += (s, e) => _isPressSlider = true;
             Position_Slider.LostFocus += (s, e) => _isPressSlider = false;
+        }
+
+        private MediaPlaybackList GetPlayList()
+        {
+            return (MediaPlaybackList)_mediaPlayer.Source;
+        }
+
+        private void ConfigService_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(_configService.Volume):
+                    _mediaPlayer.Volume = _configService.Volume;
+                    break;
+                case nameof(_configService.LoopingMode):
+                    _mediaPlayer.IsLoopingEnabled = _configService.LoopingMode == LoopingModeEnum.Single;
+                    GetPlayList().ShuffleEnabled = _configService.LoopingMode == LoopingModeEnum.Random;
+                    break;
+                case nameof(_configService.PlaybackRate):
+                    _mediaPlayer.PlaybackSession.PlaybackRate = _configService.PlaybackRate;
+                    break;
+            }
         }
 
         private async void PlaybackSession_PositionChanged(MediaPlaybackSession sender, object args)
@@ -70,6 +98,8 @@ namespace SimpleSongsPlayer.Views.Controllers
                     case MediaPlaybackState.Playing:
                         Play_Button.Visibility = Visibility.Collapsed;
                         Pause_Button.Visibility = Visibility.Visible;
+
+                        sender.PlaybackRate = _configService.PlaybackRate;
                         break;
                     case MediaPlaybackState.Paused:
                     case MediaPlaybackState.None:
@@ -83,12 +113,12 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private void Previous_Button_Click(object sender, RoutedEventArgs e)
         {
-            ((MediaPlaybackList)_mediaPlayer.Source).MovePrevious();
+            GetPlayList().MovePrevious();
         }
 
         private void Next_Button_Click(object sender, RoutedEventArgs e)
         {
-            ((MediaPlaybackList)_mediaPlayer.Source).MoveNext();
+            GetPlayList().MoveNext();
         }
 
         private void Position_Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)

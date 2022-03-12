@@ -131,6 +131,8 @@
     <Compile Include="Views\Controllers\CustomPlayerElement.xaml.cs">
       <DependentUpon>CustomPlayerElement.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Converters\EnumToInt32Converter.cs" />
+    <Compile Include="Views\Converters\PercentageConverter.cs" />
     <Compile Include="Views\Converters\TimeSpanToDoubleCoverter.cs" />
     <Compile Include="Views\Converters\TimeSpanToString.cs" />
     <Compile Include="Views\MainPage.xaml.cs">

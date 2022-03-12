@@ -70,10 +70,12 @@ namespace SimpleSongsPlayer
                 .AddSingleton<MediaPlayer>(ioc =>
                 {
                     var player = new MediaPlayer();
-                    var service = ioc.GetRequiredService<PlaybackListManageService>();
-                    service.InitPlayList();
+                    var configService = ioc.GetRequiredService<ConfigurationService>();
+                    var playListService = ioc.GetRequiredService<PlaybackListManageService>();
+                    playListService.InitPlayList();
 
-                    player.Source = service.GetPlaybackList();
+                    player.Volume = configService.Volume;
+                    player.Source = playListService.GetPlaybackList();
                     return player;
                 })
                 .AddSingleton<CoreDispatcher>(Window.Current.Dispatcher)
