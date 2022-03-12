@@ -51,8 +51,11 @@ namespace SimpleSongsPlayer.Models
         public string Title { get; }
         public string Artist => _table.Artist;
         public string Album => _table.Album;
+        public uint TrackNumber => _table.TrackNumber;
         public TimeSpan Duration => _table.Duration;
+
         public string FilePath => _table.FilePath;
+        public DateTime ModifyDate => _table.FileChangeDate;
 
         public MusicFile GetTable() => _table;
 

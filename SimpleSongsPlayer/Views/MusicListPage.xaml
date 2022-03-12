@@ -29,14 +29,30 @@
                 <AppBarButton Icon="Sort" Label="排序">
                     <AppBarButton.Flyout>
                         <Flyout>
-                            <StackPanel Orientation="Vertical">
-                                <ListView Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}">
-                                    <ListViewItem Tag="Title">标题</ListViewItem>
-                                    <ListViewItem Tag="TrackNumber">音轨编号</ListViewItem>
-                                    <ListViewItem Tag="UpdateDate">更新时间</ListViewItem>
-                                </ListView>
-                                
-                                <Button Content="反向排序" Margin="0,8,0,0" HorizontalAlignment="Stretch" />
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Margin="8,0">
+                                    <TextBlock Text="项目排序" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                    <ListView Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
+                                          SelectedIndex="{x:Bind _vm.ConfigService.MusicListSort, Mode=TwoWay, Converter={StaticResource EnumToInt32}}">
+                                        <ListViewItem Tag="Title">标题</ListViewItem>
+                                        <ListViewItem Tag="TrackNumber">音轨编号</ListViewItem>
+                                        <ListViewItem Tag="UpdateDate">更新时间</ListViewItem>
+                                    </ListView>
+
+                                    <CheckBox Margin="0,8,0,0" IsChecked="{x:Bind _vm.ConfigService.IsReverseMusicList, Mode=TwoWay}"
+                                              Content="反向排序"/>
+                                </StackPanel>
+                                <StackPanel Margin="8,0">
+                                    <TextBlock Text="分组排序" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                    <ListView Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
+                                          SelectedIndex="{x:Bind _vm.ConfigService.MusicGroupSort, Mode=TwoWay, Converter={StaticResource EnumToInt32}}">
+                                        <ListViewItem Tag="Name">名称</ListViewItem>
+                                        <ListViewItem Tag="Count">子项数量</ListViewItem>
+                                    </ListView>
+
+                                    <CheckBox Margin="0,8,0,0" IsChecked="{x:Bind _vm.ConfigService.IsReverseMusicGroupList, Mode=TwoWay}"
+                                              Content="反向排序"/>
+                                </StackPanel>
                             </StackPanel>
                         </Flyout>
                     </AppBarButton.Flyout>
