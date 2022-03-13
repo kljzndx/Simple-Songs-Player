@@ -22,6 +22,15 @@ namespace SimpleSongsPlayer.Services
         Count
     }
 
+    public enum MusicListGroupMethodEnum
+    {
+        None,
+        FirstCharacterOfTitle,
+        Artist,
+        Album,
+        Folder
+    }
+
     public enum LoopingModeEnum
     {
         Single,
@@ -38,6 +47,8 @@ namespace SimpleSongsPlayer.Services
         [SettingFieldByEnum(nameof(LoopingMode), typeof(LoopingModeEnum), "List")]
         private LoopingModeEnum _loopingMode;
 
+        [SettingFieldByEnum(nameof(MusicListGroupMethod), typeof(MusicListGroupMethodEnum), "FirstCharacterOfTitle")]
+        private MusicListGroupMethodEnum _musicListGroupMethod;
         [SettingFieldByEnum(nameof(MusicListSort), typeof(MusicListSortEnum), "Title")]
         private MusicListSortEnum _musicListSort;
         [SettingFieldByEnum(nameof(MusicGroupListSort), typeof(MusicGroupListSortEnum), "Name")]
@@ -63,6 +74,12 @@ namespace SimpleSongsPlayer.Services
             set => SetSetting(ref _loopingMode, value);
         }
 
+
+        public MusicListGroupMethodEnum MusicListGroupMethod
+        {
+            get => _musicListGroupMethod;
+            set => SetSetting(ref _musicListGroupMethod, value);
+        }
         public MusicGroupListSortEnum MusicGroupListSort
         {
             get => _musicGroupListSort;

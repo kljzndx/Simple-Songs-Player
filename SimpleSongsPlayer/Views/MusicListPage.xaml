@@ -26,6 +26,20 @@
                 <AppBarButton Icon="Play" Label="全部播放" Click="PlayAll_AppBarButton_Click"/>
                 <AppBarSeparator />
                 <AppBarButton Icon="Refresh" Label="刷新" Click="{x:Bind _vm.Refresh}"/>
+                <AppBarButton Icon="ViewAll" Label="分组">
+                    <AppBarButton.Flyout>
+                        <Flyout>
+                            <ListView Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
+                                      SelectedIndex="{x:Bind _vm.ConfigService.MusicListGroupMethod, Mode=TwoWay, Converter={StaticResource EnumToInt32}}">
+                                <ListViewItem>无</ListViewItem>
+                                <ListViewItem>标题首字母</ListViewItem>
+                                <ListViewItem>歌手</ListViewItem>
+                                <ListViewItem>专辑</ListViewItem>
+                                <ListViewItem>文件夹</ListViewItem>
+                            </ListView>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
                 <AppBarButton Icon="Sort" Label="排序">
                     <AppBarButton.Flyout>
                         <Flyout>

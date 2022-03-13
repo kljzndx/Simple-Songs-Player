@@ -7,6 +7,7 @@ using SimpleSongsPlayer.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,9 +16,9 @@ namespace SimpleSongsPlayer.ViewModels
 {
     public class MusicListViewModel : ObservableRecipient
     {
-        private Func<MusicFileManageService, List<MusicGroup>> _sourceGetter;
         private MusicFileManageService _manageService;
 
+        private IEnumerable<MusicUi> _musicListSource;
         private IEnumerable<MusicGroup> _source;
 
         public MusicListViewModel(ConfigurationService configService, MusicFileManageService manageService, PlaybackListManageService playbackListService)
@@ -41,19 +42,40 @@ namespace SimpleSongsPlayer.ViewModels
         public ConfigurationService ConfigService { get; }
         public PlaybackListManageService PlaybackListService { get; }
 
-        public void Load(Func<MusicFileManageService, List<MusicGroup>> sourceGetter)
-        {
-            this._sourceGetter = sourceGetter;
-            Refresh();
-        }
-
         public void Refresh()
         {
-            if (_sourceGetter != null)
-                Source = _sourceGetter.Invoke(_manageService);
+            InitSource(_musicListSource ?? _manageService.GetAllMusic());
+        }
 
+        public void InitSource(IEnumerable<MusicUi> musicListSource)
+        {
+            _musicListSource = musicListSource.ToList();
+
+            AutoGroup();
             SortGroup();
             SortList();
+        }
+
+        public void AutoGroup()
+        {
+            switch (ConfigService.MusicListGroupMethod)
+            {
+                case MusicListGroupMethodEnum.None:
+                    Source = new List<MusicGroup>(new[] { new MusicGroup("All", _musicListSource) });
+                    break;
+                case MusicListGroupMethodEnum.FirstCharacterOfTitle:
+                    Source = _manageService.GroupMusicByFirstLetter(_musicListSource);
+                    break;
+                case MusicListGroupMethodEnum.Artist:
+                    Source = _manageService.GroupMusic(_musicListSource, mu => mu.Artist);
+                    break;
+                case MusicListGroupMethodEnum.Album:
+                    Source = _manageService.GroupMusic(_musicListSource, mu => mu.Album);
+                    break;
+                case MusicListGroupMethodEnum.Folder:
+                    Source = _manageService.GroupMusic(_musicListSource, mu => Path.GetDirectoryName(mu.FilePath));
+                    break;
+            }
         }
 
         public void SortGroup()
@@ -99,6 +121,9 @@ namespace SimpleSongsPlayer.ViewModels
         {
             switch (e.PropertyName)
             {
+                case nameof(ConfigService.MusicListGroupMethod):
+                    AutoGroup();
+                    break;
                 case nameof(ConfigService.IsReverseMusicGroupList):
                 case nameof(ConfigService.MusicGroupListSort):
                     SortGroup();

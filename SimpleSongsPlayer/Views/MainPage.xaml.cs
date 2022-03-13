@@ -35,11 +35,6 @@ namespace SimpleSongsPlayer.Views
         private async void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             Main_Frame.Navigate(typeof(MusicListPage));
-            Ioc.Default.GetRequiredService<MusicListViewModel>().Load(manage =>
-            {
-                var muiList = manage.GetAllMusic();
-                return manage.GroupMusicByFirstLetter(muiList);
-            });
             await Ioc.Default.GetRequiredService<MusicFileScanningService>().ScanAsync();
         }
     }
