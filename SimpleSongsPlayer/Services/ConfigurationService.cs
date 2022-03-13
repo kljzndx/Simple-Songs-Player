@@ -16,7 +16,7 @@ namespace SimpleSongsPlayer.Services
         ModifyDate
     }
 
-    public enum MusicGroupSortEnum
+    public enum MusicGroupListSortEnum
     {
         Name,
         Count
@@ -40,8 +40,8 @@ namespace SimpleSongsPlayer.Services
 
         [SettingFieldByEnum(nameof(MusicListSort), typeof(MusicListSortEnum), "Title")]
         private MusicListSortEnum _musicListSort;
-        [SettingFieldByEnum(nameof(MusicGroupListSort), typeof(MusicGroupSortEnum), "Name")]
-        private MusicGroupSortEnum _musicGroupListSort;
+        [SettingFieldByEnum(nameof(MusicGroupListSort), typeof(MusicGroupListSortEnum), "Name")]
+        private MusicGroupListSortEnum _musicGroupListSort;
         [SettingFieldByNormal(nameof(IsReverseMusicGroupList), false)]
         private bool _isReverseMusicGroupList;
         [SettingFieldByNormal(nameof(IsReverseMusicList), false)]
@@ -63,7 +63,7 @@ namespace SimpleSongsPlayer.Services
             set => SetSetting(ref _loopingMode, value);
         }
 
-        public MusicGroupSortEnum MusicGroupListSort
+        public MusicGroupListSortEnum MusicGroupListSort
         {
             get => _musicGroupListSort;
             set => SetSetting(ref _musicGroupListSort, value);

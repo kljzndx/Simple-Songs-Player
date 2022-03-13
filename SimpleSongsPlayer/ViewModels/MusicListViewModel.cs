@@ -62,10 +62,10 @@ namespace SimpleSongsPlayer.ViewModels
 
             switch (ConfigService.MusicGroupListSort)
             {
-                case MusicGroupSortEnum.Name:
+                case MusicGroupListSortEnum.Name:
                     Source = _source.OrderBy(mg => mg.Name).ToList();
                     break;
-                case MusicGroupSortEnum.Count:
+                case MusicGroupListSortEnum.Count:
                     Source = _source.OrderBy(mg => mg.Count).ToList();
                     break;
             }
