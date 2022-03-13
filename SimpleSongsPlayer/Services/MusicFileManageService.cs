@@ -52,11 +52,6 @@ namespace SimpleSongsPlayer.Services
             return musicGroupList.Where(mg => mg.Items.Any() || !string.IsNullOrWhiteSpace(mg.Name)).OrderBy(mg => mg.Name).ToList();
         }
 
-        public List<MusicGroup> WatchMusicGroup(MusicGroup group)
-        {
-            return new List<MusicGroup>(new[] { new MusicGroup("All", group.Items) });
-        }
-
         public List<MusicGroup> OrderMusicDataBy<TOrderByKey>(IEnumerable<MusicGroup> source, Func<MusicUi, TOrderByKey> orderByKeySelector)
         {
             return source.Select(mg => new MusicGroup(mg.Name, mg.Items.OrderBy(orderByKeySelector).ToList())).ToList();
