@@ -60,7 +60,7 @@ namespace SimpleSongsPlayer.ViewModels
         {
             if (Source == null || !Source.Any()) return;
 
-            switch (ConfigService.MusicGroupSort)
+            switch (ConfigService.MusicGroupListSort)
             {
                 case MusicGroupSortEnum.Name:
                     Source = _source.OrderBy(mg => mg.Name).ToList();
@@ -100,7 +100,7 @@ namespace SimpleSongsPlayer.ViewModels
             switch (e.PropertyName)
             {
                 case nameof(ConfigService.IsReverseMusicGroupList):
-                case nameof(ConfigService.MusicGroupSort):
+                case nameof(ConfigService.MusicGroupListSort):
                     SortGroup();
                     break;
                 case nameof(ConfigService.IsReverseMusicList):
