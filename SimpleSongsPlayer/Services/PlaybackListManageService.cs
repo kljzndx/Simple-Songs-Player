@@ -115,24 +115,24 @@ namespace SimpleSongsPlayer.Services
                 return;
             }
 
-            var playList = DbContext.PlaybackList.OrderBy(pi => pi.TrackId).ToList();
-            int currentTrackId = (int)_playbackList.CurrentItemIndex;
+            var dbPlayList = DbContext.PlaybackList.OrderBy(pi => pi.TrackId).ToList();
+            int trackId = (int)_playbackList.CurrentItemIndex;
 
-            var playItem = await DbContext.PlaybackList.FirstOrDefaultAsync(pi => pi.MusicFileId == source.Id);
-            if (playItem != null)
+            var dbPlayItem = await DbContext.PlaybackList.FirstOrDefaultAsync(pi => pi.MusicFileId == source.Id);
+            if (dbPlayItem != null)
             {
-                _playbackList.Items.Remove(_playbackList.Items[playItem.TrackId]);
-                playList.Remove(playItem);
+                _playbackList.Items.Remove(_playbackList.Items[dbPlayItem.TrackId]);
+                dbPlayList.Remove(dbPlayItem);
             }
 
-            var newItem = playItem == null ? new PlaybackItem(source.Id) : playItem;
-            playList.Insert(currentTrackId + 1, newItem);
-            SetUpTrackId(playList, currentTrackId);
+            var newItem = dbPlayItem == null ? new PlaybackItem(source.Id) : dbPlayItem;
+            dbPlayList.Insert(trackId + 1, newItem);
+            SetUpTrackId(dbPlayList, trackId);
 
-            DbContext.PlaybackList.UpdateRange(playList);
+            DbContext.PlaybackList.UpdateRange(dbPlayList);
             await DbContext.SaveChangesAsync();
 
-            _playbackList.Items.Insert(currentTrackId + 1, await source.GetPlaybackItem());
+            _playbackList.Items.Insert(trackId + 1, await source.GetPlaybackItem());
         }
 
         public async Task Append(IEnumerable<MusicUi> source)
