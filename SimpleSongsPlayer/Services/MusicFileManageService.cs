@@ -35,6 +35,13 @@ namespace SimpleSongsPlayer.Services
                    .OrderBy(pi => pi.TrackId).Select(pi => new MusicUi(pi.File)).ToList();
         }
 
+        public async Task RemoveMusicData(MusicUi musicUi, bool needSaveDb)
+        {
+            DbContext.MusicFiles.Remove(musicUi.GetTable());
+            if (needSaveDb)
+                await DbContext.SaveChangesAsync();
+        }
+
         public List<MusicGroup> GroupMusic(IEnumerable<MusicUi> source, Func<MusicUi, string> GroupKeySelector)
         {
             return source.GroupBy(GroupKeySelector).Select(g => new MusicGroup(g.Key, g)).OrderBy(mg => mg.Name).ToList();
