@@ -37,13 +37,14 @@ namespace SimpleSongsPlayer.Views.Controllers
             _configService.PropertyChanged += ConfigService_PropertyChanged;
 
             _playListService = Ioc.Default.GetRequiredService<PlaybackListManageService>();
+            _playListService.Loaded += PlayListService_Loaded;
             _playListService.CurrentItemChanged += PlayListService_CurrentItemChanged;
 
             _mediaPlayer = Ioc.Default.GetRequiredService<MediaPlayer>();
             _mediaPlayer.Source = _playListService.GetPlaybackList();
             _mediaPlayer.Volume = _configService.Volume;
             _mediaPlayer.IsLoopingEnabled = _configService.LoopingMode == LoopingModeEnum.Single;
-            _mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
+
             _mediaPlayer.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
             _mediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChanged;
 
@@ -87,17 +88,6 @@ namespace SimpleSongsPlayer.Views.Controllers
             }
         }
 
-        private async void MediaPlayer_MediaOpened(MediaPlayer sender, object args)
-        {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                Position_Slider.Maximum = sender.PlaybackSession.NaturalDuration.TotalMinutes;
-                sender.PlaybackSession.PlaybackRate = _configService.PlaybackRate;
-
-                sender.Play();
-            });
-        }
-
         private async void PlaybackSession_PlaybackStateChanged(MediaPlaybackSession sender, object args)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
@@ -127,6 +117,14 @@ namespace SimpleSongsPlayer.Views.Controllers
                 if (!_isPressSlider)
                     Position_Slider.Value = sender.Position.TotalMinutes;
             });
+        }
+
+        private void PlayListService_Loaded(object sender, EventArgs e)
+        {
+            Position_Slider.Maximum = _mediaPlayer.PlaybackSession.NaturalDuration.TotalMinutes;
+            _mediaPlayer.PlaybackSession.PlaybackRate = _configService.PlaybackRate;
+
+            _mediaPlayer.Play();
         }
 
         private void PlayListService_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
