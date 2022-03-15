@@ -35,7 +35,6 @@ namespace SimpleSongsPlayer.Views
         private async void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             Main_Frame.Navigate(typeof(MusicListPage));
-            Ioc.Default.GetRequiredService<MusicListViewModel>().Refresh();
             await Ioc.Default.GetRequiredService<PlaybackListManageService>().InitPlayList();
             await Ioc.Default.GetRequiredService<MusicFileScanningService>().ScanAsync();
         }

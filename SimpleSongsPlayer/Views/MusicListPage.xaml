@@ -25,7 +25,19 @@
             <CommandBar.PrimaryCommands>
                 <AppBarButton Icon="Play" Label="全部播放" Click="PlayAll_AppBarButton_Click"/>
                 <AppBarSeparator />
-                <AppBarButton Icon="Refresh" Label="刷新" Click="{x:Bind _vm.Refresh}"/>
+                <AppBarButton Icon="Refresh" Label="刷新" Click="{x:Bind _vm.AutoImport}"/>
+                <AppBarButton Icon="Save" Label="数据源">
+                    <AppBarButton.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <ListView Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
+                                          ItemsSource="{x:Bind _vm.DataSourceList, Mode=OneWay}" SelectedIndex="{x:Bind _vm.ConfigService.DataSourceId, Mode=TwoWay}"
+                                          DisplayMemberPath="Name"/>
+                                <Button Content="添加" Margin="0,8,0,0" HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
                 <AppBarButton Icon="ViewAll" Label="分组">
                     <AppBarButton.Flyout>
                         <Flyout>

@@ -47,6 +47,8 @@ namespace SimpleSongsPlayer.Services
         [SettingFieldByEnum(nameof(LoopingMode), typeof(LoopingModeEnum), "List")]
         private LoopingModeEnum _loopingMode;
 
+        [SettingFieldByNormal(nameof(DataSourceId), 0)]
+        private int _dataSourceId;
         [SettingFieldByEnum(nameof(MusicListGroupMethod), typeof(MusicListGroupMethodEnum), "FirstCharacterOfTitle")]
         private MusicListGroupMethodEnum _musicListGroupMethod;
         [SettingFieldByEnum(nameof(MusicListSort), typeof(MusicListSortEnum), "Title")]
@@ -74,7 +76,11 @@ namespace SimpleSongsPlayer.Services
             set => SetSetting(ref _loopingMode, value);
         }
 
-
+        public int DataSourceId
+        {
+            get => _dataSourceId;
+            set => SetSetting(ref _dataSourceId, value);
+        }
         public MusicListGroupMethodEnum MusicListGroupMethod
         {
             get => _musicListGroupMethod;

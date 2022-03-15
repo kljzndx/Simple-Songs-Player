@@ -36,6 +36,17 @@ namespace SimpleSongsPlayer.Services
                    .OrderBy(pi => pi.TrackId).Select(pi => new MusicUi(pi.File)).ToList();
         }
 
+        public List<string> GetLibraryListInDb()
+        {
+            return DbContext.MusicFiles.Select(mf => mf.LibraryFolder).Distinct().ToList();
+        }
+
+        public List<MusicUi> QueryMusicByLibraryPath(string libraryPath)
+        {
+            return DbContext.MusicFiles.Where(mf => mf.LibraryFolder == libraryPath)
+                   .Select(mf => new MusicUi(mf)).ToList();
+        }
+
         public async Task RemoveMusicData(IEnumerable<MusicUi> source)
         {
             if (!source.Any()) return;

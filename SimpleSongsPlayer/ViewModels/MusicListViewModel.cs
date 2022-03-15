@@ -19,6 +19,7 @@ namespace SimpleSongsPlayer.ViewModels
         private MusicFileManageService _manageService;
 
         private IEnumerable<MusicUi> _musicListSource;
+        private List<DataSourceItem> _dataSourceList = new List<DataSourceItem>();
         private IEnumerable<MusicGroup> _source;
 
         public MusicListViewModel(ConfigurationService configService, MusicFileManageService manageService, PlaybackListManageService playbackListService)
@@ -27,10 +28,25 @@ namespace SimpleSongsPlayer.ViewModels
             _manageService = manageService;
             PlaybackListService = playbackListService;
 
-            Messenger.Register<MusicListViewModel, string, string>(this, nameof(MusicFileScanningService),
-                (vm, message) => { if (message == "Finished") vm.Refresh(); });
+            GenerateDataSource();
+            AutoImport();
+
+            Messenger.Register<MusicListViewModel, string, string>(this, nameof(MusicFileScanningService), (vm, message) =>
+            {
+                if (message == "Finished")
+                {
+                    GenerateDataSource();
+                    vm.AutoImport();
+                }
+            });
 
             ConfigService.PropertyChanged += ConfigService_PropertyChanged;
+        }
+
+        public List<DataSourceItem> DataSourceList
+        {
+            get => _dataSourceList;
+            set => SetProperty(ref _dataSourceList, value);
         }
 
         public IEnumerable<MusicGroup> Source
@@ -42,14 +58,27 @@ namespace SimpleSongsPlayer.ViewModels
         public ConfigurationService ConfigService { get; }
         public PlaybackListManageService PlaybackListService { get; }
 
-        public void Refresh()
+        public void GenerateDataSource()
         {
-            InitSource(_musicListSource ?? _manageService.GetAllMusic());
+            DataSourceList.Clear();
+
+            DataSourceList.Add(new DataSourceItem("All", ms => ms.GetAllMusic()));
+            DataSourceList.Add(new DataSourceItem("Playback list", ms => ms.GetPlaybackList()));
+
+            var libs = _manageService.GetLibraryListInDb();
+            DataSourceList.AddRange(libs.Select(lib => new DataSourceItem(lib, ms => ms.QueryMusicByLibraryPath(lib))));
         }
 
-        public void InitSource(IEnumerable<MusicUi> musicListSource)
+        public void AutoImport()
         {
-            _musicListSource = musicListSource.ToList();
+            int id;
+
+            if (ConfigService.DataSourceId >= DataSourceList.Count)
+                id = DataSourceList.Count - 1;
+            else
+                id = ConfigService.DataSourceId;
+
+            _musicListSource = DataSourceList[id].QueryAction(_manageService);
 
             AutoGroup();
             SortGroup();
@@ -121,6 +150,9 @@ namespace SimpleSongsPlayer.ViewModels
         {
             switch (e.PropertyName)
             {
+                case nameof(ConfigService.DataSourceId):
+                    AutoImport();
+                    break;
                 case nameof(ConfigService.MusicListGroupMethod):
                     AutoGroup();
                     break;
