@@ -27,6 +27,7 @@ namespace SimpleSongsPlayer.Services
         private MediaPlaybackList _playbackList;
         private bool _isInit = false;
 
+        public event EventHandler<EventArgs> Loaded;
         public event TypedEventHandler<MediaPlaybackList, CurrentMediaPlaybackItemChangedEventArgs> CurrentItemChanged;
 
         public PlaybackListManageService(ConfigurationService configService, MusicFileManageService manageService)
@@ -67,10 +68,13 @@ namespace SimpleSongsPlayer.Services
             await _manageService.RemoveMusicData(removeList);
 
             var playing = dbPlayList.FirstOrDefault(pi => pi.IsPlaying);
-            if (playing != null)
+            if (playing != null && playing.TrackId != 0)
                 _playbackList.MoveTo((uint)playing.TrackId);
 
             _isInit = true;
+
+            if (_playbackList.Items.Any())
+                Loaded?.Invoke(this, EventArgs.Empty);
         }
 
         public MediaPlaybackList GetPlaybackList()
