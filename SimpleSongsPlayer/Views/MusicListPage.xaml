@@ -60,6 +60,7 @@
                                     <TextBlock Text="项目排序" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                     <ListView Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
                                           SelectedIndex="{x:Bind _vm.ConfigService.MusicListSort, Mode=TwoWay, Converter={StaticResource EnumToInt32}}">
+                                        <ListViewItem Tag="None">无</ListViewItem>
                                         <ListViewItem Tag="Title">标题</ListViewItem>
                                         <ListViewItem Tag="TrackNumber">音轨编号</ListViewItem>
                                         <ListViewItem Tag="UpdateDate">更新时间</ListViewItem>

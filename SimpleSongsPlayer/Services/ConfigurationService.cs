@@ -33,6 +33,7 @@ namespace SimpleSongsPlayer.Services
 
     public enum LoopingModeEnum
     {
+        None,
         Single,
         List,
         Random
