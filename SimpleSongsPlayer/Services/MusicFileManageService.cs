@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Messaging;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -35,11 +36,13 @@ namespace SimpleSongsPlayer.Services
                    .OrderBy(pi => pi.TrackId).Select(pi => new MusicUi(pi.File)).ToList();
         }
 
-        public async Task RemoveMusicData(MusicUi musicUi, bool needSaveDb)
+        public async Task RemoveMusicData(IEnumerable<MusicUi> source)
         {
-            DbContext.MusicFiles.Remove(musicUi.GetTable());
-            if (needSaveDb)
-                await DbContext.SaveChangesAsync();
+            if (!source.Any()) return;
+
+            DbContext.MusicFiles.RemoveRange(source.Select(mu => mu.GetTable()));
+            await DbContext.SaveChangesAsync();
+            WeakReferenceMessenger.Default.Send("DataRemoved", nameof(MusicFileManageService));
         }
 
         public List<MusicGroup> GroupMusic(IEnumerable<MusicUi> source, Func<MusicUi, string> GroupKeySelector)

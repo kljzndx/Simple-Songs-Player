@@ -49,7 +49,7 @@ namespace SimpleSongsPlayer.Services
             var dbPlayList = DbContext.PlaybackList.Include(pi => pi.File).OrderBy(pi => pi.TrackId).ToList();
             var muiList = dbPlayList.Select(pi => new MusicUi(pi.File)).ToList();
 
-            var removeList = new List<MusicFile>();
+            var removeList = new List<MusicUi>();
 
             foreach (var mui in muiList)
             {
@@ -59,16 +59,12 @@ namespace SimpleSongsPlayer.Services
                 }
                 catch (Exception)
                 {
-                    removeList.Add(mui.GetTable());
+                    removeList.Add(mui);
                     continue;
                 }
             }
 
-            if (removeList.Any())
-            {
-                DbContext.MusicFiles.RemoveRange(removeList);
-                await DbContext.SaveChangesAsync();
-            }
+            await _manageService.RemoveMusicData(removeList);
 
             var playing = dbPlayList.FirstOrDefault(pi => pi.IsPlaying);
             if (playing != null)
@@ -102,7 +98,7 @@ namespace SimpleSongsPlayer.Services
                 }
                 catch (Exception)
                 {
-                    await _manageService.RemoveMusicData(source, true);
+                    await _manageService.RemoveMusicData(new [] {source});
                     return;
                 }
 
@@ -120,6 +116,7 @@ namespace SimpleSongsPlayer.Services
             var sourceList = source.ToList();
             var dbPlayList = new List<PlaybackItem>();
             var playList = new List<MediaPlaybackItem>();
+            var removeList = new List<MusicUi>();
 
             for (int i = 0; i < sourceList.Count; i++)
             {
@@ -131,10 +128,12 @@ namespace SimpleSongsPlayer.Services
                 }
                 catch (Exception)
                 {
-                    await _manageService.RemoveMusicData(item, false);
+                    removeList.Add(item);
                     continue;
                 }
             }
+
+            await _manageService.RemoveMusicData(removeList);
 
             DbContext.PlaybackList.AddRange(dbPlayList);
             await DbContext.SaveChangesAsync();
@@ -161,7 +160,7 @@ namespace SimpleSongsPlayer.Services
             }
             catch (Exception)
             {
-                await _manageService.RemoveMusicData(source, true);
+                await _manageService.RemoveMusicData(new[] { source });
                 return;
             }
 
@@ -190,6 +189,7 @@ namespace SimpleSongsPlayer.Services
             var sourceList = source.ToList();
             var dbPlayList = DbContext.PlaybackList.OrderBy(pi => pi.TrackId).ToList();
             var playList = new List<MediaPlaybackItem>();
+            var removeList = new List<MusicUi>();
 
             int lastId = dbPlayList.Count - 1;
 
@@ -202,10 +202,12 @@ namespace SimpleSongsPlayer.Services
                 }
                 catch (Exception)
                 {
-                    await _manageService.RemoveMusicData(mui, false);
+                    removeList.Add(mui);
                     continue;
                 }
             }
+
+            await _manageService.RemoveMusicData(removeList);
 
             SetUpTrackId(dbPlayList, lastId);
             DbContext.UpdateRange(dbPlayList);
