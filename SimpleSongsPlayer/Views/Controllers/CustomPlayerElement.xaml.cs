@@ -27,6 +27,7 @@ namespace SimpleSongsPlayer.Views.Controllers
     {
         private readonly MediaPlayer _mediaPlayer;
         private readonly ConfigurationService _configService;
+        private readonly PlaybackListManageService _playListService;
         private bool _isPressSlider;
 
         public CustomPlayerElement()
@@ -35,12 +36,16 @@ namespace SimpleSongsPlayer.Views.Controllers
             _configService = Ioc.Default.GetRequiredService<ConfigurationService>();
             _configService.PropertyChanged += ConfigService_PropertyChanged;
 
+            _playListService = Ioc.Default.GetRequiredService<PlaybackListManageService>();
+            _playListService.CurrentItemChanged += PlayListService_CurrentItemChanged;
+
             _mediaPlayer = Ioc.Default.GetRequiredService<MediaPlayer>();
+            _mediaPlayer.Source = _playListService.GetPlaybackList();
+            _mediaPlayer.Volume = _configService.Volume;
+            _mediaPlayer.IsLoopingEnabled = _configService.LoopingMode == LoopingModeEnum.Single;
             _mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
             _mediaPlayer.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
             _mediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChanged;
-
-            Ioc.Default.GetRequiredService<PlaybackListManageService>().CurrentItemChanged += PlayListService_CurrentItemChanged;
 
             //Position_Slider.AddHandler(PointerPressedEvent, new PointerEventHandler((s, e) => _isPressSlider = true), true);
             //Position_Slider.AddHandler(PointerReleasedEvent, new PointerEventHandler((s, e) => _isPressSlider = false), true);
@@ -49,19 +54,14 @@ namespace SimpleSongsPlayer.Views.Controllers
             Position_Slider.LostFocus += (s, e) => _isPressSlider = false;
         }
 
-        private MediaPlaybackList GetPlayList()
-        {
-            return ((MediaPlaybackList)_mediaPlayer.Source);
-        }
-
         private void Previous_Button_Click(object sender, RoutedEventArgs e)
         {
-            GetPlayList().MovePrevious();
+            _playListService.GetPlaybackList().MovePrevious();
         }
 
         private void Next_Button_Click(object sender, RoutedEventArgs e)
         {
-            GetPlayList().MoveNext();
+            _playListService.GetPlaybackList().MoveNext();
         }
 
         private void Position_Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -79,7 +79,7 @@ namespace SimpleSongsPlayer.Views.Controllers
                     break;
                 case nameof(_configService.LoopingMode):
                     _mediaPlayer.IsLoopingEnabled = _configService.LoopingMode == LoopingModeEnum.Single;
-                    GetPlayList().ShuffleEnabled = _configService.LoopingMode == LoopingModeEnum.Random;
+                    _playListService.GetPlaybackList().ShuffleEnabled = _configService.LoopingMode == LoopingModeEnum.Random;
                     break;
                 case nameof(_configService.PlaybackRate):
                     _mediaPlayer.PlaybackSession.PlaybackRate = _configService.PlaybackRate;

@@ -67,19 +67,7 @@ namespace SimpleSongsPlayer
                 .AddSingleton<MainViewModel>()
                 .AddSingleton<MusicListViewModel>()
 
-                .AddSingleton<MediaPlayer>(ioc =>
-                {
-                    var player = new MediaPlayer();
-                    var configService = ioc.GetRequiredService<ConfigurationService>();
-                    var playListService = ioc.GetRequiredService<PlaybackListManageService>();
-                    playListService.InitPlayList();
-
-                    player.Volume = configService.Volume;
-                    player.IsLoopingEnabled = configService.LoopingMode == LoopingModeEnum.Single;
-
-                    player.Source = playListService.GetPlaybackList();
-                    return player;
-                })
+                .AddSingleton<MediaPlayer>()
                 .AddSingleton<CoreDispatcher>(Window.Current.Dispatcher)
 
                 .BuildServiceProvider());
