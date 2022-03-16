@@ -35,7 +35,11 @@ namespace SimpleSongsPlayer.Services
 
             var folderPathList = musicLib.Folders.Select(f => f.Path).ToList();
             var trashList = DbContext.MusicFiles.Where(record => folderPathList.All(path => path != record.LibraryFolder)).ToList();
-            DbContext.MusicFiles.RemoveRange(trashList);
+            if (trashList.Any())
+            {
+                DbContext.MusicFiles.RemoveRange(trashList);
+                await DbContext.SaveChangesAsync();
+            }
 
             foreach (var folder in musicLib.Folders)
             {
@@ -72,9 +76,11 @@ namespace SimpleSongsPlayer.Services
                 DbContext.MusicFiles.AddRange(addList);
                 DbContext.MusicFiles.RemoveRange(deleteList);
                 DbContext.MusicFiles.UpdateRange(updateList);
+
+                if (addList.Any() || deleteList.Any() || deleteList.Any())
+                    await DbContext.SaveChangesAsync();
             }
 
-            await DbContext.SaveChangesAsync();
             WeakReferenceMessenger.Default.Send("Finished", nameof(MusicFileScanningService));
         }
     }
