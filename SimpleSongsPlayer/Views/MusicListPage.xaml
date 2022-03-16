@@ -13,6 +13,7 @@
 
     <Page.Resources>
         <CollectionViewSource x:Key="Data_Cvs" Source="{Binding Source, Mode=OneWay}" IsSourceGrouped="True" ItemsPath="Items"/>
+        <x:Boolean x:Key="BoolFalse">False</x:Boolean>
     </Page.Resources>
 
     <Grid>
@@ -38,9 +39,10 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
+                                    
                                     <Button Content="添加" HorizontalAlignment="Stretch"/>
                                     <Button Grid.Column="1" Content="移除" HorizontalAlignment="Stretch"
-                                            IsEnabled="{Binding ElementName=DataSource_ListView, Path=SelectedItem.CanRemove}"/>
+                                            IsEnabled="{Binding ElementName=DataSource_ListView, Path=SelectedItem.CanRemove, FallbackValue={StaticResource BoolFalse}}"/>
                                 </Grid>
                             </StackPanel>
                         </Flyout>
