@@ -30,10 +30,18 @@
                     <AppBarButton.Flyout>
                         <Flyout>
                             <StackPanel>
-                                <ListView Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
+                                <ListView x:Name="DataSource_ListView" Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
                                           ItemsSource="{x:Bind _vm.DataSourceList, Mode=OneWay}" SelectedIndex="{x:Bind _vm.ConfigService.DataSourceId, Mode=TwoWay}"
                                           DisplayMemberPath="Name"/>
-                                <Button Content="添加" Margin="0,8,0,0" HorizontalAlignment="Stretch"/>
+                                <Grid Margin="0,8,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Content="添加" HorizontalAlignment="Stretch"/>
+                                    <Button Grid.Column="1" Content="移除" HorizontalAlignment="Stretch"
+                                            IsEnabled="{Binding ElementName=DataSource_ListView, Path=SelectedItem.CanRemove}"/>
+                                </Grid>
                             </StackPanel>
                         </Flyout>
                     </AppBarButton.Flyout>
