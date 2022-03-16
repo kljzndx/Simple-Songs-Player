@@ -62,11 +62,11 @@ namespace SimpleSongsPlayer.ViewModels
         {
             DataSourceList.Clear();
 
-            DataSourceList.Add(new DataSourceItem("All", ms => ms.GetAllMusic()));
-            DataSourceList.Add(new DataSourceItem("Playback list", ms => ms.GetPlaybackList()));
+            DataSourceList.Add(new DataSourceItem("All", ms => ms.GetAllMusic(), false));
+            DataSourceList.Add(new DataSourceItem("Playback list", ms => ms.GetPlaybackList(), false));
 
             var libs = _manageService.GetLibraryListInDb();
-            DataSourceList.AddRange(libs.Select(lib => new DataSourceItem(lib, ms => ms.QueryMusicByLibraryPath(lib))));
+            DataSourceList.AddRange(libs.Select(lib => new DataSourceItem(lib, ms => ms.QueryMusicByLibraryPath(lib), true)));
         }
 
         public void AutoImport()
