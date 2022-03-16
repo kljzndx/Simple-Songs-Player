@@ -19,7 +19,7 @@ namespace SimpleSongsPlayer.ViewModels
         private MusicFileManageService _manageService;
 
         private IEnumerable<MusicUi> _musicListSource;
-        private List<DataSourceItem> _dataSourceList = new List<DataSourceItem>();
+        private List<DataSourceItem> _dataSourceList;
         private IEnumerable<MusicGroup> _source;
 
         public MusicListViewModel(ConfigurationService configService, MusicFileManageService manageService, PlaybackListManageService playbackListService)
@@ -60,20 +60,24 @@ namespace SimpleSongsPlayer.ViewModels
 
         public void GenerateDataSource()
         {
-            DataSourceList.Clear();
+            var list = new List<DataSourceItem>();
 
-            DataSourceList.Add(new DataSourceItem("All", ms => ms.GetAllMusic(), false));
-            DataSourceList.Add(new DataSourceItem("Playback list", ms => ms.GetPlaybackList(), false));
+            list.Add(new DataSourceItem("All", ms => ms.GetAllMusic(), false));
+            list.Add(new DataSourceItem("Playback list", ms => ms.GetPlaybackList(), false));
 
             var libs = _manageService.GetLibraryListInDb();
-            DataSourceList.AddRange(libs.Select(lib => new DataSourceItem(lib, ms => ms.QueryMusicByLibraryPath(lib), true)));
+            list.AddRange(libs.Select(lib => new DataSourceItem(lib, ms => ms.QueryMusicByLibraryPath(lib), true)));
+
+            DataSourceList = list;
         }
 
         public void AutoImport()
         {
             int id;
 
-            if (ConfigService.DataSourceId >= DataSourceList.Count)
+            if (ConfigService.DataSourceId < 0)
+                id = 0;
+            else if (ConfigService.DataSourceId >= DataSourceList.Count)
                 id = DataSourceList.Count - 1;
             else
                 id = ConfigService.DataSourceId;
