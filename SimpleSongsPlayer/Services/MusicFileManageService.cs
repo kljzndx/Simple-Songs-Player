@@ -38,7 +38,10 @@ namespace SimpleSongsPlayer.Services
 
         public List<string> GetLibraryListInDb()
         {
-            return DbContext.MusicFiles.Select(mf => mf.LibraryFolder).Distinct().ToList();
+            var columns = DbContext.MusicFiles.Select(mf => new Tuple<int, string>(mf.MusicFileId, mf.LibraryFolder)).ToList();
+            var result = columns.GroupBy(c => c.Item2).OrderBy(c => c.First().Item1).Select(c => c.Key).ToList();
+
+            return result;
         }
 
         public List<MusicUi> QueryMusicByLibraryPath(string libraryPath)
