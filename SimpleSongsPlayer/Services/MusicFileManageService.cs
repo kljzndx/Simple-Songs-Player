@@ -61,7 +61,7 @@ namespace SimpleSongsPlayer.Services
 
         public List<MusicGroup> GroupMusic(IEnumerable<MusicUi> source, Func<MusicUi, string> GroupKeySelector)
         {
-            return source.GroupBy(GroupKeySelector).Select(g => new MusicGroup(g.Key, g)).OrderBy(mg => mg.Name).ToList();
+            return source.GroupBy(GroupKeySelector).Select(g => new MusicGroup(g.Key, g)).ToList();
         }
 
         public List<MusicGroup> GroupMusicByFirstLetter(IEnumerable<MusicUi> source)
@@ -73,7 +73,7 @@ namespace SimpleSongsPlayer.Services
                                .Select(c => new MusicGroup(c.Label)).ToList();
 
             musicGroupList.AddRange(cgsGroupList);
-            return musicGroupList.Where(mg => mg.Items.Any() || !string.IsNullOrWhiteSpace(mg.Name)).OrderBy(mg => mg.Name).ToList();
+            return musicGroupList.Where(mg => mg.Items.Any() || !string.IsNullOrWhiteSpace(mg.Name)).ToList();
         }
 
         public List<MusicGroup> OrderMusicDataBy<TOrderByKey>(IEnumerable<MusicGroup> source, Func<MusicUi, TOrderByKey> orderByKeySelector)
