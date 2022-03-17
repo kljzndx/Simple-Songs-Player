@@ -7,12 +7,14 @@ using SimpleSongsPlayer.ViewModels;
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -36,6 +38,15 @@ namespace SimpleSongsPlayer.Views
         {
             this.InitializeComponent();
             _vm = Ioc.Default.GetRequiredService<MusicListViewModel>();
+
+            WeakReferenceMessenger.Default.Register<MusicListPage, string, string>(this, nameof(MusicFileScanningService), (page, mes) =>
+            {
+                if (mes == "Started")
+                    page.DisableLayer_Border.Visibility = Visibility.Visible;
+
+                if (mes == "Finished")
+                    page.DisableLayer_Border.Visibility = Visibility.Collapsed;
+            });
         }
 
         private async void PlayAll_AppBarButton_Click(object sender, RoutedEventArgs e)
@@ -60,6 +71,32 @@ namespace SimpleSongsPlayer.Views
                 _vm.ConfigService.DataSourceId = DataSource_ListView.SelectedIndex;
             else
                 DataSource_ListView.SelectedIndex = _vm.ConfigService.DataSourceId;
+        }
+
+        private async void AddDataSource_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var musicLib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
+            var folder = await musicLib.RequestAddFolderAsync();
+            if (folder == null)
+                return;
+
+            await Ioc.Default.GetRequiredService<MusicFileScanningService>().ScanAsync();
+        }
+
+        private async void RemoveDataSource_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var musicLib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
+            var item = (DataSourceItem)DataSource_ListView.SelectedItem;
+            bool isRemoved = await musicLib.RequestRemoveFolderAsync(await StorageFolder.GetFolderFromPathAsync(item.Name));
+            if (!isRemoved)
+                return;
+
+            DataSource_ListView.SelectedIndex -= 1;
+            var list = _vm.DataSourceList.ToList();
+            list.Remove(item);
+            _vm.DataSourceList = list;
+
+            await Ioc.Default.GetRequiredService<MusicFileScanningService>().ScanAsync();
         }
     }
 }

@@ -30,21 +30,32 @@
                 <AppBarButton Icon="Save" Label="数据源">
                     <AppBarButton.Flyout>
                         <Flyout>
-                            <StackPanel>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
                                 <ListView x:Name="DataSource_ListView" Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
                                           ItemsSource="{x:Bind _vm.DataSourceList, Mode=OneWay}" SelectedIndex="{x:Bind _vm.ConfigService.DataSourceId, Mode=OneTime}"
                                           DisplayMemberPath="Name" SelectionChanged="DataSource_ListView_SelectionChanged"/>
-                                <Grid Margin="0,8,0,0">
+                                
+                                <Grid Grid.Row="1" Margin="0,8,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    
-                                    <Button Content="添加" HorizontalAlignment="Stretch"/>
+
+                                    <Button Content="添加" HorizontalAlignment="Stretch" Click="AddDataSource_Button_Click"/>
                                     <Button Grid.Column="1" Content="移除" HorizontalAlignment="Stretch"
-                                            IsEnabled="{Binding ElementName=DataSource_ListView, Path=SelectedItem.CanRemove, FallbackValue={StaticResource BoolFalse}}"/>
+                                            IsEnabled="{Binding ElementName=DataSource_ListView, Path=SelectedItem.CanRemove, FallbackValue={StaticResource BoolFalse}}"
+                                            Click="RemoveDataSource_Button_Click"/>
                                 </Grid>
-                            </StackPanel>
+
+                                <Border x:Name="DisableLayer_Border" Grid.RowSpan="2" Visibility="Collapsed" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
+                                    <ProgressBar HorizontalAlignment="Stretch" VerticalAlignment="Center" IsIndeterminate="True"/>
+                                </Border>
+                            </Grid>
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
