@@ -53,5 +53,13 @@ namespace SimpleSongsPlayer.Views
 
             await _vm.PlaybackListService.PushGroup(context.Items);
         }
+
+        private void DataSource_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DataSource_ListView.SelectedIndex >= 0)
+                _vm.ConfigService.DataSourceId = DataSource_ListView.SelectedIndex;
+            else
+                DataSource_ListView.SelectedIndex = _vm.ConfigService.DataSourceId;
+        }
     }
 }

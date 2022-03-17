@@ -32,8 +32,8 @@
                         <Flyout>
                             <StackPanel>
                                 <ListView x:Name="DataSource_ListView" Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
-                                          ItemsSource="{x:Bind _vm.DataSourceList, Mode=OneWay}" SelectedIndex="{x:Bind _vm.ConfigService.DataSourceId, Mode=TwoWay}"
-                                          DisplayMemberPath="Name"/>
+                                          ItemsSource="{x:Bind _vm.DataSourceList, Mode=OneWay}" SelectedIndex="{x:Bind _vm.ConfigService.DataSourceId, Mode=OneTime}"
+                                          DisplayMemberPath="Name" SelectionChanged="DataSource_ListView_SelectionChanged"/>
                                 <Grid Margin="0,8,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
