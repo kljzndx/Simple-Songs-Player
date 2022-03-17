@@ -193,8 +193,17 @@ namespace SimpleSongsPlayer.Services
 
         public async Task Append(IEnumerable<MusicUi> source)
         {
-            var sourceList = source.ToList();
             var dbPlayList = DbContext.PlaybackList.OrderBy(pi => pi.TrackId).ToList();
+            if (!dbPlayList.Any())
+            {
+                await PushGroup(source);
+                return;
+            }
+
+            var sourceList = source.Where(mu => dbPlayList.All(pi => pi.MusicFileId != mu.Id)).ToList();
+            if (!sourceList.Any())
+                return;
+
             var playList = new List<MediaPlaybackItem>();
             var removeList = new List<MusicUi>();
 
