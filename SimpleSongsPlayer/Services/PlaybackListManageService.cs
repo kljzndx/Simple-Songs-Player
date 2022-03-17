@@ -111,6 +111,7 @@ namespace SimpleSongsPlayer.Services
                 await DbContext.SaveChangesAsync();
 
                 _playbackList.Items.Add(playbackItem);
+                Loaded?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -143,6 +144,8 @@ namespace SimpleSongsPlayer.Services
             await DbContext.SaveChangesAsync();
 
             playList.ForEach(_playbackList.Items.Add);
+            if (playList.Any())
+                Loaded?.Invoke(this, EventArgs.Empty);
         }
 
         public async Task PushToNext(MusicUi source)
