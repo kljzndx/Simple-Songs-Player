@@ -166,7 +166,10 @@ namespace SimpleSongsPlayer.ViewModels
                     break;
                 case nameof(ConfigService.IsReverseMusicList):
                 case nameof(ConfigService.MusicListSort):
-                    SortList();
+                    if (ConfigService.MusicListSort == MusicListSortEnum.None)
+                        AutoImport();
+                    else
+                        SortList();
                     break;
             }
         }
