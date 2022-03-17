@@ -11,6 +11,7 @@ namespace SimpleSongsPlayer.Services
 {
     public enum MusicListSortEnum
     {
+        None,
         Title,
         TrackNumber,
         ModifyDate
@@ -33,7 +34,6 @@ namespace SimpleSongsPlayer.Services
 
     public enum LoopingModeEnum
     {
-        None,
         Single,
         List,
         Random
