@@ -27,9 +27,6 @@ namespace SimpleSongsPlayer.Services
         private MediaPlaybackList _playbackList;
         private bool _isInit = false;
 
-        public event EventHandler<EventArgs> Loaded;
-        public event TypedEventHandler<MediaPlaybackList, CurrentMediaPlaybackItemChangedEventArgs> CurrentItemChanged;
-
         public PlaybackListManageService(ConfigurationService configService, MusicFileManageService manageService)
         {
             _manageService = manageService;
@@ -40,6 +37,14 @@ namespace SimpleSongsPlayer.Services
                 ShuffleEnabled = configService.LoopingMode == LoopingModeEnum.Random,
             };
             _playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
+        }
+
+        public PlaybackItem CurrentPlayItem { get; private set; }
+
+        public void NotifyPlayItemChange(PlaybackItem source)
+        {
+            CurrentPlayItem = source;
+            WeakReferenceMessenger.Default.Send("CurrentPlayChanged", nameof(PlaybackListManageService));
         }
 
         public async Task InitPlayList()
@@ -68,13 +73,15 @@ namespace SimpleSongsPlayer.Services
             await _manageService.RemoveMusicData(removeList);
 
             var playing = dbPlayList.FirstOrDefault(pi => pi.IsPlaying);
-            if (playing != null && playing.TrackId != 0)
-                _playbackList.MoveTo((uint)playing.TrackId);
+            if (playing != null)
+            {
+                if (playing.TrackId != 0)
+                    _playbackList.MoveTo((uint)playing.TrackId);
+
+                NotifyPlayItemChange(playing);
+            }
 
             _isInit = true;
-
-            if (_playbackList.Items.Any())
-                Loaded?.Invoke(this, EventArgs.Empty);
         }
 
         public MediaPlaybackList GetPlaybackList()
@@ -107,11 +114,12 @@ namespace SimpleSongsPlayer.Services
                 }
 
                 CleanDbAndList();
-                DbContext.PlaybackList.Add(new PlaybackItem(source.Id));
+                var playItem = new PlaybackItem(source.Id);
+                DbContext.PlaybackList.Add(playItem);
                 await DbContext.SaveChangesAsync();
 
                 _playbackList.Items.Add(playbackItem);
-                Loaded?.Invoke(this, EventArgs.Empty);
+                NotifyPlayItemChange(playItem);
             }
         }
 
@@ -145,7 +153,7 @@ namespace SimpleSongsPlayer.Services
 
             playList.ForEach(_playbackList.Items.Add);
             if (playList.Any())
-                Loaded?.Invoke(this, EventArgs.Empty);
+                NotifyPlayItemChange(dbPlayList.First());
         }
 
         public async Task PushToNext(MusicUi source)
@@ -259,8 +267,7 @@ namespace SimpleSongsPlayer.Services
 
                 DbContext.PlaybackList.UpdateRange(dbPlayList);
                 await DbContext.SaveChangesAsync();
-                WeakReferenceMessenger.Default.Send($"CurrentPlay: {dbPlayList[trackId].MusicFileId}", "MediaPlayer");
-                CurrentItemChanged?.Invoke(sender, args);
+                NotifyPlayItemChange(dbPlayList[trackId]);
             });
         }
     }

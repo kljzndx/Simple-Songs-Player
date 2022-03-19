@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Messaging;
 
 using SimpleSongsPlayer.Services;
 
@@ -27,7 +28,6 @@ namespace SimpleSongsPlayer.Views.Controllers
     {
         private readonly MediaPlayer _mediaPlayer;
         private readonly ConfigurationService _configService;
-        private readonly PlaybackListManageService _playListService;
         private bool _isPressSlider;
 
         public CustomPlayerElement()
@@ -36,12 +36,20 @@ namespace SimpleSongsPlayer.Views.Controllers
             _configService = Ioc.Default.GetRequiredService<ConfigurationService>();
             _configService.PropertyChanged += ConfigService_PropertyChanged;
 
-            _playListService = Ioc.Default.GetRequiredService<PlaybackListManageService>();
-            _playListService.Loaded += PlayListService_Loaded;
-            _playListService.CurrentItemChanged += PlayListService_CurrentItemChanged;
+            WeakReferenceMessenger.Default.Register<CustomPlayerElement, string, string>(this, nameof(PlaybackListManageService), (ctor, mes) =>
+            {
+                if (mes == "CurrentPlayChanged")
+                {
+                    ctor.Position_Slider.Maximum = _mediaPlayer.PlaybackSession.NaturalDuration.TotalMinutes;
+                    ctor._mediaPlayer.PlaybackSession.PlaybackRate = _configService.PlaybackRate;
+
+                    if (ctor._mediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
+                        ctor._mediaPlayer.Play();
+                }
+            });
 
             _mediaPlayer = Ioc.Default.GetRequiredService<MediaPlayer>();
-            _mediaPlayer.Source = _playListService.GetPlaybackList();
+            _mediaPlayer.Source = Ioc.Default.GetRequiredService<PlaybackListManageService>().GetPlaybackList();
             _mediaPlayer.Volume = _configService.Volume;
             _mediaPlayer.IsLoopingEnabled = _configService.LoopingMode == LoopingModeEnum.Single;
 
@@ -55,14 +63,19 @@ namespace SimpleSongsPlayer.Views.Controllers
             Position_Slider.LostFocus += (s, e) => _isPressSlider = false;
         }
 
+        private MediaPlaybackList GetPlayList()
+        {
+            return (MediaPlaybackList)_mediaPlayer.Source;
+        }
+
         private void Previous_Button_Click(object sender, RoutedEventArgs e)
         {
-            _playListService.GetPlaybackList().MovePrevious();
+            GetPlayList().MovePrevious();
         }
 
         private void Next_Button_Click(object sender, RoutedEventArgs e)
         {
-            _playListService.GetPlaybackList().MoveNext();
+            GetPlayList().MoveNext();
         }
 
         private void Position_Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -80,7 +93,7 @@ namespace SimpleSongsPlayer.Views.Controllers
                     break;
                 case nameof(_configService.LoopingMode):
                     _mediaPlayer.IsLoopingEnabled = _configService.LoopingMode == LoopingModeEnum.Single;
-                    _playListService.GetPlaybackList().ShuffleEnabled = _configService.LoopingMode == LoopingModeEnum.Random;
+                    GetPlayList().ShuffleEnabled = _configService.LoopingMode == LoopingModeEnum.Random;
                     break;
                 case nameof(_configService.PlaybackRate):
                     _mediaPlayer.PlaybackSession.PlaybackRate = _configService.PlaybackRate;
@@ -117,20 +130,6 @@ namespace SimpleSongsPlayer.Views.Controllers
                 if (!_isPressSlider)
                     Position_Slider.Value = sender.Position.TotalMinutes;
             });
-        }
-
-        private void PlayListService_Loaded(object sender, EventArgs e)
-        {
-            Position_Slider.Maximum = _mediaPlayer.PlaybackSession.NaturalDuration.TotalMinutes;
-            _mediaPlayer.PlaybackSession.PlaybackRate = _configService.PlaybackRate;
-
-            _mediaPlayer.Play();
-        }
-
-        private void PlayListService_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
-        {
-            Position_Slider.Maximum = _mediaPlayer.PlaybackSession.NaturalDuration.TotalMinutes;
-            _mediaPlayer.PlaybackSession.PlaybackRate = _configService.PlaybackRate;
         }
     }
 }

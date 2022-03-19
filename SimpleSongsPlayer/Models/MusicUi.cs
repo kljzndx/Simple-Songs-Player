@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Messaging;
 
 using SimpleSongsPlayer.Dal;
+using SimpleSongsPlayer.Services;
 
 using System;
 using System.IO;
@@ -27,18 +29,14 @@ namespace SimpleSongsPlayer.Models
         {
             _table = table;
 
+            IsPlaying = Id == GetCurrentPlayId();
             Title = string.IsNullOrWhiteSpace(table.Title) ? Path.GetFileNameWithoutExtension(_table.FilePath) : table.Title;
 
-            WeakReferenceMessenger.Default.Register<MusicUi, string, string>(this, "MediaPlayer", 
-                (mu, mes) => 
-                {
-                    var split = mes.Split(':');
-                    var key = split[0];
-                    var value = split[1].Trim();
-
-                    if (key == "CurrentPlay")
-                        mu.IsPlaying = mu.Id == int.Parse(value);
-                });
+            WeakReferenceMessenger.Default.Register<MusicUi, string, string>(this, nameof(PlaybackListManageService), (mu, mes) => 
+            {
+                if (mes == "CurrentPlayChanged")
+                    mu.IsPlaying = mu.Id == mu.GetCurrentPlayId();
+            });
         }
 
         public bool IsPlaying
@@ -56,6 +54,9 @@ namespace SimpleSongsPlayer.Models
 
         public string FilePath => _table.FilePath;
         public DateTime ModifyDate => _table.FileChangeDate;
+
+        private int GetCurrentPlayId()
+            => Ioc.Default.GetRequiredService<PlaybackListManageService>().CurrentPlayItem?.MusicFileId ?? -1;
 
         public MusicFile GetTable() => _table;
 
