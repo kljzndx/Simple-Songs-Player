@@ -98,5 +98,47 @@ namespace SimpleSongsPlayer.Views
 
             await Ioc.Default.GetRequiredService<MusicFileScanningService>().ScanAsync();
         }
+
+        private async void MusicItemTemplate_PlayButtonClick(object sender, RoutedEventArgs e)
+        {
+            var service = Ioc.Default.GetRequiredService<PlaybackListManageService>();
+            await service.Push((MusicUi) Data_ListView.SelectedItem);
+        }
+
+        private void MusicItemTemplate_MoreButtonClick(object sender, RoutedEventArgs e)
+        {
+            More_MenuFlyout.ShowAt((FrameworkElement)sender);
+        }
+
+        private async void PlayNext_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            var service = Ioc.Default.GetRequiredService<PlaybackListManageService>();
+            await service.PushToNext((MusicUi)Data_ListView.SelectedItem);
+        }
+
+        private async void AddToPlayList_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            var service = Ioc.Default.GetRequiredService<PlaybackListManageService>();
+            await service.Append(new[] { (MusicUi)Data_ListView.SelectedItem });
+        }
+
+        private void Data_ListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            var origin = e.OriginalSource as UIElement;
+            if (origin == null)
+                return;
+
+            More_MenuFlyout.ShowAt(origin, e.GetPosition(origin));
+        }
+
+        private async void Data_ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            var dc = (e.OriginalSource as FrameworkElement)?.DataContext as MusicUi;
+            if (dc == null)
+                return;
+
+            var service = Ioc.Default.GetRequiredService<PlaybackListManageService>();
+            await service.Push(dc);
+        }
     }
 }

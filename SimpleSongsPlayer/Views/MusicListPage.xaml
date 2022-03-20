@@ -15,6 +15,11 @@
     <Page.Resources>
         <CollectionViewSource x:Key="Data_Cvs" Source="{Binding Source, Mode=OneWay}" IsSourceGrouped="True" ItemsPath="Items"/>
         <x:Boolean x:Key="BoolFalse">False</x:Boolean>
+
+        <MenuFlyout x:Name="More_MenuFlyout" Placement="Bottom">
+            <MenuFlyoutItem x:Name="PlayNext_MenuFlyoutItem" Text="下一首播放" Click="PlayNext_MenuFlyoutItem_Click"/>
+            <MenuFlyoutItem x:Name="AddToPlayList_MenuFlyoutItem" Text="添加到播放列表" Click="AddToPlayList_MenuFlyoutItem_Click"/>
+        </MenuFlyout>
     </Page.Resources>
 
     <Grid>
@@ -111,7 +116,8 @@
 
         <SemanticZoom Grid.Row="1">
             <SemanticZoom.ZoomedInView>
-                <ListView ItemsSource="{Binding Source={StaticResource Data_Cvs}}">
+                <ListView x:Name="Data_ListView" ItemsSource="{Binding Source={StaticResource Data_Cvs}}"
+                          RightTapped="Data_ListView_RightTapped" DoubleTapped="Data_ListView_DoubleTapped">
                     <ListView.GroupStyle>
                         <GroupStyle HidesIfEmpty="True">
                             <GroupStyle.HeaderContainerStyle>
@@ -143,7 +149,7 @@
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="model:MusicUi">
-                            <temp:MusicItemTemplate Source="{x:Bind}"/>
+                            <temp:MusicItemTemplate Source="{x:Bind}" PlayButtonClick="MusicItemTemplate_PlayButtonClick" MoreButtonClick="MusicItemTemplate_MoreButtonClick"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
