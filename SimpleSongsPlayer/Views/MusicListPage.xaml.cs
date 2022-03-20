@@ -124,10 +124,12 @@ namespace SimpleSongsPlayer.Views
 
         private void Data_ListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            var origin = e.OriginalSource as UIElement;
-            if (origin == null)
+            var origin = e.OriginalSource as FrameworkElement;
+            var dc = origin.DataContext as MusicUi;
+            if (origin == null || dc == null)
                 return;
 
+            Data_ListView.SelectedItem = dc;
             More_MenuFlyout.ShowAt(origin, e.GetPosition(origin));
         }
 
