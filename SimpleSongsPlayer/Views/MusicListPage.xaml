@@ -135,7 +135,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="{x:Bind Name}"/>
 
-                                        <Button Grid.Column="1" Tapped="PlayGroup_Button_Tapped">Play</Button>
+                                        <Button Grid.Column="1" Tapped="AppendGroup_Button_Tapped">Append</Button>
                                     </Grid>
                                 </DataTemplate>
                             </GroupStyle.HeaderTemplate>

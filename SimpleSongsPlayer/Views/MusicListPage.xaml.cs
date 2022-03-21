@@ -56,13 +56,13 @@ namespace SimpleSongsPlayer.Views
             await _vm.PlaybackListService.PushGroup(list);
         }
 
-        private async void PlayGroup_Button_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void AppendGroup_Button_Tapped(object sender, TappedRoutedEventArgs e)
         {
             e.Handled = true;
             var s = sender as FrameworkElement;
             var context = s.DataContext as MusicGroup;
 
-            await _vm.PlaybackListService.PushGroup(context.Items);
+            await _vm.PlaybackListService.Append(context.Items);
         }
 
         private void DataSource_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
