@@ -58,6 +58,11 @@ namespace SimpleSongsPlayer.ViewModels
         public ConfigurationService ConfigService { get; }
         public PlaybackListManageService PlaybackListService { get; }
 
+        public MusicGroup GetGroupFromItem(MusicUi item)
+        {
+            return Source.First(mg => mg.Items.Contains(item));
+        }
+
         public void GenerateDataSource()
         {
             var list = new List<DataSourceItem>();

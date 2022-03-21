@@ -89,88 +89,31 @@ namespace SimpleSongsPlayer.Services
             return _playbackList;
         }
 
-        public async Task Push(MusicUi source)
+        public async Task PushImmediately(MusicUi source)
         {
             if (source.IsPlaying)
                 return;
 
-            var data = await DbContext.PlaybackList.FirstOrDefaultAsync(pi => pi.MusicFileId == source.Id);
-            if (data != null)
-            {
-                _playbackList.MoveTo((uint) data.TrackId);
-            }
-            else
-            {
-                MediaPlaybackItem playbackItem;
-
-                try
-                {
-                    playbackItem = await source.GetPlaybackItem();
-                }
-                catch (Exception)
-                {
-                    await _manageService.RemoveMusicData(new [] {source});
-                    return;
-                }
-
-                CleanDbAndList();
-                var playItem = new PlaybackItem(source.Id);
-                playItem.IsPlaying = true;
-
-                DbContext.PlaybackList.Add(playItem);
-                await DbContext.SaveChangesAsync();
-
-                _playbackList.Items.Add(playbackItem);
-                NotifyPlayItemChange(playItem);
-            }
+            var item = await PushToRelative(source, -1);
+            if (item != null)
+                _playbackList.MoveTo((uint) item.TrackId);
         }
 
-        public async Task PushGroup(IEnumerable<MusicUi> source)
-        {
-            CleanDbAndList();
-            var sourceList = source.ToList();
-            var dbPlayList = new List<PlaybackItem>();
-            var playList = new List<MediaPlaybackItem>();
-            var removeList = new List<MusicUi>();
-
-            for (int i = 0; i < sourceList.Count; i++)
-            {
-                var item = sourceList[i];
-                try
-                {
-                    playList.Add(await item.GetPlaybackItem());
-                    dbPlayList.Add(new PlaybackItem(item.Id, i));
-                }
-                catch (Exception)
-                {
-                    removeList.Add(item);
-                    continue;
-                }
-            }
-
-            var pi = dbPlayList.FirstOrDefault();
-            if (pi != null)
-                pi.IsPlaying = true;
-
-            await _manageService.RemoveMusicData(removeList);
-
-            DbContext.PlaybackList.AddRange(dbPlayList);
-            await DbContext.SaveChangesAsync();
-
-            playList.ForEach(_playbackList.Items.Add);
-            if (playList.Any())
-                NotifyPlayItemChange(dbPlayList.First());
-        }
-
-        public async Task PushToNext(MusicUi source)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="interpolation">相对于当前播放项的距离</param>
+        /// <returns></returns>
+        public async Task<PlaybackItem> PushToRelative(MusicUi source, int interpolation)
         {
             if (source.IsPlaying)
-                return;
+                return null;
 
             if (!DbContext.PlaybackList.Any())
             {
-                await Push(source);
-                return;
+                await PushGroup(new[] { source });
+                return null;
             }
 
             MediaPlaybackItem playItem;
@@ -182,7 +125,7 @@ namespace SimpleSongsPlayer.Services
             catch (Exception)
             {
                 await _manageService.RemoveMusicData(new[] { source });
-                return;
+                return null;
             }
 
             var dbPlayList = DbContext.PlaybackList.OrderBy(pi => pi.TrackId).ToList();
@@ -195,14 +138,88 @@ namespace SimpleSongsPlayer.Services
                 dbPlayList.Remove(dbPlayItem);
             }
 
+            int targetId = trackId + interpolation;
+            if (targetId < 0)
+                targetId = 0;
+            else if (targetId > dbPlayList.Count)
+                targetId = dbPlayList.Count;
+
             var newItem = dbPlayItem == null ? new PlaybackItem(source.Id) : dbPlayItem;
-            dbPlayList.Insert(trackId + 1, newItem);
-            SetUpTrackId(dbPlayList, trackId);
+            dbPlayList.Insert(targetId, newItem);
+            SetUpTrackId(dbPlayList, targetId);
 
             DbContext.PlaybackList.UpdateRange(dbPlayList);
             await DbContext.SaveChangesAsync();
 
-            _playbackList.Items.Insert(trackId + 1, playItem);
+            _playbackList.Items.Insert(targetId, playItem);
+            return newItem;
+        }
+
+        public async Task PushGroup(IEnumerable<MusicUi> source, MusicUi needPlayItem = null)
+        {
+            var sourceList = source.ToList();
+
+            var dbPlayList = new List<PlaybackItem>();
+            var playList = new List<MediaPlaybackItem>();
+            var removeList = new List<MusicUi>();
+
+            bool isEqual = sourceList.Count == DbContext.PlaybackList.Count();
+            if (isEqual)
+            {
+                var dbDataList = DbContext.PlaybackList.OrderBy(pi => pi.TrackId).ToList();
+                for (int i = 0; i < sourceList.Count; i++)
+                {
+                    if (sourceList[i].Id != dbDataList[i].MusicFileId)
+                    {
+                        isEqual = false;
+                        break;
+                    }
+
+                    if (i > 10)
+                        break;
+                }
+            }
+
+            if (!isEqual)
+            {
+                for (int i = 0; i < sourceList.Count; i++)
+                {
+                    var item = sourceList[i];
+                    try
+                    {
+                        playList.Add(await item.GetPlaybackItem());
+                        dbPlayList.Add(new PlaybackItem(item.Id, i));
+                    }
+                    catch (Exception)
+                    {
+                        removeList.Add(item);
+                        continue;
+                    }
+                }
+
+                var pi = dbPlayList.FirstOrDefault();
+                if (pi != null)
+                    pi.IsPlaying = true;
+
+                removeList.ForEach(item => sourceList.Remove(item));
+                await _manageService.RemoveMusicData(removeList);
+
+                CleanDbAndList();
+                DbContext.PlaybackList.AddRange(dbPlayList);
+                await DbContext.SaveChangesAsync();
+
+                playList.ForEach(_playbackList.Items.Add);
+            }
+
+            if (!DbContext.PlaybackList.Any())
+                return;
+
+            var npi = needPlayItem ?? sourceList.First();
+            var p = DbContext.PlaybackList.FirstOrDefault(pi => pi.MusicFileId == npi.Id);
+            if (p != null && p.TrackId != 0)
+                _playbackList.MoveTo((uint) p.TrackId);
+            else
+                NotifyPlayItemChange(DbContext.PlaybackList.First(pi => pi.TrackId == 0));
         }
 
         public async Task Append(IEnumerable<MusicUi> source)

@@ -101,8 +101,9 @@ namespace SimpleSongsPlayer.Views
 
         private async void MusicItemTemplate_PlayButtonClick(object sender, RoutedEventArgs e)
         {
+            var item = (MusicUi)Data_ListView.SelectedItem;
             var service = Ioc.Default.GetRequiredService<PlaybackListManageService>();
-            await service.Push((MusicUi) Data_ListView.SelectedItem);
+            await service.PushGroup(_vm.GetGroupFromItem(item).Items, item);
         }
 
         private void MusicItemTemplate_MoreButtonClick(object sender, RoutedEventArgs e)
@@ -113,7 +114,7 @@ namespace SimpleSongsPlayer.Views
         private async void PlayNext_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             var service = Ioc.Default.GetRequiredService<PlaybackListManageService>();
-            await service.PushToNext((MusicUi)Data_ListView.SelectedItem);
+            await service.PushToRelative((MusicUi)Data_ListView.SelectedItem, 1);
         }
 
         private async void AddToPlayList_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -139,8 +140,9 @@ namespace SimpleSongsPlayer.Views
             if (dc == null)
                 return;
 
+            var item = (MusicUi)Data_ListView.SelectedItem;
             var service = Ioc.Default.GetRequiredService<PlaybackListManageService>();
-            await service.Push(dc);
+            await service.PushGroup(_vm.GetGroupFromItem(item).Items, item);
         }
     }
 }
