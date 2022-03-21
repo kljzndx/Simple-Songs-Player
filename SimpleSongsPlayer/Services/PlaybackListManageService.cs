@@ -115,6 +115,8 @@ namespace SimpleSongsPlayer.Services
 
                 CleanDbAndList();
                 var playItem = new PlaybackItem(source.Id);
+                playItem.IsPlaying = true;
+
                 DbContext.PlaybackList.Add(playItem);
                 await DbContext.SaveChangesAsync();
 
@@ -145,6 +147,10 @@ namespace SimpleSongsPlayer.Services
                     continue;
                 }
             }
+
+            var pi = dbPlayList.FirstOrDefault();
+            if (pi != null)
+                pi.IsPlaying = true;
 
             await _manageService.RemoveMusicData(removeList);
 
