@@ -45,7 +45,10 @@ namespace SimpleSongsPlayer.Views.Controllers
                     ctor._mediaPlayer.PlaybackSession.PlaybackRate = _configService.PlaybackRate;
 
                     PlayList_ListView.ItemsSource = Ioc.Default.GetRequiredService<MusicFileManageService>().GetPlaybackList();
-                    PlayList_ListView.SelectedIndex = Ioc.Default.GetRequiredService<PlaybackListManageService>().CurrentPlayItem.TrackId;
+
+                    var item = Ioc.Default.GetRequiredService<PlaybackListManageService>().CurrentPlayItem;
+                    if (item != null)
+                        PlayList_ListView.SelectedIndex = item.TrackId;
 
                     if (ctor._mediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
                         ctor._mediaPlayer.Play();
