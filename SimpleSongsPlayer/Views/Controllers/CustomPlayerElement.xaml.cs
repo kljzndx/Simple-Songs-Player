@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Messaging;
 
+using SimpleSongsPlayer.Models;
 using SimpleSongsPlayer.Services;
 
 using System;
@@ -42,6 +43,9 @@ namespace SimpleSongsPlayer.Views.Controllers
                 {
                     ctor.Position_Slider.Maximum = _mediaPlayer.PlaybackSession.NaturalDuration.TotalMinutes;
                     ctor._mediaPlayer.PlaybackSession.PlaybackRate = _configService.PlaybackRate;
+
+                    PlayList_ListView.ItemsSource = Ioc.Default.GetRequiredService<MusicFileManageService>().GetPlaybackList();
+                    PlayList_ListView.SelectedIndex = Ioc.Default.GetRequiredService<PlaybackListManageService>().CurrentPlayItem.TrackId;
 
                     if (ctor._mediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
                         ctor._mediaPlayer.Play();
@@ -130,6 +134,20 @@ namespace SimpleSongsPlayer.Views.Controllers
                 if (!_isPressSlider)
                     Position_Slider.Value = sender.Position.TotalMinutes;
             });
+        }
+
+        private async void PlayList_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var newItem = e.AddedItems.FirstOrDefault() as MusicUi;
+            if (newItem != null)
+                await Ioc.Default.GetRequiredService<PlaybackListManageService>().PushGroup(PlayList_ListView.Items.Cast<MusicUi>(), newItem);
+        }
+
+        private async void PlayList_ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var newItem = e.ClickedItem as MusicUi;
+            if (newItem != null)
+                await Ioc.Default.GetRequiredService<PlaybackListManageService>().PushGroup(PlayList_ListView.Items.Cast<MusicUi>(), newItem);
         }
     }
 }
