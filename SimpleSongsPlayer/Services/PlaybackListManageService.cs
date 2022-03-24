@@ -166,10 +166,6 @@ namespace SimpleSongsPlayer.Services
         {
             var sourceList = source.ToList();
 
-            var dbPlayList = new List<PlaybackItem>();
-            var playList = new List<MediaPlaybackItem>();
-            var removeList = new List<MusicUi>();
-
             bool isEqual = sourceList.Count == DbContext.PlaybackList.Count();
             if (isEqual)
             {
@@ -189,6 +185,10 @@ namespace SimpleSongsPlayer.Services
 
             if (!isEqual)
             {
+                var dbPlayList = new List<PlaybackItem>();
+                var playList = new List<MediaPlaybackItem>();
+                var removeList = new List<MusicUi>();
+
                 await LoadFilesAsync(async () =>
                 {
                     for (int i = 0; i < sourceList.Count; i++)
