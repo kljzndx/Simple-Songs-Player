@@ -61,7 +61,7 @@ namespace SimpleSongsPlayer.Services
 
             var removeList = new List<MusicUi>();
 
-            using (await _lock.LockAsync())
+            await LoadFilesAsync(async () =>
             {
                 foreach (var mui in muiList)
                 {
@@ -75,7 +75,7 @@ namespace SimpleSongsPlayer.Services
                         continue;
                     }
                 }
-            }
+            });
 
             await _manageService.RemoveMusicData(removeList);
 
@@ -189,7 +189,7 @@ namespace SimpleSongsPlayer.Services
 
             if (!isEqual)
             {
-                using (await _lock.LockAsync())
+                await LoadFilesAsync(async () =>
                 {
                     for (int i = 0; i < sourceList.Count; i++)
                     {
@@ -205,7 +205,7 @@ namespace SimpleSongsPlayer.Services
                             continue;
                         }
                     }
-                }
+                });
 
                 var pi = dbPlayList.FirstOrDefault();
                 if (pi != null)
@@ -250,7 +250,7 @@ namespace SimpleSongsPlayer.Services
 
             int lastId = dbPlayList.Count - 1;
 
-            using (await _lock.LockAsync())
+            await LoadFilesAsync(async () =>
             {
                 foreach (var mui in sourceList)
                 {
@@ -265,7 +265,7 @@ namespace SimpleSongsPlayer.Services
                         continue;
                     }
                 }
-            }
+            });
 
             await _manageService.RemoveMusicData(removeList);
 
@@ -274,6 +274,16 @@ namespace SimpleSongsPlayer.Services
             await DbContext.SaveChangesAsync();
 
             playList.ForEach(_playbackList.Items.Add);
+        }
+
+        private async Task LoadFilesAsync(Func<Task> action)
+        {
+            using (await _lock.LockAsync())
+            {
+                WeakReferenceMessenger.Default.Send("Files loading", nameof(PlaybackListManageService));
+                await action();
+                WeakReferenceMessenger.Default.Send("Files loaded", nameof(PlaybackListManageService));
+            }
         }
 
         private void SetUpTrackId(List<PlaybackItem> playList, int startId = 0)
