@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.Messaging;
 
 using Microsoft.EntityFrameworkCore;
 
+using Nito.AsyncEx;
+
 using SimpleSongsPlayer.Dal;
 using SimpleSongsPlayer.Models;
 
@@ -26,6 +28,8 @@ namespace SimpleSongsPlayer.Services
         private MusicFileManageService _manageService;
         private MediaPlaybackList _playbackList;
         private bool _isInit = false;
+
+        private AsyncLock _lock = new AsyncLock();
 
         public PlaybackListManageService(ConfigurationService configService, MusicFileManageService manageService)
         {
@@ -57,16 +61,19 @@ namespace SimpleSongsPlayer.Services
 
             var removeList = new List<MusicUi>();
 
-            foreach (var mui in muiList)
+            using (await _lock.LockAsync())
             {
-                try
+                foreach (var mui in muiList)
                 {
-                    _playbackList.Items.Add(await mui.GetPlaybackItem());
-                }
-                catch (Exception)
-                {
-                    removeList.Add(mui);
-                    continue;
+                    try
+                    {
+                        _playbackList.Items.Add(await mui.GetPlaybackItem());
+                    }
+                    catch (Exception)
+                    {
+                        removeList.Add(mui);
+                        continue;
+                    }
                 }
             }
 
@@ -182,18 +189,21 @@ namespace SimpleSongsPlayer.Services
 
             if (!isEqual)
             {
-                for (int i = 0; i < sourceList.Count; i++)
+                using (await _lock.LockAsync())
                 {
-                    var item = sourceList[i];
-                    try
+                    for (int i = 0; i < sourceList.Count; i++)
                     {
-                        playList.Add(await item.GetPlaybackItem());
-                        dbPlayList.Add(new PlaybackItem(item.Id, i));
-                    }
-                    catch (Exception)
-                    {
-                        removeList.Add(item);
-                        continue;
+                        var item = sourceList[i];
+                        try
+                        {
+                            playList.Add(await item.GetPlaybackItem());
+                            dbPlayList.Add(new PlaybackItem(item.Id, i));
+                        }
+                        catch (Exception)
+                        {
+                            removeList.Add(item);
+                            continue;
+                        }
                     }
                 }
 
@@ -240,17 +250,20 @@ namespace SimpleSongsPlayer.Services
 
             int lastId = dbPlayList.Count - 1;
 
-            foreach (var mui in sourceList)
+            using (await _lock.LockAsync())
             {
-                try
+                foreach (var mui in sourceList)
                 {
-                    playList.Add(await mui.GetPlaybackItem());
-                    dbPlayList.Add(new PlaybackItem(mui.Id));
-                }
-                catch (Exception)
-                {
-                    removeList.Add(mui);
-                    continue;
+                    try
+                    {
+                        playList.Add(await mui.GetPlaybackItem());
+                        dbPlayList.Add(new PlaybackItem(mui.Id));
+                    }
+                    catch (Exception)
+                    {
+                        removeList.Add(mui);
+                        continue;
+                    }
                 }
             }
 
