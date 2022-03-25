@@ -17,6 +17,6 @@
         </Grid.RowDefinitions>
         <Frame x:Name="Main_Frame"/>
 
-        <ctor:CustomPlayerElement Grid.Row="1"/>
+        <ctor:CustomPlayerElement Grid.Row="1" CoverButtonClick="CustomPlayerElement_CoverButtonClick"/>
     </Grid>
 </Page>

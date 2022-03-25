@@ -66,6 +66,7 @@ namespace SimpleSongsPlayer
 
                 .AddSingleton<MainViewModel>()
                 .AddSingleton<MusicListViewModel>()
+                .AddSingleton<MusicInfoViewModel>()
 
                 .AddSingleton<MediaPlayer>()
                 .AddSingleton<CoreDispatcher>(Window.Current.Dispatcher)

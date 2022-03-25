@@ -31,20 +31,25 @@ namespace SimpleSongsPlayer.Views.Controllers
         private readonly ConfigurationService _configService;
         private bool _isPressSlider;
 
+        public event RoutedEventHandler CoverButtonClick;
+
         public CustomPlayerElement()
         {
             this.InitializeComponent();
             _configService = Ioc.Default.GetRequiredService<ConfigurationService>();
             _configService.PropertyChanged += ConfigService_PropertyChanged;
 
-            WeakReferenceMessenger.Default.Register<CustomPlayerElement, string, string>(this, nameof(PlaybackListManageService), (ctor, mes) =>
+            WeakReferenceMessenger.Default.Register<CustomPlayerElement, string, string>(this, nameof(PlaybackListManageService), async (ctor, mes) =>
             {
                 if (mes == "CurrentPlayChanged")
                 {
+                    var manageService = Ioc.Default.GetRequiredService<MusicFileManageService>();
+                    Cover_Image.Source = await manageService.GetCurrentPlayItem()?.GetCoverAsync();
+
                     ctor.Position_Slider.Maximum = _mediaPlayer.PlaybackSession.NaturalDuration.TotalMinutes;
                     ctor._mediaPlayer.PlaybackSession.PlaybackRate = _configService.PlaybackRate;
 
-                    PlayList_ListView.ItemsSource = Ioc.Default.GetRequiredService<MusicFileManageService>().GetPlaybackList();
+                    PlayList_ListView.ItemsSource = manageService.GetPlaybackList();
 
                     var item = Ioc.Default.GetRequiredService<PlaybackListManageService>().CurrentPlayItem;
                     if (item != null)
@@ -67,12 +72,21 @@ namespace SimpleSongsPlayer.Views.Controllers
             //Position_Slider.AddHandler(PointerReleasedEvent, new PointerEventHandler((s, e) => _isPressSlider = false), true);
 
             Position_Slider.GotFocus += (s, e) => _isPressSlider = true;
-            Position_Slider.LostFocus += (s, e) => _isPressSlider = false;
+            Position_Slider.LostFocus += (s, e) =>
+            {
+                WeakReferenceMessenger.Default.Send($"PositionChangedByUser:{TimeSpan.FromMinutes(Position_Slider.Value).TotalMinutes}", "MediaPlayer");
+                _isPressSlider = false;
+            };
         }
 
         private MediaPlaybackList GetPlayList()
         {
             return (MediaPlaybackList)_mediaPlayer.Source;
+        }
+
+        private void Cover_Button_Click(object sender, RoutedEventArgs e)
+        {
+            CoverButtonClick?.Invoke(this, e);
         }
 
         private void Previous_Button_Click(object sender, RoutedEventArgs e)
@@ -88,7 +102,9 @@ namespace SimpleSongsPlayer.Views.Controllers
         private void Position_Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             if (_isPressSlider)
+            {
                 _mediaPlayer.PlaybackSession.Position = TimeSpan.FromMinutes(Position_Slider.Value);
+            }
         }
 
         private void ConfigService_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -135,7 +151,10 @@ namespace SimpleSongsPlayer.Views.Controllers
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 if (!_isPressSlider)
+                {
                     Position_Slider.Value = sender.Position.TotalMinutes;
+                    WeakReferenceMessenger.Default.Send($"PositionChangedBySystem:{sender.Position.TotalMinutes}", "MediaPlayer");
+                }
             });
         }
 

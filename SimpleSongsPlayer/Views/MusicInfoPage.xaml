@@ -1,0 +1,49 @@
+﻿<Page
+    x:Class="SimpleSongsPlayer.Views.MusicInfoPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleSongsPlayer.Views"
+    xmlns:subtitle="using:HappyStudio.Subtitle.Control.UWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{Binding Source={StaticResource Vms}, Path=MusicInfo}"
+    Loaded="Page_Loaded">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <RelativePanel>
+            <Image Stretch="Uniform" Margin="50" Source="{x:Bind _vm.CoverSource, Mode=OneWay}"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True"
+                   RelativePanel.AlignVerticalCenterWithPanel="True"/>
+            <Button Style="{StaticResource IconButtonStyle}" Click="Back_Button_Click">
+                <SymbolIcon Symbol="Back"/>
+            </Button>
+        </RelativePanel>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="12">
+                <TextBlock HorizontalTextAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"
+                           Text="{x:Bind _vm.MusicSource.Title, Mode=OneWay}"/>
+                <TextBlock HorizontalTextAlignment="Center" Margin="0,8,0,0">
+                    <Run Text="{x:Bind _vm.MusicSource.Artist, Mode=OneWay}"/>
+                    <Run Text="-"/>
+                    <Run Text="{x:Bind _vm.MusicSource.Album, Mode=OneWay}"/>
+                </TextBlock>
+            </StackPanel>
+
+            <subtitle:ScrollSubtitlePreview x:Name="MyScrollSubtitlePreview" Grid.Row="1"
+                                            Source="{x:Bind _vm.SubtitleListSource, Mode=OneWay}"/>
+        </Grid>
+    </Grid>
+</Page>

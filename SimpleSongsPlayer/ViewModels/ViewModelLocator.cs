@@ -12,5 +12,6 @@ namespace SimpleSongsPlayer.ViewModels
     {
         public MainViewModel Main => Ioc.Default.GetRequiredService<MainViewModel>();
         public MusicListViewModel MusicList => Ioc.Default.GetRequiredService<MusicListViewModel>();
+        public MusicInfoViewModel MusicInfo => Ioc.Default.GetRequiredService<MusicInfoViewModel>();
     }
 }

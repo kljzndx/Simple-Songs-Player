@@ -38,5 +38,10 @@ namespace SimpleSongsPlayer.Views
             await Ioc.Default.GetRequiredService<PlaybackListManageService>().InitPlayList();
             await Ioc.Default.GetRequiredService<MusicFileScanningService>().ScanAsync();
         }
+
+        private void CustomPlayerElement_CoverButtonClick(object sender, RoutedEventArgs e)
+        {
+            Main_Frame.Navigate(typeof(MusicInfoPage));
+        }
     }
 }

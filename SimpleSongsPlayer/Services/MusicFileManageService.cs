@@ -25,6 +25,12 @@ namespace SimpleSongsPlayer.Services
         {
         }
 
+        public MusicUi GetCurrentPlayItem()
+        {
+            var dbPlay = DbContext.PlaybackList.Include(pi => pi.File).FirstOrDefault(pi => pi.IsPlaying);
+            return dbPlay == null ? null : new MusicUi(dbPlay.File);
+        }
+
         public List<MusicUi> GetAllMusic()
         {
             return DbContext.MusicFiles.Select(mf => new MusicUi(mf)).ToList();

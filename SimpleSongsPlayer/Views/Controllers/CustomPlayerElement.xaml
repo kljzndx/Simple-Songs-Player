@@ -21,6 +21,10 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Horizontal">
+            <Button Width="33.6" Height="33.6" Padding="0" Click="Cover_Button_Click">
+                <Image x:Name="Cover_Image"/>
+            </Button>
+            
             <Button Click="Previous_Button_Click">
                 <SymbolIcon Symbol="Previous"/>
             </Button>
