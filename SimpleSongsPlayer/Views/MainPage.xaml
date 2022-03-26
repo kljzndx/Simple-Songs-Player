@@ -15,7 +15,11 @@
             <RowDefinition/>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        
         <Frame x:Name="Main_Frame"/>
+        <StackPanel HorizontalAlignment="Right" Margin="0,20,0,0">
+            <ctor:FlyoutNotification x:Name="MyFlyoutNotification"/>
+        </StackPanel>
 
         <ctor:CustomPlayerElement Grid.Row="1" CoverButtonClick="CustomPlayerElement_CoverButtonClick"/>
     </Grid>

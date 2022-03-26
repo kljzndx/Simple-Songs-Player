@@ -133,6 +133,9 @@
     <Compile Include="Views\Controllers\CustomPlayerElement.xaml.cs">
       <DependentUpon>CustomPlayerElement.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controllers\FlyoutNotification.xaml.cs">
+      <DependentUpon>FlyoutNotification.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controllers\Templates\MusicItemTemplate.xaml.cs">
       <DependentUpon>MusicItemTemplate.xaml</DependentUpon>
     </Compile>
@@ -172,6 +175,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Views\Controllers\CustomPlayerElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controllers\FlyoutNotification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
