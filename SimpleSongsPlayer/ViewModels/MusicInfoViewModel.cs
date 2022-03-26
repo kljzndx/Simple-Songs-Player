@@ -35,7 +35,8 @@ namespace SimpleSongsPlayer.ViewModels
 
             Messenger.Register<MusicInfoViewModel, string, string>(this, nameof(PlaybackListManageService), async (vm, mes) =>
             {
-                await vm.AutoLoad();
+                if (mes == "CurrentPlayChanged")
+                    await vm.AutoLoad();
             });
         }
 
