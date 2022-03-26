@@ -280,9 +280,9 @@ namespace SimpleSongsPlayer.Services
         {
             using (await _lock.LockAsync())
             {
-                WeakReferenceMessenger.Default.Send("Files loading", nameof(PlaybackListManageService));
+                WeakReferenceMessenger.Default.Send("Files_loading", "Notification");
                 await action();
-                WeakReferenceMessenger.Default.Send("Files loaded", nameof(PlaybackListManageService));
+                WeakReferenceMessenger.Default.Send("Files_loaded", "Notification");
             }
         }
 
