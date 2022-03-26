@@ -61,8 +61,8 @@ namespace SimpleSongsPlayer.ViewModels
         public async Task AutoLoad()
         {
             MusicSource = _manageService.GetCurrentPlayItem();
-            CoverSource = new BitmapImage();
-            SubtitleListSource = null;
+            CoverSource = null;
+            SubtitleListSource = new List<SubtitleLineUi>();
 
             if (MusicSource == null)
                 return;
