@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Nito.AsyncEx;
 
 using SimpleSongsPlayer.Dal;
+using SimpleSongsPlayer.Extensions;
 using SimpleSongsPlayer.Models;
 
 using System;
@@ -280,9 +281,9 @@ namespace SimpleSongsPlayer.Services
         {
             using (await _lock.LockAsync())
             {
-                WeakReferenceMessenger.Default.Send("Files_loading", "Notification");
+                WeakReferenceMessenger.Default.Send("FilesLoading", nameof(PlaybackListManageService));
                 await action();
-                WeakReferenceMessenger.Default.Send("Files_loaded", "Notification");
+                WeakReferenceMessenger.Default.Send("FilesLoaded", nameof(PlaybackListManageService));
             }
         }
 
