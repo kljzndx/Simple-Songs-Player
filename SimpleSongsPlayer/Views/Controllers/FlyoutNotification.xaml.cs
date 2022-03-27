@@ -30,7 +30,8 @@ namespace SimpleSongsPlayer.Views.Controllers
         {
             Show(message);
 
-            ThreadPoolTimer.CreateTimer(timer => Hide(), timeout);
+            if (timeout != TimeSpan.Zero)
+                ThreadPoolTimer.CreateTimer(timer => Hide(), timeout);
         }
 
         public void Show(string message)
@@ -48,6 +49,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         private void Fold_Storyboard_Completed(object sender, object e)
         {
             Root_Border.Visibility = Visibility.Collapsed;
+
         }
     }
 }
