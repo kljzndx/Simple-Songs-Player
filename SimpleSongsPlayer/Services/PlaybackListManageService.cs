@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Nito.AsyncEx;
 
 using SimpleSongsPlayer.Dal;
-using SimpleSongsPlayer.Extensions;
 using SimpleSongsPlayer.Models;
 
 using System;
