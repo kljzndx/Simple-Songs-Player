@@ -50,7 +50,6 @@ namespace SimpleSongsPlayer.Views.Controllers
         private void Fold_Storyboard_Completed(object sender, object e)
         {
             Root_Border.Visibility = Visibility.Collapsed;
-
         }
     }
 }
