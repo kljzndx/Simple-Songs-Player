@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 
 using SimpleSongsPlayer.Dal;
+using SimpleSongsPlayer.Views.Controllers;
 
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,8 @@ namespace SimpleSongsPlayer.Services
         public async Task ScanAsync()
         {
             WeakReferenceMessenger.Default.Send("Started", nameof(MusicFileScanningService));
+            Ioc.Default.GetRequiredService<FlyoutNotification>().Show("ScanningFiles");
+
             var musicLib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
 
             var folderPathList = musicLib.Folders.Select(f => f.Path).ToList();
@@ -81,6 +84,7 @@ namespace SimpleSongsPlayer.Services
                     await DbContext.SaveChangesAsync();
             }
 
+            Ioc.Default.GetRequiredService<FlyoutNotification>().Hide();
             WeakReferenceMessenger.Default.Send("Finished", nameof(MusicFileScanningService));
         }
     }

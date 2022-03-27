@@ -2,6 +2,7 @@
 
 using SimpleSongsPlayer.Services;
 using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.Views.Controllers;
 
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace SimpleSongsPlayer.Views
         public MainPage()
         {
             this.InitializeComponent();
+            Info_StackPanel.Children.Insert(0, Ioc.Default.GetRequiredService<FlyoutNotification>());
         }
 
         private async void MainPage_Loaded(object sender, RoutedEventArgs e)

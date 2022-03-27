@@ -7,6 +7,7 @@ using Nito.AsyncEx;
 
 using SimpleSongsPlayer.Dal;
 using SimpleSongsPlayer.Models;
+using SimpleSongsPlayer.Views.Controllers;
 
 using System;
 using System.Collections.Generic;
@@ -281,7 +282,9 @@ namespace SimpleSongsPlayer.Services
             using (await _lock.LockAsync())
             {
                 WeakReferenceMessenger.Default.Send("FilesLoading", nameof(PlaybackListManageService));
+                Ioc.Default.GetRequiredService<FlyoutNotification>().Show("FilesLoading");
                 await action();
+                Ioc.Default.GetRequiredService<FlyoutNotification>().Hide();
                 WeakReferenceMessenger.Default.Send("FilesLoaded", nameof(PlaybackListManageService));
             }
         }

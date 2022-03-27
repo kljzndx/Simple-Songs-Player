@@ -7,6 +7,7 @@ using SimpleSongsPlayer.Dal;
 using SimpleSongsPlayer.Services;
 using SimpleSongsPlayer.ViewModels;
 using SimpleSongsPlayer.Views;
+using SimpleSongsPlayer.Views.Controllers;
 
 using System;
 using System.Collections.Generic;
@@ -68,8 +69,9 @@ namespace SimpleSongsPlayer
                 .AddSingleton<MusicListViewModel>()
                 .AddSingleton<MusicInfoViewModel>()
 
-                .AddSingleton<MediaPlayer>()
                 .AddSingleton<CoreDispatcher>(Window.Current.Dispatcher)
+                .AddSingleton<MediaPlayer>()
+                .AddSingleton<FlyoutNotification>()
 
                 .BuildServiceProvider());
 
