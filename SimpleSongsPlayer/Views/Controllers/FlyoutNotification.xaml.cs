@@ -36,6 +36,7 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         public void Show(string message)
         {
+            Fold_Storyboard.Stop();
             Message_TextBlock.Text = message;
             Root_Border.Visibility = Visibility.Visible;
             Extend_Storyboard.Begin();
