@@ -2,7 +2,7 @@
     x:Class="SimpleSongsPlayer.Views.MusicInfoPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:SimpleSongsPlayer.Views"
+    xmlns:temp="using:SimpleSongsPlayer.Views.Controllers.Templates"
     xmlns:subtitle="using:HappyStudio.Subtitle.Control.UWP"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -43,7 +43,13 @@
             </StackPanel>
 
             <subtitle:ScrollSubtitlePreview x:Name="MyScrollSubtitlePreview" Grid.Row="1"
-                                            Source="{x:Bind _vm.SubtitleListSource, Mode=OneWay}"/>
+                                            Source="{x:Bind _vm.SubtitleListSource, Mode=OneWay}">
+                <subtitle:ScrollSubtitlePreview.ItemTemplate>
+                    <DataTemplate>
+                        <temp:LyricPreviewItemTemplate/>
+                    </DataTemplate>
+                </subtitle:ScrollSubtitlePreview.ItemTemplate>
+            </subtitle:ScrollSubtitlePreview>
         </Grid>
     </Grid>
 </Page>
