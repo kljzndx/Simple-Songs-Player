@@ -74,7 +74,7 @@ namespace SimpleSongsPlayer.Views.Controllers
             Position_Slider.GotFocus += (s, e) => _isPressSlider = true;
             Position_Slider.LostFocus += (s, e) =>
             {
-                WeakReferenceMessenger.Default.Send($"PositionChangedByUser:{TimeSpan.FromMinutes(Position_Slider.Value).TotalMinutes}", "MediaPlayer");
+                WeakReferenceMessenger.Default.Send($"PositionChangedByUser:{Position_Slider.Value}", "MediaPlayer");
                 _isPressSlider = false;
             };
         }
