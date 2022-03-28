@@ -44,6 +44,7 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         public void Hide()
         {
+            Extend_Storyboard.Stop();
             Fold_Storyboard.Begin();
         }
 
