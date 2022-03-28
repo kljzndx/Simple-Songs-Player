@@ -68,15 +68,23 @@ namespace SimpleSongsPlayer.Views.Controllers
             _mediaPlayer.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
             _mediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChanged;
 
-            //Position_Slider.AddHandler(PointerPressedEvent, new PointerEventHandler((s, e) => _isPressSlider = true), true);
-            //Position_Slider.AddHandler(PointerReleasedEvent, new PointerEventHandler((s, e) => _isPressSlider = false), true);
+            Position_Slider.AddHandler(PointerReleasedEvent, new PointerEventHandler((s, e) => ReleasePositionSlider()), true);
 
-            Position_Slider.GotFocus += (s, e) => _isPressSlider = true;
-            Position_Slider.LostFocus += (s, e) =>
+            Position_Slider.GotFocus += (s, e) =>
             {
-                WeakReferenceMessenger.Default.Send($"PositionChangedByUser:{Position_Slider.Value}", "MediaPlayer");
-                _isPressSlider = false;
+                _isPressSlider = true;
+                Position_Slider_ValueChanged(null, null);
             };
+            Position_Slider.LostFocus += (s, e) => ReleasePositionSlider();
+        }
+
+        private void ReleasePositionSlider()
+        {
+            if (!_isPressSlider)
+                return;
+
+            WeakReferenceMessenger.Default.Send($"PositionChangedByUser:{Position_Slider.Value}", "MediaPlayer");
+            _isPressSlider = false;
         }
 
         private MediaPlaybackList GetPlayList()
