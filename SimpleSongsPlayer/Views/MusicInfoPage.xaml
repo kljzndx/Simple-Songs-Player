@@ -42,15 +42,34 @@
                 </TextBlock>
             </StackPanel>
 
-            <subtitle:ScrollSubtitlePreview x:Name="MyScrollSubtitlePreview" Grid.Row="1"
+            <Grid Grid.Row="1">
+                <subtitle:ScrollSubtitlePreview x:Name="MyScrollSubtitlePreview"
                                             Source="{x:Bind _vm.SubtitleListSource, Mode=OneWay}"
                                             ItemClick="MyScrollSubtitlePreview_ItemClick">
-                <subtitle:ScrollSubtitlePreview.ItemTemplate>
-                    <DataTemplate>
-                        <temp:LyricPreviewItemTemplate/>
-                    </DataTemplate>
-                </subtitle:ScrollSubtitlePreview.ItemTemplate>
-            </subtitle:ScrollSubtitlePreview>
+                    <subtitle:ScrollSubtitlePreview.ItemTemplate>
+                        <DataTemplate>
+                            <temp:LyricPreviewItemTemplate/>
+                        </DataTemplate>
+                    </subtitle:ScrollSubtitlePreview.ItemTemplate>
+                </subtitle:ScrollSubtitlePreview>
+                
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource IconButtonStyle}">
+                    <Button.Content>
+                        <SymbolIcon Symbol="Setting"/>
+                    </Button.Content>
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel Width="200">
+                                <TextBlock Text="字体大小:"/>
+                                <Slider Minimum="6" Maximum="36" Value="{x:Bind _vm.Configuration.LyricPreviewFontSize, Mode=TwoWay}"/>
+
+                                <TextBlock Text="不透明度:"/>
+                                <Slider Maximum="100" Value="{x:Bind _vm.Configuration.LyricPreviewOpacity, Mode=TwoWay, Converter={StaticResource PercentageConverter}}"/>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

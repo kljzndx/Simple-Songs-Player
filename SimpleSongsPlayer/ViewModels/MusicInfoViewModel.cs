@@ -29,9 +29,10 @@ namespace SimpleSongsPlayer.ViewModels
         private BitmapSource _coverSource;
         private IEnumerable<ISubtitleLineUi> _subtitleSource;
 
-        public MusicInfoViewModel(MusicFileManageService manageService)
+        public MusicInfoViewModel(MusicFileManageService manageService, ConfigurationService configuration)
         {
             _manageService = manageService;
+            Configuration = configuration;
 
             Messenger.Register<MusicInfoViewModel, string, string>(this, nameof(PlaybackListManageService), async (vm, mes) =>
             {
@@ -39,6 +40,8 @@ namespace SimpleSongsPlayer.ViewModels
                     await vm.AutoLoad();
             });
         }
+
+        public ConfigurationService Configuration { get; }
 
         public MusicUi MusicSource
         {
