@@ -60,6 +60,20 @@ namespace SimpleSongsPlayer.Views.Controllers
                 }
             });
 
+            WeakReferenceMessenger.Default.Register<CustomPlayerElement, string, string>(this, "MediaPlayer", async (ctor, mes) =>
+            {
+                string[] split = mes.Split(':');
+                string key = split[0];
+                string value = split[1];
+
+                if (key == "RequestChangePosition")
+                {
+                    ctor._isPressSlider = true;
+                    ctor.Position_Slider.Value = double.Parse(value);
+                    ctor.ReleasePositionSlider();
+                }
+            });
+
             _mediaPlayer = Ioc.Default.GetRequiredService<MediaPlayer>();
             _mediaPlayer.Source = Ioc.Default.GetRequiredService<PlaybackListManageService>().GetPlaybackList();
             _mediaPlayer.Volume = _configService.Volume;

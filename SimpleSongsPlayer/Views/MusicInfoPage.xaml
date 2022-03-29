@@ -43,7 +43,8 @@
             </StackPanel>
 
             <subtitle:ScrollSubtitlePreview x:Name="MyScrollSubtitlePreview" Grid.Row="1"
-                                            Source="{x:Bind _vm.SubtitleListSource, Mode=OneWay}">
+                                            Source="{x:Bind _vm.SubtitleListSource, Mode=OneWay}"
+                                            ItemClick="MyScrollSubtitlePreview_ItemClick">
                 <subtitle:ScrollSubtitlePreview.ItemTemplate>
                     <DataTemplate>
                         <temp:LyricPreviewItemTemplate/>

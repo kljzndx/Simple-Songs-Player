@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Messaging;
 
+using HappyStudio.Subtitle.Control.Interface.Models;
+
 using SimpleSongsPlayer.ViewModels;
 
 using System;
@@ -57,6 +59,15 @@ namespace SimpleSongsPlayer.Views
         private void Back_Button_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.GoBack();
+        }
+
+        private void MyScrollSubtitlePreview_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var item = e.ClickedItem as SubtitleLineUi;
+            if (item == null)
+                return;
+
+            WeakReferenceMessenger.Default.Send($"RequestChangePosition:{item.StartTime.TotalMinutes}", "MediaPlayer");
         }
     }
 }
