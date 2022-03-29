@@ -58,8 +58,14 @@ namespace SimpleSongsPlayer.ViewModels
         public IEnumerable<ISubtitleLineUi> SubtitleListSource
         {
             get => _subtitleSource;
-            private set => SetProperty(ref _subtitleSource, value);
+            private set
+            {
+                SetProperty(ref _subtitleSource, value);
+                OnPropertyChanged(nameof(IsSubtitleListEmpty));
+            }
         }
+
+        public bool IsSubtitleListEmpty => !(SubtitleListSource?.Any() ?? false);
 
         public async Task AutoLoad()
         {

@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:temp="using:SimpleSongsPlayer.Views.Controllers.Templates"
     xmlns:subtitle="using:HappyStudio.Subtitle.Control.UWP"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -27,6 +29,25 @@
         </RelativePanel>
 
         <Grid Grid.Column="1">
+            <Interactivity:Interaction.Behaviors>
+                <Interactivity:BehaviorCollection>
+                    <Interactions:DataTriggerBehavior Binding="{x:Bind _vm.IsSubtitleListEmpty, Mode=OneWay}"
+                                                      Value="True" ComparisonCondition="Equal">
+                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=NoLyricsFile_TextBlock}"
+                                                           PropertyName="Visibility" Value="Visible"/>
+                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=LyricsPriview_Grid}"
+                                                           PropertyName="Visibility" Value="Collapsed"/>
+                    </Interactions:DataTriggerBehavior>
+
+                    <Interactions:DataTriggerBehavior Binding="{x:Bind _vm.IsSubtitleListEmpty, Mode=OneWay}"
+                                                      Value="False" ComparisonCondition="Equal">
+                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=NoLyricsFile_TextBlock}"
+                                                           PropertyName="Visibility" Value="Collapsed"/>
+                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=LyricsPriview_Grid}"
+                                                           PropertyName="Visibility" Value="Visible"/>
+                    </Interactions:DataTriggerBehavior>
+                </Interactivity:BehaviorCollection>
+            </Interactivity:Interaction.Behaviors>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
@@ -42,7 +63,22 @@
                 </TextBlock>
             </StackPanel>
 
-            <Grid Grid.Row="1">
+            <TextBlock x:Name="NoLyricsFile_TextBlock" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalTextAlignment="Center">
+                <Run Text="未找到同名歌词文件 (.lrc/.srt)"/>
+                <LineBreak/>
+                <Run Text="想制作歌词文件吗？"/>
+                <LineBreak/>
+                <Run Text="来试试"/>
+                <Hyperlink NavigateUri="ms-windows-store://pdp/?productid=9NWDP77WF36W">
+                    <Run Text="简易歌词制作器"/>
+                </Hyperlink>
+                <Run Text="或"/>
+                <Hyperlink NavigateUri="ms-windows-store://pdp/?productid=9MX4FRGQ4RQS">
+                    <Run Text="简易歌词编辑器"/>
+                </Hyperlink>
+            </TextBlock>
+
+            <Grid x:Name="LyricsPriview_Grid" Grid.Row="1" Visibility="Collapsed">
                 <subtitle:ScrollSubtitlePreview x:Name="MyScrollSubtitlePreview"
                                             Source="{x:Bind _vm.SubtitleListSource, Mode=OneWay}"
                                             ItemClick="MyScrollSubtitlePreview_ItemClick">
