@@ -41,7 +41,9 @@
             </Button>
         </StackPanel>
 
-        <Slider x:Name="Position_Slider" Grid.Column="1" StepFrequency="0.01" ThumbToolTipValueConverter="{StaticResource TimeSpanToString}"
+        <Slider x:Name="Position_Slider" Grid.Column="1"
+                StepFrequency="0.01" SmallChange="0.01" LargeChange="0.01"
+                ThumbToolTipValueConverter="{StaticResource TimeSpanToString}"
                 ValueChanged="Position_Slider_ValueChanged"/>
 
         <StackPanel Grid.Column="2" Orientation="Horizontal">
