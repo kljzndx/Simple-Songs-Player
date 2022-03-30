@@ -13,6 +13,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -49,6 +50,14 @@ namespace SimpleSongsPlayer.Views
                 if (key == "PositionChangedByUser")
                     page.MyScrollSubtitlePreview.Reposition(time);
             });
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            var player = Ioc.Default.GetRequiredService<MediaPlayer>();
+            MyScrollSubtitlePreview.Reposition(player.PlaybackSession.Position);
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
