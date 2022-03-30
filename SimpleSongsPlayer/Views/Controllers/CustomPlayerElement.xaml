@@ -14,13 +14,43 @@
     </UserControl.Resources>
 
     <Grid VerticalAlignment="Bottom">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Short_VisualState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="Position_Slider.(Grid.Row)" Value="0"/>
+                        <Setter Target="Position_Slider.(Grid.Column)" Value="0"/>
+                        <Setter Target="Position_Slider.(Grid.ColumnSpan)" Value="3"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Long_VisualState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="Position_Slider.(Grid.Row)" Value="1"/>
+                        <Setter Target="Position_Slider.(Grid.Column)" Value="1"/>
+                        <Setter Target="Position_Slider.(Grid.ColumnSpan)" Value="1"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button Width="33.6" Height="33.6" Padding="0" Click="Cover_Button_Click">
                 <Image x:Name="Cover_Image"/>
             </Button>
@@ -41,12 +71,12 @@
             </Button>
         </StackPanel>
 
-        <Slider x:Name="Position_Slider" Grid.Column="1"
+        <Slider x:Name="Position_Slider" Grid.Row="1" Grid.Column="1"
                 StepFrequency="0.01" SmallChange="0.01" LargeChange="0.01"
                 ThumbToolTipValueConverter="{StaticResource TimeSpanToString}"
                 ValueChanged="Position_Slider_ValueChanged"/>
 
-        <StackPanel Grid.Column="2" Orientation="Horizontal">
+        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
             <Button>
                 <Button.Content>
                     <SymbolIcon Symbol="Volume" />
