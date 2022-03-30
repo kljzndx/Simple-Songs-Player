@@ -60,7 +60,7 @@ namespace SimpleSongsPlayer.Views.Controllers
                 }
             });
 
-            WeakReferenceMessenger.Default.Register<CustomPlayerElement, string, string>(this, "MediaPlayer", async (ctor, mes) =>
+            WeakReferenceMessenger.Default.Register<CustomPlayerElement, string, string>(this, "MediaPlayer", (ctor, mes) =>
             {
                 string[] split = mes.Split(':');
                 string key = split[0];
