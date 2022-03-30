@@ -2,16 +2,12 @@
     x:Class="SimpleSongsPlayer.Views.MusicInfoPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:temp="using:SimpleSongsPlayer.Views.Controllers.Templates"
-    xmlns:subtitle="using:HappyStudio.Subtitle.Control.UWP"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:ctor="using:SimpleSongsPlayer.Views.Controllers"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    DataContext="{Binding Source={StaticResource Vms}, Path=MusicInfo}"
-    Loaded="Page_Loaded">
+    DataContext="{Binding Source={StaticResource Vms}, Path=MusicInfo}">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -23,89 +19,8 @@
             <Image Stretch="Uniform" Margin="50" Source="{x:Bind _vm.CoverSource, Mode=OneWay}"
                    RelativePanel.AlignHorizontalCenterWithPanel="True"
                    RelativePanel.AlignVerticalCenterWithPanel="True"/>
-            <Button Style="{StaticResource IconButtonStyle}" Click="Back_Button_Click">
-                <SymbolIcon Symbol="Back"/>
-            </Button>
         </RelativePanel>
 
-        <Grid Grid.Column="1">
-            <Interactivity:Interaction.Behaviors>
-                <Interactivity:BehaviorCollection>
-                    <Interactions:DataTriggerBehavior Binding="{x:Bind _vm.IsSubtitleListEmpty, Mode=OneWay}"
-                                                      Value="True" ComparisonCondition="Equal">
-                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=NoLyricsFile_TextBlock}"
-                                                           PropertyName="Visibility" Value="Visible"/>
-                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=LyricsPriview_Grid}"
-                                                           PropertyName="Visibility" Value="Collapsed"/>
-                    </Interactions:DataTriggerBehavior>
-
-                    <Interactions:DataTriggerBehavior Binding="{x:Bind _vm.IsSubtitleListEmpty, Mode=OneWay}"
-                                                      Value="False" ComparisonCondition="Equal">
-                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=NoLyricsFile_TextBlock}"
-                                                           PropertyName="Visibility" Value="Collapsed"/>
-                        <Interactions:ChangePropertyAction TargetObject="{Binding ElementName=LyricsPriview_Grid}"
-                                                           PropertyName="Visibility" Value="Visible"/>
-                    </Interactions:DataTriggerBehavior>
-                </Interactivity:BehaviorCollection>
-            </Interactivity:Interaction.Behaviors>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <StackPanel Margin="12">
-                <TextBlock HorizontalTextAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}"
-                           Text="{x:Bind _vm.MusicSource.Title, Mode=OneWay}"/>
-                <TextBlock HorizontalTextAlignment="Center" Margin="0,8,0,0">
-                    <Run Text="{x:Bind _vm.MusicSource.Artist, Mode=OneWay}"/>
-                    <Run Text="-"/>
-                    <Run Text="{x:Bind _vm.MusicSource.Album, Mode=OneWay}"/>
-                </TextBlock>
-            </StackPanel>
-
-            <TextBlock x:Name="NoLyricsFile_TextBlock" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalTextAlignment="Center">
-                <Run Text="未找到同名歌词文件 (.lrc/.srt)"/>
-                <LineBreak/>
-                <Run Text="想制作歌词文件吗？"/>
-                <LineBreak/>
-                <Run Text="来试试"/>
-                <Hyperlink NavigateUri="ms-windows-store://pdp/?productid=9NWDP77WF36W">
-                    <Run Text="简易歌词制作器"/>
-                </Hyperlink>
-                <Run Text="或"/>
-                <Hyperlink NavigateUri="ms-windows-store://pdp/?productid=9MX4FRGQ4RQS">
-                    <Run Text="简易歌词编辑器"/>
-                </Hyperlink>
-            </TextBlock>
-
-            <Grid x:Name="LyricsPriview_Grid" Grid.Row="1" Visibility="Collapsed">
-                <subtitle:ScrollSubtitlePreview x:Name="MyScrollSubtitlePreview"
-                                            Source="{x:Bind _vm.SubtitleListSource, Mode=OneWay}"
-                                            ItemClick="MyScrollSubtitlePreview_ItemClick">
-                    <subtitle:ScrollSubtitlePreview.ItemTemplate>
-                        <DataTemplate>
-                            <temp:LyricPreviewItemTemplate/>
-                        </DataTemplate>
-                    </subtitle:ScrollSubtitlePreview.ItemTemplate>
-                </subtitle:ScrollSubtitlePreview>
-                
-                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource IconButtonStyle}">
-                    <Button.Content>
-                        <SymbolIcon Symbol="Setting"/>
-                    </Button.Content>
-                    <Button.Flyout>
-                        <Flyout>
-                            <StackPanel Width="200">
-                                <TextBlock Text="字体大小:"/>
-                                <Slider Minimum="6" Maximum="36" Value="{x:Bind _vm.Configuration.LyricPreviewFontSize, Mode=TwoWay}"/>
-
-                                <TextBlock Text="不透明度:"/>
-                                <Slider Maximum="100" Value="{x:Bind _vm.Configuration.LyricPreviewOpacity, Mode=TwoWay, Converter={StaticResource PercentageConverter}}"/>
-                            </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-            </Grid>
-        </Grid>
+        <ctor:MusicInfoDisplay Grid.Column="1"/>
     </Grid>
 </Page>

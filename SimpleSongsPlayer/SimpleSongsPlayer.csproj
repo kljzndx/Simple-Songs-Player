@@ -136,6 +136,9 @@
     <Compile Include="Views\Controllers\FlyoutNotification.xaml.cs">
       <DependentUpon>FlyoutNotification.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controllers\MusicInfoDisplay.xaml.cs">
+      <DependentUpon>MusicInfoDisplay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controllers\Templates\LyricPreviewItemTemplate.xaml.cs">
       <DependentUpon>LyricPreviewItemTemplate.xaml</DependentUpon>
     </Compile>
@@ -182,6 +185,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controllers\FlyoutNotification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controllers\MusicInfoDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
