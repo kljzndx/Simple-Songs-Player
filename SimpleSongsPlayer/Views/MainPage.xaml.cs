@@ -43,7 +43,10 @@ namespace SimpleSongsPlayer.Views
 
         private void CustomPlayerElement_CoverButtonClick(object sender, RoutedEventArgs e)
         {
-            Main_Frame.Navigate(typeof(MusicInfoPage));
+            if (Main_Frame.CurrentSourcePageType == typeof(MusicInfoPage))
+                Main_Frame.GoBack();
+            else
+                Main_Frame.Navigate(typeof(MusicInfoPage));
         }
     }
 }
