@@ -10,17 +10,54 @@
     DataContext="{Binding Source={StaticResource Vms}, Path=MusicInfo}">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Short_VisualState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ShortLayout_Pivot.Visibility" Value="Visible"/>
+                        <Setter Target="LongLayout_Grid.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Long_VisualState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ShortLayout_Pivot.Visibility" Value="Collapsed"/>
+                        <Setter Target="LongLayout_Grid.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Pivot x:Name="ShortLayout_Pivot">
+            <PivotItem Header="封面">
+                <RelativePanel>
+                    <Image Stretch="Uniform" Margin="50" Source="{x:Bind _vm.CoverSource, Mode=OneWay}"
+                           RelativePanel.AlignHorizontalCenterWithPanel="True"
+                           RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                </RelativePanel>
+            </PivotItem>
+            <PivotItem Header="信息">
+                <ctor:MusicInfoDisplay/>
+            </PivotItem>
+        </Pivot>
 
-        <RelativePanel>
-            <Image Stretch="Uniform" Margin="50" Source="{x:Bind _vm.CoverSource, Mode=OneWay}"
+        <Grid x:Name="LongLayout_Grid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <RelativePanel>
+                <Image Stretch="Uniform" Margin="50" Source="{x:Bind _vm.CoverSource, Mode=OneWay}"
                    RelativePanel.AlignHorizontalCenterWithPanel="True"
                    RelativePanel.AlignVerticalCenterWithPanel="True"/>
-        </RelativePanel>
+            </RelativePanel>
 
-        <ctor:MusicInfoDisplay Grid.Column="1"/>
+            <ctor:MusicInfoDisplay Grid.Column="1"/>
+        </Grid>
     </Grid>
 </Page>
