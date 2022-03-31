@@ -48,12 +48,12 @@ namespace SimpleSongsPlayer.Views.Controllers
                     ctor.MyScrollSubtitlePreview.Reposition(time);
             });
 
-            WeakReferenceMessenger.Default.Register<MusicInfoDisplay, string, string>(this, nameof(MusicInfoViewModel), (ctor, mes) =>
+            WeakReferenceMessenger.Default.Register<MusicInfoDisplay, string, string>(this, nameof(MusicInfoDisplay), (ctor, mes) =>
             {
-                if (mes == "SubtitleLoaded")
+                if (mes == "RequestReposition")
                 {
                     var player = Ioc.Default.GetRequiredService<MediaPlayer>();
-                    ctor.MyScrollSubtitlePreview.Reposition(player.PlaybackSession.Position);
+                    MyScrollSubtitlePreview.Reposition(player.PlaybackSession.Position);
                 }
             });
         }
@@ -65,6 +65,11 @@ namespace SimpleSongsPlayer.Views.Controllers
                 return;
 
             WeakReferenceMessenger.Default.Send($"RequestChangePosition:{item.StartTime.TotalMinutes}", "MediaPlayer");
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            WeakReferenceMessenger.Default.Send("RequestReposition", nameof(MusicInfoDisplay));
         }
     }
 }

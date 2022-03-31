@@ -107,7 +107,6 @@ namespace SimpleSongsPlayer.ViewModels
             {
                 var stl = SubtitleParser.Parse(text);
                 SubtitleListSource = stl.Lines.Select(l => new SubtitleLineUi(l)).ToList();
-                Messenger.Send("SubtitleLoaded", nameof(MusicInfoViewModel));
             }
             catch (Exception)
             {

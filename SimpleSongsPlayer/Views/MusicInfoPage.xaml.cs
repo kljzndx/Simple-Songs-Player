@@ -1,9 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Messaging;
 
 using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.Views.Controllers;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -30,6 +33,8 @@ namespace SimpleSongsPlayer.Views
     {
         private MusicInfoViewModel _vm;
 
+        private bool _isShort;
+
         public MusicInfoPage()
         {
             this.InitializeComponent();
@@ -40,6 +45,23 @@ namespace SimpleSongsPlayer.Views
         {
             base.OnNavigatedTo(e);
             await _vm.AutoLoad();
+
+            _isShort = this.ActualWidth <= 640;
+            WeakReferenceMessenger.Default.Send("RequestReposition", nameof(MusicInfoDisplay));
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (_isShort && this.ActualWidth > 640)
+            {
+                _isShort = false;
+                WeakReferenceMessenger.Default.Send("RequestReposition", nameof(MusicInfoDisplay));
+            }
+            if (!_isShort && this.ActualWidth <= 640)
+            {
+                _isShort = true;
+                WeakReferenceMessenger.Default.Send("RequestReposition", nameof(MusicInfoDisplay));
+            }
         }
     }
 }
