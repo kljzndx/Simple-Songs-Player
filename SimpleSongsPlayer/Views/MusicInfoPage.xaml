@@ -33,7 +33,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Pivot x:Name="ShortLayout_Pivot">
+        <Pivot x:Name="ShortLayout_Pivot" SelectedIndex="{x:Bind _vm.Configuration.MusicInfoViewId, Mode=OneWay}">
             <PivotItem Header="封面">
                 <RelativePanel>
                     <Image Stretch="Uniform" Margin="50" Source="{x:Bind _vm.CoverSource, Mode=OneWay}"

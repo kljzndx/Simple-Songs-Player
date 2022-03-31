@@ -61,6 +61,8 @@ namespace SimpleSongsPlayer.Services
         [SettingFieldByNormal(nameof(IsReverseMusicList), false)]
         private bool _isReverseMusicList;
 
+        [SettingFieldByNormal(nameof(MusicInfoViewId), 0)]
+        private int _musicInfoViewId;
         [SettingFieldByNormal(nameof(LyricPreviewFontSize), 14D)]
         private double _lyricPreviewFontSize;
         [SettingFieldByNormal(nameof(LyricPreviewOpacity), 0.4)]
@@ -113,6 +115,11 @@ namespace SimpleSongsPlayer.Services
             set => SetSetting(ref _isReverseMusicList, value);
         }
 
+        public int MusicInfoViewId
+        {
+            get => _musicInfoViewId;
+            set => SetSetting(ref _musicInfoViewId, value);
+        }
         public double LyricPreviewFontSize
         {
             get => _lyricPreviewFontSize;
