@@ -71,11 +71,11 @@
                         <Flyout>
                             <ListView Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
                                       SelectedIndex="{x:Bind _vm.ConfigService.MusicListGroupMethod, Mode=TwoWay, Converter={StaticResource EnumToInt32}}">
-                                <ListViewItem>无</ListViewItem>
-                                <ListViewItem>标题首字母</ListViewItem>
-                                <ListViewItem>歌手</ListViewItem>
-                                <ListViewItem>专辑</ListViewItem>
-                                <ListViewItem>文件夹</ListViewItem>
+                                <ListViewItem Content="无"/>
+                                <ListViewItem Content="标题首字母"/>
+                                <ListViewItem Content="歌手"/>
+                                <ListViewItem Content="专辑"/>
+                                <ListViewItem Content="文件夹"/>
                             </ListView>
                         </Flyout>
                     </AppBarButton.Flyout>
@@ -87,11 +87,11 @@
                                 <StackPanel Margin="8,0">
                                     <TextBlock Text="项目排序" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                     <ListView Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
-                                          SelectedIndex="{x:Bind _vm.ConfigService.MusicListSort, Mode=TwoWay, Converter={StaticResource EnumToInt32}}">
-                                        <ListViewItem Tag="None">无</ListViewItem>
-                                        <ListViewItem Tag="Title">标题</ListViewItem>
-                                        <ListViewItem Tag="TrackNumber">音轨编号</ListViewItem>
-                                        <ListViewItem Tag="UpdateDate">更新时间</ListViewItem>
+                                              SelectedIndex="{x:Bind _vm.ConfigService.MusicListSort, Mode=TwoWay, Converter={StaticResource EnumToInt32}}">
+                                        <ListViewItem Content="无"/>
+                                        <ListViewItem Content="标题"/>
+                                        <ListViewItem Content="音轨编号"/>
+                                        <ListViewItem Content="更新时间"/>
                                     </ListView>
 
                                     <CheckBox Margin="0,8,0,0" IsChecked="{x:Bind _vm.ConfigService.IsReverseMusicList, Mode=TwoWay}"
@@ -100,9 +100,9 @@
                                 <StackPanel Margin="8,0">
                                     <TextBlock Text="分组排序" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                     <ListView Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
-                                          SelectedIndex="{x:Bind _vm.ConfigService.MusicGroupListSort, Mode=TwoWay, Converter={StaticResource EnumToInt32}}">
-                                        <ListViewItem Tag="Name">名称</ListViewItem>
-                                        <ListViewItem Tag="Count">子项数量</ListViewItem>
+                                              SelectedIndex="{x:Bind _vm.ConfigService.MusicGroupListSort, Mode=TwoWay, Converter={StaticResource EnumToInt32}}">
+                                        <ListViewItem Content="名称"/>
+                                        <ListViewItem Content="子项数量"/>
                                     </ListView>
 
                                     <CheckBox Margin="0,8,0,0" IsChecked="{x:Bind _vm.ConfigService.IsReverseMusicGroupList, Mode=TwoWay}"
