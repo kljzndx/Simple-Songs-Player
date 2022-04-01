@@ -112,9 +112,9 @@
                                 <TextBlock Text="Looping mode" Margin="0,4" HorizontalAlignment="Center" />
                                 <ListView HorizontalAlignment="Center" SelectedIndex="{x:Bind _configService.LoopingMode, Mode=TwoWay, Converter={StaticResource EnumToInt32}}"
                                           Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}">
-                                    <ListViewItem Tag="Single">单曲循环</ListViewItem>
-                                    <ListViewItem Tag="List">顺序播放</ListViewItem>
-                                    <ListViewItem Tag="Random">随机播放</ListViewItem>
+                                    <ListViewItem Content="单曲循环"/>
+                                    <ListViewItem Content="顺序播放"/>
+                                    <ListViewItem Content="随机播放"/>
                                 </ListView>
                             </StackPanel>
                         </StackPanel>
