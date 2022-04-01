@@ -50,17 +50,20 @@
         </StackPanel>
 
         <TextBlock x:Name="NoLyricsFile_TextBlock" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalTextAlignment="Center">
-                <Run Text="未找到同名歌词文件 (.lrc/.srt)"/>
+                <Run x:Uid="/MusicInfoPage/Error_NoFile_Run" d:Text="找不到与歌曲文件同名的歌词文件"/>
                 <LineBreak/>
-                <Run Text="想制作歌词文件吗？"/>
+                <Run Text="(.lrc/.srt)"/>
                 <LineBreak/>
-                <Run Text="来试试"/>
+                <LineBreak/>
+                <Run x:Uid="/MusicInfoPage/Ads_MakeFile_Run" d:Text="想制作歌词文件吗？"/>
+                <LineBreak/>
+                <Run x:Uid="/MusicInfoPage/Ads_Try_Run" d:Text="来试试"/>
                 <Hyperlink NavigateUri="ms-windows-store://pdp/?productid=9NWDP77WF36W">
-                    <Run Text="简易歌词制作器"/>
+                    <Run x:Uid="/MusicInfoPage/Ads_SimpleMaker_Run" d:Text="简易歌词制作器"/>
                 </Hyperlink>
-                <Run Text="或"/>
+                <Run x:Uid="/MusicInfoPage/Ads_Or_Run" d:Text="或"/>
                 <Hyperlink NavigateUri="ms-windows-store://pdp/?productid=9MX4FRGQ4RQS">
-                    <Run Text="简易歌词编辑器"/>
+                    <Run x:Uid="/MusicInfoPage/Ads_SimpleEditor_Run" d:Text="简易歌词编辑器"/>
                 </Hyperlink>
         </TextBlock>
 
@@ -82,10 +85,10 @@
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel Width="200">
-                            <TextBlock Text="字体大小:"/>
+                            <TextBlock x:Uid="/MusicInfoPage/PreviewSetting_FontSize_TextBlock" d:Text="字体大小"/>
                             <Slider Minimum="6" Maximum="36" Value="{x:Bind _vm.Configuration.LyricPreviewFontSize, Mode=TwoWay}"/>
 
-                            <TextBlock Text="不透明度:"/>
+                            <TextBlock x:Uid="/MusicInfoPage/PreviewSetting_Opacity_TextBlock" d:Text="不透明度"/>
                             <Slider Maximum="100" Value="{x:Bind _vm.Configuration.LyricPreviewOpacity, Mode=TwoWay, Converter={StaticResource PercentageConverter}}"/>
                         </StackPanel>
                     </Flyout>
