@@ -126,6 +126,7 @@
     <Compile Include="Services\MusicFileScanningService.cs" />
     <Compile Include="Services\MusicFileManageService.cs" />
     <Compile Include="Services\PlaybackListManageService.cs" />
+    <Compile Include="Services\StringResourceService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MusicInfoViewModel.cs" />
     <Compile Include="ViewModels\MusicListViewModel.cs" />
@@ -317,6 +318,12 @@
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Strings\en-US\App.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Strings\zh-CN\Backside.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Strings\en-US\Backside.resw" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

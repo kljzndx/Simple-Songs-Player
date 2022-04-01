@@ -16,14 +16,16 @@ namespace SimpleSongsPlayer.ViewModels
 {
     public class MusicListViewModel : ObservableRecipient
     {
+        private StringResourceService _stringService;
         private MusicFileManageService _manageService;
 
         private IEnumerable<MusicUi> _musicListSource;
         private List<DataSourceItem> _dataSourceList;
         private IEnumerable<MusicGroup> _source;
 
-        public MusicListViewModel(ConfigurationService configService, MusicFileManageService manageService, PlaybackListManageService playbackListService)
+        public MusicListViewModel(StringResourceService stringService, ConfigurationService configService, MusicFileManageService manageService, PlaybackListManageService playbackListService)
         {
+            _stringService = stringService;
             ConfigService = configService;
             _manageService = manageService;
             PlaybackListService = playbackListService;
@@ -67,8 +69,8 @@ namespace SimpleSongsPlayer.ViewModels
         {
             var list = new List<DataSourceItem>();
 
-            list.Add(new DataSourceItem("All", ms => ms.GetAllMusic(), false));
-            list.Add(new DataSourceItem("Playback list", ms => ms.GetPlaybackList(), false));
+            list.Add(new DataSourceItem(_stringService.Backside.GetString("DataSource_All"), ms => ms.GetAllMusic(), false));
+            list.Add(new DataSourceItem(_stringService.Backside.GetString("DataSource_PlayList"), ms => ms.GetPlaybackList(), false));
 
             var libs = _manageService.GetLibraryListInDb();
             list.AddRange(libs.Select(lib => new DataSourceItem(lib, ms => ms.QueryMusicByLibraryPath(lib), true)));

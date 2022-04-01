@@ -32,7 +32,8 @@ namespace SimpleSongsPlayer.Services
         public async Task ScanAsync()
         {
             WeakReferenceMessenger.Default.Send("Started", nameof(MusicFileScanningService));
-            Ioc.Default.GetRequiredService<FlyoutNotification>().Show("Scanning files in music library");
+            var stringService = Ioc.Default.GetRequiredService<StringResourceService>();
+            Ioc.Default.GetRequiredService<FlyoutNotification>().Show(stringService.Backside.GetString("ScanFiles"));
 
             var musicLib = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
 

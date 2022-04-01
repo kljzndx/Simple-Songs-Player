@@ -282,7 +282,8 @@ namespace SimpleSongsPlayer.Services
             using (await _lock.LockAsync())
             {
                 WeakReferenceMessenger.Default.Send("FilesLoading", nameof(PlaybackListManageService));
-                Ioc.Default.GetRequiredService<FlyoutNotification>().Show("Loading files which need playing");
+                var stringService = Ioc.Default.GetRequiredService<StringResourceService>();
+                Ioc.Default.GetRequiredService<FlyoutNotification>().Show(stringService.Backside.GetString("LoadPlayList"));
                 await action();
                 Ioc.Default.GetRequiredService<FlyoutNotification>().Hide();
                 WeakReferenceMessenger.Default.Send("FilesLoaded", nameof(PlaybackListManageService));
