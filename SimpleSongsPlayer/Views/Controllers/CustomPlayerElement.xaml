@@ -110,8 +110,14 @@
                             </StackPanel>
                             <StackPanel Margin="8,0">
                                 <TextBlock x:Uid="/PlayerElement/LoopingMode_TextBlock" d:Text="循环模式" Margin="0,4" HorizontalAlignment="Center" />
-                                <ListView HorizontalAlignment="Center" SelectedIndex="{x:Bind _configService.LoopingMode, Mode=TwoWay, Converter={StaticResource EnumToInt32}}"
+                                <ListView SelectedIndex="{x:Bind _configService.LoopingMode, Mode=TwoWay, Converter={StaticResource EnumToInt32}}"
                                           Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    
                                     <ListViewItem x:Uid="/PlayerElement/LoopingMode_Single_ListViewItem" d:Content="单曲循环"/>
                                     <ListViewItem x:Uid="/PlayerElement/LoopingMode_List_ListViewItem" d:Content="顺序播放"/>
                                     <ListViewItem x:Uid="/PlayerElement/LoopingMode_Random_ListViewItem" d:Content="随机播放"/>
