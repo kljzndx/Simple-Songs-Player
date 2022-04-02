@@ -340,6 +340,9 @@
   <ItemGroup>
     <PRIResource Include="Strings\zh-CN\MusicListPage.resw" />
   </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Strings\en-US\MusicListPage.resw" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
