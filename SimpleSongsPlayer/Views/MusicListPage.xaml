@@ -53,8 +53,8 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Button Content="添加" HorizontalAlignment="Stretch" Click="AddDataSource_Button_Click"/>
-                                    <Button Grid.Column="1" Content="移除" HorizontalAlignment="Stretch"
+                                    <Button x:Uid="/MusicListPage/AddDataSource_Button" d:Content="添加" HorizontalAlignment="Stretch" Click="AddDataSource_Button_Click"/>
+                                    <Button x:Uid="/MusicListPage/RemoveDataSource_Button" Grid.Column="1" d:Content="移除" HorizontalAlignment="Stretch"
                                             IsEnabled="{Binding ElementName=DataSource_ListView, Path=SelectedItem.CanRemove, FallbackValue={StaticResource BoolFalse}}"
                                             Click="RemoveDataSource_Button_Click"/>
                                 </Grid>
