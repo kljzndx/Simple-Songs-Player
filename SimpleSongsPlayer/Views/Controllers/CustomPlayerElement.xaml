@@ -51,22 +51,22 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Button Width="33.6" Height="33.6" Padding="0" Click="Cover_Button_Click">
+            <Button x:Uid="/PlayerElement/Cover_Button" Width="33.6" Height="33.6" Padding="0" Click="Cover_Button_Click">
                 <Image x:Name="Cover_Image"/>
             </Button>
-            
-            <Button Click="Previous_Button_Click">
+
+            <Button x:Uid="/PlayerElement/Previous_Button" Click="Previous_Button_Click">
                 <SymbolIcon Symbol="Previous"/>
             </Button>
 
-            <Button x:Name="Play_Button" Click="{x:Bind _mediaPlayer.Play}">
+            <Button x:Name="Play_Button" x:Uid="/PlayerElement/Play_Button" Click="{x:Bind _mediaPlayer.Play}">
                 <SymbolIcon Symbol="Play"/>
             </Button>
-            <Button x:Name="Pause_Button" Visibility="Collapsed" Click="{x:Bind _mediaPlayer.Pause}">
+            <Button x:Name="Pause_Button" x:Uid="/PlayerElement/Pause_Button" Visibility="Collapsed" Click="{x:Bind _mediaPlayer.Pause}">
                 <SymbolIcon Symbol="Pause"/>
             </Button>
 
-            <Button Click="Next_Button_Click">
+            <Button x:Uid="/PlayerElement/Next_Button" Click="Next_Button_Click">
                 <SymbolIcon Symbol="Next"/>
             </Button>
         </StackPanel>
@@ -77,7 +77,7 @@
                 ValueChanged="Position_Slider_ValueChanged"/>
 
         <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
-            <Button>
+            <Button x:Uid="/PlayerElement/Volume_Button">
                 <Button.Content>
                     <SymbolIcon Symbol="Volume" />
                 </Button.Content>
@@ -92,7 +92,7 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
-            <Button>
+            <Button x:Uid="/PlayerElement/Settings_Button">
                 <Button.Content>
                     <SymbolIcon Symbol="Setting" />
                 </Button.Content>
@@ -101,7 +101,7 @@
                     <Flyout>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Margin="8,0">
-                                <TextBlock Text="播放速率" Margin="0,4" />
+                                <TextBlock x:Uid="/PlayerElement/PlaybackRate_TextBlock" d:Text="播放速率" Margin="0,4" />
                                 <StackPanel>
                                     <TextBlock HorizontalAlignment="Center"
                                                Text="{x:Bind Rate_Slider.Value, Mode=OneWay}"/>
@@ -109,12 +109,12 @@
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel Margin="8,0">
-                                <TextBlock Text="Looping mode" Margin="0,4" HorizontalAlignment="Center" />
+                                <TextBlock x:Uid="/PlayerElement/LoopingMode_TextBlock" d:Text="循环模式" Margin="0,4" HorizontalAlignment="Center" />
                                 <ListView HorizontalAlignment="Center" SelectedIndex="{x:Bind _configService.LoopingMode, Mode=TwoWay, Converter={StaticResource EnumToInt32}}"
                                           Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}">
-                                    <ListViewItem Content="单曲循环"/>
-                                    <ListViewItem Content="顺序播放"/>
-                                    <ListViewItem Content="随机播放"/>
+                                    <ListViewItem x:Uid="/PlayerElement/LoopingMode_Single_ListViewItem" d:Content="单曲循环"/>
+                                    <ListViewItem x:Uid="/PlayerElement/LoopingMode_List_ListViewItem" d:Content="顺序播放"/>
+                                    <ListViewItem x:Uid="/PlayerElement/LoopingMode_Random_ListViewItem" d:Content="随机播放"/>
                                 </ListView>
                             </StackPanel>
                         </StackPanel>
@@ -122,7 +122,7 @@
                 </Button.Flyout>
             </Button>
 
-            <Button>
+            <Button x:Uid="/PlayerElement/PlaybackList_Button">
                 <Button.Content>
                     <SymbolIcon Symbol="List"/>
                 </Button.Content>
