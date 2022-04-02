@@ -132,8 +132,14 @@
   <data name="Ads_Try_Run.Text" xml:space="preserve">
     <value>来试试</value>
   </data>
+  <data name="Cover_PivotItem.Header" xml:space="preserve">
+    <value>封面</value>
+  </data>
   <data name="Error_NoFile_Run.Text" xml:space="preserve">
     <value>找不到与歌曲文件同名的歌词文件</value>
+  </data>
+  <data name="Info_PivotItem.Header" xml:space="preserve">
+    <value>信息</value>
   </data>
   <data name="PreviewSetting_FontSize_TextBlock.Text" xml:space="preserve">
     <value>字体大小</value>

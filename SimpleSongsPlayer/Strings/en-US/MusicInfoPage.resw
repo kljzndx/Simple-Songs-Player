@@ -132,8 +132,14 @@
   <data name="Ads_Try_Run.Text" xml:space="preserve">
     <value>Try</value>
   </data>
+  <data name="Cover_PivotItem.Header" xml:space="preserve">
+    <value>Cover</value>
+  </data>
   <data name="Error_NoFile_Run.Text" xml:space="preserve">
     <value>Cannot find a lyric file with the same name as the song file</value>
+  </data>
+  <data name="Info_PivotItem.Header" xml:space="preserve">
+    <value>Info</value>
   </data>
   <data name="PreviewSetting_FontSize_TextBlock.Text" xml:space="preserve">
     <value>Font size</value>

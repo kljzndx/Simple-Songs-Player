@@ -34,14 +34,14 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Pivot x:Name="ShortLayout_Pivot" SelectedIndex="{x:Bind _vm.Configuration.MusicInfoViewId, Mode=OneWay}">
-            <PivotItem Header="封面">
+            <PivotItem x:Uid="/MusicInfoPage/Cover_PivotItem" Header="封面">
                 <RelativePanel>
                     <Image Stretch="Uniform" Margin="50" Source="{x:Bind _vm.CoverSource, Mode=OneWay}"
                            RelativePanel.AlignHorizontalCenterWithPanel="True"
                            RelativePanel.AlignVerticalCenterWithPanel="True"/>
                 </RelativePanel>
             </PivotItem>
-            <PivotItem Header="信息">
+            <PivotItem x:Uid="/MusicInfoPage/Info_PivotItem" Header="信息">
                 <ctor:MusicInfoDisplay/>
             </PivotItem>
         </Pivot>
