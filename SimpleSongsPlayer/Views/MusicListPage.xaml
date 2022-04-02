@@ -18,8 +18,8 @@
         <x:Boolean x:Key="BoolFalse">False</x:Boolean>
 
         <MenuFlyout x:Name="More_MenuFlyout" Placement="Bottom">
-            <MenuFlyoutItem x:Name="PlayNext_MenuFlyoutItem" Text="下一首播放" Click="PlayNext_MenuFlyoutItem_Click"/>
-            <MenuFlyoutItem x:Name="AddToPlayList_MenuFlyoutItem" Text="添加到播放列表" Click="AddToPlayList_MenuFlyoutItem_Click"/>
+            <MenuFlyoutItem x:Name="PlayNext_MenuFlyoutItem" x:Uid="/MusicListPage/PlayNext_MenuFlyoutItem" d:Text="下一首播放" Click="PlayNext_MenuFlyoutItem_Click"/>
+            <MenuFlyoutItem x:Name="AddToPlayList_MenuFlyoutItem" x:Uid="/MusicListPage/AddToPlayList_MenuFlyoutItem" d:Text="添加到播放列表" Click="AddToPlayList_MenuFlyoutItem_Click"/>
         </MenuFlyout>
     </Page.Resources>
 
@@ -31,10 +31,10 @@
 
         <CommandBar OverflowButtonVisibility="Auto" DefaultLabelPosition="Right">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="Play" Label="全部播放" Click="PlayAll_AppBarButton_Click"/>
+                <AppBarButton x:Uid="/MusicListPage/PlayAll_AppBarButton" Icon="Play" d:Label="全部播放" Click="PlayAll_AppBarButton_Click"/>
                 <AppBarSeparator />
-                <AppBarButton Icon="Refresh" Label="刷新" Click="{x:Bind _vm.AutoImport}"/>
-                <AppBarButton Icon="Save" Label="数据源">
+                <AppBarButton x:Uid="/MusicListPage/Refresh_AppBarButton" Icon="Refresh" d:Label="刷新" Click="{x:Bind _vm.AutoImport}"/>
+                <AppBarButton x:Uid="/MusicListPage/DataSource_AppBarButton" Icon="Save" d:Label="数据源">
                     <AppBarButton.Flyout>
                         <Flyout>
                             <Grid>
@@ -66,47 +66,47 @@
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarButton Icon="ViewAll" Label="分组">
+                <AppBarButton x:Uid="/MusicListPage/Grouping_AppBarButton" Icon="ViewAll" d:Label="分组">
                     <AppBarButton.Flyout>
                         <Flyout>
                             <ListView Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
                                       SelectedIndex="{x:Bind _vm.ConfigService.MusicListGroupMethod, Mode=TwoWay, Converter={StaticResource EnumToInt32}}">
-                                <ListViewItem Content="无"/>
-                                <ListViewItem Content="标题首字母"/>
-                                <ListViewItem Content="歌手"/>
-                                <ListViewItem Content="专辑"/>
-                                <ListViewItem Content="文件夹"/>
+                                <ListViewItem x:Uid="/MusicListPage/GroupMethod_None_ListViewItem" d:Content="无"/>
+                                <ListViewItem x:Uid="/MusicListPage/GroupMethod_FirstCharacter_ListViewItem" d:Content="标题首字母"/>
+                                <ListViewItem x:Uid="/MusicListPage/GroupMethod_Artist_ListViewItem" d:Content="歌手"/>
+                                <ListViewItem x:Uid="/MusicListPage/GroupMethod_Album_ListViewItem" d:Content="专辑"/>
+                                <ListViewItem x:Uid="/MusicListPage/GroupMethod_Folder_ListViewItem" d:Content="文件夹"/>
                             </ListView>
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarButton Icon="Sort" Label="排序">
+                <AppBarButton x:Uid="/MusicListPage/Sort_AppBarButton" Icon="Sort" d:Label="排序">
                     <AppBarButton.Flyout>
                         <Flyout>
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel Margin="8,0">
-                                    <TextBlock Text="项目排序" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                    <TextBlock x:Uid="/MusicListPage/ItemSort_TextBlock" d:Text="项目排序" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                     <ListView Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
                                               SelectedIndex="{x:Bind _vm.ConfigService.MusicListSort, Mode=TwoWay, Converter={StaticResource EnumToInt32}}">
-                                        <ListViewItem Content="无"/>
-                                        <ListViewItem Content="标题"/>
-                                        <ListViewItem Content="音轨编号"/>
-                                        <ListViewItem Content="更新时间"/>
+                                        <ListViewItem x:Uid="/MusicListPage/ItemSortMethod_None_ListViewItem" d:Content="无"/>
+                                        <ListViewItem x:Uid="/MusicListPage/ItemSortMethod_Title_ListViewItem" d:Content="标题"/>
+                                        <ListViewItem x:Uid="/MusicListPage/ItemSortMethod_TrackId_ListViewItem" d:Content="音轨编号"/>
+                                        <ListViewItem x:Uid="/MusicListPage/ItemSortMethod_ModifyDate_ListViewItem" d:Content="更新时间"/>
                                     </ListView>
 
-                                    <CheckBox Margin="0,8,0,0" IsChecked="{x:Bind _vm.ConfigService.IsReverseMusicList, Mode=TwoWay}"
-                                              Content="反向排序"/>
+                                    <CheckBox x:Uid="/MusicListPage/Reverse_CheckBox" Margin="0,8,0,0" IsChecked="{x:Bind _vm.ConfigService.IsReverseMusicList, Mode=TwoWay}"
+                                              d:Content="反向排序"/>
                                 </StackPanel>
                                 <StackPanel Margin="8,0">
-                                    <TextBlock Text="分组排序" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                    <TextBlock x:Uid="/MusicListPage/GroupingSort_TextBlock" d:Text="分组排序" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                     <ListView Background="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
                                               SelectedIndex="{x:Bind _vm.ConfigService.MusicGroupListSort, Mode=TwoWay, Converter={StaticResource EnumToInt32}}">
-                                        <ListViewItem Content="名称"/>
-                                        <ListViewItem Content="子项数量"/>
+                                        <ListViewItem x:Uid="/MusicListPage/GroupingSortMethod_Name_ListViewItem" d:Content="名称"/>
+                                        <ListViewItem x:Uid="/MusicListPage/GroupingSortMethod_CountOfItem_ListViewItem" d:Content="子项数量"/>
                                     </ListView>
 
-                                    <CheckBox Margin="0,8,0,0" IsChecked="{x:Bind _vm.ConfigService.IsReverseMusicGroupList, Mode=TwoWay}"
-                                              Content="反向排序"/>
+                                    <CheckBox x:Uid="/MusicListPage/Reverse_CheckBox" Margin="0,8,0,0" IsChecked="{x:Bind _vm.ConfigService.IsReverseMusicGroupList, Mode=TwoWay}"
+                                              d:Content="反向排序"/>
                                 </StackPanel>
                             </StackPanel>
                         </Flyout>
