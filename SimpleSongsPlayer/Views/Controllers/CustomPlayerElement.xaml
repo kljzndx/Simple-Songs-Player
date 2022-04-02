@@ -94,7 +94,7 @@
             </Button>
             <Button>
                 <Button.Content>
-                    <SymbolIcon Symbol="Rotate" />
+                    <SymbolIcon Symbol="Setting" />
                 </Button.Content>
                 
                 <Button.Flyout>
