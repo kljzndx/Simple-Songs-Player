@@ -41,6 +41,9 @@ namespace SimpleSongsPlayer.Services
 
     public class ConfigurationService : SettingsBase
     {
+        [SettingFieldByNormal(nameof(LatestVersion), "")]
+        private string _latestVersion;
+
         [SettingFieldByNormal(nameof(Volume), 0.6D)]
         private double _volume;
         [SettingFieldByNormal(nameof(PlaybackRate), 1.0D)]
@@ -67,6 +70,12 @@ namespace SimpleSongsPlayer.Services
         private double _lyricPreviewFontSize;
         [SettingFieldByNormal(nameof(LyricPreviewOpacity), 0.4)]
         private double _lyricPreviewOpacity;
+
+        public string LatestVersion
+        {
+            get => _latestVersion;
+            set => SetSetting(ref _latestVersion, value);
+        }
 
         public double Volume
         {

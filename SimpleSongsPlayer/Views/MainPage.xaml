@@ -17,7 +17,9 @@
         </Grid.RowDefinitions>
         
         <Frame x:Name="Main_Frame"/>
-        <StackPanel x:Name="Info_StackPanel" HorizontalAlignment="Right" Margin="0,60,0,0"/>
+        <StackPanel x:Name="Info_StackPanel" HorizontalAlignment="Right" Margin="0,60,0,0">
+            <ctor:UpdateLogDialog/>
+        </StackPanel>
 
         <ctor:CustomPlayerElement Grid.Row="1" CoverButtonClick="CustomPlayerElement_CoverButtonClick"/>
 

@@ -1,0 +1,23 @@
+﻿<UserControl
+    x:Class="SimpleSongsPlayer.Views.Controllers.UpdateLogDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:msctor="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:pctor="using:HappyStudio.UwpToolsLibrary.Control"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    Loaded="UserControl_Loaded">
+
+    <pctor:ReelDialog x:Name="Root_ReelDialog" Width="400" Height="300" Closed="Root_ReelDialog_Closed">
+        <pctor:ReelDialog.ContentTemplate>
+            <DataTemplate x:DataType="x:String">
+                <ScrollViewer Padding="8">
+                    <msctor:MarkdownTextBlock Text="{x:Bind}"/>
+                </ScrollViewer>
+            </DataTemplate>
+        </pctor:ReelDialog.ContentTemplate>
+    </pctor:ReelDialog>
+</UserControl>
