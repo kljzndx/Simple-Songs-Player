@@ -20,5 +20,31 @@
         <StackPanel x:Name="Info_StackPanel" HorizontalAlignment="Right" Margin="0,60,0,0"/>
 
         <ctor:CustomPlayerElement Grid.Row="1" CoverButtonClick="CustomPlayerElement_CoverButtonClick"/>
+
+        <ContentDialog x:Name="About_ContentDialog" SecondaryButtonText="OK">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Border Width="100" Height="100" Background="{ThemeResource SystemAccentColor}">
+                    <Image Source="ms-appx:///Assets/Square150x150Logo.scale-400.png"/>
+                </Border>
+                <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                    <TextBlock HorizontalTextAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}">
+                        <Run>简易歌曲播放器</Run>
+                        <LineBreak/>
+                        <Run>Simple Songs Player</Run>
+                    </TextBlock>
+
+                    <TextBlock HorizontalAlignment="Center" Margin="0,8">
+                        <Run>Version:</Run>
+                        <Run Text="{Binding AppVersion}"/>
+                    </TextBlock>
+
+                    <HyperlinkButton HorizontalAlignment="Center" NavigateUri="https://github.com/kljzndx/Simple-Songs-Player">Github</HyperlinkButton>
+                </StackPanel>
+            </Grid>
+        </ContentDialog>
     </Grid>
 </Page>
