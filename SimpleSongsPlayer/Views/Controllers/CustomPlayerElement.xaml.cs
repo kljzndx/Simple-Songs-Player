@@ -121,6 +121,15 @@ namespace SimpleSongsPlayer.Views.Controllers
             GetPlayList().MovePrevious();
         }
 
+        private void PlayOrPause_ToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (PlayOrPause_ToggleButton.IsChecked == false)
+                _mediaPlayer.Pause();
+
+            if (PlayOrPause_ToggleButton.IsChecked == true)
+                _mediaPlayer.Play();
+        }
+
         private void Next_Button_Click(object sender, RoutedEventArgs e)
         {
             GetPlayList().MoveNext();
@@ -155,21 +164,23 @@ namespace SimpleSongsPlayer.Views.Controllers
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                switch (sender.PlaybackState)
-                {
-                    case MediaPlaybackState.Opening:
-                    case MediaPlaybackState.Buffering:
-                    case MediaPlaybackState.Playing:
-                        Play_Button.Visibility = Visibility.Collapsed;
-                        Pause_Button.Visibility = Visibility.Visible;
-                        break;
-                    case MediaPlaybackState.Paused:
-                    case MediaPlaybackState.None:
-                    default:
-                        Play_Button.Visibility = Visibility.Visible;
-                        Pause_Button.Visibility = Visibility.Collapsed;
-                        break;
-                }
+                //switch (sender.PlaybackState)
+                //{
+                //    case MediaPlaybackState.Opening:
+                //    case MediaPlaybackState.Buffering:
+                //    case MediaPlaybackState.Playing:
+                //        Play_Button.Visibility = Visibility.Collapsed;
+                //        Pause_Button.Visibility = Visibility.Visible;
+                //        break;
+                //    case MediaPlaybackState.Paused:
+                //    case MediaPlaybackState.None:
+                //    default:
+                //        Play_Button.Visibility = Visibility.Visible;
+                //        Pause_Button.Visibility = Visibility.Collapsed;
+                //        break;
+                //}
+
+                PlayOrPause_ToggleButton.IsChecked = sender.PlaybackState == MediaPlaybackState.Playing;
             });
         }
 

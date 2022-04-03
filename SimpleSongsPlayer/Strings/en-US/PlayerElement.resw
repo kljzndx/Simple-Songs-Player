@@ -135,17 +135,14 @@
   <data name="Next_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Next</value>
   </data>
-  <data name="Pause_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Pause</value>
-  </data>
   <data name="PlaybackList_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Playback list</value>
   </data>
   <data name="PlaybackRate_TextBlock.Text" xml:space="preserve">
     <value>Playback rate</value>
   </data>
-  <data name="Play_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Play</value>
+  <data name="PlayOrPause_ToggleButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Play / Pause</value>
   </data>
   <data name="Previous_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Previous</value>

@@ -59,12 +59,10 @@
                 <SymbolIcon Symbol="Previous"/>
             </Button>
 
-            <Button x:Name="Play_Button" x:Uid="/PlayerElement/Play_Button" Click="{x:Bind _mediaPlayer.Play}">
+            <ToggleButton x:Name="PlayOrPause_ToggleButton" x:Uid="/PlayerElement/PlayOrPause_ToggleButton"
+                          Background="Transparent" Padding="6" Margin="2,0" Click="PlayOrPause_ToggleButton_Click">
                 <SymbolIcon Symbol="Play"/>
-            </Button>
-            <Button x:Name="Pause_Button" x:Uid="/PlayerElement/Pause_Button" Visibility="Collapsed" Click="{x:Bind _mediaPlayer.Pause}">
-                <SymbolIcon Symbol="Pause"/>
-            </Button>
+            </ToggleButton>
 
             <Button x:Uid="/PlayerElement/Next_Button" Click="Next_Button_Click">
                 <SymbolIcon Symbol="Next"/>
