@@ -113,6 +113,14 @@
                     </AppBarButton.Flyout>
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Uid="/MusicListPage/GiveComment_AppBarButton" Icon="Like" d:Label="给个好评"/>
+                <AppBarButton x:Uid="/MusicListPage/About_AppBarButton" d:Label="关于">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE052;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </CommandBar.SecondaryCommands>
         </CommandBar>
 
         <SemanticZoom Grid.Row="1">
