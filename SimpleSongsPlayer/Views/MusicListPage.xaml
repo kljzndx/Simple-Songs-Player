@@ -114,8 +114,8 @@
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
-                <AppBarButton x:Uid="/MusicListPage/GiveComment_AppBarButton" Icon="Like" d:Label="给个好评"/>
-                <AppBarButton x:Uid="/MusicListPage/About_AppBarButton" d:Label="关于">
+                <AppBarButton x:Uid="/MusicListPage/GiveComment_AppBarButton" Icon="Like" d:Label="给个好评" Click="GiveComment_AppBarButton_Click"/>
+                <AppBarButton x:Uid="/MusicListPage/About_AppBarButton" d:Label="关于" Click="About_AppBarButton_Click">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE052;" />
                     </AppBarButton.Icon>

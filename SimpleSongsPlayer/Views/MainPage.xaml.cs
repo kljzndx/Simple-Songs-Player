@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Messaging;
 
 using SimpleSongsPlayer.Services;
 using SimpleSongsPlayer.ViewModels;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -32,6 +34,19 @@ namespace SimpleSongsPlayer.Views
         {
             this.InitializeComponent();
             Info_StackPanel.Children.Insert(0, Ioc.Default.GetRequiredService<FlyoutNotification>());
+
+            WeakReferenceMessenger.Default.Register<MainPage, string, string>(this, nameof(MusicListPage), (page, mes) =>
+            {
+                if (mes == "GiveCommentButtonClick")
+                {
+                    Launcher.LaunchUriAsync(new Uri("ms-windows-store://review/?ProductId=9N6406PNNRZS"));
+                }
+
+                if (mes == "AboutButtonClick")
+                {
+                    page.About_ContentDialog.ShowAsync();
+                }
+            });
         }
 
         private async void MainPage_Loaded(object sender, RoutedEventArgs e)

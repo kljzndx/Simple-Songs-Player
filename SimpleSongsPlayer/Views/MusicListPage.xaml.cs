@@ -144,5 +144,15 @@ namespace SimpleSongsPlayer.Views
             var service = Ioc.Default.GetRequiredService<PlaybackListManageService>();
             await service.PushGroup(_vm.GetGroupFromItem(item).Items, item);
         }
+
+        private void GiveComment_AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            WeakReferenceMessenger.Default.Send("GiveCommentButtonClick", nameof(MusicListPage));
+        }
+
+        private void About_AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            WeakReferenceMessenger.Default.Send("AboutButtonClick", nameof(MusicListPage));
+        }
     }
 }
