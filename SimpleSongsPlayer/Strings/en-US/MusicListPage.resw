@@ -198,6 +198,9 @@
   <data name="RemoveDataSource_Button.Content" xml:space="preserve">
     <value>Remove</value>
   </data>
+  <data name="Rescan_Button.Content" xml:space="preserve">
+    <value>Rescan</value>
+  </data>
   <data name="Reverse_CheckBox.Content" xml:space="preserve">
     <value>Reverse</value>
   </data>

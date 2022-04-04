@@ -198,6 +198,9 @@
   <data name="RemoveDataSource_Button.Content" xml:space="preserve">
     <value>移除</value>
   </data>
+  <data name="Rescan_Button.Content" xml:space="preserve">
+    <value>重新扫描</value>
+  </data>
   <data name="Reverse_CheckBox.Content" xml:space="preserve">
     <value>反向排序</value>
   </data>

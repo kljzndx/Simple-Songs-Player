@@ -99,6 +99,11 @@ namespace SimpleSongsPlayer.Views
             await Ioc.Default.GetRequiredService<MusicFileScanningService>().ScanAsync();
         }
 
+        private async void Rescan_Button_Click(object sender, RoutedEventArgs e)
+        {
+            await Ioc.Default.GetRequiredService<MusicFileScanningService>().ScanAsync();
+        }
+
         private async void MusicItemTemplate_PlayButtonClick(object sender, RoutedEventArgs e)
         {
             var item = (MusicUi)Data_ListView.SelectedItem;
