@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SimpleSongsPlayer.Dal;
 using SimpleSongsPlayer.Services;
 using SimpleSongsPlayer.ViewModels;
+using SimpleSongsPlayer.ViewModels.Extensions;
 using SimpleSongsPlayer.Views;
 using SimpleSongsPlayer.Views.Controllers;
 
@@ -44,6 +45,7 @@ namespace SimpleSongsPlayer
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += OnUnhandledException;
         }
 
         /// <summary>
@@ -132,6 +134,14 @@ namespace SimpleSongsPlayer
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
             deferral.Complete();
+        }
+
+        private async void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+
+            await e.Exception.ShowErrorDialog();
+            this.Exit();
         }
     }
 }
