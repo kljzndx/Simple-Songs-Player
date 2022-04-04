@@ -151,7 +151,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="{x:Bind Name}"/>
 
-                                        <Button Grid.Column="1" Tapped="AppendGroup_Button_Tapped">Append</Button>
+                                        <Button x:Uid="/MusicListPage/AppendGroup_Button" Grid.Column="1" d:Content="Append" Tapped="AppendGroup_Button_Tapped"/>
                                     </Grid>
                                 </DataTemplate>
                             </GroupStyle.HeaderTemplate>
