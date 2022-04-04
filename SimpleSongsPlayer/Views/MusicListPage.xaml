@@ -62,7 +62,7 @@
                                             IsEnabled="{Binding ElementName=DataSource_ListView, Path=SelectedItem.CanRemove, FallbackValue={StaticResource BoolFalse}}"
                                             Click="RemoveDataSource_Button_Click"/>
 
-                                    <Button x:Uid="/MusicListPage/Rescan_Button" Grid.Row="1" Grid.ColumnSpan="2"
+                                    <Button x:Uid="/MusicListPage/Rescan_Button" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"
                                             d:Content="重新扫描" Click="Rescan_Button_Click"/>
                                 </Grid>
 
