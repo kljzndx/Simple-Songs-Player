@@ -42,6 +42,7 @@ namespace SimpleSongsPlayer.Services
                 ShuffleEnabled = configService.LoopingMode == LoopingModeEnum.Random,
             };
             _playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
+            _playbackList.ItemOpened += PlaybackList_ItemOpened;
         }
 
         public PlaybackItem CurrentPlayItem { get; private set; }
@@ -318,6 +319,15 @@ namespace SimpleSongsPlayer.Services
                 DbContext.PlaybackList.UpdateRange(dbPlayList);
                 await DbContext.SaveChangesAsync();
                 NotifyPlayItemChange(dbPlayList[trackId]);
+            });
+        }
+
+        private async void PlaybackList_ItemOpened(MediaPlaybackList sender, MediaPlaybackItemOpenedEventArgs args)
+        {
+            await Ioc.Default.GetRequiredService<CoreDispatcher>().RunAsync(CoreDispatcherPriority.Normal,
+            () =>
+            {
+                WeakReferenceMessenger.Default.Send("ItemOpened", nameof(PlaybackListManageService));
             });
         }
     }

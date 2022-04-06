@@ -58,6 +58,12 @@ namespace SimpleSongsPlayer.Views.Controllers
                     if (ctor._mediaPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
                         ctor._mediaPlayer.Play();
                 }
+
+                if (mes == "ItemOpened")
+                {
+                    ctor.Position_Slider.Maximum = _mediaPlayer.PlaybackSession.NaturalDuration.TotalMinutes;
+                    ctor._mediaPlayer.PlaybackSession.PlaybackRate = _configService.PlaybackRate;
+                }
             });
 
             WeakReferenceMessenger.Default.Register<CustomPlayerElement, string, string>(this, "MediaPlayer", (ctor, mes) =>
