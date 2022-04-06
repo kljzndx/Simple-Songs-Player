@@ -118,7 +118,9 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private void Previous_Button_Click(object sender, RoutedEventArgs e)
         {
-            GetPlayList().MovePrevious();
+            var list = GetPlayList();
+            if (list.Items.Any())
+                list.MovePrevious();
         }
 
         private void PlayOrPause_ToggleButton_Click(object sender, RoutedEventArgs e)
@@ -132,7 +134,9 @@ namespace SimpleSongsPlayer.Views.Controllers
 
         private void Next_Button_Click(object sender, RoutedEventArgs e)
         {
-            GetPlayList().MoveNext();
+            var list = GetPlayList();
+            if (list.Items.Any())
+                list.MoveNext();
         }
 
         private void Position_Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
