@@ -156,7 +156,7 @@
                                     </StackPanel>
                                 </Grid>
 
-                                <TextBlock x:Name="StoptimerTimeInfo_TextBlock" Grid.Row="2" HorizontalTextAlignment="Center">
+                                <TextBlock x:Name="StoptimerTimeInfo_TextBlock" Grid.Row="2" HorizontalTextAlignment="Center" Visibility="Collapsed">
                                     <Run x:Uid="/PlayerElement/StoptimerTimeInfo_Run" d:Text="Will stop playing at"/>
                                     <LineBreak/>
                                     <Run x:Name="StoptimerTime_Run" d:Text="15:30"/>
