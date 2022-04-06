@@ -13,6 +13,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Playback;
+using Windows.System.Threading;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -218,6 +219,30 @@ namespace SimpleSongsPlayer.Views.Controllers
             var newItem = e.ClickedItem as MusicUi;
             if (newItem != null)
                 await Ioc.Default.GetRequiredService<PlaybackListManageService>().PushGroup(PlayList_ListView.Items.Cast<MusicUi>(), newItem);
+        }
+
+        private ThreadPoolTimer _stopTimer;
+        private DateTime _stopTimerDateTime;
+
+        private void ApplyStoptimer_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _stopTimerDateTime = DateTime.Now + TimeSpan.FromMinutes(StopTimer_Slider.Value);
+            StoptimerTime_Run.Text = _stopTimerDateTime.ToShortTimeString();
+
+            _stopTimer?.Cancel();
+            _stopTimer = ThreadPoolTimer.CreatePeriodicTimer(t =>
+            {
+                if (DateTime.Now >= _stopTimerDateTime)
+                    _mediaPlayer.Pause();
+            }, TimeSpan.FromSeconds(1));
+
+            StoptimerTimeInfo_TextBlock.Visibility = Visibility.Visible;
+        }
+
+        private void CancelStoptimer_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _stopTimer?.Cancel();
+            StoptimerTimeInfo_TextBlock.Visibility = Visibility.Collapsed;
         }
     }
 }
