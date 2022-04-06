@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplyStoptimer_Button.Content" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="CancelStoptimer_Button.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="Cover_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Go to details page</value>
   </data>
@@ -150,13 +156,7 @@
   <data name="Settings_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Settings</value>
   </data>
-  <data name="StartStoptimer_Button.Content" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="StopStoptimer_Button.Content" xml:space="preserve">
-    <value>Stop</value>
-  </data>
-  <data name="StoptimerTime_Run.Text" xml:space="preserve">
+  <data name="StoptimerTimeInfo_Run.Text" xml:space="preserve">
     <value>Will stop playing at</value>
   </data>
   <data name="Stoptimer_Run.Text" xml:space="preserve">

@@ -151,15 +151,15 @@
                                             Value="{x:Bind _configService.StopTimerMinutes, Mode=TwoWay}"/>
 
                                     <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="8,0,0,0">
-                                        <Button x:Uid="/PlayerElement/StartStoptimer_Button" d:Content="开始"/>
-                                        <Button x:Uid="/PlayerElement/StopStoptimer_Button" d:Content="停止"/>
+                                        <Button x:Uid="/PlayerElement/ApplyStoptimer_Button" d:Content="应用"/>
+                                        <Button x:Uid="/PlayerElement/CancelStoptimer_Button" d:Content="取消"/>
                                     </StackPanel>
                                 </Grid>
 
                                 <TextBlock Grid.Row="2" HorizontalTextAlignment="Center">
-                                    <Run x:Uid="/PlayerElement/StoptimerTime_Run" d:Text="Will stop playing at"/>
+                                    <Run x:Uid="/PlayerElement/StoptimerTimeInfo_Run" d:Text="Will stop playing at"/>
                                     <LineBreak/>
-                                    <Run x:Name="StopTime_Run" Text="15:30"/>
+                                    <Run x:Name="StoptimerTime_Run" d:Text="15:30"/>
                                 </TextBlock>
                             </Grid>
                         </StackPanel>
