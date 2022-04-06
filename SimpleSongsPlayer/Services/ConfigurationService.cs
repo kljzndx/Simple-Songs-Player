@@ -50,6 +50,8 @@ namespace SimpleSongsPlayer.Services
         private double _playbackRate;
         [SettingFieldByEnum(nameof(LoopingMode), typeof(LoopingModeEnum), "List")]
         private LoopingModeEnum _loopingMode;
+        [SettingFieldByNormal(nameof(StopTimerMinutes), 30D)]
+        private double _stopTimerMinutes;
 
         [SettingFieldByNormal(nameof(DataSourceId), 0)]
         private int _dataSourceId;
@@ -92,6 +94,12 @@ namespace SimpleSongsPlayer.Services
             get => _loopingMode;
             set => SetSetting(ref _loopingMode, value);
         }
+        public double StopTimerMinutes
+        {
+            get => _stopTimerMinutes;
+            set => SetSetting(ref _stopTimerMinutes, value);
+        }
+
 
         public int DataSourceId
         {

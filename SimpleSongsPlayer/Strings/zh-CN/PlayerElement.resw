@@ -150,6 +150,18 @@
   <data name="Settings_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>设置</value>
   </data>
+  <data name="StartStoptimer_Button.Content" xml:space="preserve">
+    <value>开始</value>
+  </data>
+  <data name="StopStoptimer_Button.Content" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="StoptimerTime_Run.Text" xml:space="preserve">
+    <value>将在下列时间停止播放</value>
+  </data>
+  <data name="Stoptimer_Run.Text" xml:space="preserve">
+    <value>定时停播（分钟）：</value>
+  </data>
   <data name="Volume_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>音量</value>
   </data>

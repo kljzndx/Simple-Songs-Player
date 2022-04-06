@@ -150,6 +150,18 @@
   <data name="Settings_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="StartStoptimer_Button.Content" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="StopStoptimer_Button.Content" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="StoptimerTime_Run.Text" xml:space="preserve">
+    <value>Will stop playing at</value>
+  </data>
+  <data name="Stoptimer_Run.Text" xml:space="preserve">
+    <value>Stop timer (minutes):</value>
+  </data>
   <data name="Volume_Button.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Volume</value>
   </data>
