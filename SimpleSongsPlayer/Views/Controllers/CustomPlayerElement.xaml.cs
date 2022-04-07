@@ -225,7 +225,7 @@ namespace SimpleSongsPlayer.Views.Controllers
         private void ApplyStoptimer_Button_Click(object sender, RoutedEventArgs e)
         {
             _stopTimerDateTime = DateTime.Now + TimeSpan.FromMinutes(StopTimer_Slider.Value);
-            StoptimerTime_Run.Text = _stopTimerDateTime.ToShortTimeString();
+            StoptimerTime_Run.Text = _stopTimerDateTime.ToLongTimeString();
 
             _stopTimer?.Cancel();
             _stopTimer = ThreadPoolTimer.CreatePeriodicTimer(t =>
