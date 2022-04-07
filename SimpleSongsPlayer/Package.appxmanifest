@@ -10,7 +10,7 @@
   <Identity
     Name="22643.SimpleSongsPlayer"
     Publisher="CN=7A99FA60-940D-46A9-B3FA-D93317D891AB"
-    Version="3.0.0.0" />
+    Version="3.1.2.0" />
 
   <mp:PhoneIdentity PhoneProductId="187676d6-3445-4667-9cbb-ffc12bd4d9bd" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
