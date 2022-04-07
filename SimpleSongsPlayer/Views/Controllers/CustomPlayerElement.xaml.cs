@@ -231,7 +231,10 @@ namespace SimpleSongsPlayer.Views.Controllers
             _stopTimer = ThreadPoolTimer.CreatePeriodicTimer(t =>
             {
                 if (DateTime.Now >= _stopTimerDateTime)
+                {
+                    StoptimerTimeInfo_TextBlock.Visibility = Visibility.Collapsed;
                     _mediaPlayer.Pause();
+                }
             }, TimeSpan.FromSeconds(1));
 
             StoptimerTimeInfo_TextBlock.Visibility = Visibility.Visible;
