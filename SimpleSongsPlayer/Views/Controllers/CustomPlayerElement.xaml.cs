@@ -175,19 +175,21 @@ namespace SimpleSongsPlayer.Views.Controllers
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                switch (sender.PlaybackState)
-                {
-                    case MediaPlaybackState.Opening:
-                    case MediaPlaybackState.Buffering:
-                    case MediaPlaybackState.Playing:
-                        Position_Slider.Maximum = sender.NaturalDuration.TotalMinutes;
-                        sender.PlaybackRate = _configService.PlaybackRate;
-                        break;
-                    case MediaPlaybackState.Paused:
-                    case MediaPlaybackState.None:
-                    default:
-                        break;
-                }
+                //switch (sender.PlaybackState)
+                //{
+                //    case MediaPlaybackState.Opening:
+                //    case MediaPlaybackState.Buffering:
+                //    case MediaPlaybackState.Playing:
+                //        Play_Button.Visibility = Visibility.Collapsed;
+                //        Pause_Button.Visibility = Visibility.Visible;
+                //        break;
+                //    case MediaPlaybackState.Paused:
+                //    case MediaPlaybackState.None:
+                //    default:
+                //        Play_Button.Visibility = Visibility.Visible;
+                //        Pause_Button.Visibility = Visibility.Collapsed;
+                //        break;
+                //}
 
                 PlayOrPause_ToggleButton.IsChecked = sender.PlaybackState == MediaPlaybackState.Playing;
             });
