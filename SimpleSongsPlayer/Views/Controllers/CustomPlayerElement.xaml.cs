@@ -201,6 +201,8 @@ namespace SimpleSongsPlayer.Views.Controllers
             {
                 if (!_isPressSlider)
                 {
+                    if (sender.Position.TotalMinutes > Position_Slider.Maximum)
+                        Position_Slider.Maximum = sender.NaturalDuration.TotalMinutes;
                     Position_Slider.Value = sender.Position.TotalMinutes;
                     WeakReferenceMessenger.Default.Send($"PositionChangedBySystem:{sender.Position.TotalMinutes}", "MediaPlayer");
                 }
